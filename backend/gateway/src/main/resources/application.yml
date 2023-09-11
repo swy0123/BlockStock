@@ -1,12 +1,16 @@
 server:
-  port: 8000
-
+  port: 8443
+  ssl:
+    enabled: true
+    key-store-type: pkcs12
+    key-store: keystore.p12
+    key-store-password: 1234
 eureka:
   client:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: https://j9b210.p.ssafy.io:8761/eureka
 
 spring:
   application:
@@ -16,6 +20,10 @@ spring:
     gateway:
       routes:
         - id: member-service
-          uri: http://localhost:64412
+          uri: https://j9b210.p.ssafy.io:64412
           predicates:
             - Path=/member/**
+        - id: board-service
+          uri: https://j9b210.p.ssafy.io:64413
+          predicates:
+            - Path=/board/**
