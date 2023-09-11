@@ -2,6 +2,7 @@ from fastapi import FastAPI
 
 from domain.tactic.routers import tactic
 
+
 app = FastAPI()
 app.include_router(tactic.app)
 
