@@ -5,6 +5,7 @@ import ErrorComponent from "./components/ErrorComponent";
 import NotFound from "./pages/NotFound"
 import Home from "./pages/Home";
 
+
 const router = createBrowserRouter([
     {
         path: "/",
@@ -15,6 +16,7 @@ const router = createBrowserRouter([
                 element: <Home />,
                 errorElement: <ErrorComponent />,
             },
+
         ],
         errorElement: <NotFound />
     }
