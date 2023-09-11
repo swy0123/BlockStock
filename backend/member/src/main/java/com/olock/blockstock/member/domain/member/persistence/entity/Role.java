@@ -1,4 +1,4 @@
-package com.olock.blockstock.member.domain.member.presentation.entity;
+package com.olock.blockstock.member.domain.member.persistence.entity;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

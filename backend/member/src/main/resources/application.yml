@@ -6,9 +6,9 @@ spring:
     name: member-service
   neo4j:
     authentication:
-      username: neo4j
-      password: { 비밀번호 }
-    uri: bolt://{인스턴스 주소}:7687
+      username: ${NEO4J_USERNAME}
+      password: ${NEO4J_PASSWORD}
+    uri: ${NEO4J_URI}
 
 eureka:
   client:
