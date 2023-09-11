@@ -4,6 +4,11 @@ server:
 spring:
   application:
     name: member-service
+  neo4j:
+    authentication:
+      username: neo4j
+      password: { 비밀번호 }
+    uri: bolt://{인스턴스 주소}:7687
 
 eureka:
   client:
