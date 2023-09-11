@@ -6,7 +6,7 @@ import SideBar from "../components/Common/SideBar";
 
 const Container = styled.div`
   background-color: #F4F5FA;
-  margin: 0px;
+  height: 100%;
 `;
 
 function Home() {
