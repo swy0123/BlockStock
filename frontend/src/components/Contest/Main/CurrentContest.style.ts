@@ -1,11 +1,19 @@
 import { styled } from "styled-components";
 
+export const NotCurrentContest = styled.div`
+`;
+
+export const NotCurrentContestImage = styled.img`
+  width: 30px;
+  height: 30px;
+`;
+
 export const CurrentContestTitle = styled.div`
 `;
 
 export const CurrentContestBox = styled.div`
   width: 1000px;
-  height: 400px;
+  height: 350px;
   border: 1px solid black;
 `;
 
@@ -50,6 +58,8 @@ border-radius: 50px;
 export const RankUser = styled.div`
 width: 60%;
 height: 100%;
+`;
+export const RankUserNickName = styled.div`
 `;
 
 export const Participant  = styled.div`
