@@ -5,6 +5,7 @@ import ErrorComponent from "./components/ErrorComponent";
 import NotFound from "./pages/NotFound"
 import Home from "./pages/Home";
 import Contest from "./pages/Contest/Contest";
+import BlockCoding from "./pages/BlockCoding/BlockCoding";
 
 const router = createBrowserRouter([
     {
@@ -19,6 +20,11 @@ const router = createBrowserRouter([
             {
                 path: "/Contest",
                 element: <Contest />,
+                errorElement: <ErrorComponent />,
+            },
+            {
+                path: "/blockcoding",
+                element: <BlockCoding />,
                 errorElement: <ErrorComponent />,
             },
         ],
