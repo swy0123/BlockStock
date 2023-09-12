@@ -25,6 +25,7 @@ import {
   RankUserNickName,
   NotCurrentContest,
   NotCurrentContestImage,
+  ContestReturn,
  } from './CurrentContest.style'
 
  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -48,7 +49,7 @@ function CurrentContest(){
         id: "1",
         content: "Contest 1 details",
         code: "XYZ123",
-        title: "Contest 1 Title",
+        title: "카카오 주식 매매",
         startAsset: "10000",
         term: "Monthly",
         startAt: "2023-01-01 09:00:00",
@@ -171,8 +172,12 @@ function CurrentContest(){
       <CurrentContestBox>
         {contestResultList.length === 0 ? (
           <NotCurrentContest>
-            현재 진행중인 대회가 없습니다.
-            <NotCurrentContestImage src='/현재_대회-결과_없음_트로피.png'/>
+            <div style={{marginTop:'30px'}}>
+              현재 진행중인 대회가 없습니다.
+            </div>
+            <NotCurrentContestImage src='/현재_대회-결과_없음_트로피.png'
+            style={{margin:'0px 0px 0px 10px'}}
+            />
           </NotCurrentContest>
         ) : (
           <CurrentContestList>
@@ -197,8 +202,8 @@ function CurrentContest(){
                   </ContestHeader>
 
                   <CurrentContestLink>
-                    <div onClick={()=>navigate('/')}>현재 대회 정보</div>
-                    <div onClick={()=>navigate('/')}>현재 현황 조회</div>
+                    <div>현재 대회 정보</div>
+                    <div style={{ marginLeft: '20px' }} onClick={()=>navigate('/')}>현재 현황 조회</div>
                   </CurrentContestLink>
 
                   <CurrentContestRankBox>
@@ -209,32 +214,55 @@ function CurrentContest(){
                       <div className="carousel-item">
                         <RankImage src={
                             // contest.ranking[0].profileImage ||
-                            'https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202105/25/holapet/20210525081724428qquq.jpg'} />
-                            <h1>1등</h1>
+                            './icon/user_purple.png'} />
+                            <h2 style={{ margin: '5px 0px 0px 70px' , fontSize:'30px'}}>1등</h2>
                             <RankUserNickName>
                                 {contest.ranking[0].nickName}
                             </RankUserNickName>
-                          <span>수익률: {contest.ranking[0].return}</span>
+                            <div style={{textAlign: 'center', display:'flex'}}>
+                              <div style={{color:'#8A8A8A', margin:'8px 5px 0px 50px'}}>
+                                수익률 :
+                              </div>
+                              <ContestReturn style={{ color: contest.ranking[0].return[0] === '-' ? 'blue' : 'red' }}>
+                                {contest.ranking[0].return}
+                              </ContestReturn>
+                            </div>
                         </div>
                       <div className="carousel-item">
                         <RankImage src={
                             // contest.ranking[1].profileImage ||
-                            'https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202105/25/holapet/20210525081724428qquq.jpg'} />
-                            <h1>2등</h1>
+                            './icon/user_purple.png'} />
+                            <h2 style={{textAlign: 'center', margin: '5px 0px 0px 0px', fontSize:'30px'}}>2등</h2>
                             <RankUserNickName>
                                 {contest.ranking[1].nickName}
                             </RankUserNickName>
-                          <span>수익률: {contest.ranking[1].return}</span>
+
+                            <div style={{textAlign: 'center', display:'flex'}}>
+                              <div style={{color:'#8A8A8A', margin:'8px 5px 0px 50px'}}>
+                                수익률 :
+                              </div>
+                              <ContestReturn style={{ color: contest.ranking[1].return[0] === '-' ? 'blue' : 'red' }}>
+                                {contest.ranking[1].return}
+                              </ContestReturn>
+                            </div>
+                            
                       </div>
                       <div className="carousel-item">
                         <RankImage src={
                             // contest.ranking[2].profileImage ||
-                            'https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202105/25/holapet/20210525081724428qquq.jpg'} />
-                            <h1>3등</h1>
+                            './icon/user_purple.png'} />
+                            <h2 style={{ margin: '5px 0px 0px 70px', fontSize:'30px' }}>3등</h2>
                             <RankUserNickName>
                                 {contest.ranking[2].nickName}
                             </RankUserNickName>
-                          <span>수익률: {contest.ranking[2].return}</span>
+                            <div style={{textAlign: 'center', display:'flex'}}>
+                              <div style={{color:'#8A8A8A', margin:'8px 5px 0px 50px'}}>
+                                수익률 :
+                              </div>
+                              <ContestReturn style={{ color: contest.ranking[2].return[0] === '-' ? 'blue' : 'red' }}>
+                                {contest.ranking[2].return}
+                              </ContestReturn>
+                            </div>
                       </div>
                     </div>
                   </div>
@@ -245,12 +273,26 @@ function CurrentContest(){
                   <Participant>
                     {contest.ranking.slice(3).map((participant, participantIndex) => (
                       <div key={participantIndex}>
-                        {participantIndex+4}등
-                        <NoRankImage src={
-                          // participant.profileImage ||
-                          'https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202105/25/holapet/20210525081724428qquq.jpg'} />
-                        {participant.nickName}
-                        <span>수익률: {participant.return}</span>
+                        <div style={{margin:'10px 0px 10px 30px', display:'flex'}}>
+                          <div style={{width:'60px', margin:'10px 0px 5px 15px', color:'#8A8A8A', fontSize:'20px'}}>
+                            {participantIndex+4}등
+                          </div>
+                          <NoRankImage src={
+                            // participant.profileImage ||
+                            './icon/user_purple.png'} />
+                          <div style={{margin:'10px 15px 0px 0px', fontSize:'18px', fontWeight:'bold'}}>
+                            {participant.nickName}
+                          </div>
+                          <div style={{display:'flex', marginTop:'12px'}}>
+                            <div style={{color:'#8A8A8A', marginRight:'10px'}}>
+                              수익률 : 
+                            </div>
+                            <div style={{ color: participant.return[0] === '-' ? 'blue' : 'red', fontWeight:'bold', fontSize: '16px' }}>
+                              {participant.return}
+                            </div>
+                          </div>
+                        </div>
+                        <hr style={{width:'330px'}}/>
                       </div>
                     ))}
                   </Participant>

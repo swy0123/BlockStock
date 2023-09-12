@@ -1,26 +1,26 @@
 /* swiper */
 .swiper-button-prev,
 .swiper-button-next {
-  color: #9155FD; /* 내비게이션 버튼의 색상 변경 */
+  color: #E1E1E1; /* 내비게이션 버튼의 색상 변경 */
 }
 
 /* 활성화된 이전 버튼 스타일 변경 */
 .swiper-button-prev.swiper-button-disabled {
-  color: #9155FD; /* 비활성화된 이전 버튼의 색상 변경 */
+  color: #E1E1E1; /* 비활성화된 이전 버튼의 색상 변경 */
 }
 
 /* 활성화된 다음 버튼 스타일 변경 */
 .swiper-button-next.swiper-button-disabled {
-  color: #9155FD; /* 비활성화된 다음 버튼의 색상 변경 */
+  color: #E1E1E1; /* 비활성화된 다음 버튼의 색상 변경 */
 }
 
 /* Pagination 모듈 스타일 */
 .swiper-pagination-bullet {
-  background-color: #9155FD; /* 점(도트)의 배경 색상 변경 */
+  background-color: #E1E1E1; /* 점(도트)의 배경 색상 변경 */
 }
 
 .swiper-pagination-bullet-active {
-  background-color: #9155FD; /* 활성화된 점의 배경 색상 변경 */
+  background-color: #E1E1E1; /* 활성화된 점의 배경 색상 변경 */
 }
 
 .swiper {
@@ -37,7 +37,7 @@
   height: 210px;
   margin: 0;
   -webkit-perspective: 800px;
-  perspective: 800px;
+  perspective: 2000px;
   -webkit-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
@@ -60,27 +60,37 @@
   top: 0;
   left: 0;
   width: 190px;
-  height: 210px;
-  border-radius: 6px;
+  height: 270px;
 }
 
+
 .carousel-item:nth-child(1) {
-  background: rgba(252, 192, 77, 0.9);
   -webkit-transform: rotateY(0) translateZ(182px);
   transform: rotateY(0) translateZ(182px);
+  background: #FFFFFF;
+  border: 1px solid #D4D4D4;
+  box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
 }
 
 .carousel-item:nth-child(2) {
-  background: rgba(49, 192, 204, 0.9);
   -webkit-transform: rotateY(120deg) translateZ(182px);
   transform: rotateY(120deg) translateZ(182px);
+  background: #FFFFFF;
+  border: 1px solid #D4D4D4;
+  box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
 }
 
 .carousel-item:nth-child(3) {
-  background: rgba(236, 233, 242, 0.9);
   -webkit-transform: rotateY(240deg) translateZ(182px);
   transform: rotateY(240deg) translateZ(182px);
+  background: #FFFFFF;
+  border: 1px solid #D4D4D4;
+  box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
 }
+
  @-webkit-keyframes 
 carousel {  0%, 17.5% {
  -webkit-transform: translateZ(-182px) rotateY(0);
