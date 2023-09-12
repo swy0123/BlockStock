@@ -198,7 +198,7 @@ function CurrentContest(){
 
                   <ContestHeader>
                     <ContestTitle>{contest.title}</ContestTitle>
-                    <Contestperiod>대회 기간: {contest.startAt} ~ {contest.endAt}</Contestperiod> 
+                    <Contestperiod>대회 기간 : {contest.startAt} ~ {contest.endAt}</Contestperiod> 
                   </ContestHeader>
 
                   <CurrentContestLink>
