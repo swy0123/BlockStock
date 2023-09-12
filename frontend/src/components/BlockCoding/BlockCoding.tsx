@@ -1,5 +1,5 @@
 
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import BlocklyComponent from "../../components/Blockly"
 import '../../components/Blockly/blocks/customblocks';
 import '../../components/Blockly/generators/generator';
@@ -16,7 +16,7 @@ function BlockCoding() {
     const [isSearch, setSearch] = useState(true);
 
     const [title, setTitle] = useState("제목 없는 전략");
-    const [optionLikeList, setOptionLikeList] = useState([]);
+    const [optionLikeList, setOptionLikeList] = useState<any>([]);
     const MAX_LENGTH = 30;
 
 
@@ -52,12 +52,16 @@ function BlockCoding() {
         },
     ]
 
-    const handleOptionLikeList = async () => {
+    const handleOptionLikeList = () => {
         // const res = await getOptionLikeList();
         setOptionLikeList(dummydata);
         console.log(dummydata)
         console.log(optionLikeList)
     }
+
+    useEffect(() => {
+        console.log(optionLikeList)
+    }, [optionLikeList])
 
 
     return (
@@ -69,22 +73,23 @@ function BlockCoding() {
                     onChange={handleTitleField}
                     placeholder="제목을 입력해주세요"
                 />
-                <IsSearchDiv style={{ width: "100px", height: "200px", backgroundColor:"gray"}}>
+                <IsSearchDiv style={{ width: "100px", height: "200px", backgroundColor: "gray" }}>
                     {/* 이름 */}
                     <div onClick={setSearchTrue} style={{ backgroundColor: "rgba(45, 83, 198, 0.3)" }}>검색</div>
                     <div onClick={setSearchFasle} style={{ backgroundColor: "rgba(189, 129, 39, 0.3)" }}>관심종목</div>
                     {
                         isSearch ?
-                            <>
-                            zzz
-                                {dummydata.map((item) => {
-                                    return (<OptionLikeListItem props={item}></OptionLikeListItem>)
+                            <div>
+                                zzz
+                                {optionLikdummydataeList.map((item, index) => {
+                                    <OptionLikeListItem props={item} key={index}></OptionLikeListItem>
                                 })}
-                            </> :
+                                zzz
+                            </div> :
                             <>
-                            zzz22
+                                zzz22
                                 {optionLikeList.map((item, index) => {
-                                    <OptionLikeListItem props={item}></OptionLikeListItem>
+                                    <OptionLikeListItem props={item} key={index}></OptionLikeListItem>
                                 })}
                             </>
                     }
