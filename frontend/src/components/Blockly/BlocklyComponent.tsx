@@ -158,7 +158,7 @@ function BlocklyComponent(props: any) {
   }, [primaryWorkspace, toolbox, blocklyDiv, props]);
 
   return (
-    <div>
+    <div style={{height:"500px", width:"500px"}}>
       <button onClick={generateCode}>Convert</button>
       <button onClick={generateVar}>Generate</button>
       <button onClick={reset}>reset</button>
