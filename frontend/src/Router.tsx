@@ -6,7 +6,6 @@ import NotFound from "./pages/NotFound"
 import Home from "./pages/Home";
 import Contest from "./pages/Contest/Contest";
 
-
 const router = createBrowserRouter([
     {
         path: "/",
