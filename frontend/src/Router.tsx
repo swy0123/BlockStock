@@ -4,7 +4,7 @@ import Root from "./Root";
 import ErrorComponent from "./components/ErrorComponent";
 import NotFound from "./pages/NotFound"
 import Home from "./pages/Home";
-
+import Contest from "./pages/Contest/Contest";
 
 const router = createBrowserRouter([
     {
@@ -16,7 +16,11 @@ const router = createBrowserRouter([
                 element: <Home />,
                 errorElement: <ErrorComponent />,
             },
-
+            {
+                path: "/Contest",
+                element: <Contest />,
+                errorElement: <ErrorComponent />,
+            },
         ],
         errorElement: <NotFound />
     }
