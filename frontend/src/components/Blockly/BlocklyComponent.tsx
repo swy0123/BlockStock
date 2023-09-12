@@ -25,7 +25,7 @@ import Blockly from "blockly/core";
 import React, { useState } from "react";
 import "./BlocklyComponent.css";
 import { useEffect, useRef } from "react";
-import "../Blockly/index";
+import "./index";
 import { pythonGenerator } from "blockly/python";
 import locale from "blockly/msg/ko";
 import "blockly/blocks";
