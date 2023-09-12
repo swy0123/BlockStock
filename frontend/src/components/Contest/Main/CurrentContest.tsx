@@ -22,21 +22,23 @@ import {
   RankImage,
   NoRankImage,
   Line,
+  RankUserNickName,
+  NotCurrentContest,
+  NotCurrentContestImage,
  } from './CurrentContest.style'
 
  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
   ga('create', 'UA-46156385-1', 'cssscript.com');
   ga('send', 'pageview');
   
 function CurrentContest(){
 
   const navigate = useNavigate();
-  const [title, setTitle] = useState<string>('title')
-  const [period, setPeriod] = useState<string>('2023-09-11 ~ 2023-09-12')
+  // const [title, setTitle] = useState<string>('title')
+  // const [period, setPeriod] = useState<string>('2023-09-11 ~ 2023-09-12')
   // const [currentContestList, setCurrentContestList] = useState([]);
 
 
@@ -164,92 +166,104 @@ function CurrentContest(){
       <CurrentContestTitle>
         현재 대회 결과
       </CurrentContestTitle>
+
       
       <CurrentContestBox>
+        {contestResultList.length === 0 ? (
+          <NotCurrentContest>
+            현재 진행중인 대회가 없습니다.
+            <NotCurrentContestImage src='/현재_대회-결과_없음_트로피.png'/>
+          </NotCurrentContest>
+        ) : (
+          <CurrentContestList>
+            <Swiper
+              slidesPerView={1}
+              spaceBetween={30}
+              loop={true}
+              pagination={{
+                clickable: true,
+              }}
+              navigation={true}
+              modules={[Pagination, Navigation]}
+              className="mySwiper"
+            >
+              {contestResultList.map((contest) => (
+                <SwiperSlide>
+                  <div key={contest.id}>
 
-      <CurrentContestList>
-        <Swiper
-          slidesPerView={1}
-          spaceBetween={30}
-          loop={true}
-          pagination={{
-            clickable: true,
-          }}
-          navigation={true}
-          modules={[Pagination, Navigation]}
-          className="mySwiper"
-        >
-          {contestResultList.map((contest) => (
-            <SwiperSlide>
-              <div key={contest.id}>
+                  <ContestHeader>
+                    <ContestTitle>{contest.title}</ContestTitle>
+                    <Contestperiod>대회 기간: {contest.startAt} ~ {contest.endAt}</Contestperiod> 
+                  </ContestHeader>
 
-              <ContestHeader>
-                <ContestTitle>{contest.title}</ContestTitle>
-                <Contestperiod>대회 기간: {contest.startAt} ~ {contest.endAt}</Contestperiod> 
-              </ContestHeader>
+                  <CurrentContestLink>
+                    <div onClick={()=>navigate('/')}>현재 대회 정보</div>
+                    <div onClick={()=>navigate('/')}>현재 현황 조회</div>
+                  </CurrentContestLink>
 
-              <CurrentContestLink>
-                <div onClick={()=>navigate('/')}>현재 대회 정보</div>
-                <div onClick={()=>navigate('/')}>현재 현황 조회</div>
-              </CurrentContestLink>
+                  <CurrentContestRankBox>
 
-              <CurrentContestRankBox>
-
-              <RankUser>
-              <div className="carousel">
-                <div className="carousel-content">
-                  <div className="carousel-item">
-                    <RankImage src={
-                        // contest.ranking[0].profileImage ||
-                        'https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202105/25/holapet/20210525081724428qquq.jpg'} />
-                        <h1>1등</h1>
-                      {contest.ranking[0].nickName}
-                      <span>수익률: {contest.ranking[0].return}</span>
+                  <RankUser>
+                  <div className="carousel">
+                    <div className="carousel-content">
+                      <div className="carousel-item">
+                        <RankImage src={
+                            // contest.ranking[0].profileImage ||
+                            'https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202105/25/holapet/20210525081724428qquq.jpg'} />
+                            <h1>1등</h1>
+                            <RankUserNickName>
+                                {contest.ranking[0].nickName}
+                            </RankUserNickName>
+                          <span>수익률: {contest.ranking[0].return}</span>
+                        </div>
+                      <div className="carousel-item">
+                        <RankImage src={
+                            // contest.ranking[1].profileImage ||
+                            'https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202105/25/holapet/20210525081724428qquq.jpg'} />
+                            <h1>2등</h1>
+                            <RankUserNickName>
+                                {contest.ranking[1].nickName}
+                            </RankUserNickName>
+                          <span>수익률: {contest.ranking[1].return}</span>
+                      </div>
+                      <div className="carousel-item">
+                        <RankImage src={
+                            // contest.ranking[2].profileImage ||
+                            'https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202105/25/holapet/20210525081724428qquq.jpg'} />
+                            <h1>3등</h1>
+                            <RankUserNickName>
+                                {contest.ranking[2].nickName}
+                            </RankUserNickName>
+                          <span>수익률: {contest.ranking[2].return}</span>
+                      </div>
                     </div>
-                  <div className="carousel-item">
-                    <RankImage src={
-                        // contest.ranking[1].profileImage ||
-                        'https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202105/25/holapet/20210525081724428qquq.jpg'} />
-                        <h1>2등</h1>
-                      {contest.ranking[1].nickName}
-                      <span>수익률: {contest.ranking[1].return}</span>
                   </div>
-                  <div className="carousel-item">
-                    <RankImage src={
-                        // contest.ranking[2].profileImage ||
-                        'https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202105/25/holapet/20210525081724428qquq.jpg'} />
-                        <h1>3등</h1>
-                      {contest.ranking[2].nickName}
-                      <span>수익률: {contest.ranking[2].return}</span>
-                  </div>
+                  </RankUser>
+
+                  <Line/>
+
+                  <Participant>
+                    {contest.ranking.slice(3).map((participant, participantIndex) => (
+                      <div key={participantIndex}>
+                        {participantIndex+4}등
+                        <NoRankImage src={
+                          // participant.profileImage ||
+                          'https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202105/25/holapet/20210525081724428qquq.jpg'} />
+                        {participant.nickName}
+                        <span>수익률: {participant.return}</span>
+                      </div>
+                    ))}
+                  </Participant>
+
+                  </CurrentContestRankBox>
+                  
                 </div>
-              </div>
-              </RankUser>
-
-              <Line/>
-
-              <Participant>
-                {contest.ranking.slice(3).map((participant, participantIndex) => (
-                  <div key={participantIndex}>
-                    {participantIndex+4}등
-                    <NoRankImage src={
-                      // participant.profileImage ||
-                       'https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202105/25/holapet/20210525081724428qquq.jpg'} />
-                    {participant.nickName}
-                    <span>수익률: {participant.return}</span>
-                  </div>
-                ))}
-              </Participant>
-
-              </CurrentContestRankBox>
-              
-            </div>
-          </SwiperSlide>
-          ))}
-        </Swiper>
-        </CurrentContestList>
-
+              </SwiperSlide>
+              ))}
+            </Swiper>
+            </CurrentContestList>)}
       </CurrentContestBox>
+          
     </div>
   )
 };
