@@ -2,13 +2,16 @@
 import { styled } from "styled-components";
 // import { Link, useNavigate } from "react-router-dom";
 import LeftHome from "../components/Home/LeftHome";
+import RightHome from "../components/Home/RightHome";
 
 const Container = styled.div`
-  /* background-color: #F4F5FA;
-  height: 100%; */
+/* width: 100%; */
 `;
 const MainWrapper = styled.div`
+  /* width: 100vh; */
   display: flex;
+  /* justify-content: space-around; */
+  align-items: center;
 `
 
 function Home() {
@@ -16,6 +19,7 @@ function Home() {
     <Container>
       <MainWrapper>
         <LeftHome/>
+        <RightHome/>
       </MainWrapper>
     </Container>
   );

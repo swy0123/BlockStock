@@ -1,9 +1,10 @@
 import { styled } from "styled-components";
 
 export const Container = styled.div`
-    padding: 10px;
+    padding: 10px 15px;
     position: fixed;
     width: 100%;
+    background-color: #F4F5FA;
 `
 export const HeaderWrapper = styled.div`
     display: flex  ;
@@ -24,7 +25,7 @@ export const Loupe = styled.img`
 export const Img = styled.img`
     width: 35px;
     height: 35px;
-    margin: 0px 20px 0px 10px;
+    margin: 0px 50px 0px 10px;
 `;
 export const AlertImg = styled.img`
     width: 30px;
