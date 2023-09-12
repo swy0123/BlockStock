@@ -142,14 +142,17 @@ function BlocklyComponent(props: any) {
 
   useEffect(() => {
     const { initialXml, children, ...rest } = props;
-    primaryWorkspace.current = Blockly.inject(
-      blocklyDiv.current,
-      //  { toolbox }
-      {
-        toolbox: toolbox.current,
-        // ...rest
-      }
-    );
+    if (primaryWorkspace.current === undefined) {
+      primaryWorkspace.current = Blockly.inject(
+        blocklyDiv.current,
+        //  { toolbox }
+        {
+          toolbox: toolbox.current,
+          // ...rest
+        }
+      );
+    }
+
 
     if (initialXml) {
       Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(initialXml), primaryWorkspace.current);
@@ -158,7 +161,7 @@ function BlocklyComponent(props: any) {
   }, [primaryWorkspace, toolbox, blocklyDiv, props]);
 
   return (
-    <div style={{height:"500px", width:"500px"}}>
+    <div style={{ width: "1000px" }}>
       <button onClick={generateCode}>Convert</button>
       <button onClick={generateVar}>Generate</button>
       <button onClick={reset}>reset</button>
