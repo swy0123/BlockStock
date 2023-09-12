@@ -308,7 +308,7 @@ function CurrentContest(){
           
     </div>
   )
-};
+}
 
 
 export default CurrentContest
