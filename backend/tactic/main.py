@@ -26,3 +26,9 @@ async def root():
     # DB연동 테스트
     example = session.query(TradeInfo).all()
     return example
+
+@app.get("/contest")
+async def root():
+    # DB연동 테스트
+    example = session.query(TradeInfo).all()
+    return example
