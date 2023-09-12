@@ -14,12 +14,18 @@
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.14.8",
     "axios": "^1.5.0",
+<<<<<<< HEAD
     "blockly": "^10.1.3",
     "d3-format": "^3.1.0",
     "d3-time-format": "^4.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-financial-charts": "^2.0.1",
+=======
+    "eslint-plugin-styled-components": "^0.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+>>>>>>> 36866ae5e1d83f1f7feea80298013e53412342eb
     "react-router-dom": "^6.15.0",
     "recoil": "^0.7.7",
     "recoil-persist": "^5.1.0",
