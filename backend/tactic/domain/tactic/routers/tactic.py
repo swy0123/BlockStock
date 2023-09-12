@@ -39,11 +39,11 @@ new_data = [117, 118, 120, 115, 8000]
 @app.post("/test")
 async def tactic_test(tactic_test_request: TacticTestRequest):
     python_code = tactic_test_request.tacticPythonCode
-
-    # print(python_code)
-
-    exec(python_code)
     # return_list = []
+    # print(python_code)
+    return_list.clear()
+    exec(python_code)
+
     #
     # return_list.insert(exec(python_code))
     #
