@@ -2,7 +2,8 @@ import styled from "styled-components";
 // import Swal from 'sweetalert2'
 
 const Container = styled.div`
-    
+    position: fixed;
+    margin-top: 80px;
 `;
 const SideWrapper = styled.div`
   padding-top: 10px;

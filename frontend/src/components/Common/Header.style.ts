@@ -1,8 +1,9 @@
 import { styled } from "styled-components";
 
 export const Container = styled.div`
-    /* background-color: #F4F5FA; */
     padding: 10px;
+    position: fixed;
+    width: 100%;
 `
 export const HeaderWrapper = styled.div`
     display: flex  ;

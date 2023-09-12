@@ -1,19 +1,22 @@
 // import React, { useCallback, useEffect, useRef, useState } from "react";
 import { styled } from "styled-components";
 // import { Link, useNavigate } from "react-router-dom";
-import Header from "../components/Common/Header";
-import SideBar from "../components/Common/SideBar";
+import LeftHome from "../components/Home/LeftHome";
 
 const Container = styled.div`
-  background-color: #F4F5FA;
-  height: 100%;
+  /* background-color: #F4F5FA;
+  height: 100%; */
 `;
+const MainWrapper = styled.div`
+  display: flex;
+`
 
 function Home() {
   return (
     <Container>
-      <Header/>
-      <SideBar/>
+      <MainWrapper>
+        <LeftHome/>
+      </MainWrapper>
     </Container>
   );
 }
