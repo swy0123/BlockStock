@@ -1,9 +1,5 @@
 
-<<<<<<< HEAD
-import React, { ChangeEvent, useEffect, useState } from 'react';
-=======
 import React, { ChangeEvent, useState } from 'react';
->>>>>>> 490396ee1b1eb20b84e60fc70c04768c1b1c736c
 import BlocklyComponent from "../../components/Blockly"
 import '../../components/Blockly/blocks/customblocks';
 import '../../components/Blockly/generators/generator';
@@ -20,11 +16,7 @@ function BlockCoding() {
     const [isSearch, setSearch] = useState(true);
 
     const [title, setTitle] = useState("제목 없는 전략");
-<<<<<<< HEAD
-    const [optionLikeList, setOptionLikeList] = useState<any>([]);
-=======
     const [optionLikeList, setOptionLikeList] = useState([]);
->>>>>>> 490396ee1b1eb20b84e60fc70c04768c1b1c736c
     const MAX_LENGTH = 30;
 
 
