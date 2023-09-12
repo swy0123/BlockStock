@@ -5,7 +5,7 @@ import ErrorComponent from "./components/ErrorComponent";
 import NotFound from "./pages/NotFound"
 import Home from "./pages/Home";
 import Contest from "./pages/Contest/Contest";
-import BlockCoding from "./pages/BlockCoding/BlockCoding";
+import MakeTactic from "./pages/BlockCoding/MakeTactic";
 
 const router = createBrowserRouter([
     {
@@ -23,8 +23,8 @@ const router = createBrowserRouter([
                 errorElement: <ErrorComponent />,
             },
             {
-                path: "/blockcoding",
-                element: <BlockCoding />,
+                path: "/maketactic",
+                element: <MakeTactic />,
                 errorElement: <ErrorComponent />,
             },
         ],
