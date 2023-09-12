@@ -9,6 +9,7 @@ const Container = styled.div`
   
 `
 const Wrapper = styled.div`
+  width: 80%;
   position: absolute;
   margin-top: 75px;
   margin-left: 250px;
