@@ -1,11 +1,20 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { styled, keyframes } from "styled-components";
+// import React, { useCallback, useEffect, useRef, useState } from "react";
+import { styled } from "styled-components";
+// import { Link, useNavigate } from "react-router-dom";
+import Header from "../components/Common/Header";
+import SideBar from "../components/Common/SideBar";
+
+const Container = styled.div`
+  background-color: #F4F5FA;
+  height: 100%;
+`;
 
 function Home() {
   return (
-    <div>
-      main
-    </div>
+    <Container>
+      <Header/>
+      <SideBar/>
+    </Container>
   );
 }
 
