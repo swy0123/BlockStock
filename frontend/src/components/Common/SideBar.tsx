@@ -7,7 +7,7 @@ const Container = styled.div`
 `;
 const SideWrapper = styled.div`
   padding-top: 10px;
-  width  :25vh;
+  width  :26vh;
   height: 90vh;
 `;
 const ClickBox1 = styled.div`
@@ -47,7 +47,7 @@ const Text = styled.p`
 `;
 const Menu = styled.div`
 	font-size: 15px;
-	margin-left: 60px;
+	margin-left: 55px;
 	color: #504b53;
 	transition: 0.5s;
 	&:hover {
