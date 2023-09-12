@@ -1,4 +1,6 @@
 import React, {useState} from 'react'
+import { useNavigate } from "react-router-dom";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import {
   Container,
@@ -8,7 +10,8 @@ import {
   Wrappe,
   Title,
   ContestHeader,
-  ConfirmationBtn,
+  ConfirmationBtn1,
+  ConfirmationBtn2,
   ContestPeriod,
   ContestBox,
   ContentBox,
@@ -19,6 +22,7 @@ import {
 } from './ExpectedContest.styled'
 
 function ExpectedContest(){
+  const navigate = useNavigate();
   // const [expectedContestList, setExpectedContestList] = useState([])
 
   const expectedContestList = [
@@ -32,7 +36,7 @@ function ExpectedContest(){
       term: "7",
       maxCapacity: "100",
       joinPeople: "42",
-      isRegisted: "true"
+      isRegisted: true
     },
     {
       id: "2",
@@ -44,7 +48,7 @@ function ExpectedContest(){
       term: "14",
       maxCapacity: "50",
       joinPeople: "28",
-      isRegisted: "false"
+      isRegisted: false
     },
     {
       id: "3",
@@ -56,7 +60,7 @@ function ExpectedContest(){
       term: "10",
       maxCapacity: "80",
       joinPeople: "56",
-      isRegisted: "true"
+      isRegisted: true
     }
   ]
 
@@ -75,7 +79,7 @@ function ExpectedContest(){
         <ContestTitle>
           다음 대회 일정
         </ContestTitle>
-        <ContestLink>
+        <ContestLink onClick={()=>navigate('/')}>
           전체 대회 일정 조회
         </ContestLink>
       </ContestTitleWrapper>
@@ -87,37 +91,46 @@ function ExpectedContest(){
               <ContestBox onClick={() => toggleContent(index)}>
                 <ContestHeader>
                   <Title>
-                    {item.title}
+                    [경진대회] {item.title}
                   </Title>
-                  <ConfirmationBtn>
-                    미신청
-                  </ConfirmationBtn>
-                  <ConfirmationBtn>
-                    신청완료
-                  </ConfirmationBtn>
+
+                  {item.isRegisted ? (
+                      <>
+                        <ConfirmationBtn1>신청완료</ConfirmationBtn1>
+                      </>
+                    ) : (
+                      <>
+                        <ConfirmationBtn2>미신청</ConfirmationBtn2>
+                      </>
+                    )}
+
+                  <ExpandMoreIcon style={{ marginLeft: 'auto', fontSize: '50px', marginRight:'20px'}}/>
                 </ContestHeader>
                 <ContestPeriod>
-                  {item.startAt} ~ {item.endAt}
+                  대회 기간 : {item.startAt} ~ {item.endAt}
                 </ContestPeriod>
               </ContestBox>
+              <hr style={{color:'#D3D3D3', marginBottom:'0px'}}/>
 
               <ContentBox style={{ display: showContent[index] ? 'block' : 'none' }}>
-
-                <Participants>
-                  현재 참가 인원 수 : {item.joinPeople} / {item.maxCapacity}
-                </Participants>
-                <Ticket>
-                  필요 티켓 개수 : {item.ticket} 개
-                </Ticket>
-                <Term>
-                  전략 실행 주기 : {item.term}
-                </Term>
-                <ContestContent>
-                  {item.content}
-                </ContestContent>
+                <div style={{padding:'10px 0px 0px 60px'}}>
+                  <Participants>
+                    현재 참가 인원 수 : {item.joinPeople} / {item.maxCapacity}
+                  </Participants>
+                  <Ticket>
+                    필요 티켓 개수 : {item.ticket} 개
+                  </Ticket>
+                  <Term>
+                    전략 실행 주기 : {item.term}
+                  </Term>
+                  <ContestContent>
+                    <div>내용</div>
+                    {item.content}
+                  </ContestContent>
+                </div>
+                <hr />
 
               </ContentBox>
-              <hr />
             </div>
           ))}
         </Wrappe>
