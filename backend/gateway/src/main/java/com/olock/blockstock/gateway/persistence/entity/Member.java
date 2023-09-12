@@ -1,5 +1,6 @@
 package com.olock.blockstock.gateway.persistence.entity;
 
+import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import lombok.Builder;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Member {
     @Id
+    @GeneratedValue
     private Long id;
     private String email;
     private String password;
