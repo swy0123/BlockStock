@@ -13,29 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-@RestController
-@RequiredArgsConstructor
 public class Application {
-	private final MemberRepository memberRepository;
-
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 
-	}
-
-	@GetMapping("/member/info")
-	public String info() {
-		Member newMember = Member.builder()
-				.email("example@example.com")
-				.password("password")
-				.nickname("Example User")
-				.imagePath("path/to/image.jpg")
-				.role(Role.MEMBER.name())
-				.build();
-
-		memberRepository.save(newMember);
-		return "member 서비스의 기본 동작 Port: ";
 	}
 
 }
