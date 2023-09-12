@@ -2,23 +2,25 @@ import React from 'react'
 import styled from "styled-components";
 import CurrentContest from '../../components/Contest/Main/CurrentContest'
 import ExpectedContest from '../../components/Contest/Main/ExpectedContest'
+import RecentContestResults from '../../components/Contest/Main/RecentContestResults';
 
 function Contest(){
   
   const ContestBox = styled.div`
-    display:flex
+    margin: 20px 160px
   `;
 
   const ContestContent = styled.div`
-    margin: 20px 160px
+    display:flex
   `;
 
   return(
     <>
       <ContestBox>
-        <ContestContent>
           <CurrentContest/>
-          <ExpectedContest/>
+          <ContestContent>
+            <ExpectedContest/>
+            <RecentContestResults/>
         </ContestContent>
       </ContestBox>
     </>
