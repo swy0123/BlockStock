@@ -1,9 +1,11 @@
 #blocklyDiv {
-  height: 80%;
   width: 100%;
+  height: 80%;
   position: absolute;
+  /* display: flex; */
   
   /* top: 100px; */
+  z-index: 0;
 }
 
 /* Makes our label white. */

@@ -161,7 +161,7 @@ function BlocklyComponent(props: any) {
   }, [primaryWorkspace, toolbox, blocklyDiv, props]);
 
   return (
-    <div style={{ width: "1000px" }}>
+    <div>
       <button onClick={generateCode}>Convert</button>
       <button onClick={generateVar}>Generate</button>
       <button onClick={reset}>reset</button>
