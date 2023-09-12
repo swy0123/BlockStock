@@ -1,4 +1,4 @@
-package com.olock.blockstock.gateway.domain.auth.persistence.entity;
+package com.olock.blockstock.gateway.persistence.entity;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

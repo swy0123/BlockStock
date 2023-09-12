@@ -1,4 +1,4 @@
-package com.olock.blockstock.gateway.global.config;
+package com.olock.blockstock.gateway.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

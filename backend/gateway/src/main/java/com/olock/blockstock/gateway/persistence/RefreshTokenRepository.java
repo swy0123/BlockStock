@@ -1,6 +1,6 @@
-package com.olock.blockstock.gateway.domain.auth.persistence;
+package com.olock.blockstock.gateway.persistence;
 
-import com.olock.blockstock.gateway.domain.auth.persistence.entity.RefreshToken;
+import com.olock.blockstock.gateway.persistence.entity.RefreshToken;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

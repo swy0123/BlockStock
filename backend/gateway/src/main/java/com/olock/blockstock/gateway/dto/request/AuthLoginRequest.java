@@ -1,4 +1,4 @@
-package com.olock.blockstock.gateway.domain.auth.dto.request;
+package com.olock.blockstock.gateway.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
