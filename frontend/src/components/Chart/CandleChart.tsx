@@ -29,12 +29,12 @@ import {
 } from "react-financial-charts";
 import { initialData } from "./data";
 
-const CandleChart = () => {
+const CandleChart = (props) => {
   const ScaleProvider = discontinuousTimeScaleProviderBuilder().inputDateAccessor(
     (d) => new Date(d.date)
   );
-  const height = 700;
-  const width = 900;
+  const height = props.curheight-100>0 ? props.curheight-100 : 0;
+  const width = props.curwidth>0 ? props.curwidth : 0;
   const margin = { left: 0, right: 48, top: 0, bottom: 24 };
 
   const ema12 = ema()
