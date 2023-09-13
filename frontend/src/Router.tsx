@@ -9,6 +9,7 @@ import MakeTactic from "./pages/BlockCoding/MakeTactic";
 import Login from "./pages/Account/Login";
 import SignUp from "./pages/Account/SignUp";
 import CurrentContest from "./pages/Contest/CurrentContest";
+import ExpectedContest from "./pages/Contest/ExpectedContest";
 
 const router = createBrowserRouter([
     {
@@ -28,6 +29,11 @@ const router = createBrowserRouter([
             {
                 path: "/currentcontest",
                 element: <CurrentContest />,
+                errorElement: <ErrorComponent />,
+            },
+            {
+                path: "/expectedContest",
+                element: <ExpectedContest />,
                 errorElement: <ErrorComponent />,
             },
             {

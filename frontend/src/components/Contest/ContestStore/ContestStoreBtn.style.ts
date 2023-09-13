@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const StoreBox = styled.div`
 `;
@@ -13,6 +13,8 @@ text-align: center;
 color: #7A7A7A;
 background-color: #F4F5FA;
 border: none;
+cursor: pointer;
+
 &:hover {
   background-color: white; 
   border: 1px solid #9155FD;
@@ -31,6 +33,7 @@ text-align: center;
 color: #7A7A7A;
 background-color: #F4F5FA;
 border: none;
+cursor: pointer;
 &:hover {
   background-color: white; 
   border: 1px solid #9155FD;
@@ -49,6 +52,7 @@ text-align: center;
 color: #7A7A7A;
 background-color: #F4F5FA;
 border: none;
+cursor: pointer;
 &:hover {
   background-color: white; 
   border: 1px solid #9155FD;
