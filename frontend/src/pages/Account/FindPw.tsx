@@ -22,29 +22,29 @@ const Wrapper = styled.div`
 const LoginBox = styled.div`
 	align-items: center;
 	text-align: center;
-	width: 440px;
-  	height: 550px;
+	width: 420px;
+  	height: 400px;
 	flex-shrink: 0;
 	border-radius: 10px;
 	background: #FFF;
 	box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
 	z-index: 20;
 `;
-const LogoImg = styled.img`
-	margin-top: 25px;
-	margin-left: -20px;
-	width: 140px;
-`;
+
 const Title = styled.p`
 	font-size: 23px;
 	font-style: normal;
 	font-weight: 700;
-	margin-top: 35px;
+	margin-top: 65px;
 	margin-bottom: 5px;
+`;
+const SubTitle = styled.p`
+  font-size  : 13px;
+  color: gray;
 `;
 const Input = styled.input`
 	margin-top: 20px;
-	width: 330px;
+	width: 300px;
 	height: 45px;
 	border-radius: 10px;
 	border: 1px solid rgba(0, 0, 0, 0.22);
@@ -54,55 +54,41 @@ const Input = styled.input`
 `;
 const Text = styled.p`
 	color: #9155FD;
-	font-size: 15px ;
+	font-size: 16px ;
 	cursor: pointer;
 `
 const Box = styled.div`
 	display: flex;
-	justify-content: end;
-	margin-right: 45px;
+	justify-content: center;
 `;
 
 const LoginBtn = styled.button`
-	width: 360px;
+	width: 325px;
 	height: 45px;
 	font-size: 15px;
 	color: white;
 	border: 0;
 	border-radius: 10px;
 	background: #9155FD;
-	margin-top: 15px;
-	margin-bottom: 25px;
+	margin-top: 30px;
+	margin-bottom: 15px;
 	cursor: pointer;
 `;
-const Hr = styled.hr`
-	width: 80%;
-	color: lightgray;
-`;
-const P = styled.p`
-	width: 25px;
-	background-color: white;
-	color: gray;
-	margin: -20px auto 20px auto;
-`;
-function Login(){
+
+function FindPw(){
 	const navigate = useNavigate();
 
 	return(
 		<Container>
 			<Wrapper>
 				<LoginBox>
-					<LogoImg src="./icon/logo.png"/>
-					<Title>Welcome to Block Stock!</Title>
+					<Title>Forgot Password?</Title>
+                    <SubTitle>이메일을 통해 임시비밀번호를 발급 받을 수 있습니다.</SubTitle>
 					<Input placeholder="E-mail"></Input>
-					<Input placeholder="Password"></Input>
-					<Box>
-						<Text onClick={()=>navigate("/findpw")}>find Password</Text>
+					<LoginBtn>확인</LoginBtn>
+                    <Box>
+						<Text onClick={()=>navigate("/login")}>↪ Back to Login</Text>
 					</Box>
-					<LoginBtn>Log in</LoginBtn>
-					<Hr/>
-					<P>or</P>
-					<Text onClick={()=> navigate('/signup')}>Sign up</Text>
 				</LoginBox>
 			</Wrapper>
 			<BackGround>
@@ -114,4 +100,4 @@ function Login(){
 	);
 }
 
-export default Login;
+export default FindPw;
