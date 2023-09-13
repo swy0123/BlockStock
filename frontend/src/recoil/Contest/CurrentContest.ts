@@ -5,8 +5,8 @@ export const searchKeywordState = atom({
   default: '',
 });
 
-export const contestListState = atom({
-  key: 'contestListState',
+export const currentContestListState = atom({
+  key: 'currentContestListState',
   default: [
     {
       id: "1",

@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import KeyboardControlKeyIcon from '@mui/icons-material/KeyboardControlKey';
-import styled from "styled-components";
 import { useRecoilValue } from 'recoil';
-import { currentContestListState, searchKeywordState } from '../../../../recoil/Contest/CurrentContest';
+import { expectedContestListState } from '../../../../recoil/Contest/ExpectedContest';
+import {  searchKeywordState } from '../../../../recoil/Contest/CurrentContest';
 
 import {
   Container,
@@ -17,34 +17,33 @@ import {
   Stock,
   Term,
   Button,
-} from './CurrentContestContent.style'
+} from './ExpectedContestContent.style'
+function ExpectedContestContent(){
 
-const Line = ({ hide }) => {
-  console.log('hide prop:', hide); // hide prop을 로그에 출력
-  return (
-    <div
-      style={{
-        width: '1100px',
-        alignItems: 'center',
-        margin: '10px 0px 0px 0px',
-        border: '1px solid #D3D3D3',
-        display: hide ? 'none' : 'block',
-        marginBottom: '30px'
-      }}
-    >
-    </div>
-  );
-};
-
-function CurrentContestContent(){
-
-  const contestResultList = useRecoilValue(currentContestListState);
+  const contestResultList = useRecoilValue(expectedContestListState);
 
   const searchKeyword  = useRecoilValue(searchKeywordState);
 
   const filteredContestList = contestResultList.filter((contest) =>
     contest.title.includes(searchKeyword)
   );
+
+  const Line = ({ hide }) => {
+    console.log('hide prop:', hide); // hide prop을 로그에 출력
+    return (
+      <div
+        style={{
+          width: '1100px',
+          alignItems: 'center',
+          margin: '10px 0px 0px 0px',
+          border: '1px solid #D3D3D3',
+          display: hide ? 'none' : 'block',
+          marginBottom: '30px'
+        }}
+      >
+      </div>
+    );
+  };
 
 
   const [showContent, setShowContent] = useState(Array(filteredContestList.length).fill(false));
@@ -53,8 +52,6 @@ function CurrentContestContent(){
     updatedShowContent[index] = !updatedShowContent[index];
     setShowContent(updatedShowContent);
   };
-
-  
 
   return(
     <Container>
@@ -76,12 +73,16 @@ function CurrentContestContent(){
             </ContestBox>
 
             <ContentBox style={{ display: showContent[index] ? 'block' : 'none' }}>
-              <Stock>종목: {contest.code}</Stock>
-              <StartAsset>시작 자산: {contest.startAsset}</StartAsset>
+              <Stock>현재 인원: {contest.joinPeople} / {contest.maxCapacity}</Stock>
+              <StartAsset>필요 티켓: {contest.ticket} 개</StartAsset>
               <Term>전략 실행 주기 : {contest.term}</Term>
               <div>내용</div>
               <Content>{contest.content}</Content>
-              <Button>진행 현황</Button>  
+              {contest.isRegisted ? (
+                <Button>신청취소</Button>
+              ) : (
+                <Button>참가하기</Button>
+              )} 
             </ContentBox>
           </div>
         ))}
@@ -91,4 +92,4 @@ function CurrentContestContent(){
   )
 }
 
-export default CurrentContestContent
+export default ExpectedContestContent
