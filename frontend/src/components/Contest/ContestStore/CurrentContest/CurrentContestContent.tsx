@@ -20,7 +20,6 @@ import {
 } from './CurrentContestContent.style'
 
 const Line = ({ hide }) => {
-  console.log('hide prop:', hide); // hide prop을 로그에 출력
   return (
     <div
       style={{
