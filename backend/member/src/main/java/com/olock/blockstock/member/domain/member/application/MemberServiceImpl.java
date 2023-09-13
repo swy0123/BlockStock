@@ -1,5 +1,7 @@
 package com.olock.blockstock.member.domain.member.application;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.olock.blockstock.member.domain.member.dto.request.MemberJoinRequest;
 import com.olock.blockstock.member.domain.member.dto.response.MemberInfoResponse;
 import com.olock.blockstock.member.domain.member.exception.NoMemberException;
@@ -16,7 +18,9 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
+    private final MemberProducer memberProducer;
     private final PasswordEncoder passwordEncoder;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public void join(MemberJoinRequest memberJoinRequest) {
@@ -34,6 +38,11 @@ public class MemberServiceImpl implements MemberService {
 
         memberRepository.save(member);
         memberRepository.updateLastIdx();
+        try {
+            memberProducer.sendMessage(objectMapper.writeValueAsString(member));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
