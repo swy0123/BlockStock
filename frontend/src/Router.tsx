@@ -11,6 +11,7 @@ import SignUp from "./pages/Account/SignUp";
 import CurrentContest from "./pages/Contest/CurrentContest";
 import FindPw from "./pages/Account/FindPw";
 import ExpectedContest from "./pages/Contest/ExpectedContest";
+import CompletedContest from "./pages/Contest/CompletedContest";
 
 const router = createBrowserRouter([
     {
@@ -33,8 +34,13 @@ const router = createBrowserRouter([
                 errorElement: <ErrorComponent />,
             },
             {
-                path: "/expectedContest",
+                path: "/expectedcontest",
                 element: <ExpectedContest />,
+                errorElement: <ErrorComponent />,
+            },
+            {
+                path: "/completedcontest",
+                element: <CompletedContest />,
                 errorElement: <ErrorComponent />,
             },
             {
