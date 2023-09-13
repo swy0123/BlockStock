@@ -4,7 +4,7 @@ import '../../components/Blockly/blocks/customblocks';
 import '../../components/Blockly/generators/generator';
 import CandleChart from '../../components/Chart/CandleChart';
 import styled from 'styled-components';
-import { BlockCodingDiv, HistoryChartDiv, HistorySummary, TacticResult, TacticTitle, TradingHistoryDiv } from './MakeTactic.style';
+import { BlockCodingDiv, HistoryChartDiv, HistorySummary, TacticContainer, TacticResult, TacticTitle, TradingHistoryDiv } from './MakeTactic.style';
 import BlockCoding from '../../components/BlockCoding/BlockCoding';
 
 const TestDiv = styled.div`
@@ -41,8 +41,8 @@ function MakeTactic() {
 
     return (
 
-        <div>
-            <button onClick={toggleFlag} style={{ height: "40px", width: "100px" }} >toggle</button>
+        <TacticContainer >
+            <button onClick={toggleFlag} style={{ height: "30px", width: "60px" }} >toggle</button>
             {
                 flag ?
                     <>
@@ -71,7 +71,7 @@ function MakeTactic() {
             }
 
 
-        </div>
+        </TacticContainer >
 
     )
 
