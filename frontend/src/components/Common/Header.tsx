@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 import {
     Container, 
@@ -9,11 +10,13 @@ import {
     AlertImg, 
     Img} from "./Header.style";
 
+
 function Header(){
+    const navigate = useNavigate();
     return( 
         <Container>
             <HeaderWrapper>
-                <Logo src="./icon/logo.png"></Logo>
+                <Logo src="./icon/logo.png" onClick={()=> navigate("/")}></Logo>
                 <Wrapper>
                 <InputBox>
                     <Input
