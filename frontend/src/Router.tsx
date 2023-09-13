@@ -57,7 +57,6 @@ const router = createBrowserRouter([
                 element: <FindPw/>,
                 errorElement: <ErrorComponent/>,
               },
-
         ],
         errorElement: <NotFound />
     }
