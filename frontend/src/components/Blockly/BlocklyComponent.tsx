@@ -133,12 +133,24 @@ function BlocklyComponent(props: any) {
   };
 
   useEffect(() => {
-    console.log(primaryWorkspace.current);
+    // console.log(primaryWorkspace.current);
     if (primaryWorkspace.current != undefined) {
       primaryWorkspace.current.updateToolbox(toolbox.current);
       primaryWorkspace.current.getFlyout().hide();
     }
   }, [cnt]);
+
+  useEffect(() => {
+    if (!props.codeCheck) {
+      if (primaryWorkspace.current != undefined) {
+        props.writeTacticJsonCode(Blockly.serialization.workspaces.save(primaryWorkspace.current));
+        props.writeTacticPythonCode(pythonGenerator.workspaceToCode(primaryWorkspace.current));
+      }
+      props.setCodeCheckTrue();
+      console.log(props.codeCheck)
+      console.log("codeCheck low component")
+    }
+  }, [props.codeCheck]);
 
   useEffect(() => {
     const { initialXml, children, ...rest } = props;
@@ -157,7 +169,7 @@ function BlocklyComponent(props: any) {
     if (initialXml) {
       Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(initialXml), primaryWorkspace.current);
     }
-    console.log(array, cnt, toolbox.current, primaryWorkspace.current);
+    // console.log(array, cnt, toolbox.current, primaryWorkspace.current);
   }, [primaryWorkspace, toolbox, blocklyDiv, props]);
 
   return (
