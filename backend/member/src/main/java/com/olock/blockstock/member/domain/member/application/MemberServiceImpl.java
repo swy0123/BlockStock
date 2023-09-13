@@ -20,12 +20,13 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void join(MemberJoinRequest memberJoinRequest) {
+
         Member member = Member.builder()
                 .id(memberRepository.findLastIdx())
                 .email(memberJoinRequest.getEmail())
                 .password(passwordEncoder.encode(memberJoinRequest.getPassword()))
                 .nickname(memberJoinRequest.getNickname())
-                .imagePath(memberJoinRequest.getImagePath())
+                .imagePath("/default")
                 .role(Role.MEMBER.name())
                 .createdAt(LocalDateTime.now())
                 .createdAt(LocalDateTime.now())

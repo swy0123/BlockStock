@@ -12,7 +12,7 @@ public class BearerTokenServerAuthenticationConverter implements ServerAuthentic
     private final AuthenticationProvider authenticationProvider;
     private final JwtTokenService jwtTokenService;
 
-    private final String BEARER_PREFIX = "Bearer_";
+    private final String BEARER_PREFIX = "Bearer ";
 
     @Override
     public Mono<Authentication> convert(ServerWebExchange exchange) {
