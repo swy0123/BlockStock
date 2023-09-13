@@ -30,8 +30,6 @@ public class WebSecurityConfig {
     private final AuthenticationManager authenticationManager;
     private final AuthenticationProvider authenticationProvider;
 
-    private final String[] publicRoutes = {"/api/auth", "/api/auth/login"};
-
     @Bean
     public SecurityWebFilterChain filterChain(ServerHttpSecurity http) throws Exception {
         return http

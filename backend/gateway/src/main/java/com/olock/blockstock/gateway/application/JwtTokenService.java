@@ -36,7 +36,6 @@ public class JwtTokenService {
     }
 
     private TokenDetails generateAccessToken(Member member) {
-        System.out.println(member.getEmail() + " " + member.getId());
         Date now = new Date();
         Date expirationDate = new Date(now.getTime() + expirationInMilliSeconds);
         String subject = String.valueOf(member.getId());
@@ -62,13 +61,11 @@ public class JwtTokenService {
     }
 
     public Mono<TokenDetails> authenticate(String email, String password) {
-        Mono<Member> memberMono = memberRepository.findById(1L); // 1L은 검색하려는 노드의 ID입니다.
+        Mono<Member> memberMono = memberRepository.findByEmail(email);
 
         memberMono.subscribe(member -> {
-            // 노드를 찾았을 때 실행될 로직을 작성합니다.
             System.out.println("Found Member with ID: " + member.getId());
         }, error -> {
-            // 오류 처리 로직을 작성합니다.
             System.err.println("Error: " + error.getMessage());
         });
 
@@ -98,12 +95,14 @@ public class JwtTokenService {
                     .onErrorResume(ex -> Mono.error(new UnauthorizedException("User unauthorized!")));
 
         } catch (JwtException | IllegalArgumentException e) {
+            System.out.println(e.getMessage());
             throw new AuthException("JWT token is invalid!", "TOKEN_INVALID");
         }
 
     }
 
     private Claims getClaimsJws(String token) {
+        Claims c = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
 }
