@@ -15,6 +15,16 @@ jwt:
   expiration: 36000
 
 spring:
+  kafka:
+    bootstrap-servers: 3.35.20.219:9092
+    consumer:
+      group-id: olock
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
   application:
     name: member-service
   neo4j:
