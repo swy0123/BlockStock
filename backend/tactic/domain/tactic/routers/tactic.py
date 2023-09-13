@@ -1,11 +1,8 @@
 from fastapi import FastAPI, APIRouter
 from domain.tactic.schemas.tactic_test_request import TacticTestRequest
-from pydantic import BaseModel
-
 from domain.tactic.schemas.tactic_test_response import TacticTestResponse
-from domain.tactic.services.tactic_service import get_past_data
+from domain.tactic.services.tactic_service import get_data_list
 
-# from domain.tactic.services.tactic_service import buy
 
 
 app = APIRouter(
@@ -46,8 +43,15 @@ async def tactic_test(tactic_test_request: TacticTestRequest):
 
 
     # 과거 데이터 받아오기
-    past_data = get_past_data(tactic_test_request)
+    past_data = get_data_list(tactic_test_request, "past")
+    print("과거 데이터 개수 : ", len(past_data))
 
+    # 현재 데이터 받아오기
+    now_data = get_data_list(tactic_test_request, "now")
+    print("현재 데이터 개수 : ", len(now_data))
+
+    # print(past_data)
+    # print(now_data)
     # return_list.clear()
     # exec(python_code)
 

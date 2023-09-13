@@ -8,3 +8,4 @@ class ChartInfo(BaseModel):
     high: int
     low: int
     close: int
+    volume: int
