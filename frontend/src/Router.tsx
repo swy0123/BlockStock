@@ -6,6 +6,8 @@ import NotFound from "./pages/NotFound"
 import Home from "./pages/Home";
 import Contest from "./pages/Contest/Contest";
 import MakeTactic from "./pages/BlockCoding/MakeTactic";
+import Login from "./pages/Account/Login";
+import SignUp from "./pages/Account/SignUp";
 
 const router = createBrowserRouter([
     {
@@ -26,6 +28,16 @@ const router = createBrowserRouter([
                 path: "/maketactic",
                 element: <MakeTactic />,
                 errorElement: <ErrorComponent />,
+            },
+            {
+                path: "/login",
+                element: <Login/>,
+                errorElement: <ErrorComponent/>,
+            },
+            {
+              path: "/signup",
+              element: <SignUp/>,
+              errorElement: <ErrorComponent/>,
             },
         ],
         errorElement: <NotFound />

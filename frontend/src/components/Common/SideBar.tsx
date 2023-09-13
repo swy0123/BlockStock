@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 // import Swal from 'sweetalert2'
 
 const Container = styled.div`
@@ -57,11 +58,12 @@ const Menu = styled.div`
 `;
 
 function SideBar(){
+  const navigate = useNavigate();
     return(
         <Container>
             <SideWrapper>
                 <ClickBox1>
-                    <Img src="./icon/home.png"/>
+                    <Img src="./icon/home.png" onClick={()=> navigate("/")}/>
                     <Text>Home</Text>
 								</ClickBox1>
 								<ClickBox>
