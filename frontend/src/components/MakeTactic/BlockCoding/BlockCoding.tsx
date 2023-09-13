@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState, MouseEvent } from "react";
-import BlocklyComponent from "../../components/Blockly";
-import "../../components/Blockly/blocks/customblocks";
-import "../../components/Blockly/generators/generator";
+import BlocklyComponent from "../../Blockly";
+import "../../Blockly/blocks/customblocks";
+import "../../Blockly/generators/generator";
 import styled from "styled-components";
 import {
     BlockCodingContainer,
@@ -39,16 +39,35 @@ const theme = createTheme({
 });
 
 
-function BlockCoding() {
+const BlockCoding = (props) => {
     const [isSearch, setSearch] = useState(true);
 
     const [title, setTitle] = useState("제목 없는 전략");
     const [keyword, setKeyword] = useState("");
     const [optionLikeList, setOptionLikeList] = useState([]);
+    const [optionCode, setOptionCode] = useState("");
     const [startAsset, setStartAsset] = useState(10000000);
     const [startDate, setStartDate] = useState(new Date());
     const [term, setTerm] = useState("min");
     const [round, setRound] = useState("50");
+    const [tacticPythonCode, setTacticPythonCode] = useState(undefined);
+    const [tacticJsonCode, setTacticJsonCode] = useState(undefined);
+    const [codeCheck, setCodeCheck] = useState(true);
+
+
+    const writeTacticPythonCode = (str) => {
+        setTacticPythonCode(str);
+        console.log("writeTacticPythonCode")
+        console.log(str)
+    }
+    const writeTacticJsonCode = (str) => {
+        setTacticJsonCode(str);
+        console.log(str)
+    }
+    const setCodeCheckTrue = () => {
+        setCodeCheck(true);
+    }
+
     const MAX_LENGTH = 50;
 
     const handleTitleField = (e: ChangeEvent<HTMLInputElement>) => {
@@ -185,23 +204,72 @@ function BlockCoding() {
     const handleOptionLikeList = async () => {
         // const res = await getOptionLikeList();
         setOptionLikeList(dummydata);
-        console.log(dummydata);
-        console.log(optionLikeList);
+        // console.log(dummydata);
+        // console.log(optionLikeList);
     };
+
+    const handleOptionCodeField = (e: ChangeEvent<HTMLInputElement>) => {
+        // if (e.target.value.length > MAX_LENGTH) {
+        //     e.target.value = e.target.value.slice(0, MAX_LENGTH);
+        // }
+        setOptionCode(e.target.value);
+    };
+
+    const onClickTestButton = () => {
+        setCodeCheck(false);
+        console.log(codeCheck)
+        // props.toggleFlag();
+    };
+
+    // 버튼 asiox 통신용 데이터 테스트
+    useEffect(() => {
+        if(tacticPythonCode!=="undefined" && tacticPythonCode!=="" && tacticJsonCode!==undefined){
+            console.log("테스트 버튼 누름 -----------------")
+            console.log(optionCode)
+            console.log(startAsset)
+            console.log(returnDate())
+            console.log(term)
+            console.log(round)
+            console.log(tacticPythonCode)
+            console.log(tacticJsonCode)
+            props.returnTitle(title)
+            props.returnOptionCode(optionCode)
+            props.returnStartDate(startDate)
+            props.returnTerm(term)
+            props.returnRound(round)
+            props.returnTacticPythonCode(tacticPythonCode)
+            props.returnTacticJsonCode(tacticJsonCode)
+            console.log("---------------------------------")
+            alert(tacticPythonCode)
+            
+            props.toggleFlag();
+        }
+    }, [codeCheck]);
 
     useEffect(() => {
         setOptionLikeList(dummydata);
     }, []);
 
-    useEffect(() => {
-        // const today = startDate;
-        // const year = today.getFullYear();
-        // const month = (today.getMonth() + 1).toString().padStart(2, '0'); 
-        // const day = today.getDate().toString().padStart(2, '0');
 
-        // const formattedDate = `${year}${month}${day}`;
-        console.log(startDate.toLocaleDateString())
-    }, [startDate]);
+    const returnDate = () =>{
+        const today = startDate;
+        const year = today.getFullYear();
+        const month = (today.getMonth() + 1).toString().padStart(2, '0');
+        const day = today.getDate().toString().padStart(2, '0');
+
+        const formattedDate = `${year}${month}${day}`;
+        return formattedDate;
+    }
+
+    // useEffect(() => {
+    //     const today = startDate;
+    //     const year = today.getFullYear();
+    //     const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    //     const day = today.getDate().toString().padStart(2, '0');
+
+    //     const formattedDate = `${year}${month}${day}`;
+    //     // console.log(formattedDate)
+    // }, [startDate]);
 
     return (
         <BlockCodingContainer>
@@ -214,13 +282,13 @@ function BlockCoding() {
                 />
                 <IsSearchDiv>
                     {/* 이름 */}
-                    <SearchType onClick={setSearchTrue}  $isChecked={isSearch}>
+                    <SearchType onClick={setSearchTrue} $isChecked={isSearch}>
                         검색
-                    <SearchTypeUnderLine $isChecked={isSearch}></SearchTypeUnderLine>
+                        <SearchTypeUnderLine $isChecked={isSearch}></SearchTypeUnderLine>
                     </SearchType>
                     <SearchType onClick={setSearchFasle} $isChecked={!isSearch}>
                         관심종목
-                    <SearchTypeUnderLine $isChecked={!isSearch}></SearchTypeUnderLine>
+                        <SearchTypeUnderLine $isChecked={!isSearch}></SearchTypeUnderLine>
                     </SearchType>
                     {/* 검색 */}
                     <SearchInput type="text" value={keyword} onChange={handleKeywordField} />
@@ -267,6 +335,10 @@ function BlockCoding() {
                             drag: true,
                             wheel: true,
                         }}
+                        writeTacticPythonCode={(str)=>{writeTacticPythonCode(str)}}
+                        writeTacticJsonCode={(str)=>{writeTacticJsonCode(str)}}
+                        codeCheck={codeCheck}
+                        setCodeCheckTrue={setCodeCheckTrue}
                     ></BlocklyComponent>
                 </Test>
 
@@ -316,7 +388,12 @@ function BlockCoding() {
                 </InputDetailDiv>
                 <InputOptionDiv>
                     <span>
-                        종목을<button>카카오</button>으로<button>테스트하기</button>
+                        종목을<Input
+                            type="text"
+                            value={optionCode}
+                            onChange={handleOptionCodeField}
+                        />
+                        으로<button onClick={onClickTestButton}>테스트하기</button>
                     </span>
                 </InputOptionDiv>
             </BlockCodingDiv>
