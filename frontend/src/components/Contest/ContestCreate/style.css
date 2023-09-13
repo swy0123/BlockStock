@@ -1,0 +1,41 @@
+.custom-datepicker {
+  width: 190.25px;
+  height: 46.07px;
+  font-size: 16px;
+  font-weight: bold;
+  background: #FFFFFF;
+  border: 2px solid rgba(160, 155, 163, 0.59);
+  border-radius: 6px;
+  margin: 10px 0px 0px 0px;
+  text-align: center;
+}
+
+.btns{
+  border: 2px solid rgba(160, 155, 163, 0.59);
+  border-radius: 6px;
+}
+
+.btn{
+  width: 70px;
+  height: 46.07px;
+  border: none;
+  border-right: 2px solid rgba(160, 155, 163, 0.59);
+  background-color: white;
+  transition: background-color 0.2s; 
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600px;
+}
+
+.btn.active {
+  background-color: #ACACAC; 
+  color: white;
+}
+
+.btn:last-child {
+  border-right: none;
+}
+
+.btn:hover{
+  background-color: #ACACAC;
+}
