@@ -1,10 +1,10 @@
-import React, {useState} from "react";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import KeyboardControlKeyIcon from '@mui/icons-material/KeyboardControlKey';
-import { useRecoilValue } from 'recoil';
-import { completedContestListState } from '../../../../recoil/Contest/CompletedContest';
-import {  searchKeywordState } from '../../../../recoil/Contest/CurrentContest';
-
+import React, { useState } from "react";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import KeyboardControlKeyIcon from "@mui/icons-material/KeyboardControlKey";
+import { useRecoilValue } from "recoil";
+import { completedContestListState } from "../../../../recoil/Contest/CompletedContest";
+import { searchKeywordState } from "../../../../recoil/Contest/CurrentContest";
+import CompletedContestModal from "./CompletedContestModal";
 import {
   Container,
   Wrapper,
@@ -17,13 +17,13 @@ import {
   Stock,
   Term,
   Button,
-} from './CompletedContestContent.style'
-function CompletedContestContent(){
+} from "./CompletedContestContent.style";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
 
+function CompletedContestContent() {
   const contestResultList = useRecoilValue(completedContestListState);
-
-  const searchKeyword  = useRecoilValue(searchKeywordState);
-
+  const searchKeyword = useRecoilValue(searchKeywordState);
   const filteredContestList = contestResultList.filter((contest) =>
     contest.title.includes(searchKeyword)
   );
@@ -44,48 +44,86 @@ function CompletedContestContent(){
       </div>
     );
   };
+  
+  const [showContent, setShowContent] = useState(
+    Array(filteredContestList.length).fill(false)
+  );
 
+  const [selectedContest, setSelectedContest] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [showContent, setShowContent] = useState(Array(filteredContestList.length).fill(false));
   const toggleContent = (index) => {
     const updatedShowContent = [...showContent];
     updatedShowContent[index] = !updatedShowContent[index];
     setShowContent(updatedShowContent);
+
+    if (updatedShowContent[index]) {
+      setSelectedContest(filteredContestList[index]);
+    } else {
+      setSelectedContest(null);
+    }
   };
 
-  return(
-    <Container>
+  const openModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
 
-      <Wrapper>
-        {filteredContestList.map((contest, index) => (
-          <div key={contest.id} style={{margin:'0px 0px 30px 0px'}}>
-            <Line hide={index === 0} />
-            <ContestBox onClick={() => toggleContent(index)}>
-              <div>
-                <Title> [경진대회] {contest.title}</Title>
-                <Schedule>대회 기간: {contest.startAt} ~ {contest.endAt}</Schedule>
-              </div>
-              {showContent[index] ? (
-                <KeyboardControlKeyIcon style={{ fontSize: '50px', marginLeft: 'auto', marginRight: '50px' }} />
-              ) : (
-                <ExpandMoreIcon style={{ fontSize: '50px', marginLeft: 'auto', marginRight: '50px' }} />
-              )}
-            </ContestBox>
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
-            <ContentBox style={{ display: showContent[index] ? 'block' : 'none' }}>
-              <Stock>현재 인원: {contest.joinPeople} / {contest.maxCapacity}</Stock>
-              <StartAsset>필요 티켓: {contest.ticket} 개</StartAsset>
-              <Term>전략 실행 주기 : {contest.term}</Term>
-              <div>내용</div>
-              <Content>{contest.content}</Content>
-                <Button>결과보기</Button>
-            </ContentBox>
-          </div>
-        ))}
-      </Wrapper>
+  return (
+    <>
+      <Container>
+        <Wrapper>
+          {filteredContestList.map((contest, index) => (
+            <div key={contest.id} style={{ margin: "0px 0px 30px 0px" }}>
+              <Line hide={index === 0} />
+              <ContestBox onClick={() => toggleContent(index)}>
+                <div>
+                  <Title> [경진대회] {contest.title}</Title>
+                  <Schedule>
+                    대회 기간: {contest.startAt} ~ {contest.endAt}
+                  </Schedule>
+                </div>
+                {showContent[index] ? (
+                  <KeyboardControlKeyIcon
+                    style={{
+                      fontSize: "50px",
+                      marginLeft: "auto",
+                      marginRight: "50px",
+                    }}
+                  />
+                ) : (
+                  <ExpandMoreIcon
+                    style={{
+                      fontSize: "50px",
+                      marginLeft: "auto",
+                      marginRight: "50px",
+                    }}
+                  />
+                )}
+              </ContestBox>
 
-    </Container>
-  )
+              <ContentBox
+                style={{ display: showContent[index] ? "block" : "none" }}
+              >
+                <Stock>현재 인원: {contest.joinPeople} / {contest.maxCapacity}</Stock>
+                <StartAsset>필요 티켓: {contest.ticket} 개</StartAsset>
+                <Term>전략 실행 주기 : {contest.term}</Term>
+                <div>내용</div>
+                <Content>{contest.content}</Content>
+                <Button onClick={openModal}>결과보기</Button>
+              </ContentBox>
+            </div>
+          ))}
+          {isModalOpen ? <CompletedContestModal selectedContest={selectedContest} onClose={closeModal}/> : null}
+        </Wrapper>
+      </Container>
+
+
+    </>
+  );
 }
 
-export default CompletedContestContent
+export default CompletedContestContent;
