@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import styled from "styled-components";
 
 import { useRecoilState } from 'recoil';
-import { searchKeywordState } from '../../../recoil/CurrentContest';
+import { searchKeywordState } from '../../../recoil/Contest/CurrentContest';
 
 const StoreSearch = styled.input`
     width: 192px;

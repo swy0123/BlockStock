@@ -1,6 +1,6 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import ContestStoreSearch from "./ContestStoreSearch";
-
+import { useNavigate } from "react-router-dom";
 import {
   CurrentContestBtn,
   ExpectedContestBtn,
@@ -9,35 +9,44 @@ import {
 } from './ContestStoreBtn.style'
 
 function ContestStoreBtn(){
-  const [selectedButton, setSelectedButton] = useState("진행중"); // 초기 선택값 설정
+  const navigate = useNavigate();
+  const [selectedButton, setSelectedButton] = useState("/currentcontest"); // 초기 선택값 설정
 
-  const handleButtonClick = (buttonName) => {
-    setSelectedButton(buttonName); 
+  useEffect(()=>{
+   
+  },[selectedButton])
+
+  const handleButtonClick=(e)=>{
+    setSelectedButton(e)
+    navigate(e)
   };
 
   return(
     <div style={{display:'flex', justifyContent: 'space-between',alignItems: 'center'}}>
       <StoreBox>
         <CurrentContestBtn
-          onClick={() => handleButtonClick("진행중")}
+          onClick={() => handleButtonClick("/currentcontest")}
+          // data-isselected={selectedButton === "/currentcontest"}
           style={{
-            backgroundColor: selectedButton === "진행중" ? "#E2CCED" : "initial", 
-            color: selectedButton === "진행중" ? "white" : "initial", 
+            backgroundColor: selectedButton === "/currentcontest" ? "#E2CCED" : "initial", 
+            color: selectedButton === "/currentcontest" ? "white" : "initial", 
           }}
         >
           진행중
         </CurrentContestBtn>
         <ExpectedContestBtn
-          onClick={() => handleButtonClick("예정")}
+          onClick={() => handleButtonClick("/expectedContest")}
+          // data-isselected={selectedButton === "/expectedContest"}
           style={{
-            backgroundColor: selectedButton === "예정" ? "#E2CCED" : "initial",
-            color: selectedButton === "예정" ? "white" : "initial",
+            backgroundColor: selectedButton === "/expectedContest" ? "#E2CCED" : "initial",
+            color: selectedButton === "/expectedContest" ? "white" : "initial",
           }}
         >
           예정
         </ExpectedContestBtn>
         <PastContestBtn
           onClick={() => handleButtonClick("완료")}
+          // data-isselected={selectedButton === "완료"}
           style={{
             backgroundColor: selectedButton === "완료" ? "#E2CCED" : "initial",
             color: selectedButton === "완료" ? "white" : "initial",
