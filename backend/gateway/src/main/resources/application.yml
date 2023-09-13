@@ -1,21 +1,51 @@
 server:
-  port: 8000
-
+  port: 8443
+  ssl:
+    enabled: true
+    key-store-type: pkcs12
+    key-store: keystore.p12
+    key-store-password: 1234
 eureka:
   client:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: https://j9b210.p.ssafy.io:8761/eureka
+
+jwt:
+  password:
+    encoder:
+      secret: FZK2DZ82odqS13e8aENggaMbb_fAkl-nJL4AEVBX43g
+      iteration: 64
+      keyLength: 256
+  secret: b5f59337a612a2a7dc07328f3e7d1a04722967c7f06df20a499a7d3f91ff2a7e
+  expiration: 36000
 
 spring:
   application:
     name: gateway-service
+  main:
+    allow-bean-definition-overriding: true
+  neo4j:
+    authentication:
+      username: ${NEO4J_USERNAME}
+      password: ${NEO4J_PASSWORD}
+    uri: ${NEO4J_URI}
+  cache:
+    type: redis
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+    password: ${REDIS_PASSWORD}
 
   cloud:
     gateway:
       routes:
         - id: member-service
-          uri: http://localhost:64412
+          uri: https://j9b210.p.ssafy.io:64412
           predicates:
-            - Path=/member/**
+            - Path=/api/member/**
+        - id: board-service
+          uri: https://j9b210.p.ssafy.io:64413
+          predicates:
+            - Path=/api/board/**

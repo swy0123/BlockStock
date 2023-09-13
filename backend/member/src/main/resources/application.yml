@@ -1,13 +1,22 @@
 server:
   port: 64412
-
+  ssl:
+    enabled: true
+    key-store-type: pkcs12
+    key-store: keystore.p12
+    key-store-password: 1234
 spring:
   application:
     name: member-service
+  neo4j:
+    authentication:
+      username: ${NEO4J_USERNAME}
+      password: ${NEO4J_PASSWORD}
+    uri: ${NEO4J_URI}
 
 eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://127.0.0.1:8761/eureka
+      defaultZone: https://j9b210.p.ssafy.io:8761/eureka
