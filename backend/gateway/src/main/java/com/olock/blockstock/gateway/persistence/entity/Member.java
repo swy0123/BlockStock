@@ -20,7 +20,8 @@ public class Member {
     private String password;
     private String nickname;
     private String imagePath;
-
+    private Integer ticketCount = 0;
+    private Long money = 100000000L;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

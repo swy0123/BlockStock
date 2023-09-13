@@ -1,6 +1,7 @@
 package com.olock.blockstock.member.domain.member.dto.request;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
 public class MemberJoinRequest {

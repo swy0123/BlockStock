@@ -31,8 +31,8 @@ public class MemberController {
     }
 
     @GetMapping
-    public ResponseEntity<MemberInfoResponse> detail(@RequestHeader("Member-id") Long memberId) {
-        return ResponseEntity.ok(memberService.getInfo(memberId));
+    public ResponseEntity<MemberInfoResponse> detail(/*@RequestHeader("Member-id") Long memberId*/) {
+        return ResponseEntity.ok(memberService.getInfo(0L));
     }
 
 }

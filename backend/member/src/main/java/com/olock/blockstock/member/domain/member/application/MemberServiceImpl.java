@@ -1,13 +1,46 @@
 package com.olock.blockstock.member.domain.member.application;
 
 import com.olock.blockstock.member.domain.member.dto.request.MemberJoinRequest;
+import com.olock.blockstock.member.domain.member.dto.response.MemberInfoResponse;
+import com.olock.blockstock.member.domain.member.exception.NoMemberException;
+import com.olock.blockstock.member.domain.member.persistence.MemberRepository;
+import com.olock.blockstock.member.domain.member.persistence.entity.Member;
+import com.olock.blockstock.member.domain.member.persistence.entity.Role;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
+@RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
+    private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void join(MemberJoinRequest memberJoinRequest) {
+        Member member = Member.builder()
+                .id(memberRepository.findLastIdx())
+                .email(memberJoinRequest.getEmail())
+                .password(passwordEncoder.encode(memberJoinRequest.getPassword()))
+                .nickname(memberJoinRequest.getNickname())
+                .imagePath(memberJoinRequest.getImagePath())
+                .role(Role.MEMBER.name())
+                .createdAt(LocalDateTime.now())
+                .createdAt(LocalDateTime.now())
+                .build();
 
+        memberRepository.save(member);
+        memberRepository.updateLastIdx();
+
+    }
+
+    @Override
+    public MemberInfoResponse getInfo(Long memberId) {
+        Member member = memberRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new NoMemberException("존재하지 않는 회원입니다"));
+
+        return new MemberInfoResponse(member);
     }
 }
