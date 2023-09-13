@@ -9,6 +9,7 @@ import MakeTactic from "./pages/MakeTactic/MakeTactic";
 import Login from "./pages/Account/Login";
 import SignUp from "./pages/Account/SignUp";
 import CurrentContest from "./pages/Contest/CurrentContest";
+import FindPw from "./pages/Account/FindPw";
 
 const router = createBrowserRouter([
     {
@@ -45,6 +46,11 @@ const router = createBrowserRouter([
               element: <SignUp/>,
               errorElement: <ErrorComponent/>,
             },
+            {
+                path: "/findpw",
+                element: <FindPw/>,
+                errorElement: <ErrorComponent/>,
+              },
         ],
         errorElement: <NotFound />
     }
