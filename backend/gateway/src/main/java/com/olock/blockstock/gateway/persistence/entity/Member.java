@@ -15,12 +15,14 @@ import java.time.LocalDateTime;
 public class Member {
     @Id
     @GeneratedValue
+    private Long index;
     private Long id;
     private String email;
     private String password;
     private String nickname;
     private String imagePath;
-
+    private Integer ticketCount = 0;
+    private Long money = 100000000L;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -30,6 +32,7 @@ public class Member {
         this.role = Role.MEMBER.name();
     }
 
+    @Builder
     public Member(Long id, String email, String password, String nickname, String imagePath, String role, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.email = email;
@@ -40,16 +43,4 @@ public class Member {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
-
-    @Builder
-    public Member(String email, String password, String nickname, String imagePath, String role, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.email = email;
-        this.password = password;
-        this.nickname = nickname;
-        this.imagePath = imagePath;
-        this.role = role;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
 }
-

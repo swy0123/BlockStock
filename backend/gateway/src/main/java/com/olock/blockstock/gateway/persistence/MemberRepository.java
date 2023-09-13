@@ -7,7 +7,9 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
 
 public interface MemberRepository extends ReactiveNeo4jRepository<Member, Long> {
+
     Mono<Member> findByEmail(String email);
-    Mono<Member> findById(Long id);
+    @Query("MATCH (n:Member) WHERE n.id = $id RETURN n")
+    Mono<Member> findByMemberId(Long id);
 }
 

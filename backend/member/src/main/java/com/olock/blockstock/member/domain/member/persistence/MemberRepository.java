@@ -2,10 +2,22 @@ package com.olock.blockstock.member.domain.member.persistence;
 
 import com.olock.blockstock.member.domain.member.persistence.entity.Member;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.neo4j.repository.query.Query;
+import org.springframework.data.repository.query.Param;
 
-@Repository
+import java.util.Optional;
+
 public interface MemberRepository extends Neo4jRepository<Member, Long> {
-    Member findByEmail(String email);
-    Member save(Member member);
+    Optional<Member> findByEmail(String email);
+
+    @Query("MATCH (n:Member) WHERE n.id = $id RETURN n")
+    Optional<Member> findByMemberId(@Param("id") Long id);
+
+    @Query("MATCH (idx:Idx) RETURN idx.lastIdx")
+    Long findLastIdx();
+
+    @Query("MATCH (idx:Idx) SET idx.lastIdx = idx.lastIdx + 1")
+    Long updateLastIdx();
+
+
 }

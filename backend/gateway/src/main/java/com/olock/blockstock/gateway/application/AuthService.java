@@ -29,15 +29,13 @@ public class AuthService {
                 .createdAt(LocalDateTime.now())
                 .build();
 
-        System.out.println(member.getId() + " " + member.getNickname() + " " + member.getRole() + " " + member.getCreatedAt());
-
         memberRepository.save(member).subscribe(savedMember -> {
             System.out.println("회원가입 완료");
         });
     }
 
     public Mono<Member> getMemberById(Long id) {
-        return memberRepository.findById(id);
+        return memberRepository.findByMemberId(id);
     }
 
     public Mono<Member> getMemberByEmail(String email) {
