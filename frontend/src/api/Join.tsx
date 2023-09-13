@@ -2,8 +2,7 @@
 import axios from "axios";
 import { privateApi, publicApi } from ".";
 
-const BASE_URL = "https://i9b210.p.ssafy.io:8080";
-// https://localhost/api/v1/
+const BASE_URL = 'https://j9b210.p.ssafy.io:8443/api';
 
 interface userData {
     email: string,
