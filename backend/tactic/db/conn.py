@@ -4,12 +4,7 @@ import os.path
 from sqlalchemy import *
 from sqlalchemy.orm import sessionmaker
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SECRET_FILE = os.path.join(BASE_DIR, 'secrets.json')
-secrets = json.loads(open(SECRET_FILE).read())
-DB = secrets["DB"]
-
-DB_URL = f'mysql+pymysql://{DB["user"]}:{DB["password"]}@{DB["host"]}:{DB["port"]}/{DB["db"]}'
+DB_URL = f'mysql+pymysql://{os.environ["db_user"]}:{os.environ["db_password"]}@{os.environ["db_host"]}:{os.environ["db_port"]}/{os.environ["db_schema"]}'
 class engineconn:
 
     def __init__(self):

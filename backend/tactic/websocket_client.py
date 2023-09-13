@@ -3,11 +3,6 @@ import websocket
 import requests
 import os.path
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-SECRET_FILE = os.path.join(BASE_DIR, 'secrets.json')
-secrets = json.loads(open(SECRET_FILE).read())
-API_KEY = secrets["HANKOK_API"]
-
 # 웹소켓 접속키 발급
 def get_approval(key, secret):
     url = 'https://openapivts.koreainvestment.com:29443' # 모의투자계좌
@@ -22,10 +17,9 @@ def get_approval(key, secret):
     approval_key = res.json()["approval_key"]
     return approval_key
 
-
 i_stock = "005930"
-i_appkey = API_KEY["appKey"]
-i_appsecret = API_KEY["appSecret"]
+i_appkey = os.environ["ht_app_key"]
+i_appsecret = os.environ["ht_app_secret"]
 
 i_approval_key = get_approval(i_appkey, i_appsecret)
 print("approval_key [%s]" % (i_approval_key))
