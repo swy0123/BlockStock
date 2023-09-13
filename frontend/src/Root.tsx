@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { RecoilRoot, useRecoilValue } from "recoil";
 import Header from "./components/Common/Header";
@@ -15,10 +15,19 @@ const Wrapper = styled.div`
   margin-left: 250px;
 `
 function App() {
+  const [page, setPage] = useState(1);
+
   return (
     <Container>
-      <Header />
-      <SideBar />
+      {
+        page === 5 ?
+          <></>
+          :
+          <>
+            <Header />
+            <SideBar />
+          </>
+      }
       <Wrapper>
         {/* 여기에서 페이지 끼워짐 */}
         <Outlet />
