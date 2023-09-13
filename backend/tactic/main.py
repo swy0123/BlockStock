@@ -1,11 +1,20 @@
 from fastapi import FastAPI
 from db.conn import engineconn
 from domain.contest.models.trade_info import TradeInfo
-
 from domain.tactic.routers import tactic
 from domain.contest.routers import contest
 
+import py_eureka_client.eureka_client as eureka_client
+
 app = FastAPI()
+
+your_rest_server_port = 64414
+
+@app.on_event("startup")
+async def startup_event():
+    await eureka_client.init_async(eureka_server="https://j9b210.p.ssafy.io:8761",
+                       app_name="tactic-service",
+                       instance_port=64414)
 
 engine = engineconn()
 session = engine.sessionmaker()
@@ -16,10 +25,6 @@ app.include_router(contest.router)
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
-
-# @app.get("/hello/{name}")
-# async def say_hello(name: str):
-#     return {"message": f"Hello {name}"}
 
 @app.get("/contest")
 async def root():
