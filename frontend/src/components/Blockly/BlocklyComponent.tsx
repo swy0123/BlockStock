@@ -174,11 +174,11 @@ function BlocklyComponent(props: any) {
 
   return (
     <div>
-      <button onClick={generateCode}>Convert</button>
+      {/* <button onClick={generateCode}>Convert</button>
       <button onClick={generateVar}>Generate</button>
       <button onClick={reset}>reset</button>
       <button onClick={save}>save</button>
-      <button onClick={load}>load</button>
+      <button onClick={load}>load</button> */}
       <div ref={blocklyDiv} id="blocklyDiv" />
       <div style={{ display: "none" }} ref={toolbox}>
         <Category name="Logic" categorystyle="logic_category">
