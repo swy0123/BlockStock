@@ -62,11 +62,11 @@ function SideBar(){
     return(
         <Container>
             <SideWrapper>
-                <ClickBox1>
-                    <Img src="./icon/home.png" onClick={()=> navigate("/")}/>
+                <ClickBox1 onClick={()=> navigate("/")}>
+                    <Img src="./icon/home.png"/>
                     <Text>Home</Text>
 								</ClickBox1>
-								<ClickBox>
+								<ClickBox onClick={()=> navigate("/maketactic")}>
                     <Img src="./icon/circle.png"/>
 										<Text>Tactic</Text>
                 </ClickBox>
@@ -74,7 +74,7 @@ function SideBar(){
                     <Img src="./icon/circle.png"/>
 										<Text>Contest</Text>
                 </ClickBox>
-								<ClickBox>
+								<ClickBox onClick={() => navigate("/contest")}>
 										<Menu>개요</Menu>
                 </ClickBox>
 								<ClickBox>
