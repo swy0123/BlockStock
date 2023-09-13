@@ -13,6 +13,11 @@ import {
 
 function Header(){
     const navigate = useNavigate();
+    // 헤더 및 사이드바 조건부 렌더링
+    if (window.location.pathname === '/login') return null;
+    if (window.location.pathname === '/signup') return null;
+    if (window.location.pathname === '/findpw') return null;
+
     return( 
         <Container>
             <HeaderWrapper>

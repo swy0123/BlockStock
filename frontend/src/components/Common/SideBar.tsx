@@ -59,6 +59,10 @@ const Menu = styled.div`
 
 function SideBar(){
   const navigate = useNavigate();
+  if (window.location.pathname === '/login') return null;
+  if (window.location.pathname === '/signup') return null;
+  if (window.location.pathname === '/findpw') return null;
+
     return(
         <Container>
             <SideWrapper>
