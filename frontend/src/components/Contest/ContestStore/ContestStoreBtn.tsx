@@ -43,10 +43,10 @@ function ContestStoreBtn(props){
           예정
         </ExpectedContestBtn>
         <PastContestBtn
-          onClick={() => handleButtonClick("완료")}
+          onClick={() => handleButtonClick("/completedcontest")}
           style={{
-            backgroundColor: selectedButton === "완료" ? "#E2CCED" : "initial",
-            color: selectedButton === "완료" ? "white" : "initial",
+            backgroundColor: selectedButton === "/completedcontest" ? "#E2CCED" : "initial",
+            color: selectedButton === "/completedcontest" ? "white" : "initial",
           }}
         >
           완료
