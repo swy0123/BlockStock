@@ -1,6 +1,10 @@
 from fastapi import FastAPI, APIRouter
 from domain.tactic.schemas.tactic_test_request import TacticTestRequest
 from pydantic import BaseModel
+
+from domain.tactic.schemas.tactic_test_response import TacticTestResponse
+from domain.tactic.services.tactic_service import get_past_data
+
 # from domain.tactic.services.tactic_service import buy
 
 
@@ -37,16 +41,18 @@ return_list = []
 #   buy()
 
 @app.post("/test")
+# @app.post("/test", response_model=TacticTestResponse)
 async def tactic_test(tactic_test_request: TacticTestRequest):
-    python_code = tactic_test_request.tacticPythonCode
-    # return_list = []
-    # print(python_code)
-    return_list.clear()
-    exec(python_code)
 
-    #
+
+    # 과거 데이터 받아오기
+    past_data = get_past_data(tactic_test_request)
+
+    # return_list.clear()
+    # exec(python_code)
+
     # return_list.insert(exec(python_code))
-    #
+
     return return_list
 
 
