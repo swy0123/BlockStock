@@ -110,6 +110,7 @@ function ExpectedContest(){
                   대회 기간 : {item.startAt} ~ {item.endAt}
                 </ContestPeriod>
               </ContestBox>
+              
               <hr style={{color:'#D3D3D3', marginBottom:'0px'}}/>
 
               <ContentBox style={{ display: showContent[index] ? 'block' : 'none' }}>
