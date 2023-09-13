@@ -171,11 +171,12 @@ text-align: center;
 color: #FFFFFF;
 border: none;
 margin: 0px 30px 0px 0px;
+cursor: pointer;
 &:hover {
   background-color: white; 
   border: 1px solid #9155FD;
   color: #9155FD;
-  transition: background-color 0.3s, border 0.3s, color 0.3s;
+  transition: background-color 0.5s, border 0.5s, color 0.5s;
 }
 `;
 
@@ -193,11 +194,12 @@ align-items: center;
 text-align: center;
 color: #9155FD;
 border: 1px solid #9155FD;
+cursor: pointer;
 &:hover {
   background-color: #9155FD; 
   border: none;
   color: white;
-  transition: background-color 0.3s, border 0.3s, color 0.3s;
+  transition: background-color 0.5s, border 0.5s, color 0.5s;
 }
 `;
 
