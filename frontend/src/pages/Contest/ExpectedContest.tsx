@@ -13,7 +13,7 @@ height: 800px;
 function ExpectedContest(){
   return(
     <Container>
-      <ContestStoreBtn/>
+      <ContestStoreBtn name="/expectedContest" />
       <ExpectedContestContent/>
     </Container>
   )
