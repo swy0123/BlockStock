@@ -2,7 +2,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import '../../components/Blockly/blocks/customblocks';
 import '../../components/Blockly/generators/generator';
-import CandleChart from '../../components/Chart/CandleChart';
+import CandleChart from '../../components/Chart/CandleChart_';
 import styled from 'styled-components';
 import { TacticContainer } from './MakeTactic.style';
 import BlockCoding from '../../components/MakeTactic/BlockCoding/BlockCoding';

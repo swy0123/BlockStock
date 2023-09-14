@@ -26,46 +26,14 @@ import {
   ZoomButtons,
   withDeviceRatio,
   withSize,
-  CircleMarker,
 } from "react-financial-charts";
 import { initialData } from "./data copy";
 
-// 데이터 형식형식
-// {
-//   date: "20210202",
-//   time: "1515",
-//   open: 134.8585,
-//   low: 134.6237,
-//   high: 134.9716,
-//   close: 134.6608,
-//   volume: 62892896
-// },
-
-// 차트 적용 방법 - components/Util의 componentRef를 이용해 적용할 div의 크기를
-// 구하고 이를 인자로 적용하기, 거래량 나오려면 100 이상이어야 함 아래는 예시
-// const [componentRef, size] = useComponentSize();
-// useEffect(() => {
-//   console.log(componentRef)
-// }, [componentRef]);
-// <div ref={componentRef}>
-//   {/*<div >
-//     <p>가로너비: {size.width}px</p>
-//     <p>세로너비: {size.height}px</p>
-//   </div> */}
-//   {/* 차트 */}
-//   {size.width > 0 && size.height > 0 ? (
-//     <CandleChart curwidth={size.width} curheight={size.height}></CandleChart>
-//   ) : (
-//     <></>
-//   )}
-// </div>;
-
 const CandleChart = (props) => {
-  const ScaleProvider = discontinuousTimeScaleProviderBuilder().inputDateAccessor(
-    (d) =>
-      new Date(
-        (d.date + d.time).replace(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})/, "$1-$2-$3 $4:$5:00")
-      )
+  const ScaleProvider = discontinuousTimeScaleProviderBuilder().inputDateAccessor((d) =>
+  new Date(
+    (d.date + d.time).replace(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})/, "$1-$2-$3 $4:$5:00")
+  )
   );
   const height = props.curheight - 100 > 0 ? props.curheight - 100 : 0;
   const width = props.curwidth > 0 ? props.curwidth : 0;
@@ -121,23 +89,10 @@ const CandleChart = (props) => {
     return data.close;
   };
 
-  // const volumeColor = (data) => {
-  //   console.log(data);
-  //   // console.log(initialData);
-  //   return data.close > data.open ? "rgba(38, 166, 154, 0.3)" : "rgba(239, 83, 80, 0.3)";
-  // };
   const volumeColor = (data) => {
-    let flag = false;
-    console.log(flag)
-    props.optionHistory.forEach((element) => {
-      flag = ((initialData[element.turn].date + initialData[element.turn].time) == (data.date + data.time)) ? true : false;
-      
-      console.log(flag)
-      if(flag) return data.close > data.open ? "rgba(74, 250, 232, 0.3)" : "rgba(255, 145, 94, 0.3)"
-    });
-
-      return (data.close > data.open ? "rgba(38, 166, 154, 0.3)" : "rgba(239, 83, 80, 0.3)");
+    return data.close > data.open ? "rgba(38, 166, 154, 0.3)" : "rgba(239, 83, 80, 0.3)";
   };
+
   const volumeSeries = (data) => {
     return data.volume;
   };
@@ -146,11 +101,6 @@ const CandleChart = (props) => {
     return data.close > data.open ? "#26a69a" : "#ef5350";
   };
 
-  const point: {
-    x: 202102021445,
-    y: 0,
-    datum: 3
-};
   return (
     <ChartCanvas
       height={height}
@@ -170,8 +120,7 @@ const CandleChart = (props) => {
       </Chart>
 
       <Chart id={3} height={chartHeight} yExtents={candleChartExtents}>
-        <XAxis showGridLines showTickLabel={false}/>
-        {/* <XAxis showGridLines gridLinesStrokeStyle="#e0e3eb" /> */}
+        <XAxis showGridLines showTickLabel={false} />
         <YAxis showGridLines tickFormat={pricesDisplayFormat} />
         <CandlestickSeries />
         <LineSeries yAccessor={ema26.accessor()} strokeStyle={ema26.stroke()} />
@@ -187,8 +136,6 @@ const CandleChart = (props) => {
           displayFormat={pricesDisplayFormat}
           yAccessor={yEdgeIndicator}
         />
-
-        <CircleMarker  point={point} r={44}></CircleMarker>
         <MovingAverageTooltip
           origin={[8, 24]}
           options={[
@@ -206,6 +153,7 @@ const CandleChart = (props) => {
             },
           ]}
         />
+
         <ZoomButtons />
         <OHLCTooltip origin={[8, 16]} />
       </Chart>
@@ -223,9 +171,6 @@ const CandleChart = (props) => {
 
         <MouseCoordinateX displayFormat={timeDisplayFormat} />
         <MouseCoordinateY rectWidth={margin.right} displayFormat={pricesDisplayFormat} />
-        {/* {props.optionHistory.map((item, index) => (
-          <></>
-        ))} */}
 
         <SingleValueTooltip
           yAccessor={elder.accessor()}

@@ -91,6 +91,9 @@ const BlockCoding = (props) => {
   };
   useEffect(() => {
     window.addEventListener("click", handleClickOutside, true);
+    return () => {
+      window.removeEventListener("click", handleClickOutside, true);
+    };
   });
 
   const writeTacticPythonCode = (str) => {
