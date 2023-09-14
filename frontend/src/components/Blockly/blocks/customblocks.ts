@@ -105,7 +105,6 @@ Blockly.Blocks["once_low"] = {
   },
 };
 
-
 // pandas_diff - 이름만 바뀜
 Blockly.Blocks["pandas_diff"] = {
   init: function () {
@@ -123,41 +122,161 @@ Blockly.Blocks["pandas_diff"] = {
 
 //------------------------------------------------------------
 
-Blockly.Blocks['sell'] = {
-  init: function() {
-    this.appendValueInput("NAME")
-        .setCheck("Number");
-    this.appendDummyInput()
-        .appendField("주 만큼 매도하기");
+Blockly.Blocks["sell"] = {
+  init: function () {
+    this.appendValueInput("NAME").setCheck("Number");
+    this.appendDummyInput().appendField("주 만큼 매도하기");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setColour(230);
- this.setTooltip("");
- this.setHelpUrl("");
-  }
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
 };
 
-Blockly.Blocks['buy'] = {
-  init: function() {
-    this.appendValueInput("NAME")
-        .setCheck("Number");
-    this.appendDummyInput()
-        .appendField("주 만큼 매수하기");
+Blockly.Blocks["buy"] = {
+  init: function () {
+    this.appendValueInput("NAME").setCheck("Number");
+    this.appendDummyInput().appendField("주 만큼 매수하기");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setColour(230);
- this.setTooltip("");
- this.setHelpUrl("");
-  }
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
 };
 
-Blockly.Blocks['stay'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldLabelSerializable("유지하기"), "STAY");
+Blockly.Blocks["stay"] = {
+  init: function () {
+    this.appendDummyInput().appendField(
+      new Blockly.FieldLabelSerializable("유지하기"),
+      "STAY"
+    );
     this.setPreviousStatement(true, null);
     this.setColour(230);
- this.setTooltip("");
- this.setHelpUrl("");
-  }
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
 };
+
+// ----------------------
+
+Blockly.Blocks["minmaxavg_select"] = {
+  init: function () {
+    this.appendDummyInput().appendField(
+      new Blockly.FieldDropdown([
+        ["최고", "max"],
+        ["최저", "min"],
+        ["평균", "avg"],
+        ["RSI", "rsi"],
+      ]),
+      "FIELDNAME"
+    );
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
+Blockly.Blocks["ochlv_value"] = {
+  init: function () {
+    this.appendDummyInput().appendField(
+      new Blockly.FieldDropdown([
+        ["시가", "open"],
+        ["종가", "close"],
+        ["고가", "high"],
+        ["저가", "low"],
+        ["거래량", "volume"],
+      ]),
+      "FIELDNAME"
+    );
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
+Blockly.Blocks["calculate_data"] = {
+  init: function () {
+    var validator = function (newValue) {
+      if (newValue > 100) newValue = 100;
+      return newValue;
+    };
+
+    this.appendDummyInput()
+      .appendField("최근 ")
+      .appendField(new Blockly.FieldTextInput("1", validator), "DATE")
+      .appendField("일 중 ");
+    this.appendValueInput("OCHL").setCheck(null);
+    this.appendDummyInput().appendField("의 ");
+    this.appendValueInput("HLA").setCheck(null);
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
+Blockly.Blocks["cur_data"] = {
+  init: function () {
+    this.appendValueInput("OCHL")
+      .setCheck(null)
+      .appendField(new Blockly.FieldLabelSerializable("현재 날짜의"), "OCHL");
+    this.setInputsInline(true);
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
+//현재 자산의 %
+Blockly.Blocks["cnt_per_asset"] = {
+  init: function () {
+    this.appendDummyInput().appendField("현재 자산의 ");
+    this.appendValueInput("NAME").setCheck("Number");
+    this.appendDummyInput().appendField("%");
+    this.setInputsInline(true);
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
+//현재 보유량의 %
+Blockly.Blocks["cnt_per_asset"] = {
+  init: function () {
+    this.appendDummyInput().appendField("현재 보유량의 ");
+    this.appendValueInput("NAME").setCheck("Number");
+    this.appendDummyInput().appendField("%");
+    this.setInputsInline(true);
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
+//rsi 드롭다운 지표로 추가
+// Blockly.Blocks["calculate_rsi"] = {
+//   init: function () {
+//     var validator = function (newValue) {
+//       if (newValue > 100) newValue = 100;
+//       return newValue;
+//     };
+
+//     this.appendDummyInput()
+//       .appendField("[RSI] ")
+//       .appendField(new Blockly.FieldTextInput("1", validator), "DATE")
+//       .appendField("일 ");
+//     this.appendValueInput("OCHL").setCheck(null);
+//     this.appendDummyInput().appendField("의 rsi 지표");
+//     this.setOutput(true, null);
+//     this.setColour(230);
+//     this.setTooltip("");
+//     this.setHelpUrl("");
+//   },
+// };
