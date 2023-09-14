@@ -28,6 +28,14 @@ import OptionLikeListItem from "./OptionLikeListItem";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+export interface OptionItemProps {
+  optionCode: number;
+  optionName: string;
+  todayClose: number;
+  diffRate: number;
+  isLike: boolean;
+}
+
 const TestDiv = styled.div`
   background-color: rgba(255, 0, 0, 0.3);
   padding: 1px;
@@ -48,8 +56,9 @@ const BlockCoding = (props) => {
   const [title, setTitle] = useState("");
   const [editable, setEditable] = useState(false);
   const [keyword, setKeyword] = useState("");
-  const [optionLikeList, setOptionLikeList] = useState([]);
-  const [optionCode, setOptionCode] = useState("");
+  const [optionLikeList, setOptionLikeList] = useState<OptionItemProps[]>([]);
+  const [optionCode, setOptionCode] = useState(0);
+  const [optionName, setOptionName] = useState("");
   const [startAsset, setStartAsset] = useState(10000000);
   const [startDate, setStartDate] = useState(new Date());
   const [term, setTerm] = useState("1m");
@@ -70,6 +79,8 @@ const BlockCoding = (props) => {
     }
     setTitle(e.target.value);
   };
+
+
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       setEditable(!editable);
@@ -101,7 +112,7 @@ const BlockCoding = (props) => {
     }
     setKeyword(e.target.value);
   };
-  const addComma = (price: string | null) => {
+  const addComma = (price: number | null) => {
     let returnString = price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return returnString;
   };
@@ -143,84 +154,85 @@ const BlockCoding = (props) => {
 
   const setSearchTrue = () => {
     setSearch(true);
-    handleOptionLikeList();
+    handleOptionLikeList(true);
   };
 
   const setSearchFasle = () => {
     setSearch(false);
-    handleOptionLikeList();
+    handleOptionLikeList(false);
   };
+
 
   const dummydata = [
     {
-      optioncode: 124124,
-      optionname: "삼성전자",
-      currate: 3.82,
-      cost: 777,
+      optionCode: 124124,
+      optionName: "삼성전자",
+      todayClose: 777,
+      diffRate: 3.82,
+      isLike: true,
     },
     {
-      optioncode: 122124,
-      optionname: "카카오",
-      currate: 3.82,
-      cost: 10777,
+      optionCode: 122124,
+      optionName: "카카오",
+      todayClose: 10777,
+      diffRate: 3.82,
+      isLike: false,
+    }, {
+      optionCode: 124124,
+      optionName: "삼성전자",
+      todayClose: 777,
+      diffRate: 3.82,
+      isLike: true,
     },
     {
-      optioncode: 124124,
-      optionname: "삼성전자",
-      currate: 3.82,
-      cost: 777,
+      optionCode: 122124,
+      optionName: "카카오",
+      todayClose: 10777,
+      diffRate: 3.82,
+      isLike: false,
+    }, {
+      optionCode: 124124,
+      optionName: "삼성전자",
+      todayClose: 777,
+      diffRate: 3.82,
+      isLike: true,
     },
     {
-      optioncode: 122124,
-      optionname: "카카오",
-      currate: 3.82,
-      cost: 10777,
+      optionCode: 122124,
+      optionName: "카카오",
+      todayClose: 10777,
+      diffRate: 3.82,
+      isLike: false,
+    }, {
+      optionCode: 124124,
+      optionName: "삼성전자",
+      todayClose: 777,
+      diffRate: 3.82,
+      isLike: true,
     },
     {
-      optioncode: 124124,
-      optionname: "삼성전자",
-      currate: 3.82,
-      cost: 777,
+      optionCode: 122124,
+      optionName: "카카오",
+      todayClose: 10777,
+      diffRate: 3.82,
+      isLike: false,
+    }, {
+      optionCode: 124124,
+      optionName: "삼성전자",
+      todayClose: 777,
+      diffRate: 3.82,
+      isLike: true,
     },
     {
-      optioncode: 122124,
-      optionname: "카카오",
-      currate: 3.82,
-      cost: 10777,
-    },
-    {
-      optioncode: 124124,
-      optionname: "삼성전자",
-      currate: 3.82,
-      cost: 777,
-    },
-    {
-      optioncode: 122124,
-      optionname: "카카오",
-      currate: 3.82,
-      cost: 10777,
-    },
-    {
-      optioncode: 122124,
-      optionname: "카카오",
-      currate: 3.82,
-      cost: 10777,
-    },
-    {
-      optioncode: 124124,
-      optionname: "삼성전자",
-      currate: 3.82,
-      cost: 777,
-    },
-    {
-      optioncode: 122124,
-      optionname: "카카오",
-      currate: 3.82,
-      cost: 10777,
+      optionCode: 122124,
+      optionName: "카카오",
+      todayClose: 10777,
+      diffRate: 3.82,
+      isLike: false,
     },
   ];
 
-  const handleOptionLikeList = async () => {
+  const handleOptionLikeList = async (type:boolean) => {
     // const res = await getOptionLikeList();
     setOptionLikeList(dummydata);
     // console.log(dummydata);
@@ -231,8 +243,14 @@ const BlockCoding = (props) => {
     // if (e.target.value.length > MAX_LENGTH) {
     //     e.target.value = e.target.value.slice(0, MAX_LENGTH);
     // }
-    setOptionCode(e.target.value);
+    setOptionCode(parseInt(e.target.value));
   };
+
+  const setOption = () =>{
+    setOptionCode(item.optionCode);
+    setOptionName(item.optionName)
+    console.log("setOption" + optionCode + optionName)
+  }
 
   const onClickTestButton = () => {
     setCodeCheck(false);
@@ -248,7 +266,7 @@ const BlockCoding = (props) => {
       tacticJsonCode !== undefined
     ) {
       console.log("테스트 버튼 누름 -----------------");
-      if(title==="") setTitle("제목 없는 전략")
+      if (title === "") setTitle("제목 없는 전략")
       // console.log(optionCode)
       // console.log(startAsset)
       // console.log(returnDate())
@@ -324,10 +342,11 @@ const BlockCoding = (props) => {
               <>
                 검색결과
                 {optionLikeList.map((item, index) => (
-                  <div style={{ margin: "5px" }} key={index}>
-                    <span>star </span>
-                    <OptionLikeListItem item={item}></OptionLikeListItem>
+                  <div style={{ margin: "5px" }} key={index} >
+                    {item.isLike ?<span>startrue </span>:<span>starflase </span>}
+                    <OptionLikeListItem item={item} ></OptionLikeListItem>
                     <button>select</button>
+                    {/* <button onClick={(item)=>{setOption(item)}}>select</button> */}
                   </div>
                 ))}
               </>
@@ -335,8 +354,8 @@ const BlockCoding = (props) => {
               <>
                 관심목록
                 {optionLikeList.map((item, index) => (
-                  <div style={{ margin: "5px" }}>
-                    <span>star </span>
+                  <div style={{ margin: "5px" }} key={index} >
+                    {item.isLike ?<span>startrue </span>:<span>starflase </span>}
                     <OptionLikeListItem item={item} key={index}></OptionLikeListItem>
                     <button>select</button>
                   </div>
