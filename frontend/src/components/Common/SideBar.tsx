@@ -2,14 +2,19 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 // import Swal from 'sweetalert2'
 
-const Container = styled.div`
+const Container = styled.div` 
+    width: 250px;
     position: fixed;
-    margin-top: 80px;
+    z-index: 90;
+    background-color: #F4F5FA;
+    margin-right: 200px;
+    /* margin-top: 80px; */
 `;
 const SideWrapper = styled.div`
-  padding-top: 10px;
-  width  :26vh;
-  height: 90vh;
+    padding-top: 10px;
+    height: 90vh;
+    /* padding-right: 50px; */
+    width: 200px;
 `;
 const ClickBox1 = styled.div`
 	height: 42px;
@@ -104,7 +109,7 @@ function SideBar(){
                     <Img src="./icon/user_black.png"/>
 										<Text>User</Text>
                 </ClickBox>
-								<ClickBox>
+								<ClickBox onClick={()=> navigate("/mypage")}>
 										<Menu>프로필</Menu>
                 </ClickBox>
 								<ClickBox>
