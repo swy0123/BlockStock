@@ -60,7 +60,7 @@ function BlocklyComponent(props: any) {
         this.setHelpUrl("");
       },
     };
-    pythonGenerator.forBlock[type] = function (block, generator) {
+    pythonGenerator.forBlock[type] = function (block: any, generator: any) {
       var field = block.getFieldValue(type);
       // TODO: Assemble python into code variable.
       var code = field;
@@ -234,7 +234,7 @@ function BlocklyComponent(props: any) {
 
         <Category name="Trading" colour="#FF5722">
           {/* <Block type="call_function" /> */}
-          <Block type="once_volume" >
+          {/* <Block type="once_volume" >
             <Value name="NAME">
               <Shadow type="math_number">
                 <Field name="NUM">0</Field>
@@ -268,7 +268,7 @@ function BlocklyComponent(props: any) {
                 <Field name="NUM">0</Field>
               </Shadow>
             </Value>
-          </Block>
+          </Block> */}
           <Block type="sell">
             <Value name="NAME">
               <Shadow type="math_number">
@@ -284,16 +284,51 @@ function BlocklyComponent(props: any) {
             </Value>
           </Block>
           <Block type="stay" />
+          <Block type="minmaxavg_select" />
+          <Block type="ochlv_value" />
+          <Block type="calculate_data" >
+            <Value name="OCHL">
+              <Shadow type="ochlv_value">
+                <Field name="FIELDNAME">open</Field>
+              </Shadow>
+            </Value>
+            <Value name="HLA">
+              <Shadow type="minmaxavg_select">
+                <Field name="FIELDNAME">high</Field>
+              </Shadow>
+            </Value>
+          </Block>
+          <Block type="cur_data" >
+            <Value name="OCHL">
+              <Shadow type="ochlv_value">
+                <Field name="FIELDNAME">open</Field>
+              </Shadow>
+            </Value>
+          </Block>
+          <Block type="cnt_per_asset" >
+            <Value name="NAME">
+              <Shadow type="math_number">
+                <Field name="NUM">1</Field>
+              </Shadow>
+            </Value>
+          </Block>
+          <Block type="calculate_rsi" >
+            <Value name="OCHL">
+              <Shadow type="ochlv_value">
+                <Field name="FIELDNAME">open</Field>
+              </Shadow>
+            </Value>
+          </Block>
           {/* <Block type="dict_get" /> */}
           {/* <Block type="dict_get_literal" /> */}
           {/* <Block type="dicts_create_with" /> */}
           {/* <Block type="dict_keys" /> */}
         </Category>
-        <Category name="Custom" colour="#832626">
+        {/* <Category name="Custom" colour="#832626">
           {array.map((item, index) => {
             return <Block key={index} type={item} />;
           })}
-        </Category>
+        </Category> */}
       </div>
     </div>
   );
