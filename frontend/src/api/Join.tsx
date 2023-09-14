@@ -1,4 +1,5 @@
 // 회원가입 관련 API
+
 import axios from "axios";
 import { privateApi, publicApi } from ".";
 
