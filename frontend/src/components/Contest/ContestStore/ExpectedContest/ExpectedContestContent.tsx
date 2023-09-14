@@ -5,6 +5,7 @@ import { useRecoilValue } from 'recoil';
 import { expectedContestListState } from '../../../../recoil/Contest/ExpectedContest';
 import {  searchKeywordState } from '../../../../recoil/Contest/CurrentContest';
 import ContestTaticModal from './ContestTaticModal'
+import ContestCancelModal from "./ContestCancelModal";
 import {
   Container,
   Wrapper,
@@ -22,6 +23,7 @@ function ExpectedContestContent(){
 
   const [selectedContest, setSelectedContest] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const contestResultList = useRecoilValue(expectedContestListState);
 
   const searchKeyword  = useRecoilValue(searchKeywordState);
@@ -69,6 +71,14 @@ function ExpectedContestContent(){
     setIsModalOpen(false);
   };
 
+  const OpenCandelModal = () => {
+    setIsCancelModalOpen(!isCancelModalOpen);
+  };
+
+  const CloseCandelModal = () => {
+    setIsCancelModalOpen(false);
+  };
+
   return(
     <Container>
 
@@ -95,7 +105,7 @@ function ExpectedContestContent(){
               <div>내용</div>
               <Content>{contest.content}</Content>
               {contest.isRegisted ? (
-                <Button>신청취소</Button>
+                <Button onClick={OpenCandelModal}>신청취소</Button>
               ) : (
                 <Button onClick={OpenModal}>참가하기</Button>
               )} 
@@ -103,6 +113,7 @@ function ExpectedContestContent(){
           </div>
         ))}
          {isModalOpen ? <ContestTaticModal selectedContest={selectedContest} onClose={CloseModal}/> : null}
+         {isCancelModalOpen ? <ContestCancelModal selectedContest={selectedContest} onClose={CloseCandelModal}/> : null}
       </Wrapper>
 
     </Container>
