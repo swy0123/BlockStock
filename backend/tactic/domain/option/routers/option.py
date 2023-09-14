@@ -3,7 +3,7 @@ from domain.option.services import option_service
 
 router = APIRouter()
 
-@router.get("/option")
+@router.get("/api/stock/option")
 async def option_list():
     option_service.get_options()
 

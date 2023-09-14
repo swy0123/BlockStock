@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from db.conn import engineconn
-from domain.contest.models.trade_info import TradeInfo
 from domain.tactic.routers import tactic
 from domain.contest.routers import contest
 from domain.option.routers import option
@@ -24,15 +23,6 @@ async def startup_event():
 engine = engineconn()
 session = engine.sessionmaker()
 
-
-
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
-
-@app.get("/contest")
-async def root():
-    # DB연동 테스트
-    # example = session.query(TradeInfo).all()
-    # return example
-    return {"message": "DB연동 테스트"}

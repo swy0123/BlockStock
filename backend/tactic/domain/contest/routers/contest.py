@@ -4,16 +4,8 @@ from fastapi import APIRouter
 from domain.contest.services.contest_schedule import contest_update
 
 router = APIRouter(
-    # prefix="/contest"
+    prefix="api/contest"
 )
-
-# @router.post("/contest")
-# async def enroll_contest(req: contest_create):
-#     query = contest.insert()
-#
-#     values = req
-#     await db.execute(query.values)
-#     return {**req.dict()}
 
 @router.get("/contest/real-time/{option_code}")
 async def real_time_stock(option_code: str):

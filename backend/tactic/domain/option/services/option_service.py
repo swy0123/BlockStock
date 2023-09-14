@@ -5,14 +5,10 @@ import json
 
 def get_options():
 
-    # 한국 종목 가져오기
     stocks = pd.read_html('http://kind.krx.co.kr/corpgeneral/corpList.do?method=download',header=0)[0]
 
-    # 랜덤 8개 추출하고, json으로 저장
     stocks = stocks[['종목코드', '회사명']].sample(8)
     stocks['종목코드'] = stocks['종목코드'].astype(str).str.zfill(6)
-
-    # print(stocks)
 
     token = get_token()
 
