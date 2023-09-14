@@ -5,7 +5,8 @@ import LeftHome from "../components/Home/LeftHome";
 import RightHome from "../components/Home/RightHome";
 
 const Container = styled.div`
-/* width: 100%; */
+  align-items: center;
+  margin-left: 10px;
 `;
 const MainWrapper = styled.div`
   /* width: 100vh; */

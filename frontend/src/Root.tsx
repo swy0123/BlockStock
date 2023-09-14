@@ -3,29 +3,34 @@ import {  BrowserRouter as Router, Route, Switch, Outlet, useNavigate, useLocati
 import { RecoilRoot, useRecoilValue } from "recoil";
 import Header from "./components/Common/Header";
 import SideBar from "./components/Common/SideBar";
-import Home from "./pages/Home";
 import styled from "styled-components";
-import Login from "./pages/Account/Login";
-import SignUp from "./pages/Account/SignUp";
+
 
 const Container = styled.div`
-  
+  display: flex;
+  flex-direction: column;
 `
 const Wrapper = styled.div`
-  width: 80%;
-  position: absolute;
-  margin-top: 75px;
-  margin-left: 250px;
+  display: flex;
+  margin-top: 80px;
 `
+const OutletBox =styled.div`
+  margin-left: 250px;
+  margin-top: 10px;
+`;
+
 function App() {
 
   return (
     <Container>
       <Header />
-      <SideBar />
+      {/* <SideBar /> */}
       <Wrapper>
+        <SideBar />
+        <OutletBox>
         {/* 여기에서 페이지 끼워짐 */}
-        <Outlet />
+          <Outlet />
+        </OutletBox>
       </Wrapper>
     </Container>
 

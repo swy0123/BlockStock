@@ -12,6 +12,7 @@ import CurrentContest from "./pages/Contest/CurrentContest";
 import FindPw from "./pages/Account/FindPw";
 import ExpectedContest from "./pages/Contest/ExpectedContest";
 import CompletedContest from "./pages/Contest/CompletedContest";
+import MyPage from "./pages/Member/MyPage";
 
 const router = createBrowserRouter([
     {
@@ -63,6 +64,11 @@ const router = createBrowserRouter([
                 element: <FindPw/>,
                 errorElement: <ErrorComponent/>,
               },
+            {
+                path: "/mypage",
+                element: <MyPage/>,
+                errorElement: <ErrorComponent/>,
+            },
         ],
         errorElement: <NotFound />
     }

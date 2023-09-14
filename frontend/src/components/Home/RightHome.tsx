@@ -4,13 +4,14 @@ import { motion, useAnimation } from "framer-motion";
 const Container = styled.div`
   /* width: 100%; */
   align-items: center;
-  margin-top: 100px;
+  margin-top: 50px;
 `;
 const PersonImg = styled.img`
   position: absolute;
   width: 300px;
   height: 450px;
-  left: 720px;
+  left: 930px;
+  top: 150px;
 `;
 const MenuBtn = styled.div`
   position: relative;
