@@ -1,4 +1,5 @@
 // 회원가입 관련 API
+
 import axios from "axios";
 import { privateApi, publicApi } from ".";
 
@@ -10,6 +11,11 @@ interface userData {
     nickname: string,
 }
 
+interface authMail {
+    email: string,
+    code:  string,
+}
+
 // 이메일 인증(발송) api
 export const postmail = async (email: enterEmail) => {
     console.log('email', email);
@@ -17,7 +23,14 @@ export const postmail = async (email: enterEmail) => {
         "email" : email
     }
     const response = await publicApi.post("/auth/request-email", data);
-    // const response = await axios.post("https://localhost/api/v1/auth/request-email", data);
+    console.log(response.data);
+    return response.data;
+};
+
+// 이메일 인증(확인) api
+export const checkmail = async (data: authMail) => {
+    console.log('data', data);
+    const response = await publicApi.post("/auth/confirm-email", data);
     console.log(response.data);
     return response.data;
 };
@@ -26,7 +39,6 @@ export const postmail = async (email: enterEmail) => {
 export const postJoin = async (user: userData) => {
     console.log("userData", user);
     const response = await publicApi.post("/member", user);
-    // const response = await axios.post("https://j9b210.p.ssafy.io:8443/api/member", user);
     console.log(response.data);
     return response.data;
 };

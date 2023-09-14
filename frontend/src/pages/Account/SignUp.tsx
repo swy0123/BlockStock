@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import Swal from 'sweetalert2';
 import swal from 'sweetalert';
 import {useNavigate } from "react-router";
-import { postJoin, postmail } from "../../api/Join";
+import { postJoin, postmail, checkmail } from "../../api/Join";
 
 const Container = styled.div`
   margin-left: -200px;
@@ -130,8 +130,8 @@ function SignUp() {
   const nickname: string = watch("nickname");
   const email: string = watch("email");
   const password: string = watch("password");
-  const checkemail: string = watch("checkemail")
   const checkpassword: string = watch("checkpassword");
+  const code: string = watch("code");
 
   const userData = {
     email: email,
@@ -139,6 +139,12 @@ function SignUp() {
     nickname: nickname,
   };
 
+  const authMail = {
+    email: email,
+    code:  code,
+  };
+
+  
   const handleMailSend = async () => {
     const enterEmail = email;
     try {
@@ -147,6 +153,22 @@ function SignUp() {
       console.log(response);
     } catch (error) {
       console.error("Sign-up error:", error);
+    }
+  };
+
+  const handleAuthMail = async() => {
+    console.log('코드다', code)
+    if (code) {
+      try {
+      const authResult = await checkmail(authMail);
+      console.log(authResult)
+      swal("이메일 인증이 완료되었습니다.");
+    } catch (error) {
+      console.error('인증번호 틀림', error);
+      swal('잘못된 인증번호 입니다.');
+    }}
+    else {
+      swal('인증번호를 입력해주세요')
     }
   };
 
@@ -163,9 +185,10 @@ function SignUp() {
       navigate("/login");
     } catch (error) {
       console.error("Sign-up error:", error);
-      swal("Error", "회원가입에 실패했습니다.", "error");
+      swal("Error", "회원가입에 실패 \n 중복된 이메일 입니다.", "error");
     }
   };
+
   return (
     <Container>
       <Wrapper>
@@ -205,8 +228,13 @@ function SignUp() {
           <MailBtn type="button" onClick={handleMailSend}>발송</MailBtn>
         </MailBox>
         <MailBox>
-          <MailInput placeholder="인증번호"></MailInput>
-          <MailBtn type="button">인증</MailBtn>
+          <MailInput placeholder="인증번호"
+            onChange={(e) => {
+              setValue("code", e.target.value);
+              clearErrors("code");
+            }}>
+          </MailInput>
+          <MailBtn type="button" onClick={handleAuthMail}>인증</MailBtn>
         </MailBox>
         <Input
           placeholder="Password"
