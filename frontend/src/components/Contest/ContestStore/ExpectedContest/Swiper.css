@@ -1,0 +1,37 @@
+/* swiper */
+.swiper-button-prev,
+.swiper-button-next {
+  color: #E1E1E1; /* 내비게이션 버튼의 색상 변경 */
+}
+
+/* 활성화된 이전 버튼 스타일 변경 */
+.swiper-button-prev.swiper-button-disabled {
+  color: #E1E1E1; /* 비활성화된 이전 버튼의 색상 변경 */
+}
+
+/* 활성화된 다음 버튼 스타일 변경 */
+.swiper-button-next.swiper-button-disabled {
+  color: #E1E1E1; /* 비활성화된 다음 버튼의 색상 변경 */
+}
+
+/* Pagination 모듈 스타일 */
+.swiper-pagination-bullet {
+  background-color: #E1E1E1; /* 점(도트)의 배경 색상 변경 */
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #E1E1E1; /* 활성화된 점의 배경 색상 변경 */
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.slide{
+
+}
+
+.swiper-slide-active {
+  margin: 0px 0px 0px 90px; 
+}
