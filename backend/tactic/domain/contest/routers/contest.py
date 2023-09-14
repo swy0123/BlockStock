@@ -1,13 +1,11 @@
 from fastapi import APIRouter
-# from websocket_client import get_approval, pdbind, on_message, on_error, on_close, on_open
-# import websocket
 from domain.contest.services.contest_schedule import contest_update
 
 router = APIRouter(
     prefix="api/contest"
 )
 
-@router.get("/contest/real-time/{option_code}")
+@router.get("/real-time/{option_code}")
 async def real_time_stock(option_code: str):
     # 1. 웹소켓을 사용하는 방법
     # ws = websocket.WebSocketApp("ws://ops.koreainvestment.com:31000",
