@@ -8,6 +8,7 @@ import './style.css'
 import { useRecoilValue } from "recoil";
 import { freeBoardList } from '../../../recoil/FreeBoard/FreeBoardList'
 import TablePagination from '@mui/material/TablePagination';
+import { useNavigate } from "react-router-dom";
 import {
   Container,
   Wrapper,
@@ -28,11 +29,12 @@ import {
   ItemtHit
 } from './FreeBoardListBox.style'
 function FreeBoardListBox() {
+  const navigate = useNavigate();
   const [menu, setMenu] = useState("최신순");
   const BoardList = useRecoilValue(freeBoardList);
   const [sortedList, setBoardList] = useState([]);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(8);
   const [searchKeyword, setSearchKeyword] = useState("");
 
   useEffect(() => {
@@ -112,7 +114,7 @@ function FreeBoardListBox() {
           </Box>
           <Search placeholder="  검색" onChange={handleSearchInputChange} />
           <CreateBtn>
-            <div style={{ margin: '7px 0px 0px 0px' }}>
+            <div onClick={()=>navigate('/freeboardcreate')} style={{ margin: '7px 0px 0px 0px' }}>
               글 작성
             </div>
           </CreateBtn>
