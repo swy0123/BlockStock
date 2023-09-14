@@ -168,6 +168,7 @@ Blockly.Blocks["minmaxavg_select"] = {
         ["최고", "max"],
         ["최저", "min"],
         ["평균", "avg"],
+        ["RSI", "rsi"],
       ]),
       "FIELDNAME"
     );
@@ -211,7 +212,7 @@ Blockly.Blocks["calculate_data"] = {
     this.appendValueInput("OCHL").setCheck(null);
     this.appendDummyInput().appendField("의 ");
     this.appendValueInput("HLA").setCheck(null);
-    this.setOutput(true, "String");
+    this.setOutput(true, null);
     this.setColour(230);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -224,9 +225,58 @@ Blockly.Blocks["cur_data"] = {
       .setCheck(null)
       .appendField(new Blockly.FieldLabelSerializable("현재 날짜의"), "OCHL");
     this.setInputsInline(true);
-    this.setOutput(true, "String");
+    this.setOutput(true, null);
     this.setColour(230);
     this.setTooltip("");
     this.setHelpUrl("");
   },
 };
+
+//현재 자산의 %
+Blockly.Blocks["cnt_per_asset"] = {
+  init: function () {
+    this.appendDummyInput().appendField("현재 자산의 ");
+    this.appendValueInput("NAME").setCheck("Number");
+    this.appendDummyInput().appendField("%");
+    this.setInputsInline(true);
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
+//현재 보유량의 %
+Blockly.Blocks["cnt_per_asset"] = {
+  init: function () {
+    this.appendDummyInput().appendField("현재 보유량의 ");
+    this.appendValueInput("NAME").setCheck("Number");
+    this.appendDummyInput().appendField("%");
+    this.setInputsInline(true);
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
+//rsi 드롭다운 지표로 추가
+// Blockly.Blocks["calculate_rsi"] = {
+//   init: function () {
+//     var validator = function (newValue) {
+//       if (newValue > 100) newValue = 100;
+//       return newValue;
+//     };
+
+//     this.appendDummyInput()
+//       .appendField("[RSI] ")
+//       .appendField(new Blockly.FieldTextInput("1", validator), "DATE")
+//       .appendField("일 ");
+//     this.appendValueInput("OCHL").setCheck(null);
+//     this.appendDummyInput().appendField("의 rsi 지표");
+//     this.setOutput(true, null);
+//     this.setColour(230);
+//     this.setTooltip("");
+//     this.setHelpUrl("");
+//   },
+// };
