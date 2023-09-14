@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import CandleChart from "../../Chart/CandleChart";
+import CandleChart from "../../Chart/CandleChart_";
 import useComponentSize from "../../Util/ComponentSize";
 import { HistoryChartDiv, HistorySaveButton, HistorySummary, HistorySummaryContents, TacticTitle, TradingHistoryContainer, TradingHistoryContents, TradingHistoryDiv } from "./TacticResult.style";
 import OptionHistoryItem from "./OptionHistoryItem";
@@ -137,7 +137,7 @@ const TacticResult = (props) => {
                     {/* 차트 */}
                     {
                         (size.width > 0 && size.height > 0)
-                            ? <CandleChart curwidth={size.width} curheight={size.height}></CandleChart>
+                            ? <CandleChart curwidth={size.width} curheight={size.height} optionHistory={optionHistory}></CandleChart>
                             : <></>
                     }
 
