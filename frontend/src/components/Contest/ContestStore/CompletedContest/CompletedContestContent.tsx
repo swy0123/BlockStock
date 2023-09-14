@@ -64,11 +64,11 @@ function CompletedContestContent() {
     }
   };
 
-  const openModal = () => {
+  const OpenModal = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const closeModal = () => {
+  const CloseModal = () => {
     setIsModalOpen(false);
   };
 
@@ -113,11 +113,11 @@ function CompletedContestContent() {
                 <Term>전략 실행 주기 : {contest.term}</Term>
                 <div>내용</div>
                 <Content>{contest.content}</Content>
-                <Button onClick={openModal}>결과보기</Button>
+                <Button onClick={OpenModal}>결과보기</Button>
               </ContentBox>
             </div>
           ))}
-          {isModalOpen ? <CompletedContestModal selectedContest={selectedContest} onClose={closeModal}/> : null}
+          {isModalOpen ? <CompletedContestModal selectedContest={selectedContest} onClose={CloseModal}/> : null}
         </Wrapper>
       </Container>
 
