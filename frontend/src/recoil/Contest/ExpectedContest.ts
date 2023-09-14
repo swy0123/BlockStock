@@ -65,3 +65,58 @@ export const expectedContestListState = atom({
     }
   ],
 });
+
+export const contestTatic = atom({
+  key: 'contestTatic',
+  default: [
+    {
+      tacticId: 1,
+      title: "빠르게 가는 전략",
+      optionCode: "005147",
+      imgPath: "",
+      updatedAt: "2023.09.04"
+    },
+    {
+      tacticId: 2,
+      title: "천천히 가는 전략",
+      optionCode: "006666",
+      imgPath: "",
+      updatedAt: "2023.09.04"
+    },
+    {
+      tacticId: 3,
+      title: "적당히 가는 전략",
+      optionCode: "007777",
+      imgPath: "",
+      updatedAt: "2023.09.04"
+    },
+    {
+      tacticId: 4,
+      title: "고위험 고수익 전략",
+      optionCode: "009999",
+      imgPath: "",
+      updatedAt: "2023.09.05"
+    },
+    {
+      tacticId: 5,
+      title: "안전한 투자 전략",
+      optionCode: "004321",
+      imgPath: "",
+      updatedAt: "2023.09.05"
+    },
+    {
+      tacticId: 6,
+      title: "장기 투자 전략",
+      optionCode: "002222",
+      imgPath: "",
+      updatedAt: "2023.09.06"
+    },
+    {
+      tacticId: 7,
+      title: "단기 투자 전략",
+      optionCode: "008888",
+      imgPath: "",
+      updatedAt: "2023.09.06"
+    }
+  ]
+})
