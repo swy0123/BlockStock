@@ -38,7 +38,7 @@ position: absolute;
 `;
  
 export const Title = styled.div`
-margin: 30px 0px 0px 400px;
+margin: 30px 0px 0px 330px;
 font-size: 30px;
 font-weight: 600;
 `;
@@ -78,7 +78,7 @@ margin: 10px 0px 0px 103px;
 color: #5B5B5B;
 `;
 export const Button = styled.div`
-  margin: 10px 0px 0px 473px;
+  margin: 10px 0px 0px 446px;
   width: 121px;
   height: 40px;
   background: #FFFFFF;
@@ -95,6 +95,7 @@ export const Button = styled.div`
   &:hover{
     background-color: #9155FD;
     color: white;
+    transition: background-color 0.7s ease;
   }
 `;
 
