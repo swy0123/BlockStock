@@ -13,6 +13,7 @@ import FindPw from "./pages/Account/FindPw";
 import ExpectedContest from "./pages/Contest/ExpectedContest";
 import CompletedContest from "./pages/Contest/CompletedContest";
 import FreeBoardList from "./pages/FreeBoard/FreeBoardList";
+import FreeBoardCreate from "./pages/FreeBoard/FreeBoardCreate";
 
 const router = createBrowserRouter([
     {
@@ -67,6 +68,11 @@ const router = createBrowserRouter([
             {
                 path: "/freeboard",
                 element: <FreeBoardList/>,
+                errorElement: <ErrorComponent/>,
+              },
+            {
+                path: "/freeboardcreate",
+                element: <FreeBoardCreate/>,
                 errorElement: <ErrorComponent/>,
               },
         ],
