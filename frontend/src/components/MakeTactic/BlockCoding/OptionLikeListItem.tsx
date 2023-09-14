@@ -1,4 +1,3 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
 
 //     {item.optioncode}
 //     {item.optionname}
@@ -13,10 +12,10 @@ const OptionLikeListItem = (props) => {
   return (
     <div style={{ backgroundColor: "yellow", font: "black" }}>
       <span>
-        {props.item.optioncode}
-        {props.item.optionname}
-        {props.item.currate}
-        {props.item.cost}
+        {props.item.optionCode}
+        {props.item.optionName}
+        {props.item.diffRate}
+        {props.item.todayClose}
       </span>
     </div>
   );
