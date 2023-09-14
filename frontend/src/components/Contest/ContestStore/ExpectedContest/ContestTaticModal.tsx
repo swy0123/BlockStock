@@ -49,7 +49,7 @@ function ContestTaticModal({selectedContest, onClose}){
   };
 
   const OpenModal = () => {
-    // console.log(selectedContest)
+    console.log(selectedContest)
     // console.log(selectedTacticIndex)
     setIsModalOpen(!isModalOpen);
   };
