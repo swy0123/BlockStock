@@ -6,7 +6,12 @@ const Container = styled.div`
   align-items: center;
   margin-top: 100px;
 `;
-
+const PersonImg = styled.img`
+  position: absolute;
+  width: 300px;
+  height: 450px;
+  left: 720px;
+`;
 const MenuBtn = styled.div`
   position: relative;
   display: flex;
@@ -57,6 +62,7 @@ const MenuBtn = styled.div`
 `;
 
 const Circle = styled.div`
+  margin-top: 50px;
   width: 400px;
   height: 400px;
   flex-shrink: 0;
@@ -93,7 +99,8 @@ function RightHome(){
   return(
     <Container>
       <Circle>
-      <MenuBtn transform="rotate(2.807deg)" top="25px" left="260px">
+        <PersonImg src="./icon/person.png"/>
+        <MenuBtn transform="rotate(2.807deg)" top="25px" left="260px">
           <Img src="./icon/contest.png"/>
           <Text>Contest</Text>
         </MenuBtn>
