@@ -14,8 +14,10 @@ color: #7A7A7A;
 background-color: #F4F5FA;
 border: none;
 cursor: pointer;
+border-radius: 10px;
 
 &:hover {
+  border-radius: 10px;
   background-color: white; 
   border: 1px solid #9155FD;
   color: #9155FD;
@@ -34,7 +36,9 @@ color: #7A7A7A;
 background-color: #F4F5FA;
 border: none;
 cursor: pointer;
+border-radius: 10px;
 &:hover {
+  border-radius: 10px;
   background-color: white; 
   border: 1px solid #9155FD;
   color: #9155FD;
@@ -52,8 +56,10 @@ text-align: center;
 color: #7A7A7A;
 background-color: #F4F5FA;
 border: none;
+border-radius: 10px;
 cursor: pointer;
 &:hover {
+  border-radius: 10px;
   background-color: white; 
   border: 1px solid #9155FD;
   color: #9155FD;
