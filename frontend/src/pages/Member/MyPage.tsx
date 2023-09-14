@@ -47,6 +47,7 @@ const Img = styled.img`
   margin-top: -50px;
   margin-left: 50px;
 `
+
 function MyPage(){
   return(
     <Container>
