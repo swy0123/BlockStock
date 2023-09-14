@@ -6,7 +6,9 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import './style.css'
 import { useRecoilValue } from "recoil";
+import { useRecoilState } from 'recoil';
 import { freeBoardList } from '../../../recoil/FreeBoard/FreeBoardList'
+import { postidState } from '../../../recoil/FreeBoard/Post';
 import TablePagination from '@mui/material/TablePagination';
 import { useNavigate } from "react-router-dom";
 import {
@@ -29,6 +31,7 @@ import {
   ItemtHit
 } from './FreeBoardListBox.style'
 function FreeBoardListBox() {
+  const [postid, setPostid] = useRecoilState(postidState);
   const navigate = useNavigate();
   const [menu, setMenu] = useState("최신순");
   const BoardList = useRecoilValue(freeBoardList);
@@ -130,7 +133,15 @@ function FreeBoardListBox() {
 
         <FreeBoardBox>
           {filteredItems.map((item, index) => (
-            <div key={`boardItem_${index}`} style={{ display: 'flex' }}>
+            <div 
+            key={`boardItem_${index}`} 
+            style={{ display: 'flex', cursor:'pointer' }}
+            onClick={() => {
+              setPostid(item.freeboard.id); 
+              // navigate(`/freeboarddetail/${item.freeboard.id}`);
+              navigate(`/freeboarddetail`);
+            }}
+            >
               <ItemNumber>{item.freeboard.id}</ItemNumber>
               <ItemTitle>{item.freeboard.title}</ItemTitle>
               <ItemWriter>{item.freeboard.nickname}</ItemWriter>
