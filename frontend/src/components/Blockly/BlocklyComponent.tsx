@@ -287,11 +287,6 @@ function BlocklyComponent(props: any) {
           <Block type="minmaxavg_select" />
           <Block type="ochlv_value" />
           <Block type="calculate_data" >
-            {/* <Value name="DATE">
-              <Shadow type="math_number">
-                <Field name="NUM">1</Field>
-              </Shadow>
-            </Value> */}
             <Value name="OCHL">
               <Shadow type="ochlv_value">
                 <Field name="FIELDNAME">open</Field>
@@ -304,6 +299,20 @@ function BlocklyComponent(props: any) {
             </Value>
           </Block>
           <Block type="cur_data" >
+            <Value name="OCHL">
+              <Shadow type="ochlv_value">
+                <Field name="FIELDNAME">open</Field>
+              </Shadow>
+            </Value>
+          </Block>
+          <Block type="cnt_per_asset" >
+            <Value name="NAME">
+              <Shadow type="math_number">
+                <Field name="NUM">1</Field>
+              </Shadow>
+            </Value>
+          </Block>
+          <Block type="calculate_rsi" >
             <Value name="OCHL">
               <Shadow type="ochlv_value">
                 <Field name="FIELDNAME">open</Field>

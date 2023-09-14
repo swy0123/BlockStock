@@ -144,3 +144,33 @@ pythonGenerator.forBlock['cur_data'] = function(block, generator) {
   // TODO: Change ORDER_NONE to the correct strength.
   return [code, Order.NONE];
 };
+
+//현재 자산의 %
+pythonGenerator.forBlock['cnt_per_asset'] = function(block, generator) {
+  var value_name = generator.valueToCode(block, 'NAME', Order.NONE).toString();
+  // TODO: Assemble python into code variable.
+  var code = 'asset('+value_name+'%)';
+  // TODO: Change ORDER_NONE to the correct strength.
+  // return [code, Order.NONE];
+  return [code, Order.NONE];
+};
+
+//현재 보유량의 %
+pythonGenerator.forBlock['cnt_per_reserves'] = function(block, generator) {
+  var value_name = generator.valueToCode(block, 'NAME', Order.NONE).toString();
+  // TODO: Assemble python into code variable.
+  var code = 'reserves('+value_name+'%)';
+  // TODO: Change ORDER_NONE to the correct strength.
+  // return [code, Order.NONE];
+  return [code, Order.NONE];
+};
+
+//rsi 드롭다운 지표로 추가
+// pythonGenerator.forBlock['calculate_rsi'] = function(block, generator) {
+//   var value_date =  block.getFieldValue('DATE');
+//   var value_ochl = generator.valueToCode(block, 'OCHL', Order.NONE).toString();
+//   // TODO: Assemble python into code variable.
+//   var code = 'rsi('+value_date+'+i, \"'+value_ochl+'\")';
+//   // TODO: Change ORDER_NONE to the correct strength.
+//   return [code, Order.NONE];
+// };
