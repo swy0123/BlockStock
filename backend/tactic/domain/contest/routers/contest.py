@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from domain.contest.services.contest_schedule import contest_update
 
 router = APIRouter(
-    prefix="api/contest"
+    prefix="/api/contest"
 )
 
 @router.get("/real-time/{option_code}")

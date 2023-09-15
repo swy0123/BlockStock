@@ -1,11 +1,13 @@
+from typing import Optional
+
 from pydantic import BaseModel
 
 
 class ChartInfo(BaseModel):
-    date: str
-    time: str
-    open: int
-    high: int
-    low: int
-    close: int
-    volume: int
+    date: Optional[str]
+    time: Optional[str]
+    open: Optional[int]
+    high: Optional[int]
+    low: Optional[int]
+    close: Optional[int]
+    volume: Optional[int]
