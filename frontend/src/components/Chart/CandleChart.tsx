@@ -27,6 +27,9 @@ import {
   withDeviceRatio,
   withSize,
   CircleMarker,
+  Label,
+  Annotate,
+  LabelAnnotation,
 } from "react-financial-charts";
 import { initialData } from "./data copy";
 
@@ -86,8 +89,19 @@ const CandleChart = (props) => {
       d.ema26 = c;
     })
     .accessor((d) => d.ema26);
-
   const elder = elderRay();
+
+  var annotationProps = {
+    fontFamily: "Glyphicons Halflings",
+    fontSize: 20,
+    fill: "#060F8F",
+    opacity: 0.8,
+    text: "\ue182",
+    y: ({ yScale }) => yScale.range()[0],
+    onClick: console.log.bind(console),
+    tooltip: d => d3.timeFormat("%B")(d.date),
+    // onMouseOver: console.log.bind(console),
+  };
 
   const calculatedData = elder(ema26(ema12(initialData)));
   const { data, xScale, xAccessor, displayXAccessor } = ScaleProvider(initialData);
@@ -121,23 +135,23 @@ const CandleChart = (props) => {
     return data.close;
   };
 
-  // const volumeColor = (data) => {
-  //   console.log(data);
-  //   // console.log(initialData);
-  //   return data.close > data.open ? "rgba(38, 166, 154, 0.3)" : "rgba(239, 83, 80, 0.3)";
-  // };
   const volumeColor = (data) => {
-    let flag = false;
-    console.log(flag)
-    props.optionHistory.forEach((element) => {
-      flag = ((initialData[element.turn].date + initialData[element.turn].time) == (data.date + data.time)) ? true : false;
-      
-      console.log(flag)
-      if(flag) return data.close > data.open ? "rgba(74, 250, 232, 0.3)" : "rgba(255, 145, 94, 0.3)"
-    });
-
-      return (data.close > data.open ? "rgba(38, 166, 154, 0.3)" : "rgba(239, 83, 80, 0.3)");
+    console.log(data);
+    // console.log(initialData);
+    return data.close > data.open ? "rgba(38, 166, 154, 0.3)" : "rgba(239, 83, 80, 0.3)";
   };
+  // const volumeColor = (data) => {
+  //   let flag = false;
+  //   console.log(flag)
+  //   props.optionHistory.forEach((element) => {
+  //     flag = ((initialData[element.turn].date + initialData[element.turn].time) == (data.date + data.time)) ? true : false;
+
+  //     console.log(flag)
+  //     if (flag) return data.close > data.open ? "rgba(74, 250, 232, 0.3)" : "rgba(255, 145, 94, 0.3)"
+  //   });
+
+  //   return (data.close > data.open ? "rgba(38, 166, 154, 0.3)" : "rgba(239, 83, 80, 0.3)");
+  // };
   const volumeSeries = (data) => {
     return data.volume;
   };
@@ -146,11 +160,27 @@ const CandleChart = (props) => {
     return data.close > data.open ? "#26a69a" : "#ef5350";
   };
 
-  const point: {
-    x: 202102021445,
-    y: 0,
-    datum: 3
-};
+  const text = "text"
+  const labelProps = {
+    text: "Hi", y: 134.5
+  };
+  // const labelProps = {
+  //   readonly datum?: any;
+  //   readonly fillStyle?: string | ((datum: any) => string);
+  //   readonly fontFamily?: string;
+  //   readonly fontSize?: number;
+  //   readonly fontWeight?: string;
+  //   readonly rotate?: number;
+  //   readonly selectCanvas?: (canvases: any) => any;
+  //   readonly text?: string | ((datum: any) => string);
+  //   readonly textAlign?: CanvasTextAlign;
+  //   readonly x: number | ((xScale: ScaleContinuousNumeric<number, number>, xAccessor: any, datum: any, plotData: any[]) => number);
+  //   readonly xAccessor?: (datum: any) => any;
+  //   readonly xScale?: ScaleContinuousNumeric<number, number>;
+  //   readonly y: number | ((yScale: ScaleContinuousNumeric<number, number>, datum: any, plotData: any[]) => number);
+  //   readonly yScale?: ScaleContinuousNumeric<number, number>;
+  // }
+
   return (
     <ChartCanvas
       height={height}
@@ -165,12 +195,13 @@ const CandleChart = (props) => {
       xExtents={xExtents}
       zoomAnchor={lastVisibleItemBasedZoomAnchor}
     >
+
       <Chart id={2} height={barChartHeight} origin={barChartOrigin} yExtents={barChartExtents}>
         <BarSeries fillStyle={volumeColor} yAccessor={volumeSeries} />
       </Chart>
 
       <Chart id={3} height={chartHeight} yExtents={candleChartExtents}>
-        <XAxis showGridLines showTickLabel={false}/>
+        <XAxis showGridLines showTickLabel={false} />
         {/* <XAxis showGridLines gridLinesStrokeStyle="#e0e3eb" /> */}
         <YAxis showGridLines tickFormat={pricesDisplayFormat} />
         <CandlestickSeries />
@@ -187,8 +218,26 @@ const CandleChart = (props) => {
           displayFormat={pricesDisplayFormat}
           yAccessor={yEdgeIndicator}
         />
+        {/* <Label
+          x={0} // 시작 위치의 X 좌표를 설정
+          y={data[0].low} // 시작 위치의 Y 좌표를 설정
+          text="시작" // 라벨 텍스트
+          fontSize={16} // 글꼴 크기
+          fillStyle="green" // 글꼴 색상
+        /> */}
+        {/* <Annotate with={LabelAnnotation}
+          when={d => d.date.getDate() > 0
+          usingProps={annotationProps} /> */}
+        {/* <Annotate with={LabelAnnotation} usingProps={labelProps} when={(d) => d.example === 1} /> */}
+        {/* <Label
+          x={(xScale, xAccessor, datum, plotData) => calculateXPosition(xScale, xAccessor, datum, plotData)}
+          y={134.66}
+          text="레이블 텍스트"
+          fontSize={16}
+          fillStyle={volumeColor}
+        /> */}
 
-        <CircleMarker  point={point} r={44}></CircleMarker>
+
         <MovingAverageTooltip
           origin={[8, 24]}
           options={[
