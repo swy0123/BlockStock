@@ -1,9 +1,13 @@
+import os
+
+import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from db.conn import engineconn
-from domain.tactic.routers import tactic
+# from domain.tactic.routers import tactic
 from domain.contest.routers import contest
 from domain.option.routers import option
+from redis_config import redis_config
 
 import py_eureka_client.eureka_client as eureka_client
 
@@ -35,3 +39,17 @@ session = engine.sessionmaker()
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
+
+@app.get("/api/redis_test")
+async def redis_test():
+    res = await redis_test()
+
+    return {"res": res}
+
+async def redis_test():
+    rd = redis_config()
+
+    return {
+        "data": rd.get("juice")
+    }
+
