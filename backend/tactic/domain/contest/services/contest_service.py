@@ -12,6 +12,7 @@ session = engine.sessionmaker()
 def create_contest(contest_create: ContestCreate):
 
     db_contest = Contest(title=contest_create.title,
+                         member_id=contest_create.member_id,
                          content=contest_create.content,
                          start_time=contest_create.start_time,
                          end_time=contest_create.end_time,

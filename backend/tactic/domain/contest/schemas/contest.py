@@ -3,6 +3,7 @@ from datetime import datetime
 
 class ContestCreate(BaseModel):
     title: str
+    member_id:int
     content: str
     start_time: datetime
     end_time: datetime
