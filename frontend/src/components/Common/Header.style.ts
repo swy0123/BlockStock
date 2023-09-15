@@ -5,6 +5,7 @@ export const Container = styled.div`
     position: fixed;
     width: 100%;
     background-color: #F4F5FA;
+    z-index: 100;
 `
 export const HeaderWrapper = styled.div`
     display: flex  ;
