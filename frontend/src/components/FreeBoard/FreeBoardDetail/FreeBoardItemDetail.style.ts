@@ -68,10 +68,6 @@ min-height: 100px;
 `;
 export const ContentBox = styled.div`
 width: 90%;
-padding: 60px;
-`;
-export const Content = styled.div`
-font-size: 20px;
 `;
 export const LikeBtnBox = styled.div`
   display: flex;
