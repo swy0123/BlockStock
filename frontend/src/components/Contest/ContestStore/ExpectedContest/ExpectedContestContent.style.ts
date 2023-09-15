@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  width: 1200px;
+  width: 1000px;
   height: 650px;
   border: 1px solid black;
   background: #FFFFFF;
@@ -30,7 +30,7 @@ export const Container = styled.div`
 `;
 
 export const Wrapper = styled.div`
-margin: 30px 0px 0px 50px;
+margin: 20px 0px 0px 0px;
 `;
 
 export const Title = styled.div`
@@ -39,7 +39,7 @@ height: 30px;
 font-weight: 600;
 font-size: 20px;
 line-height: 26px;
-margin: 0px 0px 10px 0px;
+margin: 0px 0px 10px 30px;
 `;
 
 export const Schedule = styled.div`
@@ -50,10 +50,10 @@ font-style: normal;
 font-weight: 400;
 font-size: 12px;
 line-height: 15px;
-
 display: flex;
 align-items: center;
 color: #B6ABBB;
+margin: 0px 0px 0px 30px;
 `;
 
 export const ContestBox = styled.div`
@@ -61,14 +61,14 @@ display: flex;
 `;
 
 export const ContentBox = styled.div`
-margin: 0px 0px 0px 10px;
+margin: 0px 0px 0px 30px;
 `;
 
 export const Content = styled.div`
 font-family: 'Inter';
 font-style: normal;
 font-weight: 400;
-font-size: 16px;
+font-size: 12px;
 line-height: 19px;
 display: flex;
 align-items: center;
@@ -79,19 +79,19 @@ export const StartAsset = styled.div`
 font-family: 'Inter';
 font-style: normal;
 font-weight: 400;
-font-size: 16px;
+font-size: 12px;
 line-height: 19px;
 display: flex;
 align-items: center;
 color: #B6ABBB;
-margin: 30px 0px 0px 0px;
+margin: 10px 0px 0px 0px;
 `;
 
 export const Stock = styled.div`
 font-family: 'Inter';
 font-style: normal;
 font-weight: 400;
-font-size: 16px;
+font-size: 12px;
 line-height: 19px;
 display: flex;
 align-items: center;
@@ -103,28 +103,25 @@ export const Term = styled.div`
 font-family: 'Inter';
 font-style: normal;
 font-weight: 400;
-font-size: 16px;
+font-size: 12px;
 line-height: 19px;
 display: flex;
 align-items: center;
 color: #B6ABBB;
-margin: 30px 0px 30px 0px;
+margin: 10px 0px 30px 0px;
 `;
 
 export const Button = styled.button`
-padding: 10px 20px;
+padding: 5px 10px;
 background: rgba(145, 85, 253, 0.8);
 border-radius: 6px;
-font-family: 'Inter';
-font-style: normal;
 font-weight: 500;
-font-size: 18px;
-line-height: 19px;
+font-size: 12px;
 align-items: center;
 text-align: center;
 color: #FFFFFF;
 border: none;
-margin: 50px 0px 0px 945px;
+margin: 50px 0px 0px 830px;
 &:hover{
   background-color: rgba(145, 85, 253, 2);
   transition: background-color 0.6s ease;

@@ -28,13 +28,6 @@ import {
   NotCurrentContestImage,
   ContestReturn,
  } from './CurrentContest.style'
-
- (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-46156385-1', 'cssscript.com');
-  ga('send', 'pageview');
   
 function CurrentContest(){
 
@@ -194,7 +187,7 @@ function CurrentContest(){
               className="mySwiper"
             >
               {contestResultList.map((contest) => (
-                <SwiperSlide>
+                <SwiperSlide style={{margin:'0px 0px 0px 40px'}}>
                   <div key={contest.id}>
 
                   <ContestHeader>
@@ -210,18 +203,18 @@ function CurrentContest(){
                   <CurrentContestRankBox>
 
                   <RankUser>
-                  <div className="carousel">
+                  <div className="carousel" style={{margin:'20px 0px 0px 0px'}}>
                     <div className="carousel-content">
-                      <div className="carousel-item">
+                      <div className="carousel-item" style={{width:'140px', height:'170px'}}>
                         <RankImage src={
                             // contest.ranking[0].profileImage ||
                             './icon/user_purple.png'} />
-                            <h2 style={{ margin: '5px 0px 0px 70px' , fontSize:'30px'}}>1등</h2>
+                            <h2 style={{textAlign: 'center', margin: '5px 0px 0px 0px', fontSize:'18px'}}>1등</h2>
                             <RankUserNickName>
                                 {contest.ranking[0].nickName}
                             </RankUserNickName>
-                            <div style={{textAlign: 'center', display:'flex'}}>
-                              <div style={{color:'#8A8A8A', margin:'8px 5px 0px 50px'}}>
+                            <div style={{textAlign: 'center', display:'flex',  fontSize:'12px'}}>
+                              <div style={{color:'#8A8A8A', margin:'8px 5px 0px 30px'}}>
                                 수익률 :
                               </div>
                               <ContestReturn style={{ color: contest.ranking[0].return[0] === '-' ? 'blue' : 'red' }}>
@@ -229,17 +222,17 @@ function CurrentContest(){
                               </ContestReturn>
                             </div>
                         </div>
-                      <div className="carousel-item">
+                      <div className="carousel-item" style={{width:'140px', height:'170px'}}>
                         <RankImage src={
                             // contest.ranking[1].profileImage ||
                             './icon/user_purple.png'} />
-                            <h2 style={{textAlign: 'center', margin: '5px 0px 0px 0px', fontSize:'30px'}}>2등</h2>
+                            <h2 style={{textAlign: 'center', margin: '5px 0px 0px 0px', fontSize:'18px'}}>2등</h2>
                             <RankUserNickName>
                                 {contest.ranking[1].nickName}
                             </RankUserNickName>
 
-                            <div style={{textAlign: 'center', display:'flex'}}>
-                              <div style={{color:'#8A8A8A', margin:'8px 5px 0px 50px'}}>
+                            <div style={{textAlign: 'center', display:'flex',  fontSize:'12px'}}>
+                              <div style={{color:'#8A8A8A', margin:'8px 5px 0px 30px'}}>
                                 수익률 :
                               </div>
                               <ContestReturn style={{ color: contest.ranking[1].return[0] === '-' ? 'blue' : 'red' }}>
@@ -248,16 +241,16 @@ function CurrentContest(){
                             </div>
                             
                       </div>
-                      <div className="carousel-item">
+                      <div className="carousel-item" style={{width:'140px', height:'170px'}}>
                         <RankImage src={
                             // contest.ranking[2].profileImage ||
                             './icon/user_purple.png'} />
-                            <h2 style={{ margin: '5px 0px 0px 70px', fontSize:'30px' }}>3등</h2>
+                            <h2 style={{textAlign: 'center', margin: '5px 0px 0px 0px', fontSize:'18px'}}>3등</h2>
                             <RankUserNickName>
                                 {contest.ranking[2].nickName}
                             </RankUserNickName>
-                            <div style={{textAlign: 'center', display:'flex'}}>
-                              <div style={{color:'#8A8A8A', margin:'8px 5px 0px 50px'}}>
+                            <div style={{textAlign: 'center', display:'flex',  fontSize:'12px'}}>
+                              <div style={{color:'#8A8A8A', margin:'8px 5px 0px 30px'}}>
                                 수익률 :
                               </div>
                               <ContestReturn style={{ color: contest.ranking[2].return[0] === '-' ? 'blue' : 'red' }}>
@@ -274,26 +267,26 @@ function CurrentContest(){
                   <Participant>
                     {contest.ranking.slice(3).map((participant, participantIndex) => (
                       <div key={participantIndex}>
-                        <div style={{margin:'10px 0px 10px 30px', display:'flex'}}>
-                          <div style={{width:'60px', margin:'10px 0px 5px 15px', color:'#8A8A8A', fontSize:'20px'}}>
+                        <div style={{margin:'10px 0px 10px 10px', display:'flex'}}>
+                          <div style={{width:'30px', margin:'10px 0px 5px 10px', color:'#8A8A8A', fontSize:'14px'}}>
                             {participantIndex+4}등
                           </div>
                           <NoRankImage src={
                             // participant.profileImage ||
                             './icon/user_purple.png'} />
-                          <div style={{margin:'10px 15px 0px 0px', fontSize:'18px', fontWeight:'bold'}}>
+                          <div style={{margin:'10px 15px 0px 0px', fontSize:'14px', fontWeight:'bold'}}>
                             {participant.nickName}
                           </div>
-                          <div style={{display:'flex', marginTop:'12px'}}>
-                            <div style={{color:'#8A8A8A', marginRight:'10px'}}>
-                              수익률 : 
+                          <div style={{display:'flex', marginTop:'9px'}}>
+                            <div style={{color:'#8A8A8A', marginRight:'5px'}}>
+                              수익률
                             </div>
                             <div style={{ color: participant.return[0] === '-' ? 'blue' : 'red', fontWeight:'bold', fontSize: '16px' }}>
                               {participant.return}
                             </div>
                           </div>
                         </div>
-                        <hr style={{width:'330px'}}/>
+                        <hr style={{width:'280px', margin:'0px'}}/>
                       </div>
                     ))}
                   </Participant>
