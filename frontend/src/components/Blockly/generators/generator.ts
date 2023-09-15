@@ -104,3 +104,73 @@ pythonGenerator.forBlock['stay'] = function(block, generator) {
   var code = 'stay()\n';
   return code;
 };
+
+
+pythonGenerator.forBlock['minmaxavg_select'] = function(block, generator) {
+  var field_name = block.getFieldValue('FIELDNAME');
+  // var value_name = generator.valueToCode(block, 'FIELDNAME', Order.NONE);
+  // TODO: Assemble python into code variable.
+  var code = field_name;
+  return [code, Order.NONE];
+};
+pythonGenerator.forBlock['ochlv_value'] = function(block, generator) {
+  var field_name = block.getFieldValue('FIELDNAME');
+  // var value_name = generator.valueToCode(block, 'FIELDNAME', Order.NONE);
+  // TODO: Assemble python into code variable.
+  var code = field_name;
+  return [code, Order.NONE];
+};
+
+pythonGenerator.forBlock['calculate_data'] = function(block, generator) {
+  // const MAX_LENGTH = 100;
+  // var value_date = generator.valueToCode(block, 'DATE', Order.NONE).toString();
+  var value_date =  block.getFieldValue('DATE');
+  // if (value_date > MAX_LENGTH) {
+  //   value_date = MAX_LENGTH;
+  // }
+  // value_date = value_date.toString();
+  var value_ochl = generator.valueToCode(block, 'OCHL', Order.NONE).toString();
+  var value_hla = generator.valueToCode(block, 'HLA', Order.NONE).toString();
+  // TODO: Assemble python into code variable.
+  var code = 'func('+value_date+'+i, \"'+value_ochl+'\", \"'+value_hla+'\")';
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Order.NONE];
+};
+
+pythonGenerator.forBlock['cur_data'] = function(block, generator) {
+  var value_name = generator.valueToCode(block, 'OCHL', Order.NONE).toString();
+  // TODO: Assemble python into code variable.
+  var code = 'curData(i, \"'+value_name+"\")";
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Order.NONE];
+};
+
+//현재 자산의 %
+pythonGenerator.forBlock['cnt_per_asset'] = function(block, generator) {
+  var value_name = generator.valueToCode(block, 'NAME', Order.NONE).toString();
+  // TODO: Assemble python into code variable.
+  var code = 'asset('+value_name+'%)';
+  // TODO: Change ORDER_NONE to the correct strength.
+  // return [code, Order.NONE];
+  return [code, Order.NONE];
+};
+
+//현재 보유량의 %
+pythonGenerator.forBlock['cnt_per_reserves'] = function(block, generator) {
+  var value_name = generator.valueToCode(block, 'NAME', Order.NONE).toString();
+  // TODO: Assemble python into code variable.
+  var code = 'reserves('+value_name+'%)';
+  // TODO: Change ORDER_NONE to the correct strength.
+  // return [code, Order.NONE];
+  return [code, Order.NONE];
+};
+
+//rsi 드롭다운 지표로 추가
+// pythonGenerator.forBlock['calculate_rsi'] = function(block, generator) {
+//   var value_date =  block.getFieldValue('DATE');
+//   var value_ochl = generator.valueToCode(block, 'OCHL', Order.NONE).toString();
+//   // TODO: Assemble python into code variable.
+//   var code = 'rsi('+value_date+'+i, \"'+value_ochl+'\")';
+//   // TODO: Change ORDER_NONE to the correct strength.
+//   return [code, Order.NONE];
+// };

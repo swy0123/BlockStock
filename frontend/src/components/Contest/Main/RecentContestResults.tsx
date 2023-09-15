@@ -42,7 +42,7 @@ function RecentContestResults(){
         <ContestTitle>
           최근 대회 결과
         </ContestTitle>
-        <ContestLink onClick={()=>navigate('/')}>
+        <ContestLink onClick={()=>navigate('/completedcontest')}>
           자세히 보기
         </ContestLink>
       </ContestTitleWrapper>

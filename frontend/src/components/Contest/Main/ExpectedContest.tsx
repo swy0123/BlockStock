@@ -79,7 +79,7 @@ function ExpectedContest(){
         <ContestTitle>
           다음 대회 일정
         </ContestTitle>
-        <ContestLink onClick={()=>navigate('/')}>
+        <ContestLink onClick={()=>navigate('/expectedcontest')}>
           전체 대회 일정 조회
         </ContestLink>
       </ContestTitleWrapper>
