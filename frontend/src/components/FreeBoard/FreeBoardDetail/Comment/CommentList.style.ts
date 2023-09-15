@@ -33,7 +33,7 @@ justify-content: center; /* 수평 가운데 정렬 */
 align-items: center;
 `;
 export const Comment = styled.div`
-margin: 20px 0px 50px 50px;
+margin: 20px 0px 35px 50px;
 font-size: 20px;
 `;
 
