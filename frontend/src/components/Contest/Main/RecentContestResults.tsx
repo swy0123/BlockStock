@@ -72,7 +72,7 @@ function RecentContestResults(){
               </RankContent>
 
             </RankBox>
-            <hr style={{width:'370px', color:'#D3D3D3', margin:'20px 0px 28px 0px'}}/>
+            <hr style={{width:'370px', color:'#D3D3D3', margin:'8px 0px 0px 40px'}}/>
 
           </div>
         ))}
