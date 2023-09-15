@@ -130,10 +130,10 @@ const TacticResult = (props) => {
 
                 </TradingHistoryDiv>
                 <HistoryChartDiv ref={componentRef}>
-                    <div >
+                    {/* <div >
                         <p>가로너비: {size.width}px</p>
                         <p>세로너비: {size.height}px</p>
-                    </div>
+                    </div> */}
                     {/* 차트 */}
                     {
                         (size.width > 0 && size.height > 0)

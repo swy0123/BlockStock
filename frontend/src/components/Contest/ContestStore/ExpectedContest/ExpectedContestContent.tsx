@@ -4,7 +4,8 @@ import KeyboardControlKeyIcon from '@mui/icons-material/KeyboardControlKey';
 import { useRecoilValue } from 'recoil';
 import { expectedContestListState } from '../../../../recoil/Contest/ExpectedContest';
 import {  searchKeywordState } from '../../../../recoil/Contest/CurrentContest';
-
+import ContestTaticModal from './ContestTaticModal'
+import ContestCancelModal from "./ContestCancelModal";
 import {
   Container,
   Wrapper,
@@ -20,10 +21,12 @@ import {
 } from './ExpectedContestContent.style'
 function ExpectedContestContent(){
 
+  const [selectedContest, setSelectedContest] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const contestResultList = useRecoilValue(expectedContestListState);
 
   const searchKeyword  = useRecoilValue(searchKeywordState);
-
   const filteredContestList = contestResultList.filter((contest) =>
     contest.title.includes(searchKeyword)
   );
@@ -51,6 +54,29 @@ function ExpectedContestContent(){
     const updatedShowContent = [...showContent];
     updatedShowContent[index] = !updatedShowContent[index];
     setShowContent(updatedShowContent);
+
+    
+    if (updatedShowContent[index]) {
+      setSelectedContest(filteredContestList[index]);
+    } else {
+      setSelectedContest(null);
+    }
+  };
+
+  const OpenModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const CloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const OpenCandelModal = () => {
+    setIsCancelModalOpen(!isCancelModalOpen);
+  };
+
+  const CloseCandelModal = () => {
+    setIsCancelModalOpen(false);
   };
 
   return(
@@ -79,13 +105,15 @@ function ExpectedContestContent(){
               <div>내용</div>
               <Content>{contest.content}</Content>
               {contest.isRegisted ? (
-                <Button>신청취소</Button>
+                <Button onClick={OpenCandelModal}>신청취소</Button>
               ) : (
-                <Button>참가하기</Button>
+                <Button onClick={OpenModal}>참가하기</Button>
               )} 
             </ContentBox>
           </div>
         ))}
+         {isModalOpen ? <ContestTaticModal selectedContest={selectedContest} onClose={CloseModal}/> : null}
+         {isCancelModalOpen ? <ContestCancelModal selectedContest={selectedContest} onClose={CloseCandelModal}/> : null}
       </Wrapper>
 
     </Container>
