@@ -26,14 +26,49 @@ import {
   ZoomButtons,
   withDeviceRatio,
   withSize,
+  CircleMarker,
+  Label,
+  Annotate,
+  LabelAnnotation,
 } from "react-financial-charts";
 import { initialData } from "./data copy";
 
+// 데이터 형식형식
+// {
+//   date: "20210202",
+//   time: "1515",
+//   open: 134.8585,
+//   low: 134.6237,
+//   high: 134.9716,
+//   close: 134.6608,
+//   volume: 62892896
+// },
+
+// 차트 적용 방법 - components/Util의 componentRef를 이용해 적용할 div의 크기를
+// 구하고 이를 인자로 적용하기, 거래량 나오려면 100 이상이어야 함 아래는 예시
+// const [componentRef, size] = useComponentSize();
+// useEffect(() => {
+//   console.log(componentRef)
+// }, [componentRef]);
+// <div ref={componentRef}>
+//   {/*<div >
+//     <p>가로너비: {size.width}px</p>
+//     <p>세로너비: {size.height}px</p>
+//   </div> */}
+//   {/* 차트 */}
+//   {size.width > 0 && size.height > 0 ? (
+//     <CandleChart curwidth={size.width} curheight={size.height}></CandleChart>
+//   ) : (
+//     <></>
+//   )}
+// </div>;
+
 const CandleChart = (props) => {
-  const ScaleProvider = discontinuousTimeScaleProviderBuilder().inputDateAccessor((d) =>
-  new Date(
-    (d.date + d.time).replace(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})/, "$1-$2-$3 $4:$5:00")
-  )
+  const ScaleProvider = discontinuousTimeScaleProviderBuilder().inputDateAccessor(
+    (d) =>
+      new Date(
+        (d.date + d.time).replace(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})/, "$1-$2-$3 $4:$5:00")
+      )
   );
   const height = props.curheight - 100 > 0 ? props.curheight - 100 : 0;
   const width = props.curwidth > 0 ? props.curwidth : 0;
@@ -54,9 +89,30 @@ const CandleChart = (props) => {
       d.ema26 = c;
     })
     .accessor((d) => d.ema26);
-
   const elder = elderRay();
 
+  // var annotationProps = {
+  //   fontFamily: "Glyphicons Halflings",
+  //   fontSize: 20,
+  //   fill: "#060F8F",
+  //   opacity: 0.8,
+  //   text: "\ue182",
+  //   y: ({ yScale }) => yScale.range()[0],
+  //   onClick: console.log.bind(console),
+  //   tooltip: d => d3.timeFormat("%b")(d.date),
+  //   // onMouseOver: console.log.bind(console),
+  // };
+  const annotationProps = {
+    fontFamily: "Glyphicons Halflings",
+    fontSize: 20,
+    fill: "#060F8F",
+    opacity: 0.8,
+    text: "\ue182",
+    y: ({ yScale }) => yScale.range()[0],
+    onClick: console.log.bind(console),
+    tooltip: d => timeFormat("%b")(d.date),
+    // onMouseOver: console.log.bind(console),
+  };
   const calculatedData = elder(ema26(ema12(initialData)));
   const { data, xScale, xAccessor, displayXAccessor } = ScaleProvider(initialData);
   const pricesDisplayFormat = format(".2f");
@@ -90,9 +146,22 @@ const CandleChart = (props) => {
   };
 
   const volumeColor = (data) => {
+    console.log(data);
+    // console.log(initialData);
     return data.close > data.open ? "rgba(38, 166, 154, 0.3)" : "rgba(239, 83, 80, 0.3)";
   };
+  // const volumeColor = (data) => {
+  //   let flag = false;
+  //   console.log(flag)
+  //   props.optionHistory.forEach((element) => {
+  //     flag = ((initialData[element.turn].date + initialData[element.turn].time) == (data.date + data.time)) ? true : false;
 
+  //     console.log(flag)
+  //     if (flag) return data.close > data.open ? "rgba(74, 250, 232, 0.3)" : "rgba(255, 145, 94, 0.3)"
+  //   });
+
+  //   return (data.close > data.open ? "rgba(38, 166, 154, 0.3)" : "rgba(239, 83, 80, 0.3)");
+  // };
   const volumeSeries = (data) => {
     return data.volume;
   };
@@ -100,6 +169,27 @@ const CandleChart = (props) => {
   const openCloseColor = (data) => {
     return data.close > data.open ? "#26a69a" : "#ef5350";
   };
+
+  const text = "text"
+  const labelProps = {
+    text: "Hi", y: 134.5
+  };
+  // const labelProps = {
+  //   readonly datum?: any;
+  //   readonly fillStyle?: string | ((datum: any) => string);
+  //   readonly fontFamily?: string;
+  //   readonly fontSize?: number;
+  //   readonly fontWeight?: string;
+  //   readonly rotate?: number;
+  //   readonly selectCanvas?: (canvases: any) => any;
+  //   readonly text?: string | ((datum: any) => string);
+  //   readonly textAlign?: CanvasTextAlign;
+  //   readonly x: number | ((xScale: ScaleContinuousNumeric<number, number>, xAccessor: any, datum: any, plotData: any[]) => number);
+  //   readonly xAccessor?: (datum: any) => any;
+  //   readonly xScale?: ScaleContinuousNumeric<number, number>;
+  //   readonly y: number | ((yScale: ScaleContinuousNumeric<number, number>, datum: any, plotData: any[]) => number);
+  //   readonly yScale?: ScaleContinuousNumeric<number, number>;
+  // }
 
   return (
     <ChartCanvas
@@ -115,12 +205,14 @@ const CandleChart = (props) => {
       xExtents={xExtents}
       zoomAnchor={lastVisibleItemBasedZoomAnchor}
     >
+
       <Chart id={2} height={barChartHeight} origin={barChartOrigin} yExtents={barChartExtents}>
         <BarSeries fillStyle={volumeColor} yAccessor={volumeSeries} />
       </Chart>
 
       <Chart id={3} height={chartHeight} yExtents={candleChartExtents}>
         <XAxis showGridLines showTickLabel={false} />
+        {/* <XAxis showGridLines gridLinesStrokeStyle="#e0e3eb" /> */}
         <YAxis showGridLines tickFormat={pricesDisplayFormat} />
         <CandlestickSeries />
         <LineSeries yAccessor={ema26.accessor()} strokeStyle={ema26.stroke()} />
@@ -136,6 +228,29 @@ const CandleChart = (props) => {
           displayFormat={pricesDisplayFormat}
           yAccessor={yEdgeIndicator}
         />
+        {/* <Label
+          x={10} // 시작 위치의 X 좌표를 설정
+          y={data[0].low} // 시작 위치의 Y 좌표를 설정
+          text="시작" // 라벨 텍스트
+          fontSize={16} // 글꼴 크기
+          fillStyle="green" // 글꼴 색상
+        /> */}
+        {/* <Annotate with={LabelAnnotation}
+          when={d => d.date.getDate() > 0
+          usingProps={annotationProps} /> */}
+        {/* <Annotate with={LabelAnnotation} usingProps={labelProps} when={(d) => d.example >0} />  */}
+        <Annotate with={LabelAnnotation}
+          when={d => d !== 1}
+          usingProps={annotationProps} />
+        {/* <Label
+          x={(xScale, xAccessor, datum, plotData) => calculateXPosition(xScale, xAccessor, datum, plotData)}
+          y={134.66}
+          text="레이블 텍스트"
+          fontSize={16}
+          fillStyle={volumeColor}
+        /> */}
+
+
         <MovingAverageTooltip
           origin={[8, 24]}
           options={[
@@ -153,7 +268,6 @@ const CandleChart = (props) => {
             },
           ]}
         />
-
         <ZoomButtons />
         <OHLCTooltip origin={[8, 16]} />
       </Chart>
@@ -171,6 +285,9 @@ const CandleChart = (props) => {
 
         <MouseCoordinateX displayFormat={timeDisplayFormat} />
         <MouseCoordinateY rectWidth={margin.right} displayFormat={pricesDisplayFormat} />
+        {/* {props.optionHistory.map((item, index) => (
+          <></>
+        ))} */}
 
         <SingleValueTooltip
           yAccessor={elder.accessor()}
