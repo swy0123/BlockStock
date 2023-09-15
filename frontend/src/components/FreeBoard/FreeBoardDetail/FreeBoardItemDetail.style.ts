@@ -57,18 +57,17 @@ margin: 0px 0px 0px 10px;
 display: flex;
 `;
 export const Line = styled.div`
-border: 1px solid #F4F1F1;
+border: 1px solid #D6D4D4;
 width: 100%;
 margin: 30px 0px 0px 0px;
 `;
 export const Wrapper = styled.div`
 width: 100%;
-min-height: 700px;
+min-height: 100px;
 /* border: 1px solid black; */
 `;
 export const ContentBox = styled.div`
 width: 90%;
-min-height: 500px;
 padding: 60px;
 `;
 export const Content = styled.div`
