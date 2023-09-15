@@ -102,17 +102,7 @@ const CandleChart = (props) => {
   //   tooltip: d => d3.timeFormat("%b")(d.date),
   //   // onMouseOver: console.log.bind(console),
   // };
-  const annotationProps = {
-    fontFamily: "Glyphicons Halflings",
-    fontSize: 20,
-    fill: "#060F8F",
-    opacity: 0.8,
-    text: "\ue182",
-    y: ({ yScale }) => yScale.range()[0],
-    onClick: console.log.bind(console),
-    tooltip: d => timeFormat("%b")(d.date),
-    // onMouseOver: console.log.bind(console),
-  };
+
   const calculatedData = elder(ema26(ema12(initialData)));
   const { data, xScale, xAccessor, displayXAccessor } = ScaleProvider(initialData);
   const pricesDisplayFormat = format(".2f");
@@ -146,7 +136,7 @@ const CandleChart = (props) => {
   };
 
   const volumeColor = (data) => {
-    console.log(data);
+    // console.log(data);
     // console.log(initialData);
     return data.close > data.open ? "rgba(38, 166, 154, 0.3)" : "rgba(239, 83, 80, 0.3)";
   };
@@ -174,22 +164,38 @@ const CandleChart = (props) => {
   const labelProps = {
     text: "Hi", y: 134.5
   };
-  // const labelProps = {
-  //   readonly datum?: any;
-  //   readonly fillStyle?: string | ((datum: any) => string);
-  //   readonly fontFamily?: string;
-  //   readonly fontSize?: number;
-  //   readonly fontWeight?: string;
-  //   readonly rotate?: number;
-  //   readonly selectCanvas?: (canvases: any) => any;
-  //   readonly text?: string | ((datum: any) => string);
-  //   readonly textAlign?: CanvasTextAlign;
-  //   readonly x: number | ((xScale: ScaleContinuousNumeric<number, number>, xAccessor: any, datum: any, plotData: any[]) => number);
-  //   readonly xAccessor?: (datum: any) => any;
-  //   readonly xScale?: ScaleContinuousNumeric<number, number>;
-  //   readonly y: number | ((yScale: ScaleContinuousNumeric<number, number>, datum: any, plotData: any[]) => number);
-  //   readonly yScale?: ScaleContinuousNumeric<number, number>;
-  // }
+  const annotationProps = {
+    fontFamily: "Glyphicons Halflings",
+    fontSize: 20,
+    fill: "#060F8F",
+    opacity: 0.8,
+    text: "zzz",
+    y: chartHeight,
+    onClick: console.log.bind(console),
+    // tooltip: d => timeFormat("%b")((d.date + d.time).replace(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})/, "$1-$2-$3 $4:$5:00")),
+    // onMouseOver: console.log.bind(console),
+  };
+
+  // Candle 바 위에 Annotation 배치
+  // const renderCandleAnnotations = () => {
+  //   return data.map((item) => {
+  //     const xPosition = xScale(xAccessor(item));
+  //     const yPosition = yScale(item.high); // 이 예제에서는 Candle의 high 위치에 배치
+
+  //     return (
+  //       <LabelAnnotation
+  //         key={item.date} // 고유한 키를 사용하는 것이 좋습니다.
+  //         x={xPosition}
+  //         y={yPosition - 10} // 바 위에 배치하려면 위치를 조정합니다.
+  //         text="Annotation Text"
+  //         fontFamily="Glyphicons Halflings"
+  //         fontSize={16}
+  //         fill="#060F8F"
+  //         opacity={0.8}
+  //       />
+  //     );
+  //   });
+  // };
 
   return (
     <ChartCanvas
@@ -215,6 +221,8 @@ const CandleChart = (props) => {
         {/* <XAxis showGridLines gridLinesStrokeStyle="#e0e3eb" /> */}
         <YAxis showGridLines tickFormat={pricesDisplayFormat} />
         <CandlestickSeries />
+        {/* {renderCandleAnnotations()}  Candle 바 위에 Annotation 렌더링 */}
+        {/* ... (기존 코드는 여기에 있습니다) */}
         <LineSeries yAccessor={ema26.accessor()} strokeStyle={ema26.stroke()} />
         <CurrentCoordinate yAccessor={ema26.accessor()} fillStyle={ema26.stroke()} />
         <LineSeries yAccessor={ema12.accessor()} strokeStyle={ema12.stroke()} />
@@ -241,7 +249,9 @@ const CandleChart = (props) => {
         {/* <Annotate with={LabelAnnotation} usingProps={labelProps} when={(d) => d.example >0} />  */}
         <Annotate with={LabelAnnotation}
           when={d => d !== 1}
-          usingProps={annotationProps} />
+          usingProps={annotationProps}
+
+        />
         {/* <Label
           x={(xScale, xAccessor, datum, plotData) => calculateXPosition(xScale, xAccessor, datum, plotData)}
           y={134.66}
