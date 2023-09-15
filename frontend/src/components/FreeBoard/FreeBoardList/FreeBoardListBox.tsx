@@ -135,18 +135,20 @@ function FreeBoardListBox() {
           {filteredItems.map((item, index) => (
             <div 
             key={`boardItem_${index}`} 
-            style={{ display: 'flex', cursor:'pointer' }}
+            
             onClick={() => {
               setPostid(item.freeboard.id); 
               // navigate(`/freeboarddetail/${item.freeboard.id}`);
               navigate(`/freeboarddetail`);
             }}
-            >
+            ><div style={{ display: 'flex', cursor:'pointer' }}>
               <ItemNumber>{item.freeboard.id}</ItemNumber>
               <ItemTitle>{item.freeboard.title}</ItemTitle>
               <ItemWriter>{item.freeboard.nickname}</ItemWriter>
               <ItemTime>{item.freeboard.modifiedAt}</ItemTime>
               <ItemtHit>{item.freeboard.hit}</ItemtHit>
+            </div>
+              <hr />
             </div>
           ))}
         </FreeBoardBox>
