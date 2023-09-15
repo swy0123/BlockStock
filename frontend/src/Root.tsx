@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import {  BrowserRouter as Router, Route, Switch, Outlet, useNavigate, useLocation } from "react-router-dom";
-import { RecoilRoot, useRecoilValue } from "recoil";
+// import React, { useEffect, useState } from "react";
+import {  BrowserRouter as Switch, Outlet } from "react-router-dom";
+import { RecoilRoot } from "recoil";
 import Header from "./components/Common/Header";
 import SideBar from "./components/Common/SideBar";
 import styled from "styled-components";
@@ -15,6 +15,8 @@ const Wrapper = styled.div`
   margin-top: 80px;
 `
 const OutletBox =styled.div`
+  width: 100%;
+  margin-right: 50px;
   margin-left: 250px;
   margin-top: 10px;
 `;
