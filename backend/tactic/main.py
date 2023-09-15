@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from db.conn import engineconn
 from domain.tactic.routers import tactic
 from domain.contest.routers import contest
@@ -8,7 +9,15 @@ import py_eureka_client.eureka_client as eureka_client
 
 app = FastAPI()
 
-app.include_router(tactic.app)
+origin = [
+    "*"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"]
+)
+# app.include_router(tactic.app)
 app.include_router(contest.router)
 app.include_router(option.router)
 

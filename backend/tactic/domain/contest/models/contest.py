@@ -16,4 +16,4 @@ class Contest(Base):
     term = Column(Integer, nullable=False)
     ticket = Column(Integer, nullable=False)
     option_code = Column(String(10), nullable=False)
-    created_at = Column(DateTime, nullable=False, default=datetime.now)
+    created_at = Column(DateTime, nullable=False)
