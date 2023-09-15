@@ -15,7 +15,7 @@ function Contest() {
 
   // 스타일드 컴포넌트를 함수 내부에 정의
   const ContestBox = styled.div`
-    margin: 20px 160px;
+    margin: 50px 0px 0px 60px ;
   `;
 
   const ContestContent = styled.div`
@@ -30,8 +30,9 @@ function Contest() {
           <div>
           <ExpectedContest/>
           </div>
-          <div></div>
-          <RecentContestResults />
+          <div>
+            <RecentContestResults />
+          </div>
         </ContestContent>
       </ContestBox>
       <div onClick = {toggleCreateContest}>
