@@ -80,8 +80,13 @@ display: flex;
 justify-content: center;
 align-items: center;
   margin: 0px 0px 0px 0px;
+<<<<<<< HEAD
   height: 35px;
   font-size: 13px
+=======
+  height: 50px;
+  font-size: 18px
+>>>>>>> d81bbc92c474d57e05d41fee0bf77c315e4dc86f
 `;
 export const ItemNumber = styled.div`
 width: 150px;
