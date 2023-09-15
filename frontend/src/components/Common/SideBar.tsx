@@ -86,20 +86,20 @@ function SideBar(){
 								<ClickBox onClick={() => navigate("/contest")}>
 										<Menu>개요</Menu>
                 </ClickBox>
-								<ClickBox>
+								<ClickBox onClick={()=> navigate("/currentcontest")}>
 										<Menu>진행중인 대회</Menu>
                 </ClickBox>
-								<ClickBox>
+								<ClickBox onClick={()=> navigate("/expectedcontest")}>
 										<Menu>예정 대회</Menu>
                 </ClickBox>
-								<ClickBox>
+								<ClickBox onClick={()=>navigate("/completedcontest")}>
 										<Menu>종료 대회</Menu>
                 </ClickBox>
 								<ClickBox>
                     <Img src="./icon/circle.png"/>
 										<Text>Board</Text>
                 </ClickBox>
-								<ClickBox>
+								<ClickBox onClick={()=>navigate("/freeboard")}>
 										<Menu>자유 게시판</Menu>
                 </ClickBox>
 								<ClickBox>
