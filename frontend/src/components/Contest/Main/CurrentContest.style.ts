@@ -92,7 +92,7 @@ export const NoRankImage = styled.img`
 `;
 
 export const RankUser = styled.div`
-width: 60%;
+width: 55%;
 height: 100%;
 `;
 export const RankUserNickName = styled.div`
@@ -104,7 +104,7 @@ export const RankUserNickName = styled.div`
 
 export const Participant = styled.div`
   width: 30%;
-  max-height: 270px;
+  max-height: 240px;
   overflow-y: auto;
 
   /* 스크롤바 트랙 (배경) 스타일링 */
@@ -125,7 +125,7 @@ export const Participant = styled.div`
 `;
 
 export const Line = styled.div`
-height: 270px;
+height: 240px;
 border: 1px solid #D3D3D3;
 `;
 
