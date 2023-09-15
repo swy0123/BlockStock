@@ -3,10 +3,11 @@ import { styled } from "styled-components";
 
 export const Container = styled.div`
 width: 720px;
-margin-bottom: 500px;
+margin: 0px 0px 500px 0px;
 `;
 
 export const ContestTitleWrapper = styled.div`
+min-width: 400px;
 display: flex;
 `;
 
@@ -24,7 +25,7 @@ cursor: pointer;
 
 export const Wrappe = styled.div`
 width: 720px;
-height: 400px;
+height: 268px;
 border: 2px solid #D4D4D4;
 overflow: auto;
 box-sizing: border-box;
@@ -51,6 +52,7 @@ border-radius: 10px;
 
 export const ContestHeader = styled.div`
 display:flex;
+height: 36px;
 padding: 10px 0px 0px 15px;
 `;
 
@@ -81,14 +83,14 @@ border: 1px;
 `;
 
 export const Title = styled.div`
-font-size:25px;
+font-size:20px;
 margin: 0px 0px 0px 10px;
 font-weight: 600;
 `;
 
 export const ContestPeriod = styled.div`
 margin: 3px 0px 10px 20px;
-font-size:15px;
+font-size:13px;
 color: #B6ABBB;
 `;
 
