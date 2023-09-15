@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-max-width: 1300px;
+width: 1300px;
 min-height: 1500px;
 background: #FFFFFF;
 box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
@@ -10,13 +10,12 @@ margin: 50px 0px 100px 150px;
 `;
 
 export const PostTitle = styled.div`
-font-weight: 400;
-font-size: 32px;
+font-weight: 500;
+font-size: 35px;
 align-items: flex-end;
-padding: 40px 0px 0px 60px;
+padding: 40px 0px 5px 60px;
 color: #000000;
 `;
-
 
 export const Header = styled.div`
 display: flex;
@@ -36,7 +35,7 @@ font-size: 20px;
 margin: 0px 0px 0px 10px;
 `;
 export const Box = styled.div`
-margin: 0px 0px 0px 600px;
+margin: 0px 0px 0px 490px;
 display: flex;
 `;
 export const Hit = styled.div`
