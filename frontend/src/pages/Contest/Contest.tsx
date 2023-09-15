@@ -27,7 +27,10 @@ function Contest() {
       <ContestBox>
         <CurrentContest />
         <ContestContent>
-          <ExpectedContest />
+          <div>
+          <ExpectedContest/>
+          </div>
+          <div></div>
           <RecentContestResults />
         </ContestContent>
       </ContestBox>

@@ -1,5 +1,7 @@
 import { styled } from "styled-components";
 
+export const Container = styled.div`
+`;
 export const NotCurrentContest = styled.div`
 display: flex;
 position: absolute;
@@ -30,7 +32,7 @@ export const CurrentContestTitle = styled.div`
 
 export const CurrentContestBox = styled.div`
   width: 1300px;
-  height: 400px;
+  height: 350px;
   border: 1px solid #D4D4D4;
   margin-bottom: 50px;
   border-radius: 10px;
