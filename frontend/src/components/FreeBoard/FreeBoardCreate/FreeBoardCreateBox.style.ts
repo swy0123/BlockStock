@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-width: 1400px;
+width: 1000px;
 min-height: 602px;
 background: #FFFFFF;
 box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
@@ -9,7 +9,7 @@ border-radius: 8px;
 `;
 
 export const TitleInput = styled.textarea`
-  width: 1270px;
+  width: 970px;
   height: 50px;
   resize: none;
   font-size: 25px;
@@ -21,7 +21,7 @@ export const TitleInput = styled.textarea`
 
 
 export const ContentInput = styled.textarea`
-width: 1270px;
+width: 970px;
 height: 400px;
 resize: none;
 font-size: 17px;
@@ -35,9 +35,10 @@ display: none;
 `;
 export const FileBtn = styled.label`
   display: inline-block;
-  padding: 10px 20px;
+  padding: 5px 10px;
   min-width: 50px;
   height: 25px;
+  font-size: 13px;
   background-color: #7B7B7B;
   color: #fff;
   cursor: pointer;
@@ -47,14 +48,14 @@ export const FileBtn = styled.label`
 `;
 
 export const Wrapper = styled.div`
-max-width: 1500px;
+max-width: 1000px;
 max-height: 600px;
 display: flex;
 `;
 
 export const FileList = styled.div`
 display: flex;
-max-width: 1300px;
+max-width: 900px;
 max-height: 60px;
 margin: 15px 0px 0px 30px;
 overflow-y: auto;
@@ -62,11 +63,11 @@ overflow-y: auto;
 
 export const ButtonBox = styled.div`
 display: flex;
-margin: 20px 0px 0px 1170px;
+margin: 20px 0px 0px 800px;
 `;
 export const Button1 = styled.div`
-  min-width: 100px;
-  height: 40px;
+  min-width: 80px;
+  height: 30px;
   background-color: #9155FD;
   font-weight: 400;
   font-size: 16px;
@@ -84,8 +85,8 @@ export const Button1 = styled.div`
 `;
 
 export const Button2 = styled.div`
-  min-width: 100px;
-  height: 40px;
+  min-width: 80px;
+  height: 30px;
   background-color: #9155FD;
   font-weight: 400;
   font-size: 16px;

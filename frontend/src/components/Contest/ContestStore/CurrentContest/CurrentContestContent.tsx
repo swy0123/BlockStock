@@ -23,12 +23,11 @@ const Line = ({ hide }) => {
   return (
     <div
       style={{
-        width: '1100px',
         alignItems: 'center',
-        margin: '10px 0px 0px 0px',
+        margin: '0px 0px 0px 0px',
         border: '1px solid #D3D3D3',
         display: hide ? 'none' : 'block',
-        marginBottom: '30px'
+        marginBottom: '20px'
       }}
     >
     </div>
@@ -65,19 +64,19 @@ function CurrentContestContent(){
             <ContestBox onClick={() => toggleContent(index)}>
               <div>
                 <Title> [경진대회] {contest.title}</Title>
-                <Schedule>대회 기간: {contest.startAt} ~ {contest.endAt}</Schedule>
+                <Schedule>대회 기간  {contest.startAt} ~ {contest.endAt}</Schedule>
               </div>
               {showContent[index] ? (
-                <KeyboardControlKeyIcon style={{ fontSize: '50px', marginLeft: 'auto', marginRight: '50px' }} />
+                <KeyboardControlKeyIcon style={{ fontSize: '50px', marginLeft: '450px', marginRight: '0px' }} />
               ) : (
-                <ExpandMoreIcon style={{ fontSize: '50px', marginLeft: 'auto', marginRight: '50px' }} />
+                <ExpandMoreIcon style={{ fontSize: '50px', marginLeft: '450px', marginRight: '0px' }} />
               )}
             </ContestBox>
 
             <ContentBox style={{ display: showContent[index] ? 'block' : 'none' }}>
-              <Stock>종목: {contest.code}</Stock>
-              <StartAsset>시작 자산: {contest.startAsset}</StartAsset>
-              <Term>전략 실행 주기 : {contest.term}</Term>
+              <Stock>종목 {contest.code}</Stock>
+              <StartAsset>시작 자산 {contest.startAsset}</StartAsset>
+              <Term>전략 실행 주기  {contest.term}</Term>
               <div>내용</div>
               <Content>{contest.content}</Content>
               <Button>진행 현황</Button>  
