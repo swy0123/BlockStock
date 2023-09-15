@@ -24,7 +24,7 @@ position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 5;
+  z-index: 999;
 `;
 export const Header = styled.div`
 display: flex;
@@ -38,7 +38,7 @@ position: absolute;
 `;
  
 export const Title = styled.div`
-margin: 30px 0px 0px 340px;
+margin: 40px 0px 0px 340px;
 font-size: 30px;
 font-weight: 600;
 text-align: center;
@@ -48,13 +48,13 @@ margin: 20px 0px 0px 360px;
 width: 260px;
 `;
 export const Explanation1 = styled.div`
-margin: 5px 0px 0px 300px;
-font-size: 23px;
+margin: 40px 0px 0px 350px;
+font-size: 18px;
 font-weight: 600;
 `;
 export const Explanation2 = styled.div`
-margin: 20px 0px 0px 360px;
-font-size: 23px;
+margin: 20px 0px 0px 400px;
+font-size: 18px;
 font-weight: 600;
 `;
 
@@ -63,18 +63,17 @@ display: flex;
 margin: 30px 0px 0px 330px;
 `;
 export const Button1 = styled.div`
-width: 130px;
-height: 50px;
+width: 100px;
+height: 40px;
 background: #EC4275;
 border-radius: 6px;
 font-family: 'Inter';
 font-style: normal;
 font-weight: 700;
-font-size: 20px;
-line-height: 19px;
+font-size: 18px;
 align-items: center;
 text-align: center;
-margin: 0px 100px 0px 0px;
+margin: 10px 100px 0px 30px;
 color: #FFFFFF;
 display: flex; /* Flex 컨테이너로 설정 */
   justify-content: center; /* 수평 가운데 정렬 */
@@ -86,18 +85,19 @@ display: flex; /* Flex 컨테이너로 설정 */
   }
 `;
 export const Button2 = styled.div`
-width: 130px;
-height: 50px;
+width: 100px;
+height: 40px;
 background: #097DF3;
 border-radius: 6px;
 font-family: 'Inter';
 font-style: normal;
 font-weight: 700;
-font-size: 20px;
+font-size: 18px;
 line-height: 19px;
 align-items: center;
 text-align: center;
 color: #FFFFFF;
+margin: 10px 0px 0px 0px;
 display: flex; /* Flex 컨테이너로 설정 */
   justify-content: center; /* 수평 가운데 정렬 */
   align-items: center; /* 수직 가운데 정렬 */

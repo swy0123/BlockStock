@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  width: 1400px;
-  min-height: 610px;
+  width: 1000px;
+  min-height: 410px;
   background: #FFFFFF;
   box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
@@ -12,12 +12,12 @@ export const Wrapper = styled.div`
 `;
 export const Header = styled.div`
 display: flex;
-margin: 20px 30px 0px 900px;
+margin: 20px 30px 0px 500px;
 padding: 30px;
 `;
 export const Search = styled.input`
 margin: 0px 0px 0px 30px;
-font-size: 14px;
+font-size: 12px;
 `;
 export const CreateBtn = styled.div`
 width: 117px;
@@ -37,10 +37,10 @@ color: #FFFFFF;
 
 export const FreeBoardListTitle = styled.div`
 display: flex;
-width: 1400px;
+width: 1000px;
 height: 40px;
 background: #F4F6F8;
-font-size: 18px;
+font-size: 13px;
 font-weight: 600;
 `;
 
@@ -71,7 +71,7 @@ ${commonStyles}
 `;
 export const FreeBoardBox = styled.div`
 /* border: 1px solid black; */
-width: 1400px;
+width: 1000px;
 min-height: 450px;
 `;
 
@@ -80,8 +80,8 @@ display: flex;
 justify-content: center;
 align-items: center;
   margin: 0px 0px 0px 0px;
-  height: 50px;
-  font-size: 18px
+  height: 35px;
+  font-size: 13px
 `;
 export const ItemNumber = styled.div`
 width: 150px;

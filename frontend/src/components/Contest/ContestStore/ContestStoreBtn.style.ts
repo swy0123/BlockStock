@@ -4,10 +4,10 @@ export const StoreBox = styled.div`
 `;
 
 export const CurrentContestBtn = styled.button`
-width: 120px;
-height: 42px;
+width: 70px;
+height: 30px;
 font-weight: 400;
-font-size: 24px;
+font-size: 14px;
 align-items: center;
 text-align: center;
 color: #7A7A7A;
@@ -26,10 +26,10 @@ border-radius: 10px;
 `;
 
 export const ExpectedContestBtn = styled.button`
-width: 120px;
-height: 42px;
+width: 70px;
+height: 30px;
 font-weight: 400;
-font-size: 24px;
+font-size: 14px;
 align-items: center;
 text-align: center;
 color: #7A7A7A;
@@ -37,6 +37,7 @@ background-color: #F4F5FA;
 border: none;
 cursor: pointer;
 border-radius: 10px;
+
 &:hover {
   border-radius: 10px;
   background-color: white; 
@@ -47,17 +48,18 @@ border-radius: 10px;
 `;
 
 export const PastContestBtn = styled.button`
-width: 120px;
-height: 42px;
+width: 70px;
+height: 30px;
 font-weight: 400;
-font-size: 24px;
+font-size: 14px;
 align-items: center;
 text-align: center;
 color: #7A7A7A;
 background-color: #F4F5FA;
 border: none;
-border-radius: 10px;
 cursor: pointer;
+border-radius: 10px;
+
 &:hover {
   border-radius: 10px;
   background-color: white; 

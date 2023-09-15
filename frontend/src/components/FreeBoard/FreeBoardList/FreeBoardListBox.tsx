@@ -100,7 +100,7 @@ function FreeBoardListBox() {
     <Container>
       <Wrapper>
         <Header>
-          <Box sx={{ width: '150px' }}>
+          <Box sx={{ maxWidth: '130px' }}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label"></InputLabel>
               <Select

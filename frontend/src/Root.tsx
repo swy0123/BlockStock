@@ -15,6 +15,8 @@ const Wrapper = styled.div`
   margin-top: 80px;
 `
 const OutletBox =styled.div`
+  width: 100%;
+  margin-right: 50px;
   margin-left: 250px;
   margin-top: 10px;
 `;

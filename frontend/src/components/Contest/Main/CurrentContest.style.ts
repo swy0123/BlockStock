@@ -25,14 +25,14 @@ export const NotCurrentContestImage = styled.img`
 `;
 
 export const CurrentContestTitle = styled.div`
-  font-size: 25px;
+  font-size: 20px;
   margin-bottom: 10px;
   font-weight: bold;
 `;
 
 export const CurrentContestBox = styled.div`
-  width: 1300px;
-  height: 350px;
+  width: 1000px;
+  height: 270px;
   border: 1px solid #D4D4D4;
   margin-bottom: 50px;
   border-radius: 10px;
@@ -42,15 +42,16 @@ export const CurrentContestBox = styled.div`
 
 export const ContestHeader = styled.div`
   display:flex;
+  font-size: 12px;
 `;
 
 export const ContestTitle = styled.div`
-  margin: 20px 0px 5px 30px;
+  margin: 20px 0px 5px 0px;
   font-weight: bold;
 `;
 
 export const Contestperiod = styled.div`
-  margin: 20px 0px 5px 30px;
+  margin: 20px 0px 5px 20px;
   font-weight: bold;
 `;
 
@@ -62,7 +63,8 @@ export const CurrentContestList = styled.div`
 export const CurrentContestLink = styled.div`
   display:flex;
   color: #A0A0A0;
-  margin: 10px 0px 0px 30px;
+  font-size: 12px;
+  margin: 5px 0px 0px 0px;
   div:hover {
     cursor: pointer;
   }
@@ -73,10 +75,10 @@ export const CurrentContestRankBox = styled.div`
 `;
 
 export const RankImage = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 50px;
+  height: 50px;
   border-radius: 50px;
-  margin: 30px 0px 0px 50px;
+  margin: 20px 0px 0px 46px;
 `;
 
 export const ContestReturn = styled.div`
@@ -85,26 +87,27 @@ export const ContestReturn = styled.div`
 `;
 
 export const NoRankImage = styled.img`
-  width: 45px;
-  height: 45px;
-  margin: 0px 25px 0px 0px;
+  width: 25px;
+  height: 25px;
+  margin: 7px 15px 0px 10px;
   border-radius: 50px;
 `;
 
 export const RankUser = styled.div`
-width: 55%;
+width: 50%;
 height: 100%;
+/* margin: 0px 50px 0px 0px; */
 `;
 export const RankUserNickName = styled.div`
-  font-size:17px;
+  font-size:14px;
   font-weight: bold;
   margin-top: 8px;
   text-align: center;
 `;
 
 export const Participant = styled.div`
-  width: 30%;
-  max-height: 240px;
+  width: 33%;
+  max-height: 170px;
   overflow-y: auto;
 
   /* 스크롤바 트랙 (배경) 스타일링 */
@@ -125,7 +128,8 @@ export const Participant = styled.div`
 `;
 
 export const Line = styled.div`
-height: 240px;
+height: 170px;
 border: 1px solid #D3D3D3;
+margin: 0px 30px 0px 30px;
 `;
 
