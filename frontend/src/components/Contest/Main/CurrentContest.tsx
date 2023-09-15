@@ -9,6 +9,7 @@ import { Pagination, Navigation } from 'swiper/modules';
 import './Swiper.css'
 
 import { 
+  Container,
   CurrentContestTitle,
   CurrentContestBox,
   ContestHeader,
@@ -163,7 +164,7 @@ function CurrentContest(){
   
 
   return(
-    <div>
+    <Container>
       <CurrentContestTitle>
         현재 대회 결과
       </CurrentContestTitle>
@@ -306,7 +307,7 @@ function CurrentContest(){
             </CurrentContestList>)}
       </CurrentContestBox>
           
-    </div>
+    </Container>
   )
 }
 
