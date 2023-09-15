@@ -4,7 +4,7 @@ import os.path
 from sqlalchemy import *
 from sqlalchemy.orm import sessionmaker
 
-DB_URL = f'mysql+pymysql://{os.environ["DB_USER"]}:{os.environ["DB_PASSWORD"]}@{os.environ["DB_HOST"]}:{os.environ["DB_PORT"]}/{os.environ["db_schema"]}'
+DB_URL = f'mysql+pymysql://{os.environ["MARIA_USER"]}:{os.environ["MARIA_PASSWORD"]}@{os.environ["MARIA_HOST"]}:{os.environ["MARIA_PORT"]}/{os.environ["MARIA_SCHEMA"]}'
 
 class engineconn:
 
