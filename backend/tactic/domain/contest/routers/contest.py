@@ -1,14 +1,22 @@
-from fastapi import APIRouter
-from domain.contest.schemas.contest import ContestCreate
+from fastapi import APIRouter, Query
+from typing import Optional
+from domain.contest.schemas.contest import ContestRequest
 from domain.contest.services import contest_service
 from redis_config import redis_config
 
-router = APIRouter(
-    prefix="/api/contest"
-)
+router = APIRouter()
 
-@router.post("/")
-def enroll_contest(contest_create: ContestCreate):
+
+@router.get("/api/contest")
+def get_contest(status: str = Query(default=None),
+                key_word: str = Query(default=""),
+                page: int = Query(default=None),
+                size: int = Query(default=None)):
+    return contest_service.get_contests(status, key_word, page, size)
+
+
+@router.post("/api/contest")
+def enroll_contest(contest_create: ContestRequest):
     # 관리자인지 확인하는 과정 추가해야됨
     # header에 Id가 들어가는데 Admin이면 할 수 있는 걸로
     rd = redis_config()
@@ -16,6 +24,7 @@ def enroll_contest(contest_create: ContestCreate):
     contest_service.create_contest(contest_create=contest_create)
 
     return {"message": "대회 등록"}
+
 
 @router.delete("/{contest_id}")
 def delete_contest(contest_id: int):
@@ -41,4 +50,3 @@ def real_time_stock(option_code: str):
     # contest_update()
 
     return {"message": option_code}
-

@@ -27,18 +27,22 @@ app.include_router(option.router)
 
 your_rest_server_port = 64414
 
+
 @app.on_event("startup")
 async def startup_event():
     await eureka_client.init_async(eureka_server="https://j9b210.p.ssafy.io:8761",
-                       app_name="tactic-service",
-                       instance_port=64414)
+                                   app_name="tactic-service",
+                                   instance_port=64414)
+
 
 engine = engineconn()
 session = engine.sessionmaker()
 
+
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
+
 
 @app.get("/api/redis_test")
 async def redis_test():
@@ -46,10 +50,10 @@ async def redis_test():
 
     return {"res": res}
 
+
 async def redis_test():
     rd = redis_config()
 
     return {
         "data": rd.get("juice")
     }
-

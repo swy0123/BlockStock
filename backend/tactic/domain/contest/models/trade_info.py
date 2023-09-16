@@ -3,6 +3,7 @@ from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
 
+
 class TradeInfo(Base):
     __tablename__ = 'trade_info'
     id = Column(Integer, primary_key=True, autoincrement=True)
