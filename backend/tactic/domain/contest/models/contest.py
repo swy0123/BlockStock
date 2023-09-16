@@ -2,7 +2,6 @@ from datetime import datetime as dt
 from domain.contest.schemas.contest import ContestRequest
 from sqlalchemy import Column, Integer, String, DateTime, TEXT
 from sqlalchemy.orm import declarative_base
-
 Base = declarative_base()
 
 

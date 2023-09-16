@@ -1,6 +1,6 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, Header
 from typing import Optional
-from domain.contest.schemas.contest import ContestRequest
+from domain.contest.schemas.contest import ContestRequest, InfoRequest
 from domain.contest.services import contest_service
 from redis_config import redis_config
 
@@ -15,6 +15,10 @@ def get_contest(status: str = Query(default=None),
     return contest_service.get_contests(status, key_word, page, size)
 
 
+@router.get("/api/result/prev")
+def get_prev_contest_result():
+    return contest_service.get_prev_contest_result()
+
 @router.post("/api/contest")
 def enroll_contest(contest_create: ContestRequest):
     # 관리자인지 확인하는 과정 추가해야됨
@@ -24,6 +28,11 @@ def enroll_contest(contest_create: ContestRequest):
     contest_service.create_contest(contest_create=contest_create)
 
     return {"message": "대회 등록"}
+
+
+@router.post("/api/contest/participate")
+def participate_contest(info_create: InfoRequest, user_id: Optional[int] = Header(None)):
+    contest_service.participate_contest(user_id, info_create)
 
 
 @router.delete("/{contest_id}")
