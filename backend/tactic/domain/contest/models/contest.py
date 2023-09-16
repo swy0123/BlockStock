@@ -8,6 +8,7 @@ Base = declarative_base()
 class Contest(Base):
     __tablename__='contest'
     id = Column(Integer, primary_key=True, autoincrement=True)
+    member_id = Column(Integer, nullable=False)
     title = Column(String(200), nullable=False)
     content = Column(TEXT, nullable=False)
     start_time = Column(DateTime, nullable=False)
