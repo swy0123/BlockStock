@@ -5,6 +5,7 @@ import MyBoard from "../../components/MyPage/MyBoard";
 import LikeList from "../../components/MyPage/LikeList";
 import RecodeList from "../../components/MyPage/RecodeList";
 import TacticList from "../../components/MyPage/TacticList";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -104,6 +105,7 @@ const ContentContainer = styled.div`
 `;
 
 function MyPage() {
+  const navigate = useNavigate();
   const data = {
     id: 12,
     nickname: "ssafy1234",
@@ -160,7 +162,7 @@ function MyPage() {
             <Text>{data.nickname}</Text>
             <Text>{data.email}</Text>
           </Box>
-          <EditBtn>회원 정보 수정 →</EditBtn>
+          <EditBtn onClick={()=> navigate("/userinfoedit")}>회원 정보 수정 →</EditBtn>
         </InfoBox>
       </Wrapper>
       <BtnWrapper>

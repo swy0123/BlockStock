@@ -15,6 +15,7 @@ import CompletedContest from "./pages/Contest/CompletedContest";
 import MyPage from "./pages/Member/MyPage";
 import FreeBoardList from "./pages/FreeBoard/FreeBoardList";
 import FreeBoardCreate from "./pages/FreeBoard/FreeBoardCreate";
+import UserInfoEdit from "./components/MyPage/UserInfoEdit";
 
 
 const router = createBrowserRouter([
@@ -82,6 +83,11 @@ const router = createBrowserRouter([
                 element: <FreeBoardCreate/>,
                 errorElement: <ErrorComponent/>,
               },
+            {
+                path: "/userinfoedit",
+                element: <UserInfoEdit/>,
+                errorElement: <ErrorComponent/>
+            }
         ],
         errorElement: <NotFound />
     }
