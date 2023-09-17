@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 const ColorBox = styled.div`
   height: 55%;
   border-radius: 13px 13px 0px 0px;
-  background: #c1baee;
+  background: linear-gradient(90deg, #C1BAEE 0.99%, rgba(207, 193, 238, 0.83) 22.96%, rgba(224, 195, 238, 0.60) 43.91%, rgba(209, 231, 240, 0.64) 57.2%, rgba(206, 228, 248, 0.69) 72.52%, #CCE3F8 99.09%);
 `;
 const FollowBox = styled.div`
   text-align: end;
@@ -62,7 +62,6 @@ const MenuBtn = styled.button<{ isSelected: boolean }>`
         ? "#9155FD"
         : "#dfd1f8"};
     box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
-    background-blend-mode: multiply;
     color: #535155;
     transition: 0.5s;
   }
