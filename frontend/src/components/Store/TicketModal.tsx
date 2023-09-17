@@ -79,7 +79,11 @@ const Text = styled.p<TextProps>`
   font-size: ${(props) => (props.fontsize ? props.fontsize : "15px")};
   font-weight: ${(props) => (props.weight ? props.weight : "300")};
 `;
-
+const Text1 = styled.p`
+    font-size : 19px;
+    color : #ae82fa;
+    font-weight: 500;
+`;
 const Img = styled.img`
   width: 170px;
   height: 160px;
@@ -175,7 +179,7 @@ function TicketModal(props: TicketModalProps) {
             <Hr/>
             <TextBox>
                 <Text fontsize="18px" weight="500">교환 후 자산</Text>
-                <Text fontsize="18px">{formatKoreanCurrency(money-(ticketQuantity * 1000))} 원</Text>
+                <Text1>{formatKoreanCurrency(money-(ticketQuantity * 1000))} 원</Text1>
             </TextBox>
             <SubmitBtn>교환하기</SubmitBtn>
             </TextWrapper>
