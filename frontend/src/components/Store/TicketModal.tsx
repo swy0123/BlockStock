@@ -28,14 +28,13 @@ const ModalContent = styled.div`
   background: #fff;
   width: 80%;
   max-width: 650px;
-  padding: 20px;
+  padding: 20px 20px 40px 20px;
   border-radius: 15px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  margin-bottom: 10px;
   /* z-index: 1001; */
 `;
 
@@ -97,7 +96,7 @@ const QuantityControl = styled.div`
 const QuantityButton = styled.button`
   width: 40px;
   height: 30px;
-  background: #dfd1f8;
+  background: #e3d8f4;
   border: none;
   border-radius: 20%;
   cursor: pointer;
