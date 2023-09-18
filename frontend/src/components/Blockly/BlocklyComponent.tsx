@@ -312,13 +312,13 @@ function BlocklyComponent(props: any) {
               </Shadow>
             </Value>
           </Block>
-          <Block type="calculate_rsi" >
+          {/* <Block type="calculate_rsi" >
             <Value name="OCHL">
               <Shadow type="ochlv_value">
                 <Field name="FIELDNAME">open</Field>
               </Shadow>
             </Value>
-          </Block>
+          </Block> */}
           {/* <Block type="dict_get" /> */}
           {/* <Block type="dict_get_literal" /> */}
           {/* <Block type="dicts_create_with" /> */}
