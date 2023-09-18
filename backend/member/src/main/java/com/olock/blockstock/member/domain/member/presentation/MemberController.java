@@ -6,6 +6,7 @@ import com.olock.blockstock.member.domain.member.dto.request.EmailConfirmRequest
 import com.olock.blockstock.member.domain.member.dto.request.EmailSendRequest;
 import com.olock.blockstock.member.domain.member.dto.request.MemberJoinRequest;
 import com.olock.blockstock.member.domain.member.dto.response.MemberInfoResponse;
+import com.olock.blockstock.member.domain.member.dto.request.MemberModifyRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +38,12 @@ public class MemberController {
     @GetMapping
     public ResponseEntity<MemberInfoResponse> detail(@RequestHeader("Member-id") Long memberId) {
         return ResponseEntity.ok(memberService.getInfo(memberId));
+    }
+
+    @PutMapping
+    public ResponseEntity<Void> modify(@RequestHeader("Member-id") Long memberId, MemberModifyRequest memberModifyRequest) {
+        memberService.modify(memberId, memberModifyRequest);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/request-email")
