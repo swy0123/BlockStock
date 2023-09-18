@@ -24,7 +24,7 @@ position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 5;
+  z-index: 999;
 `;
 
 export const Header = styled.div`

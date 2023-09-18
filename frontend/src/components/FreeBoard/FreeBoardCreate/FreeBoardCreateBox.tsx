@@ -26,11 +26,18 @@ function FreeBoardCreateBox(){
     content: "",
     files: [],
   });
+  
   const handleFileSelect = (e) => {
     const files = e.target.files;
-    setSelectedFiles([...selectedFiles, ...files]);
-    setFormData({ ...formData, files: [...formData.files, ...files] });
+    const imageFiles = Array.from(files).filter(file => file.type.startsWith('image/'));
+    setSelectedFiles([...selectedFiles, ...imageFiles]);
   };
+
+  // const handleFileSelect = (e) => {
+  //   const files = e.target.files;
+  //   setSelectedFiles([...selectedFiles, ...files]);
+  //   setFormData({ ...formData, files: [...formData.files, ...files] });
+  // };
 
   const removeFile = (index) => {
     const updatedFiles = [...selectedFiles];
@@ -64,7 +71,7 @@ function FreeBoardCreateBox(){
       <Wrapper>
         <FileBtn>
           업로드
-          <FileInput type="file" onChange={handleFileSelect} multiple />
+          <FileInput type="file" accept="image/*" onChange={handleFileSelect} multiple />
         </FileBtn>
         <FileList>
           {selectedFiles.map((file, index) => (
