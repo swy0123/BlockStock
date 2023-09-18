@@ -1,5 +1,6 @@
 package com.olock.blockstock.member.domain.member.application;
 
+import com.olock.blockstock.member.domain.member.dto.request.EmailSendRequest;
 import com.olock.blockstock.member.domain.member.dto.request.MemberJoinRequest;
 import com.olock.blockstock.member.domain.member.dto.response.MemberInfoResponse;
 
