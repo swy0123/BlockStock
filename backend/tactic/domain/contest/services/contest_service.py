@@ -6,6 +6,7 @@ from domain.contest.schemas.contest import ContestRequest, InfoRequest, ContestR
 from domain.contest.schemas.contest_type import ContestType
 from domain.contest.models.contest import Contest
 from domain.contest.models.participate import Participate
+from domain.contest.error.contest_exception import StatusCode, Message
 from db.conn import engineconn
 from datetime import datetime
 
@@ -59,7 +60,8 @@ def delete_contest(contest_id: int):
     contest = session.get(Contest, contest_id)
 
     if not contest:
-        raise HTTPException(status_code=404, detail="번호에 해당되는 번호가 없습니다.")
+        raise HTTPException(status_code=StatusCode.CONTEST_DELETE_ERROR_CODE,
+                            detail=Message.CONTEST_DELETE_ERROR_MSG)
     session.delete(contest)
     session.commit()
 

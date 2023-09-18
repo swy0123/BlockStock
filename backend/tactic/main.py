@@ -21,7 +21,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"]
 )
-# app.include_router(tactic.app)
+app.include_router(tactic.app)
 app.include_router(contest.router)
 app.include_router(option.router)
 
