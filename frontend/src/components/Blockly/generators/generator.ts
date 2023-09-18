@@ -132,7 +132,7 @@ pythonGenerator.forBlock['calculate_data'] = function(block, generator) {
   var value_ochl = generator.valueToCode(block, 'OCHL', Order.NONE).toString();
   var value_hla = generator.valueToCode(block, 'HLA', Order.NONE).toString();
   // TODO: Assemble python into code variable.
-  var code = 'func('+value_date+'+i, \"'+value_ochl+'\", \"'+value_hla+'\")';
+  var code = 'get_recent_indicators('+value_date+', \\\"'+value_ochl+'\\\", \\\"'+value_hla+'\\\")';
   // TODO: Change ORDER_NONE to the correct strength.
   return [code, Order.NONE];
 };
@@ -140,7 +140,7 @@ pythonGenerator.forBlock['calculate_data'] = function(block, generator) {
 pythonGenerator.forBlock['cur_data'] = function(block, generator) {
   var value_name = generator.valueToCode(block, 'OCHL', Order.NONE).toString();
   // TODO: Assemble python into code variable.
-  var code = 'curData(i, \"'+value_name+"\")";
+  var code = 'curData(\\\"'+value_name+"\\\")";
   // TODO: Change ORDER_NONE to the correct strength.
   return [code, Order.NONE];
 };
@@ -149,7 +149,7 @@ pythonGenerator.forBlock['cur_data'] = function(block, generator) {
 pythonGenerator.forBlock['cnt_per_asset'] = function(block, generator) {
   var value_name = generator.valueToCode(block, 'NAME', Order.NONE).toString();
   // TODO: Assemble python into code variable.
-  var code = 'asset('+value_name+'%)';
+  var code = 'asset('+value_name+', \\\"per\\\")';
   // TODO: Change ORDER_NONE to the correct strength.
   // return [code, Order.NONE];
   return [code, Order.NONE];
@@ -159,7 +159,7 @@ pythonGenerator.forBlock['cnt_per_asset'] = function(block, generator) {
 pythonGenerator.forBlock['cnt_per_reserves'] = function(block, generator) {
   var value_name = generator.valueToCode(block, 'NAME', Order.NONE).toString();
   // TODO: Assemble python into code variable.
-  var code = 'reserves('+value_name+'%)';
+  var code = 'reserves('+value_name+', \\\"per\\\")';
   // TODO: Change ORDER_NONE to the correct strength.
   // return [code, Order.NONE];
   return [code, Order.NONE];
