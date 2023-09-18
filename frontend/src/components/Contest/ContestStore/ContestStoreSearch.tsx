@@ -5,15 +5,15 @@ import { useRecoilState } from 'recoil';
 import { searchKeywordState } from '../../../recoil/Contest/CurrentContest';
 
 const StoreSearch = styled.input`
-    width: 192px;
-    height: 34px;
+    width: 150px;
+    height: 28px;
     background: #FFFFFF;
     border: 1px solid #D9D9D9;
     border-radius: 3px;
     font-family: 'Noto Sans Arabic';
     font-style: normal;
     font-weight: 400;
-    font-size: 16px;
+    font-size: 12px;
     line-height: 34px;
     display: flex;
     align-items: center;

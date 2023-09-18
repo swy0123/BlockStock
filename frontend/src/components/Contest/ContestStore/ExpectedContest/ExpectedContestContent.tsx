@@ -36,9 +36,8 @@ function ExpectedContestContent(){
     return (
       <div
         style={{
-          width: '1100px',
           alignItems: 'center',
-          margin: '10px 0px 0px 0px',
+          margin: '0px 0px 0px 0px',
           border: '1px solid #D3D3D3',
           display: hide ? 'none' : 'block',
           marginBottom: '30px'
