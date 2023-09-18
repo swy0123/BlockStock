@@ -41,8 +41,8 @@ public class EmailService {
             message = createMessage(emailSendRequest.getEmail(), key);
             emailCodeRepository.save(new EmailCode(emailSendRequest.getEmail(), key));
             javaMailSender.send(message);
-        } catch (MailException | MessagingException | UnsupportedEncodingException es) {
-            System.out.println(es.getMessage());
+        } catch (MailException | MessagingException | UnsupportedEncodingException e) {
+            System.out.println(e.getMessage());
             throw new IllegalArgumentException();
         }
     }
