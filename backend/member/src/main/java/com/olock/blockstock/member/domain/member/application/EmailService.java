@@ -43,7 +43,7 @@ public class EmailService {
             emailCodeRepository.save(new EmailCode(emailSendRequest.getEmail(), key));
             javaMailSender.send(message);
         } catch (MailException | MessagingException | UnsupportedEncodingException es) {
-            es.printStackTrace();
+            System.out.println(es.getMessage());
             throw new IllegalArgumentException();
         }
     }

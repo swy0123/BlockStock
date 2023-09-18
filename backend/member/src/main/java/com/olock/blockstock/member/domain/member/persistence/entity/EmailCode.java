@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
-@RedisHash(value = "email_code", timeToLive =  60 * 24 * 60)
+@RedisHash(value = "email_code", timeToLive =  600)
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
