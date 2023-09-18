@@ -16,13 +16,16 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.apache.el.parser.Token;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 import java.security.Key;
+import java.sql.Ref;
 import java.util.Date;
+import java.util.Optional;
 
 @Component
 public class JwtTokenService {
@@ -53,9 +56,29 @@ public class JwtTokenService {
                                 .memberId(tokenDetails.getMemberId())
                                 .accessToken(tokenDetails.getAccessToken())
                                 .refreshToken(tokenDetails.getRefreshToken())
-                                .issuedAt(tokenDetails.getIssuedAt())
                                 .build()
                 ));
+    }
+
+    public Mono<AuthLoginResponse> refresh(String refreshToken) {
+        Optional<RefreshToken> refreshTokenEntity = refreshTokenRepository.findById(refreshToken);
+        if (refreshTokenEntity.isEmpty()) {
+            return Mono.error(new AuthException("잘못된 토큰", "INVALID_TOKEN"));
+        }
+
+        Mono<Member> memberMono = memberRepository.findByEmail(refreshTokenEntity.get().getEmail());
+        memberMono.subscribe(member -> {
+            System.out.println("Found Member with ID: " + member.getId());
+        }, error -> {
+            System.err.println("Error: " + error.getMessage());
+        });
+
+        refreshTokenRepository.deleteById(refreshToken);
+        return memberRepository.findByEmail(refreshTokenEntity.get().getEmail())
+                .flatMap(member -> {
+                            return Mono.just(new AuthLoginResponse(generateTokenDetail(member)));
+                        }
+                ).switchIfEmpty(Mono.error(new AuthException("잘못된 이메일", "INVALID_USERNAME")));
     }
 
     private TokenDetails generateTokenDetail(Member member) {
@@ -106,6 +129,7 @@ public class JwtTokenService {
     }
 
     private Mono<TokenDetails> authenticate(String email, String password) {
+        System.out.println("====================== authenticate");
         Mono<Member> memberMono = memberRepository.findByEmail(email);
 
         memberMono.subscribe(member -> {

@@ -31,6 +31,11 @@ public class AuthController {
         return jwtTokenService.login(authLoginRequest);
     }
 
+    @PostMapping("/refresh")
+    public Mono<AuthLoginResponse> refresh(@RequestHeader("Authorization-refresh") String refreshToken) {
+        return jwtTokenService.refresh(refreshToken.substring(7));
+    }
+
     @GetMapping("/info")
     public Mono<Member> getUserInfo(Authentication authentication) {
         CustomPrincipal customPrincipal = (CustomPrincipal) authentication.getPrincipal();

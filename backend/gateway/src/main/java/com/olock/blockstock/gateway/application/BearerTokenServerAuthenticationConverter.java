@@ -1,5 +1,6 @@
 package com.olock.blockstock.gateway.application;
 
+import com.olock.blockstock.gateway.dto.CustomPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
@@ -19,7 +20,18 @@ public class BearerTokenServerAuthenticationConverter implements ServerAuthentic
         return extractHeader(exchange)
                 .flatMap(authValue -> Mono.justOrEmpty(authValue.substring(BEARER_PREFIX.length())))
                 .flatMap(jwtTokenService::validateToken)
-                .flatMap(authenticationProvider::create);
+                .flatMap(tokenValidationResult -> {
+                    return authenticationProvider.create(tokenValidationResult)
+                            .map(authentication -> {
+                                CustomPrincipal principal = (CustomPrincipal) authentication.getPrincipal();
+                                Long principalId = principal.getId();
+
+                                exchange.getRequest().mutate()
+                                        .header("Member-id", String.valueOf(principalId))
+                                        .build();
+                                return authentication;
+                            });
+                });
     }
 
     private Mono<String> extractHeader(ServerWebExchange exchange) {
