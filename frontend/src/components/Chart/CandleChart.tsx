@@ -30,6 +30,7 @@ import {
   Label,
   Annotate,
   LabelAnnotation,
+  HoverTooltip,
 } from "react-financial-charts";
 import { initialData } from "./data copy";
 
@@ -62,6 +63,7 @@ import { initialData } from "./data copy";
 //     <></>
 //   )}
 // </div>;
+
 
 const CandleChart = (props) => {
   const ScaleProvider = discontinuousTimeScaleProviderBuilder().inputDateAccessor(
@@ -140,18 +142,7 @@ const CandleChart = (props) => {
     // console.log(initialData);
     return data.close > data.open ? "rgba(38, 166, 154, 0.3)" : "rgba(239, 83, 80, 0.3)";
   };
-  // const volumeColor = (data) => {
-  //   let flag = false;
-  //   console.log(flag)
-  //   props.optionHistory.forEach((element) => {
-  //     flag = ((initialData[element.turn].date + initialData[element.turn].time) == (data.date + data.time)) ? true : false;
 
-  //     console.log(flag)
-  //     if (flag) return data.close > data.open ? "rgba(74, 250, 232, 0.3)" : "rgba(255, 145, 94, 0.3)"
-  //   });
-
-  //   return (data.close > data.open ? "rgba(38, 166, 154, 0.3)" : "rgba(239, 83, 80, 0.3)");
-  // };
   const volumeSeries = (data) => {
     return data.volume;
   };
@@ -160,35 +151,82 @@ const CandleChart = (props) => {
     return data.close > data.open ? "#26a69a" : "#ef5350";
   };
 
-  const text = "text"
-  const labelProps = {
-    text: "Hi", y: 134.5
-  };
+  // function content(d) {
+  //   return ({ currentItem, xAccessor }: any) => {
+  //     return {
+  //       x: timeFormat(xAccessor(currentItem)),
+  //       y: [
+  //         { label: "open", value: currentItem.open && pricesDisplayFormat(currentItem.open) },
+  //         { label: "high", value: currentItem.high && pricesDisplayFormat(currentItem.high) },
+  //         { label: "low", value: currentItem.low && pricesDisplayFormat(currentItem.low) },
+  //         { label: "close", value: currentItem.close && pricesDisplayFormat(currentItem.close) },
+  //       ]
+  //         .filter((line) => line.value)
+  //     };
+  //   };
+  // }
 
+
+  const returmNum = (d) => {
+    let cur = d.datum.close
+    let curMax = d.yScale.domain()[1]
+    let curMin = d.yScale.domain()[0]
+    // console.log(typeof(d.datum.open))
+    // console.log(d.datum.idx.index)
+    // console.log(d.yScale.domain()[1])
+    // console.log(tmp)
+    // console.log(d.yScale.domain()[0])
+    // console.log(d.yScale.domain()[1]-d.yScale.domain()[0])
+    // console.log(tmp-d.yScale.domain()[0])
+    // console.log(chartHeight)
+    let plus = d.datum.open > d.datum.close ? (20) : (0)
+    console.log(chartHeight * ((cur - curMin) / (curMax - curMin)))
+    // console.log(tmp/chartHeight*(d.datum.open/(d.yScale.domain()[1]-d.yScale.domain()[0])))
+    d.datum.open > d.datum.close ? d.datum.close : d.datum.open
+    return chartHeight - (chartHeight * ((cur - curMin) / (curMax - curMin))) + plus
+  }
+
+  // const annotationBuyProps = (d) => {
+  //   // let ySize = 
+  //   console.log(d)
+  //   let annotationProps = {
+  //     fontFamily: "Glyphicons Halflings",
+  //     fontSize: 20,
+  //     fill: "#060f8f",
+  //     opacity: 0.8,
+  //     text: "buy",
+  //     y: chartHeight/2,
+  //     onClick: console.log.bind(console),
+  //     // tooltip: d => timeFormat("%b")((d.date + d.time).replace(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})/, "$1-$2-$3 $4:$5:00")),
+  //     // onMouseOver: console.log.bind(console),
+  //   }
+  //   return annotationProps
+  // };
   const annotationBuyProps = {
     fontFamily: "Glyphicons Halflings",
     fontSize: 20,
     fill: "#060f8f",
     opacity: 0.8,
-    text: "buy",
-    y: chartHeight-5,
+    // text: d => d.open,
+    text: "매도",
+    y: d => returmNum(d),
+    // y: d=>Number(d.close),
     onClick: console.log.bind(console),
-    // tooltip: d => timeFormat("%b")((d.date + d.time).replace(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})/, "$1-$2-$3 $4:$5:00")),
-    // onMouseOver: console.log.bind(console),
   };
+
   const annotationSellProps = {
     fontFamily: "Glyphicons Halflings",
     fontSize: 20,
     fill: "#8f0606",
     opacity: 0.8,
-    text: "sell",
-    y: chartHeight-5,
+    text: "매수",
+    y: d => returmNum(d),
     onClick: console.log.bind(console),
     // tooltip: d => timeFormat("%b")((d.date + d.time).replace(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})/, "$1-$2-$3 $4:$5:00")),
     // onMouseOver: console.log.bind(console),
   };
 
-  const checkHistoryType = (date:string, time:string, type:string) => {
+  const checkHistoryType = (date: string, time: string, type: string) => {
     console.log(date + " " + time)
     let flag = false;
     props.optionHistory.forEach(element => {
@@ -201,27 +239,6 @@ const CandleChart = (props) => {
     });
     return flag;
   }
-
-  // Candle 바 위에 Annotation 배치
-  // const renderCandleAnnotations = () => {
-  //   return data.map((item) => {
-  //     const xPosition = xScale(xAccessor(item));
-  //     const yPosition = yScale(item.high); // 이 예제에서는 Candle의 high 위치에 배치
-
-  //     return (
-  //       <LabelAnnotation
-  //         key={item.date} // 고유한 키를 사용하는 것이 좋습니다.
-  //         x={xPosition}
-  //         y={yPosition - 10} // 바 위에 배치하려면 위치를 조정합니다.
-  //         text="Annotation Text"
-  //         fontFamily="Glyphicons Halflings"
-  //         fontSize={16}
-  //         fill="#060F8F"
-  //         opacity={0.8}
-  //       />
-  //     );
-  //   });
-  // };
 
   return (
     <ChartCanvas
@@ -247,8 +264,6 @@ const CandleChart = (props) => {
         {/* <XAxis showGridLines gridLinesStrokeStyle="#e0e3eb" /> */}
         <YAxis showGridLines tickFormat={pricesDisplayFormat} />
         <CandlestickSeries />
-        {/* {renderCandleAnnotations()}  Candle 바 위에 Annotation 렌더링 */}
-        {/* ... (기존 코드는 여기에 있습니다) */}
         <LineSeries yAccessor={ema26.accessor()} strokeStyle={ema26.stroke()} />
         <CurrentCoordinate yAccessor={ema26.accessor()} fillStyle={ema26.stroke()} />
         <LineSeries yAccessor={ema12.accessor()} strokeStyle={ema12.stroke()} />
@@ -262,38 +277,13 @@ const CandleChart = (props) => {
           displayFormat={pricesDisplayFormat}
           yAccessor={yEdgeIndicator}
         />
-        {/* <Label
-          x={10} // 시작 위치의 X 좌표를 설정
-          y={data[0].low} // 시작 위치의 Y 좌표를 설정
-          text="시작" // 라벨 텍스트
-          fontSize={16} // 글꼴 크기
-          fillStyle="green" // 글꼴 색상
-        /> */}
         <Annotate with={LabelAnnotation}
           when={d => (checkHistoryType(d.date, d.time, "buy"))}
-          usingProps={annotationBuyProps} />
+          usingProps={(annotationBuyProps)}
+        />
         <Annotate with={LabelAnnotation}
           when={d => (checkHistoryType(d.date, d.time, "sell"))}
-          usingProps={annotationSellProps} />
-        {/* <Annotate with={LabelAnnotation} usingProps={labelProps} when={(d) => d.example >0} />  */}
-        {/* <Annotate with={LabelAnnotation}
-          when={d => d.open > d.close}
-          // when={d => d !== 1}
-          usingProps={annotationProps}
-        /> */}
-        {/* <Annotate with={LabelAnnotation}
-          when={d => d.open < d.close}
-          // when={d => d !== 1}
-          usingProps={annotationProps}
-        /> */}
-        {/* <Label
-          x={(xScale, xAccessor, datum, plotData) => calculateXPosition(xScale, xAccessor, datum, plotData)}
-          y={134.66}
-          text="레이블 텍스트"
-          fontSize={16}
-          fillStyle={volumeColor}
-        /> */}
-
+          usingProps={(annotationSellProps)} />
 
         <MovingAverageTooltip
           origin={[8, 24]}
@@ -314,6 +304,12 @@ const CandleChart = (props) => {
         />
         <ZoomButtons />
         <OHLCTooltip origin={[8, 16]} />
+
+        {/* <HoverTooltip
+          yAccessor={ema26.accessor()}
+          tooltip={content}
+          fontSize={15}
+        /> */}
       </Chart>
       <Chart
         id={4}
