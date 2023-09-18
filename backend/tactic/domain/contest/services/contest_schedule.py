@@ -4,9 +4,15 @@ sched = BackgroundScheduler(timezone='Asia/Seoul')
 
 # 매일 1초마다 실행되면서 대회에 참가한 사람들
 # 정해진 대회 기간까지 1분에 한 번씩 실행되면서
-@sched.scheduled_job('cron', hour='1', minute='30', id='remove_inactive_image')
+@sched.scheduled_job('cron', hour='1', minute='*/1', id='find_contest')
 def contest_update():
     print("hello")
+
+def find_contest():
+    return
+# DB에 있는 contest 조회
+# start YYYY-MM-DD HH:MM이 현재 시간과 같으면 15초마다 로직 실행
+
 
 # 대회 시작
 # 한 시간 단위
