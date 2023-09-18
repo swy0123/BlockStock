@@ -140,7 +140,16 @@ function MyPage() {
         return null;
     }
   };
+  const [isEditing, setIsEditing] = useState(false);
+  // 수정 모드로 진입
+  const enterEditMode = () => {
+    setIsEditing(true);
+  };
 
+  // 수정 모드를 빠져나옴
+  const exitEditMode = () => {
+    setIsEditing(false);
+  };
   return (
     <Container>
       <Wrapper>
@@ -162,7 +171,21 @@ function MyPage() {
             <Text>{data.nickname}</Text>
             <Text>{data.email}</Text>
           </Box>
+          <div
+        onMouseEnter={enterEditMode}
+        onMouseLeave={exitEditMode}
+        onClick={exitEditMode}
+      >
+        {isEditing ? (
+          <div>
+            <button>닉네임 변경</button>
+            <button>비밀번호 변경</button>
+            <button>회원 탈퇴</button>
+          </div>
+        ) : (
           <EditBtn onClick={()=> navigate("/userinfoedit")}>회원 정보 수정 →</EditBtn>
+        )}
+      </div>
         </InfoBox>
       </Wrapper>
       <BtnWrapper>
