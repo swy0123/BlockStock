@@ -30,6 +30,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void join(MemberJoinRequest memberJoinRequest) {
+        if (memberRepository.existsByEmail(memberJoinRequest.getEmail())) {
+            throw new DuplicateEmailException("중복 이메일");
+        }
 
         Member member = Member.builder()
                 .id(memberRepository.findLastIdx())
