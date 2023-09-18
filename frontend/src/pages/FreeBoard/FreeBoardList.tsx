@@ -4,9 +4,9 @@ import FreeBoardListBox from "../../components/FreeBoard/FreeBoardList/FreeBoard
 import styled from "styled-components";
 
 const Container = styled.div`
-margin: 50px 0px 0px 100px;
-width: 1450px;
-height: 700px;
+margin: 30px 0px 0px 80px;
+width: 1000px;
+height: 600px;
 `;
 
 function FreeBoardList(){

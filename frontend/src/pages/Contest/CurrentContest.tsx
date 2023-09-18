@@ -4,8 +4,8 @@ import CurrentContestContent from "../../components/Contest/ContestStore/Current
 import ContestStoreBtn from "../../components/Contest/ContestStore/ContestStoreBtn";
 
 const Container = styled.div`
-margin: 30px 0px 0px 200px;
-width: 1200px;
+margin: 30px 0px 0px 60px;
+width: 1000px;
 height: 800px;
 `;
 
