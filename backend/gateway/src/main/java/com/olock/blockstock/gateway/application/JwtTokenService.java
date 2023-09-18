@@ -129,7 +129,6 @@ public class JwtTokenService {
     }
 
     private Mono<TokenDetails> authenticate(String email, String password) {
-        System.out.println("====================== authenticate");
         Mono<Member> memberMono = memberRepository.findByEmail(email);
 
         memberMono.subscribe(member -> {
