@@ -6,13 +6,12 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
-@RedisHash(value = "refresh_token", timeToLive =  60 * 24 * 60)
+@RedisHash(value = "refresh_token", timeToLive =  604800000)
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class RefreshToken {
     @Id
     String refreshToken;
-
     String email;
 }

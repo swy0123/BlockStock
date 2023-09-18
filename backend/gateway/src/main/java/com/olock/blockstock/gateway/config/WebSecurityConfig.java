@@ -39,6 +39,7 @@ public class WebSecurityConfig {
                         exchanges
                                 .pathMatchers(HttpMethod.OPTIONS).permitAll()
                                 .pathMatchers(HttpMethod.POST, "/api/member").permitAll()
+                                .pathMatchers( "/api/auth/refresh").permitAll()
                                 .pathMatchers(HttpMethod.POST, "/api/member/request-email").permitAll()
                                 .pathMatchers(HttpMethod.POST, "/api/member/confirm-email").permitAll()
                                 .pathMatchers("/api/auth/login").permitAll()

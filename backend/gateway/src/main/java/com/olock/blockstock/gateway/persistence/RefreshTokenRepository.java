@@ -9,6 +9,5 @@ public interface RefreshTokenRepository extends CrudRepository<RefreshToken, Str
     void deleteByEmail(String email);
     boolean existsByRefreshToken(String refreshToken);
 
-    @Override
     Optional<RefreshToken> findById(String refreshToken);
 }

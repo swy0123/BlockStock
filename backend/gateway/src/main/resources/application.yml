@@ -20,6 +20,7 @@ jwt:
       keyLength: 256
   secret: b5f59337a612a2a7dc07328f3e7d1a04722967c7f06df20a499a7d3f91ff2a7e
   expiration: 3600000
+  expiration-refresh: 604800000
 
 spring:
   application:
@@ -37,6 +38,7 @@ spring:
     host: ${REDIS_HOST}
     port: ${REDIS_PORT}
     password: ${REDIS_PASSWORD}
+    database: 0
 
   cloud:
     gateway:
