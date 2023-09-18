@@ -13,19 +13,24 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';import {
   ButtonBox,
   Button1,
   Button2
-} from './FreeBoardCreateBox.style'
+} from './FreeBoardUpdate.style'
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const preventDefault = (event) => event.preventDefault();
 
-function FreeBoardCreateBox(){
+function FreeBoardUpdateBox(){
+  const location = useLocation();
+  const state = location.state;
+
   const navigate = useNavigate();
-  const [selectedFiles, setSelectedFiles] = useState([]); // State to store selected files
+  const [selectedFiles, setSelectedFiles] = useState([]); 
   const [formData, setFormData] = useState({
-    title: "",
-    content: "",
+    title: state.title,
+    content: state.content,
     files: [],
   });
+
   
   const handleFileSelect = (e) => {
     const files = e.target.files;
@@ -51,7 +56,7 @@ function FreeBoardCreateBox(){
 
   const handleSubmit = () => {
     console.log("Form Data:", formData);
-    navigate("/freeboard");
+    // navigate("/freeboard");
   };
 
   return(
@@ -60,12 +65,12 @@ function FreeBoardCreateBox(){
       <TitleInput
             placeholder="제목을 입력하세요."
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-          />
+          >{formData.title}</TitleInput>
       <hr />
       <ContentInput
           placeholder="내용을 입력하세요."
           onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-        />
+        >{formData.content}</ContentInput>
       <hr />
 
       <Wrapper>
@@ -108,4 +113,4 @@ function FreeBoardCreateBox(){
     </>
   )
 }
-export default FreeBoardCreateBox;
+export default FreeBoardUpdateBox;

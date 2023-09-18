@@ -114,7 +114,7 @@ function ExpectedContest(){
               <hr style={{color:'#D3D3D3', marginBottom:'0px'}}/>
 
               <ContentBox style={{ display: showContent[index] ? 'block' : 'none' }}>
-                <div style={{padding:'10px 0px 0px 60px'}}>
+                <div style={{padding:'10px 0px 0px 37px'}}>
                   <Participants>
                     현재 참가 인원 수 : {item.joinPeople} / {item.maxCapacity}
                   </Participants>

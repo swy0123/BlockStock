@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import MoneyModal from "../Store/MoneyModal";
+import TicketModal from "../Store/TicketModal";
 
 const Container = styled.div`
   width: 90%;
@@ -136,11 +138,26 @@ interface ProfileProps {
 
 function Profile(props: ProfileProps) {
   const { data } = props;
-  // 숫자를 금액 형태로 변환
-  function formatKoreanCurrency(amount) {
-    return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const [isMoneyModalOpen, setIsMoneyModalOpen] = useState(false);
+  const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
+  const openMoneyModal = () => {
+    setIsMoneyModalOpen(true);
+  }
+  const closeMoneyModal = () => {
+    setIsMoneyModalOpen(false);
+  }
+  const openTicketModal = () => {
+    setIsTicketModalOpen(true);
+  }
+  const closeTicketModal = () => {
+    setIsTicketModalOpen(false);
   }
 
+  // 숫자 금액 형태로 변환
+  function formatKoreanCurrency(amount: number): string {
+    return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+  
   const formattedMoney = formatKoreanCurrency(data.money); // "10,000"으로 변환됨
 
   return (
@@ -176,8 +193,10 @@ function Profile(props: ProfileProps) {
             <Text>x {data.ticketCnt}</Text>
           </Box>
           <Box>
-            <StoreBtn>자산충전</StoreBtn>
-            <StoreBtn>티켓충전</StoreBtn>
+            <StoreBtn onClick={openMoneyModal}>자산충전</StoreBtn>
+            <MoneyModal isOpen={isMoneyModalOpen} onClose={closeMoneyModal} />
+            <StoreBtn onClick={openTicketModal}>티켓충전</StoreBtn>
+            <TicketModal  money={data.money} isOpen={isTicketModalOpen} onClose={closeTicketModal}/>
           </Box>
         </Wrapper>
       </AssetWrapper>
