@@ -73,7 +73,6 @@ public class EmailService {
         );
 
         if (!emailConfirmRequest.getCode().equals(emailCode.getCode())) {
-            System.out.println("-----------------------------------code");
             throw new WrongTokenException("잘못된 인증입니다");
         }
 
