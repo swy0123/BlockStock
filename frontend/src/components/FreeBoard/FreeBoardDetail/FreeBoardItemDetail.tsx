@@ -28,7 +28,6 @@ import {
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import SmsIcon from '@mui/icons-material/Sms';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 
 import CommentCreate from "./Comment/CommentCeate";
 import CommentList from "./Comment/CommentList";
@@ -61,7 +60,7 @@ function FreeBoardItemDetail(){
           <Box>
             <Hit>
               <div style={{margin:'2px 5px 0px 0px'}}>
-                <VisibilityIcon/>
+                <VisibilityIcon style={{fontSize:'16px'}}/>
               </div>
               <div>
                 {hit}
@@ -69,7 +68,7 @@ function FreeBoardItemDetail(){
             </Hit>
             <Like>
               <div style={{margin:'2px 5px 0px 10px'}}>
-                <FavoriteBorderIcon/>
+                <FavoriteBorderIcon style={{fontSize:'16px'}}/>
               </div>
               <div>
                 {likes}
@@ -77,7 +76,7 @@ function FreeBoardItemDetail(){
             </Like>
             <Comment>
               <div style={{margin:'2px 5px 0px 10px'}}>
-                <SmsIcon/>
+                <SmsIcon style={{fontSize:'16px'}}/>
               </div>
               <div>
                 10
@@ -91,15 +90,9 @@ function FreeBoardItemDetail(){
           <ContentBox>
             <Content>{content}</Content>
           </ContentBox>
-          <LikeBtnBox>
-            <LikeBtn>
-              <FavoriteIcon style={{color:'red', margin:'0px 6px 0px 0px', width:'22px'}}/>
-              좋아요
-            </LikeBtn>
-          </LikeBtnBox>
           <BtnBox>
-            <DeleteBtn>삭제</DeleteBtn>
             <UpdateBtn>수정</UpdateBtn>
+            <DeleteBtn>삭제</DeleteBtn>
           </BtnBox>
         </Wrapper>
         <Line />
