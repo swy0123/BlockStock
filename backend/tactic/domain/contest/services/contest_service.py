@@ -72,7 +72,7 @@ def participate_contest(user_id: int, info_create: InfoRequest):
     db_participate = Participate(user_id, info_create)
 
     # user 유효한지 확인
-
+    # 이미 참가 했으면 에러
     if not session.get(Contest, InfoRequest.contestId):
         raise HTTPException(status_code=StatusCode.CONTEST_NOT_EXIST_ERROR_CODE)
 
@@ -81,14 +81,16 @@ def participate_contest(user_id: int, info_create: InfoRequest):
     session.add(db_participate)
     session.commit()
 
-
 def cancel_participate_contest(user_id, contest_id):
     # user 유효한지 확인
-
+    # 이미 대회에 참여하지 않는다면 에러
     if not session.get(Contest, contest_id):
         raise HTTPException(status_code=StatusCode.CONTEST_NOT_EXIST_ERROR_CODE)
 
-    participate = session.get(Participate).where(Participate.member_id == user_id).where(Contest.id == contest_id).first()
+    # 해당 참가내역이 없으면 에러
+
+    participate = (session.query(Participate).where(Participate.member_id == user_id).
+                   where(Participate.contest_id == contest_id)).one()
 
     session.delete(participate)
     session.commit()
