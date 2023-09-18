@@ -164,17 +164,43 @@ const CandleChart = (props) => {
   const labelProps = {
     text: "Hi", y: 134.5
   };
-  const annotationProps = {
+
+  const annotationBuyProps = {
     fontFamily: "Glyphicons Halflings",
     fontSize: 20,
-    fill: "#060F8F",
+    fill: "#060f8f",
     opacity: 0.8,
-    text: "zzz",
-    y: chartHeight,
+    text: "buy",
+    y: chartHeight-5,
     onClick: console.log.bind(console),
     // tooltip: d => timeFormat("%b")((d.date + d.time).replace(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})/, "$1-$2-$3 $4:$5:00")),
     // onMouseOver: console.log.bind(console),
   };
+  const annotationSellProps = {
+    fontFamily: "Glyphicons Halflings",
+    fontSize: 20,
+    fill: "#8f0606",
+    opacity: 0.8,
+    text: "sell",
+    y: chartHeight-5,
+    onClick: console.log.bind(console),
+    // tooltip: d => timeFormat("%b")((d.date + d.time).replace(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})/, "$1-$2-$3 $4:$5:00")),
+    // onMouseOver: console.log.bind(console),
+  };
+
+  const checkHistoryType = (date:string, time:string, type:string) => {
+    console.log(date + " " + time)
+    let flag = false;
+    props.optionHistory.forEach(element => {
+      if (data[element.turn].date === date && data[element.turn].time === time && element.type === type) {
+
+        console.log(element.date + " " + element.time)
+        flag = true;
+        return false;
+      }
+    });
+    return flag;
+  }
 
   // Candle 바 위에 Annotation 배치
   // const renderCandleAnnotations = () => {
@@ -243,15 +269,23 @@ const CandleChart = (props) => {
           fontSize={16} // 글꼴 크기
           fillStyle="green" // 글꼴 색상
         /> */}
-        {/* <Annotate with={LabelAnnotation}
-          when={d => d.date.getDate() > 0
-          usingProps={annotationProps} /> */}
-        {/* <Annotate with={LabelAnnotation} usingProps={labelProps} when={(d) => d.example >0} />  */}
         <Annotate with={LabelAnnotation}
-          when={d => d !== 1}
+          when={d => (checkHistoryType(d.date, d.time, "buy"))}
+          usingProps={annotationBuyProps} />
+        <Annotate with={LabelAnnotation}
+          when={d => (checkHistoryType(d.date, d.time, "sell"))}
+          usingProps={annotationSellProps} />
+        {/* <Annotate with={LabelAnnotation} usingProps={labelProps} when={(d) => d.example >0} />  */}
+        {/* <Annotate with={LabelAnnotation}
+          when={d => d.open > d.close}
+          // when={d => d !== 1}
           usingProps={annotationProps}
-
-        />
+        /> */}
+        {/* <Annotate with={LabelAnnotation}
+          when={d => d.open < d.close}
+          // when={d => d !== 1}
+          usingProps={annotationProps}
+        /> */}
         {/* <Label
           x={(xScale, xAccessor, datum, plotData) => calculateXPosition(xScale, xAccessor, datum, plotData)}
           y={134.66}

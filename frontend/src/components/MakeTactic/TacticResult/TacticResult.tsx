@@ -38,14 +38,14 @@ const TacticResult = (props) => {
         "optionHistory": [
             {
                 "type": "buy",
-                "turn": 3,    // 몇 번째 턴
+                "turn": 2,    // 몇 번째 턴
                 "cost": 8000,   // 주식 가격
                 "tradeCnt": 350,   // 거래 수
                 "profitAndLoss": 12  // 실현손익 : (매도 평균 - 매수 평균) * 매도 수량
             },
             {
                 "type": "sell",
-                "turn": 5,
+                "turn": 4,
                 "cost": 7000,
                 "tradeCnt": 300,
                 "profitAndLoss": 12
