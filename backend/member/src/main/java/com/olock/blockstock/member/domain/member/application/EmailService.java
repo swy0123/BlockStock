@@ -68,11 +68,12 @@ public class EmailService {
     }
 
     public void confirmEmail(EmailConfirmRequest emailConfirmRequest) {
-        EmailCode emailCode = emailCodeRepository.findByEmail(emailConfirmRequest.getEmail()).orElseThrow(() ->
+        EmailCode emailCode = emailCodeRepository.findById(emailConfirmRequest.getEmail()).orElseThrow(() ->
                 new NoEmailException("없는 사용자입니다.")
         );
 
         if (!emailConfirmRequest.getCode().equals(emailCode.getCode())) {
+            System.out.println("-----------------------------------code");
             throw new WrongTokenException("잘못된 인증입니다");
         }
 
@@ -101,7 +102,7 @@ public class EmailService {
         mmsg += key + "</strong><div><br/> ";
         mmsg += "</div>";
         message.setText(mmsg, "utf-8", "html");
-        message.setFrom(new InternetAddress(smtpUserName + "@naver.com", "Voss 관리자"));
+        message.setFrom(new InternetAddress(smtpUserName + "@naver.com", "Block Stock 관리자"));
 
         return message;
     }
@@ -128,7 +129,7 @@ public class EmailService {
         mmsg += key + "</strong><div><br/> ";
         mmsg += "</div>";
         message.setText(mmsg, "utf-8", "html");
-        message.setFrom(new InternetAddress(smtpUserName + "@naver.com", "Voss 관리자"));
+        message.setFrom(new InternetAddress(smtpUserName + "@naver.com", "Block Stock 관리자"));
 
         return message;
     }

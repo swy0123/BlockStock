@@ -2,6 +2,7 @@ package com.olock.blockstock.member.domain.member.presentation;
 
 import com.olock.blockstock.member.domain.member.application.EmailService;
 import com.olock.blockstock.member.domain.member.application.MemberService;
+import com.olock.blockstock.member.domain.member.dto.request.EmailConfirmRequest;
 import com.olock.blockstock.member.domain.member.dto.request.EmailSendRequest;
 import com.olock.blockstock.member.domain.member.dto.request.MemberJoinRequest;
 import com.olock.blockstock.member.domain.member.dto.response.MemberInfoResponse;
@@ -41,6 +42,12 @@ public class MemberController {
     @PostMapping("/request-email")
     public ResponseEntity<Void> requestEmail(@RequestBody EmailSendRequest emailSendRequest) {
         emailService.sendEmail(emailSendRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/confirm-email")
+    public ResponseEntity<Void> confirmEmail(@RequestBody EmailConfirmRequest emailConfirmRequest) {
+        emailService.confirmEmail(emailConfirmRequest);
         return ResponseEntity.ok().build();
     }
 
