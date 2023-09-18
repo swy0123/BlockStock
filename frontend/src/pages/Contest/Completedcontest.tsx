@@ -4,8 +4,8 @@ import CompletedContestContent from "../../components/Contest/ContestStore/Compl
 import styled from "styled-components";
 
 const Container = styled.div`
-margin: 30px 0px 0px 200px;
-width: 1200px;
+margin: 30px 0px 0px 60px;
+width: 1000px;
 height: 800px;
 `;
 
