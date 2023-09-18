@@ -4,8 +4,7 @@ from sqlalchemy.orm import joinedload
 
 from domain.contest.schemas.contest import ContestRequest, InfoRequest, ContestResponse
 from domain.contest.schemas.contest_type import ContestType
-from domain.contest.models.contest import Contest
-from domain.contest.models.participate import Participate
+from domain.contest.models.contest import Contest, Participate
 from domain.contest.error.contest_exception import StatusCode, Message
 from db.conn import engineconn
 from datetime import datetime
@@ -69,8 +68,14 @@ def delete_contest(contest_id: int):
 
 
 def participate_contest(user_id: int, info_create: InfoRequest):
-    cb_participate = Participate(user_id, info_create)
 
+    db_participate = Participate(user_id, info_create)
+
+    # user_id 유효한지 확인
+    # info_create 값들 유효한지 확인
+
+    session.add(db_participate)
+    session.commit()
 
 def save_contest_sec_info():
     return ""
