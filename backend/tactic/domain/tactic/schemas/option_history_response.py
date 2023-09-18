@@ -1,8 +1,10 @@
 from pydantic import BaseModel
+from typing import Optional
+
 
 class OptionHistory(BaseModel):
-    type: str
-    turn: int
-    cost: int
-    tradeCnt: int
-    profitAndLoss: float
+    type: Optional[str]
+    turn: Optional[int]
+    cost: Optional[int]
+    tradeCnt: Optional[int]
+    profitAndLoss: Optional[float]
