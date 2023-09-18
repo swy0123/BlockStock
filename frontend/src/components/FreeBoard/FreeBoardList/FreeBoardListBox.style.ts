@@ -80,7 +80,7 @@ display: flex;
 justify-content: center;
 align-items: center;
   margin: 0px 0px 0px 0px;
-  height: 50px;
+  height: 35px;
   font-size: 13px
 `;
 export const ItemNumber = styled.div`
@@ -92,11 +92,12 @@ width: 600px;
 ${list}
 `;
 export const ItemWriter = styled.div`
-width: 250px;
+width: 200px;
 ${list}
 `;
 export const ItemTime = styled.div`
 width: 200px;
+/* padding: 0px 0px 0px 200px; */
 ${list}
 `;
 export const ItemtHit = styled.div`
