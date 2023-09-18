@@ -4,7 +4,7 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from db.conn import engineconn
-# from domain.tactic.routers import tactic
+from domain.tactic.routers import tactic
 from domain.contest.routers import contest
 from domain.option.routers import option
 from redis_config import redis_config
