@@ -28,15 +28,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public Mono<AuthLoginResponse> login(@RequestBody AuthLoginRequest authLoginRequest) {
-        return jwtTokenService.authenticate(authLoginRequest.getEmail(), authLoginRequest.getPassword())
-                .flatMap(tokenDetails -> Mono.just(
-                        AuthLoginResponse.builder()
-                                .memberId(tokenDetails.getMemberId())
-                                .token(tokenDetails.getToken())
-                                .issuedAt(tokenDetails.getIssuedAt())
-                                .expiresAt(tokenDetails.getExpiresAt())
-                                .build()
-                ));
+        return jwtTokenService.login(authLoginRequest);
     }
 
     @GetMapping("/info")

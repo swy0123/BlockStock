@@ -14,9 +14,9 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 public class AuthLoginResponse {
-
     private Long memberId;
-    private String token;
+    private String accessToken;
+    private String refreshToken;
     private Date issuedAt;
     private Date expiresAt;
 
