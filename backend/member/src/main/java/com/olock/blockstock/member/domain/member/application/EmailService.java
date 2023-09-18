@@ -39,7 +39,6 @@ public class EmailService {
         MimeMessage message = null;
         try {
             message = createMessage(emailSendRequest.getEmail(), key);
-//            emailCodeRepository.deleteById(emailSendRequest.getEmail());
             emailCodeRepository.save(new EmailCode(emailSendRequest.getEmail(), key));
             javaMailSender.send(message);
         } catch (MailException | MessagingException | UnsupportedEncodingException es) {
@@ -84,12 +83,12 @@ public class EmailService {
         MimeMessage message = javaMailSender.createMimeMessage();
 
         message.addRecipients(MimeMessage.RecipientType.TO, to);
-        message.setSubject("Voss 회원가입 이메일 인증");
+        message.setSubject("Block Stock 회원가입 이메일 인증");
 
         String mmsg = "";
         mmsg += "<div style='margin:100px;'>";
         mmsg += "<h1> 안녕하세요</h1>";
-        mmsg += "<h1> 모두가 성우가 되는 Voss 입니다</h1>";
+        mmsg += "<h1> 블록 코딩을 활용한 모의 주식 플랫폼 Block Stock입니다</h1>";
         mmsg += "<br>";
         mmsg += "<p>아래 코드를 회원가입 창으로 돌아가 입력해주세요<p>";
         mmsg += "<br>";
@@ -111,12 +110,12 @@ public class EmailService {
         MimeMessage message = javaMailSender.createMimeMessage();
 
         message.addRecipients(MimeMessage.RecipientType.TO, to);
-        message.setSubject("Voss 임시 비밀번호");
+        message.setSubject("Block Stock 임시 비밀번호");
 
         String mmsg = "";
         mmsg += "<div style='margin:100px;'>";
         mmsg += "<h1> 안녕하세요</h1>";
-        mmsg += "<h1> 모두가 성우가 되는 Voss 입니다</h1>";
+        mmsg += "<h1> 블록 코딩을 활용한 모의 주식 플랫폼 Block Stock입니다</h1>";
         mmsg += "<br>";
         mmsg += "<p>귀하의 임시 비밀번호가 아래와 같이 변경되었습니다.<p>";
         mmsg += "<br>";
