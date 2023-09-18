@@ -3,6 +3,7 @@ import { useRecoilValue } from "recoil";
 import { postidState } from "../../../recoil/FreeBoard/Post";
 import { freeBoardList } from '../../../recoil/FreeBoard/FreeBoardList'
 import { post } from '../../../recoil/FreeBoard/FreeBoardList'
+import { useNavigate } from "react-router-dom";
 import {
   Container,
   PostTitle,
@@ -33,6 +34,7 @@ import CommentCreate from "./Comment/CommentCeate";
 import CommentList from "./Comment/CommentList";
 
 function FreeBoardItemDetail(){
+  const navigate = useNavigate();
   const postId = useRecoilValue(postidState);
   const boardList = useRecoilValue(freeBoardList);
   const postList = useRecoilValue(post);
@@ -42,7 +44,7 @@ function FreeBoardItemDetail(){
   const postListItem = postList.find(item => item.memberId === postId);
 
 
-  const { title, nickname, modifiedAt, hit } = selectedItem.freeboard;
+  const { title, nickname, modifiedAt, hit, id } = selectedItem.freeboard;
   const { likes, content, isLike } = postListItem;
 
   return(
@@ -91,7 +93,7 @@ function FreeBoardItemDetail(){
             <Content>{content}</Content>
           </ContentBox>
           <BtnBox>
-            <UpdateBtn>수정</UpdateBtn>
+            <UpdateBtn onClick={() => navigate('/freeboardupdate', { state: { 'id':id, 'title':title, 'content':content } })}>수정</UpdateBtn>
             <DeleteBtn>삭제</DeleteBtn>
           </BtnBox>
         </Wrapper>
