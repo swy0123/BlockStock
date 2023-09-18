@@ -11,6 +11,7 @@ import { freeBoardList } from '../../../recoil/FreeBoard/FreeBoardList'
 import { postidState } from '../../../recoil/FreeBoard/Post';
 import TablePagination from '@mui/material/TablePagination';
 import { useNavigate } from "react-router-dom";
+import Tooltip from "../../Tooltip/Tooltip";
 import {
   Container,
   Wrapper,
@@ -95,7 +96,6 @@ function FreeBoardListBox() {
   );
 
 
-
   return (
     <Container>
       <Wrapper>
@@ -134,17 +134,21 @@ function FreeBoardListBox() {
         <FreeBoardBox>
           {filteredItems.map((item, index) => (
             <div 
-            key={`boardItem_${index}`} 
-            
-            onClick={() => {
-              setPostid(item.freeboard.id); 
-              // navigate(`/freeboarddetail/${item.freeboard.id}`);
-              navigate(`/freeboarddetail`);
-            }}
+            key={`boardItem_${index}`}
             ><div style={{ display: 'flex', cursor:'pointer' }}>
               <ItemNumber>{item.freeboard.id}</ItemNumber>
-              <ItemTitle>{item.freeboard.title}</ItemTitle>
-              <ItemWriter>{item.freeboard.nickname}</ItemWriter>
+              <ItemTitle
+               onClick={() => {
+                setPostid(item.freeboard.id); 
+                // navigate(`/freeboarddetail/${item.freeboard.id}`);
+                navigate(`/freeboarddetail`);
+              }}
+              >{item.freeboard.title}</ItemTitle>
+
+              <Tooltip state={{ nickname: item.freeboard.nickname, id: item.freeboard.id }}>
+                <ItemWriter>{item.freeboard.nickname}</ItemWriter>
+              </Tooltip>
+
               <ItemTime>{item.freeboard.modifiedAt}</ItemTime>
               <ItemtHit>{item.freeboard.hit}</ItemtHit>
             </div>

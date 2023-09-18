@@ -17,6 +17,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';import {
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
+
 const preventDefault = (event) => event.preventDefault();
 
 function FreeBoardUpdateBox(){
@@ -107,9 +108,8 @@ function FreeBoardUpdateBox(){
     </Container>
     <ButtonBox>
       <Button1 onClick={()=>navigate('/freeboard')}>목록</Button1>
-      <Button2 onClick={handleSubmit}>등록</Button2>
+        <Button2 onClick={handleSubmit}>등록</Button2>
     </ButtonBox>
-
     </>
   )
 }
