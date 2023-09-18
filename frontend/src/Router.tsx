@@ -15,8 +15,10 @@ import CompletedContest from "./pages/Contest/CompletedContest";
 import MyPage from "./pages/Member/MyPage";
 import FreeBoardList from "./pages/FreeBoard/FreeBoardList";
 import FreeBoardCreate from "./pages/FreeBoard/FreeBoardCreate";
+import UserInfoEdit from "./components/MyPage/UserInfoEdit";
 import FreeBoardDetail from "./pages/FreeBoard/FreeBoardDetail";
 import FreeBoardUpdate from "./pages/FreeBoard/FreeBoardUpdate";
+
 const router = createBrowserRouter([
     {
         path: "/",
@@ -83,6 +85,11 @@ const router = createBrowserRouter([
                 errorElement: <ErrorComponent/>,
               },
             {
+                path: "/userinfoedit",
+                element: <UserInfoEdit/>,
+                errorElement: <ErrorComponent/>
+            },
+            {
                 path: "/freeboarddetail",
                 element: <FreeBoardDetail/>,
                 errorElement: <ErrorComponent/>,
@@ -92,6 +99,7 @@ const router = createBrowserRouter([
                 element: <FreeBoardUpdate/>,
                 errorElement: <ErrorComponent/>,
               },
+
         ],
         errorElement: <NotFound />
     }
