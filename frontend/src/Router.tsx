@@ -16,6 +16,7 @@ import MyPage from "./pages/Member/MyPage";
 import FreeBoardList from "./pages/FreeBoard/FreeBoardList";
 import FreeBoardCreate from "./pages/FreeBoard/FreeBoardCreate";
 import FreeBoardDetail from "./pages/FreeBoard/FreeBoardDetail";
+import FreeBoardUpdate from "./pages/FreeBoard/FreeBoardUpdate";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -84,6 +85,11 @@ const router = createBrowserRouter([
             {
                 path: "/freeboarddetail",
                 element: <FreeBoardDetail/>,
+                errorElement: <ErrorComponent/>,
+              },
+            {
+                path: "/freeboardupdate",
+                element: <FreeBoardUpdate/>,
                 errorElement: <ErrorComponent/>,
               },
         ],
