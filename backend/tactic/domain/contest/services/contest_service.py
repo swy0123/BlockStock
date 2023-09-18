@@ -59,8 +59,8 @@ def delete_contest(contest_id: int):
     contest = session.get(Contest, contest_id)
 
     if not contest:
-        raise HTTPException(status_code=StatusCode.CONTEST_DELETE_ERROR_CODE,
-                            detail=Message.CONTEST_DELETE_ERROR_MSG)
+        raise HTTPException(status_code=StatusCode.CONTEST_NOT_EXIST_ERROR_CODE,
+                            detail=Message.CONTEST_NOT_EXIST_ERROR_CODE)
     session.delete(contest)
     session.commit()
 
@@ -71,8 +71,12 @@ def participate_contest(user_id: int, info_create: InfoRequest):
 
     db_participate = Participate(user_id, info_create)
 
-    # user_id 유효한지 확인
-    # info_create 값들 유효한지 확인
+    # user 유효한지 확인
+
+    if not session.get(Contest, InfoRequest.contestId):
+        raise HTTPException(status_code=StatusCode.CONTEST_NOT_EXIST_ERROR_CODE)
+
+    # tactic 값 유효한지 확인
 
     session.add(db_participate)
     session.commit()
