@@ -34,6 +34,9 @@ def enroll_contest(contest_create: ContestRequest):
 def participate_contest(info_create: InfoRequest, user_id: Optional[int] = Header(None)):
     contest_service.participate_contest(user_id, info_create)
 
+@router.delete("/api/contest/participate/{contest_id}")
+def cancel_participate_contest(contest_id: int, user_id: Optional[int] = Header(None)):
+    contest_service.cancel_participate_contest(user_id, contest_id)
 
 @router.delete("/{contest_id}")
 def delete_contest(contest_id: int):

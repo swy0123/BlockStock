@@ -81,5 +81,17 @@ def participate_contest(user_id: int, info_create: InfoRequest):
     session.add(db_participate)
     session.commit()
 
+
+def cancel_participate_contest(user_id, contest_id):
+    # user 유효한지 확인
+
+    if not session.get(Contest, contest_id):
+        raise HTTPException(status_code=StatusCode.CONTEST_NOT_EXIST_ERROR_CODE)
+
+    participate = session.get(Participate).where(Participate.member_id == user_id).where(Contest.id == contest_id).first()
+
+    session.delete(participate)
+    session.commit()
+
 def save_contest_sec_info():
     return ""
