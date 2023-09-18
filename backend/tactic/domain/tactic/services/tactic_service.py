@@ -5,6 +5,7 @@ import math
 
 from domain.tactic.schemas.chart_info_response import ChartInfo
 from domain.tactic.schemas.tactic_test_response import TacticTestResponse
+from domain.tactic.schemas.option_history_response import OptionHistory
 
 # 연결 여부 체크
 objCpCybos = win32com.client.Dispatch("CpUtil.CpCybos")
@@ -15,6 +16,7 @@ if bConnect == 0:
 
 
 # 전역변수
+
 # past_data
 #   get_tactic_test_response에서 최근 100일 과거 데이터 구하기
 #   get_recent_indicators 에서 사용
@@ -35,6 +37,30 @@ recent_indicators_data = 0
 #   curData 에서 현재 날짜 데이터 구할 때 사용
 now_data = []
 
+# now_asset
+#   처음에 tactic_test_request startAsset으로 초기화
+#   buy 또는 sell 계산 시 변화
+#   마지막에 endAsset 으로 반환
+now_asset = 0
+
+# now_stock_cnt
+#   현재 보유 주식
+#   처음에 0으로 초기화
+#   마지막 턴 끝나고 남은 주식 모두 팔기
+now_stock_cnt = 0
+
+# option_history_list
+#   주식 매수, 매도 내역 저장
+#   exec(python_code) 실행 후 response : optionHistory에 저장
+option_history_list = []
+
+# buy_sum, buy_cnt, sell_sum, sell_cnt
+#   매수 가격 합, 총 매수 개수, 매도 가격 합, 총 매도 개수
+buy_sum = 0
+buy_cnt = 0
+sell_sum = 0
+sell_cnt = 0
+
 
 # tactic test service
 def get_tactic_test_response(tactic_test_request):
@@ -42,6 +68,14 @@ def get_tactic_test_response(tactic_test_request):
 
     # startAsset setting
     response.startAsset = tactic_test_request.startAsset
+
+    # set now_asset
+    global now_asset
+    now_asset = tactic_test_request.startAsset
+
+    # set now_stock_cnt
+    global now_stock_cnt
+    now_stock_cnt = 0
 
     # set now_data
     global now_data
@@ -54,6 +88,20 @@ def get_tactic_test_response(tactic_test_request):
     # set recent_indicators_data
     global recent_indicators_data
     recent_indicators_data = 0
+
+    # set option_history_list
+    global option_history_list
+    option_history_list = []
+
+    # set buy, sell
+    global buy_sum
+    buy_sum = 0
+    global buy_cnt
+    buy_cnt = 0
+    global sell_sum
+    sell_sum = 0
+    global sell_cnt
+    sell_cnt = 0
 
     # chartInfos setting
     response.chartInfos = []
@@ -83,11 +131,27 @@ def get_tactic_test_response(tactic_test_request):
     while True:
         if now_repeat_cnt == tactic_test_request.repeatCnt:
             break
-        # exec(tactic_test_request.tacticPythonCode)
-        if (get_recent_indicators(10, "low", "avg")) < (curData("low")):
-            buy(("10%"))
+        exec(tactic_test_request.tacticPythonCode)
+        # if (get_recent_indicators(10, "low", "avg")) < (curData("low")):
+        #     buy(asset(10))
+        #     sell(reserve(10))
+        #     buy(10)
 
         now_repeat_cnt += 1
+
+    response.optionHistory = option_history_list
+
+    # 반복문 끝나고 주식 남아있으면 다 팔기
+    if now_stock_cnt > 0:
+        now_asset += now_stock_cnt * now_data[now_repeat_cnt-1][4]
+
+    # endAsset setting
+    response.endAsset = now_asset
+
+    # 수익률 setting
+    response.returnPercent = response.endAsset / response.startAsset
+    if response.startAsset > response.endAsset:
+        response.returnPercent *= -1
 
     return response
 
@@ -171,7 +235,6 @@ def get_data_list(tactic_test_request, period):
     instStockChart.SetInputValue(1, ord('1'))
     instStockChart.SetInputValue(2, data_end_time)
     instStockChart.SetInputValue(3, data_start_time)
-    # instStockChart.SetInputValue(4, 10)
     instStockChart.SetInputValue(5, (0, 1, 2, 3, 4, 5, 8))
     instStockChart.SetInputValue(6, ord(type6))
     instStockChart.SetInputValue(9, ord('1'))
@@ -317,4 +380,60 @@ def curData(data_type):
 
 
 def buy(param):
-    print("buy")
+    global now_asset, now_stock_cnt, buy_sum, buy_cnt
+    # param 들어온 개수만큼 살 수 있는지 확인
+    if param * now_data[now_repeat_cnt][4] <= now_asset:
+        now_asset -= param * now_data[now_repeat_cnt][4]
+        now_stock_cnt += param
+        # option_history_response 객체 생성
+        item = OptionHistory()
+        item.type = "buy"
+        item.turn = now_repeat_cnt
+        item.cost = now_data[now_repeat_cnt][4]
+        item.tradeCnt = param
+        # 매도 총 합, 개수 계산
+        buy_sum += param * now_data[now_repeat_cnt][4]
+        buy_cnt += param
+
+        # 실현손익 setting
+        item.profitAndLoss = 0
+        # list에 넣기
+        option_history_list.append(item)
+
+
+def sell(param):
+    global now_stock_cnt, now_asset, sell_sum, sell_cnt
+    print("sell")
+    # param 들어온 수만큼 팔 수 있는지 확인
+    if param <= now_stock_cnt:
+        now_asset += param * now_data[now_repeat_cnt][4]
+        now_stock_cnt -= param
+        # 매수 총 합, 개수 계산
+        sell_sum += param * now_data[now_repeat_cnt][4]
+        sell_cnt += param
+        # option_history_response 객체 생성
+        item = OptionHistory()
+        item.type = "sell"
+        item.turn = now_repeat_cnt
+        item.cost = now_data[now_repeat_cnt][4]
+        item.tradeCnt = param
+
+        buy_avg = buy_sum / buy_cnt
+        # 매수 평균
+        sell_avg = 0
+        if sell_cnt != 0:
+            sell_avg = sell_sum / sell_cnt
+        item.profitAndLoss = (buy_avg - sell_avg) * param
+        # list에 넣기
+        option_history_list.append(item)
+
+
+def asset(percent):
+    tmp_asset = math.ceil(now_asset / 100 * percent)
+    return math.ceil(tmp_asset / now_data[now_repeat_cnt][4])
+    # print("asset")
+
+
+def reserve(percent):
+    return math.ceil(now_stock_cnt / percent)
+    # print("reserve")
