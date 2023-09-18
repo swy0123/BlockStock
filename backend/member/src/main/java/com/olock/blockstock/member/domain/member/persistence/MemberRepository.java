@@ -20,4 +20,5 @@ public interface MemberRepository extends Neo4jRepository<Member, Long> {
     Long updateLastIdx();
 
 
+    boolean existsByEmail(String email);
 }
