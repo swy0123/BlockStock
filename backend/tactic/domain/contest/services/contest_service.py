@@ -4,7 +4,8 @@ from sqlalchemy.orm import joinedload
 
 from domain.contest.schemas.contest import ContestRequest, InfoRequest, ContestResponse
 from domain.contest.schemas.contest_type import ContestType
-from domain.contest.models.contest import Contest, Participate
+from domain.contest.models.contest import Contest
+from domain.contest.models.participate import Participate
 from domain.contest.error.contest_exception import StatusCode, Message
 from db.conn import engineconn
 from datetime import datetime
@@ -44,9 +45,13 @@ def get_contests(status: str,
 
 
 def get_prev_contest_result():
-    return (session.query(Participate).options(joinedload(Participate.contest_id)).
-            where(Contest.end_time).order_by(desc(Contest.end_time)).order_by(desc(Participate.result_money)).limit(
-        3)).all()
+    contest = session.query(Contest).filter(Contest.end_time < datetime.now()).order_by(Contest.end_time.desc()).first()
+
+    prev_result = (session.query(Participate.member_id, Participate.result_money).
+                   outerjoin(Participate, Contest.id == Participate.contest_id).filter(Contest.id == contest.id).
+                   limit(3).all())
+
+    return prev_result
 
 def create_contest(contest_create: ContestRequest):
     db_contest = Contest(contest_create)
@@ -94,6 +99,7 @@ def cancel_participate_contest(user_id, contest_id):
 
     session.delete(participate)
     session.commit()
+
 
 def save_contest_sec_info():
     return ""
