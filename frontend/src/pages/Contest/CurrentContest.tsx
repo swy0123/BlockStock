@@ -6,7 +6,7 @@ import ContestStoreBtn from "../../components/Contest/ContestStore/ContestStoreB
 const Container = styled.div`
 margin: 30px 0px 0px 60px;
 width: 1000px;
-height: 800px;
+min-height: 200px;
 `;
 
 function CurrentContest(){

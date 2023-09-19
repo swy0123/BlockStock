@@ -12,7 +12,22 @@ import {
   Content,
   Personnel,
 } from './ContestCancelModal.style'
+
+// import {contestCancel} from '../../../../api/Contest/ContestCancel'
+
 function ContestCancelModal( {selectedContest, onClose}){
+
+
+  const handleCancel = () =>{
+    console.log('대회 번호', selectedContest.id)
+    // cancel()
+  }
+
+  // const cancel = async () => {
+  //       const contest = await contestCancel(selectedContest.id)
+  //       console.log(contest)
+  //     }
+
   return(
     <Container>
       <Modal>
@@ -28,7 +43,7 @@ function ContestCancelModal( {selectedContest, onClose}){
 
         </Wrapper>
         <Box>
-            <Button1>참가취소</Button1>
+            <Button1 onClick={handleCancel}>참가취소</Button1>
             <Button2 onClick={() => {onClose()}}>목록으로</Button2>
           </Box>
       </Modal>
