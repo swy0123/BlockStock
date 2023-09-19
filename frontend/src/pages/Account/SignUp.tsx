@@ -249,7 +249,7 @@ function SignUp() {
           })}
         ></Input>
         <br />
-        <ErrorMessage>{errors?.password?.message}</ErrorMessage>
+        <ErrorMessage>{errors?.password?.message as string}</ErrorMessage>
 
         <Input
           placeholder="Check Password"
@@ -260,7 +260,7 @@ function SignUp() {
           })}
         />
         <br />
-        <ErrorMessage>{errors?.checkpassword?.message}</ErrorMessage>
+        <ErrorMessage>{errors?.checkpassword?.message as string}</ErrorMessage>
 
         <SignupBtn type="submit">Sign up</SignupBtn>
         <Box>
