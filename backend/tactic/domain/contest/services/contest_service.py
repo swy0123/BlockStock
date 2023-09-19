@@ -3,6 +3,7 @@ from sqlalchemy import desc
 from sqlalchemy.orm import joinedload
 
 from domain.contest.schemas.contest import ContestRequest, InfoRequest, ContestResponse
+from domain.contest.schemas.contest_prev_response import ContestPrevResponse
 from domain.contest.schemas.contest_type import ContestType
 from domain.contest.models.contest import Contest, Participate
 from domain.contest.error.contest_exception import StatusCode, Message
@@ -44,9 +45,24 @@ def get_contests(status: str,
 
 
 def get_prev_contest_result():
-    return (session.query(Participate).options(joinedload(Participate.contest_id)).
-            where(Contest.end_time).order_by(desc(Contest.end_time)).order_by(desc(Participate.result_money)).limit(
-        3)).all()
+    contest = session.query(Contest).filter(Contest.end_time < datetime.now()).order_by(Contest.end_time.desc()).first()
+
+    print(contest)
+    members = (session.query(Participate.member_id, Participate.result_money).
+               outerjoin(Contest, Contest.id == Participate.contest_id).
+               filter(Contest.id == contest.id).
+               limit(3).all())
+
+    result = []
+
+    for member in members:
+        result.append(ContestPrevResponse(member_id=member.member_id,
+                                          profile_image="",  # 이미지 받아오기
+                                          ticket=contest.ticket,
+                                          result_money=member.result_money))
+
+    return result
+
 
 def create_contest(contest_create: ContestRequest):
     db_contest = Contest(contest_create)
@@ -68,7 +84,6 @@ def delete_contest(contest_id: int):
 
 
 def participate_contest(user_id: int, info_create: InfoRequest):
-
     db_participate = Participate(user_id, info_create)
 
     # user 유효한지 확인
@@ -80,6 +95,7 @@ def participate_contest(user_id: int, info_create: InfoRequest):
 
     session.add(db_participate)
     session.commit()
+
 
 def cancel_participate_contest(user_id, contest_id):
     # user 유효한지 확인
@@ -94,6 +110,7 @@ def cancel_participate_contest(user_id, contest_id):
 
     session.delete(participate)
     session.commit()
+
 
 def save_contest_sec_info():
     return ""
