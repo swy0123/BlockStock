@@ -2,6 +2,10 @@ from fastapi import HTTPException
 from sqlalchemy import desc
 from sqlalchemy.orm import joinedload
 
+from domain.contest.schemas.contest_list_resopnse import ContestListResponse
+from domain.contest.schemas.contest_requeset import ContestRequest
+from domain.contest.schemas.info_request import InfoRequest
+from domain.contest.schemas.contest_response import ContestResponse
 from domain.contest.schemas.contest import ContestRequest, InfoRequest, ContestResponse
 from domain.contest.schemas.contest_prev_response import ContestPrevResponse
 from domain.contest.schemas.contest_type import ContestType
@@ -39,9 +43,14 @@ def get_contests(status: str,
                   filter(Contest.title.ilike(f'%%{key_word}%%')).
                   order_by(desc(Contest.created_at)).offset(offset).limit(size).all())
 
-    # for contest in result:
-    #     contest_result.append(ContestResponse(contest))
-    return result
+    for contest in result:
+        # 참가한건지 안한건지 확인하는 변수 추가
+        # 참여 인원 수 추가
+        is_registed = False
+        join_people = session.query(Participate).where(Contest.id == Participate.contest_id).count()
+        contest_result.append(ContestResponse(contest, is_registed, join_people))
+
+    return ContestListResponse(contest_result, len(contest_result))
 
 
 def get_prev_contest_result():
@@ -64,6 +73,7 @@ def get_prev_contest_result():
     return result
 
 
+
 def create_contest(contest_create: ContestRequest):
     db_contest = Contest(contest_create)
 
@@ -84,6 +94,7 @@ def delete_contest(contest_id: int):
 
 
 def participate_contest(user_id: int, info_create: InfoRequest):
+
     db_participate = Participate(user_id, info_create)
 
     # user 유효한지 확인
