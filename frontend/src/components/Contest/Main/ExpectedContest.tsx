@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { useNavigate } from "react-router-dom";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
@@ -20,6 +20,9 @@ import {
   Term,
   ContestContent,
 } from './ExpectedContest.styled'
+
+// api 통신
+import { expectedContest } from '../../../api/Contest/Main';
 
 function ExpectedContest(){
   const navigate = useNavigate();
@@ -63,6 +66,26 @@ function ExpectedContest(){
       isRegisted: true
     }
   ]
+
+
+  // api 통신 ==================================================
+  // const params = {
+  //   status: 'expected',
+  //   page: 0,
+  //   size: 100,
+  //   keyWord: 'str'
+  // };
+  
+  // useEffect(()=>{
+  //   expectedcontest()
+  // },[page,rowsPerPage,searchKeyword])
+
+  // const expectedcontest = async () => {
+  //   const contest = await expectedContestContent(params)
+  //   console.log(contest)
+  // }
+  // api 통신 ==================================================
+
 
   const [showContent, setShowContent] = useState(Array(expectedContestList.length).fill(false));
   const toggleContent = (index) => {
