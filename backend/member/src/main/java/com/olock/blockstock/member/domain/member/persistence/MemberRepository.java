@@ -13,6 +13,9 @@ public interface MemberRepository extends Neo4jRepository<Member, Long> {
     @Query("MATCH (n:Member) WHERE n.id = $id RETURN n")
     Optional<Member> findByMemberId(@Param("id") Long id);
 
+    @Query("MATCH (n:Member) WHERE n.id = 0 RETURN COUNT(n) > 0")
+    public boolean existsByMemberId(@Param("id") Long id);
+
     @Query("MATCH (idx:Idx) RETURN idx.lastIdx")
     Long findLastIdx();
 

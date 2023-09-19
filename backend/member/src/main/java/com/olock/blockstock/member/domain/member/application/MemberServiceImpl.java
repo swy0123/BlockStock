@@ -28,13 +28,12 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final MemberProducer memberProducer;
     private final PasswordEncoder passwordEncoder;
+    private final MemberValidator memberValidator;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public void join(MemberJoinRequest memberJoinRequest) {
-        if (memberRepository.existsByEmail(memberJoinRequest.getEmail())) {
-            throw new DuplicateEmailException("중복 이메일");
-        }
+        memberValidator.validateDuplicateEmail(memberJoinRequest);
 
         Member member = Member.builder()
                 .id(memberRepository.findLastIdx())
@@ -59,8 +58,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberInfoResponse getInfo(Long memberId) {
-        Member member = memberRepository.findByMemberId(memberId)
-                .orElseThrow(() -> new NoMemberException("존재하지 않는 회원입니다"));
+        memberValidator.validateExistsMember(memberId);
+        Member member = memberRepository.findByMemberId(memberId).get();
 
         return new MemberInfoResponse(member);
     }
