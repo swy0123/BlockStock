@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { useNavigate } from "react-router-dom";
 
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -28,7 +28,10 @@ import {
   NotCurrentContestImage,
   ContestReturn,
  } from './CurrentContest.style'
-  
+
+ // api 통신 
+//  import {currentContest} from '../../../api/Contest/Main'
+
 function CurrentContest(){
 
   const navigate = useNavigate();
@@ -36,6 +39,18 @@ function CurrentContest(){
   // const [period, setPeriod] = useState<string>('2023-09-11 ~ 2023-09-12')
   // const [currentContestList, setCurrentContestList] = useState([]);
 
+
+  // api 통신 ====================================================
+  // useEffect(()=>{
+    // currentcontest()
+  // },[])
+    // const currentcontest = async () => {
+  //   const contest = await currentContest()
+  //   console.log(contest)
+  // }
+  // api 통신 ====================================================
+
+  
 
   // 더미데이터
   const  contestResultList = [
@@ -64,95 +79,8 @@ function CurrentContest(){
             profileImage: "profile3.jpg",
             return: "+7%"
           },
-          {
-            nickName: "User4",
-            profileImage: "profile1.jpg",
-            return: "+5%"
-          },
-          {
-            nickName: "User5",
-            profileImage: "profile2.jpg",
-            return: "-2%"
-          },
-          {
-            nickName: "User6",
-            profileImage: "profile3.jpg",
-            return: "+7%"
-          },
-          {
-            nickName: "User4",
-            profileImage: "profile1.jpg",
-            return: "+5%"
-          },
-          {
-            nickName: "User5",
-            profileImage: "profile2.jpg",
-            return: "-2%"
-          },
-          {
-            nickName: "User6",
-            profileImage: "profile3.jpg",
-            return: "+7%"
-          },
-          {
-            nickName: "User4",
-            profileImage: "profile1.jpg",
-            return: "+5%"
-          },
-          {
-            nickName: "User5",
-            profileImage: "profile2.jpg",
-            return: "-2%"
-          },
-          {
-            nickName: "User6",
-            profileImage: "profile3.jpg",
-            return: "+7%"
-          },
-          {
-            nickName: "User4",
-            profileImage: "profile1.jpg",
-            return: "+5%"
-          },
-          {
-            nickName: "User5",
-            profileImage: "profile2.jpg",
-            return: "-2%"
-          },
-          {
-            nickName: "User6",
-            profileImage: "profile3.jpg",
-            return: "+7%"
-          },
         ]
       },
-      {
-        id: "2",
-        content: "Contest 2 details",
-        code: "ABC456",
-        title: "Contest 2 Title",
-        startAsset: "15000",
-        term: "Weekly",
-        startAt: "2023-02-15 10:30:00",
-        endAt: "2023-02-22 16:45:00",
-        ranking: [
-          {
-            nickName: "User4",
-            profileImage: "profile4.jpg",
-            return: "+9%"
-          },
-          {
-            nickName: "User5",
-            profileImage: "profile5.jpg",
-            return: "-1%"
-          },
-          {
-            nickName: "User6",
-            profileImage: "profile6.jpg",
-            return: "+3%"
-          }
-        ]
-      }
     ]
   
 

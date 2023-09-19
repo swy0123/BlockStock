@@ -14,7 +14,33 @@ import {
   Box,
 } from './ContestTicketModal.style'
 
+// 대회 참가 api
+import {contestParticipant} from '../../../../api/Contest/Participant'
+
+
 function ContestTicketModal({tacticid ,selectedContest, onClose}){
+
+
+  
+  // 대회 참가 api ==========================================================
+  const info = {
+    contestId:selectedContest.id,
+    taticId:tacticid
+  };
+  
+  const handleClick = () =>{
+    console.log('대회 참가', info)
+    participant()
+  }
+  
+  const participant = async () => {
+    const contest = await contestParticipant(info)
+    console.log(contest)
+  }
+  // 대회 참가 api ==========================================================
+
+
+
   return(
     <Container>
       <Modal>
@@ -28,7 +54,7 @@ function ContestTicketModal({tacticid ,selectedContest, onClose}){
             <Button1 onClick={() => {
               onClose(); 
             }}>취소</Button1>
-            <Button2>확인</Button2>
+            <Button2 onClick={handleClick}>확인</Button2>
           </Box>
       </Modal>
     </Container>
