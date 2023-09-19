@@ -20,6 +20,7 @@ import {
   SearchItemList,
   SearchType,
   SearchTypeDiv,
+  StyledDatePicker,
   Test,
   Title,
   TitleDiv,
@@ -28,7 +29,7 @@ import {
 import { ThemeProvider, createTheme } from "@mui/system";
 import { ToggleButtonGroup, ToggleButton } from "@mui/material";
 import OptionLikeListItem from "./OptionLikeListItem";
-import DatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 export interface OptionItemProps {
@@ -68,6 +69,7 @@ const BlockCoding = (props) => {
   const [round, setRound] = useState("50");
   const [tacticPythonCode, setTacticPythonCode] = useState(undefined);
   const [tacticJsonCode, setTacticJsonCode] = useState(undefined);
+  const [tacticImg, setTacticImg] = useState(undefined);
   const [codeCheck, setCodeCheck] = useState(true);
 
   const editSetTrue = () => {
@@ -105,6 +107,10 @@ const BlockCoding = (props) => {
   };
   const writeTacticJsonCode = (str) => {
     setTacticJsonCode(str);
+    console.log(str);
+  };
+  const writeTacticImg = (str) => {
+    setTacticImg(str);
     console.log(str);
   };
   const setCodeCheckTrue = () => {
@@ -209,7 +215,8 @@ const BlockCoding = (props) => {
     if (
       tacticPythonCode !== "undefined" &&
       tacticPythonCode !== "" &&
-      tacticJsonCode !== undefined
+      tacticJsonCode !== undefined &&
+      writeTacticImg !== undefined
     ) {
       console.log("테스트 버튼 누름 -----------------");
       if (title === "") setTitle("제목 없는 전략");
@@ -227,6 +234,7 @@ const BlockCoding = (props) => {
       props.returnRound(round);
       props.returnTacticPythonCode(tacticPythonCode);
       props.returnTacticJsonCode(tacticJsonCode);
+      props.returnTacticImg(tacticImg);
       console.log("---------------------------------");
       alert(tacticPythonCode);
 
@@ -341,6 +349,9 @@ const BlockCoding = (props) => {
             writeTacticJsonCode={(str) => {
               writeTacticJsonCode(str);
             }}
+            writeTacticImg={(str) => {
+              writeTacticImg(str);
+            }}
             codeCheck={codeCheck}
             setCodeCheckTrue={setCodeCheckTrue}
           ></BlocklyComponent>
@@ -358,7 +369,7 @@ const BlockCoding = (props) => {
             <Input type="text" onChange={handleStartAsset} value={addComma(startAsset) || ""} />
           </InputDetailValue>
           <InputDetailValue>
-            <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
+            <StyledDatePicker dateFormat="yyyy-MM-dd" selected={startDate} onChange={(date) => setStartDate(date)} />
           </InputDetailValue>
           <InputDetailValue>
             <ToggleButtonGroup size="small" {...controlTerm} aria-label="Small sizes">
@@ -392,9 +403,9 @@ const BlockCoding = (props) => {
         </InputDetailDiv>
         <InputOptionDiv>
           <span>
-            종목을
-            <Input type="text" value={optionName} onChange={handleOptionCodeField} readOnly/>
-            으로<button onClick={onClickTestButton}>테스트하기</button>
+            종목을&nbsp;
+             <Input type="text" value={optionName} onChange={handleOptionCodeField} readOnly/>
+            으로 <button onClick={onClickTestButton}>테스트하기</button>
           </span>
         </InputOptionDiv>
       </BlockCodingDiv>
