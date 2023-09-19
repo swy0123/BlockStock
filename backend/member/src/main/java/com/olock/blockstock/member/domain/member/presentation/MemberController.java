@@ -2,9 +2,7 @@ package com.olock.blockstock.member.domain.member.presentation;
 
 import com.olock.blockstock.member.domain.member.application.EmailService;
 import com.olock.blockstock.member.domain.member.application.MemberService;
-import com.olock.blockstock.member.domain.member.dto.request.EmailConfirmRequest;
-import com.olock.blockstock.member.domain.member.dto.request.EmailSendRequest;
-import com.olock.blockstock.member.domain.member.dto.request.MemberJoinRequest;
+import com.olock.blockstock.member.domain.member.dto.request.*;
 import com.olock.blockstock.member.domain.member.dto.response.MemberInfoResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +35,24 @@ public class MemberController {
     @GetMapping
     public ResponseEntity<MemberInfoResponse> detail(@RequestHeader("Member-id") Long memberId) {
         return ResponseEntity.ok(memberService.getInfo(memberId));
+    }
+
+    @PutMapping
+    public ResponseEntity<Void> modifyNickname(@RequestHeader("Member-id") Long memberId, @RequestBody MemberModifyRequest memberModifyRequest) {
+        memberService.modify(memberId, memberModifyRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/password")
+    public ResponseEntity<Void> updatePassword(@RequestHeader("Member-id") Long memberId, @RequestBody PasswordUpdateRequest passwordUpdateRequest) {
+        memberService.updatePassword(memberId, passwordUpdateRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/request-email")
+    public ResponseEntity<Void> requestPasswordEmail(@RequestBody EmailSendRequest emailSendRequest) {
+        emailService.sendPasswordEmail(emailSendRequest);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/request-email")

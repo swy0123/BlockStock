@@ -13,6 +13,9 @@ public interface MemberRepository extends Neo4jRepository<Member, Long> {
     @Query("MATCH (n:Member) WHERE n.id = $id RETURN n")
     Optional<Member> findByMemberId(@Param("id") Long id);
 
+    @Query("MATCH (n:Member) WHERE n.id = 0 RETURN COUNT(n) > 0")
+    public boolean existsByMemberId(@Param("id") Long id);
+
     @Query("MATCH (idx:Idx) RETURN idx.lastIdx")
     Long findLastIdx();
 
@@ -21,4 +24,10 @@ public interface MemberRepository extends Neo4jRepository<Member, Long> {
 
 
     boolean existsByEmail(String email);
+
+    @Query("MATCH (n:Member) WHERE n.id = $id SET n.nickname = $nickname")
+    void updateNickname(@Param("id") Long id, @Param("nickname") String nickname);
+
+    @Query("MATCH (n:Member) WHERE n.id = $id SET n.password = $password")
+    void updatePassword(@Param("id") Long id, @Param("password") String password);
 }
