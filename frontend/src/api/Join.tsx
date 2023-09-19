@@ -3,7 +3,7 @@
 import axios from "axios";
 import { privateApi, publicApi } from ".";
 
-const BASE_URL = 'https://j9b210.p.ssafy.io:8443/api';
+// const BASE_URL = 'https://j9b210.p.ssafy.io:8443/api';
 
 interface userData {
     email: string,
