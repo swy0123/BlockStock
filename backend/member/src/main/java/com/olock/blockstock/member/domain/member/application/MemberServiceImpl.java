@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.olock.blockstock.member.domain.member.dto.request.EmailSendRequest;
 import com.olock.blockstock.member.domain.member.dto.request.MemberJoinRequest;
+import com.olock.blockstock.member.domain.member.dto.request.MemberModifyRequest;
+import com.olock.blockstock.member.domain.member.dto.request.PasswordUpdateRequest;
 import com.olock.blockstock.member.domain.member.dto.response.MemberInfoResponse;
 import com.olock.blockstock.member.domain.member.exception.DuplicateEmailException;
 import com.olock.blockstock.member.domain.member.exception.NoMemberException;
@@ -61,5 +63,15 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(() -> new NoMemberException("존재하지 않는 회원입니다"));
 
         return new MemberInfoResponse(member);
+    }
+
+    @Override
+    public void modify(Long memberId, MemberModifyRequest memberModifyRequest) {
+
+    }
+
+    @Override
+    public void updatePassword(Long memberId, PasswordUpdateRequest passwordUpdateRequest) {
+
     }
 }
