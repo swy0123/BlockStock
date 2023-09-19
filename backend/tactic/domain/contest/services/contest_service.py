@@ -1,12 +1,10 @@
 from fastapi import HTTPException
 from sqlalchemy import desc
-from sqlalchemy.orm import joinedload
 
 from domain.contest.schemas.contest_list_resopnse import ContestListResponse
 from domain.contest.schemas.contest_requeset import ContestRequest
 from domain.contest.schemas.info_request import InfoRequest
 from domain.contest.schemas.contest_response import ContestResponse
-from domain.contest.schemas.contest import ContestRequest, InfoRequest, ContestResponse
 from domain.contest.schemas.contest_prev_response import ContestPrevResponse
 from domain.contest.schemas.contest_type import ContestType
 from domain.contest.models.contest import Contest, Participate
