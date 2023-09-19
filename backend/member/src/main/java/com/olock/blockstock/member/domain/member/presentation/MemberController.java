@@ -49,7 +49,7 @@ public class MemberController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/request-email/password")
+    @PutMapping("/request-email")
     public ResponseEntity<Void> requestPasswordEmail(@RequestBody EmailSendRequest emailSendRequest) {
         emailService.sendPasswordEmail(emailSendRequest);
         return ResponseEntity.ok().build();
