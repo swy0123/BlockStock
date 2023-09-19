@@ -32,7 +32,9 @@ import "blockly/blocks";
 import { Block, Category, Field, Shadow, Value } from ".";
 import { Order } from "blockly/javascript";
 import { workspaceCommentOption } from "blockly/core/contextmenu";
-// import { toolbox } from '../toolbox';
+
+import domtoimage from 'dom-to-image';
+import * as FileSaver from 'file-saver';
 
 Blockly.setLocale(locale);
 
@@ -132,6 +134,29 @@ function BlocklyComponent(props: any) {
     console.log("load");
   };
 
+  const exportImage = () => {
+    const blocklyBlockCanvas = document.querySelector('#blocklyDiv');
+    console.log(blocklyBlockCanvas)
+    let file = null;
+    if (blocklyBlockCanvas) {
+      // blocklyCursor 요소가 존재하는 경우
+      domtoimage.toBlob(blocklyBlockCanvas)
+        .then((blob) => {
+          file = new File([blob], 'image.png', { type: 'image/png' });
+          console.log(file)
+        })
+        // .then(function (blob) {
+        // FileSaver.saveAs(blob, 'blocklyCursor.png'); 
+        // })
+        .catch(function (error) {
+          console.error('이미지 캡처 중 오류 발생:', error);
+        });
+    } else {
+      console.log('클래스 "blocklyCursor"를 가진 SVG 요소가 존재하지 않습니다.');
+    }
+    return file
+  }
+
   useEffect(() => {
     // console.log(primaryWorkspace.current);
     if (primaryWorkspace.current != undefined) {
@@ -145,6 +170,7 @@ function BlocklyComponent(props: any) {
       if (primaryWorkspace.current != undefined) {
         props.writeTacticJsonCode(Blockly.serialization.workspaces.save(primaryWorkspace.current));
         props.writeTacticPythonCode(pythonGenerator.workspaceToCode(primaryWorkspace.current));
+        props.writeTacticImg(exportImage);
       }
       props.setCodeCheckTrue();
       console.log(props.codeCheck)
@@ -164,8 +190,6 @@ function BlocklyComponent(props: any) {
         }
       );
     }
-
-
     if (initialXml) {
       Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(initialXml), primaryWorkspace.current);
     }
@@ -179,7 +203,9 @@ function BlocklyComponent(props: any) {
       <button onClick={reset}>reset</button>
       <button onClick={save}>save</button>
       <button onClick={load}>load</button>
+      <button onClick={() => exportImage()}>이미지</button>
       <div ref={blocklyDiv} id="blocklyDiv" />
+      {/* <div id='blocklyBlockCanvas'></div> */}
       <div style={{ display: "none" }} ref={toolbox}>
         <Category name="Logic" categorystyle="logic_category">
           <Block type="controls_if" />
@@ -286,7 +312,19 @@ function BlocklyComponent(props: any) {
           <Block type="stay" />
           <Block type="minmaxavg_select" />
           <Block type="ochlv_value" />
-          <Block type="calculate_data" >
+          <Block type="calculate_date_data" >
+            <Value name="OCHL">
+              <Shadow type="ochlv_value">
+                <Field name="FIELDNAME">open</Field>
+              </Shadow>
+            </Value>
+            <Value name="HLA">
+              <Shadow type="minmaxavg_select">
+                <Field name="FIELDNAME">high</Field>
+              </Shadow>
+            </Value>
+          </Block>
+          <Block type="calculate_term_data" >
             <Value name="OCHL">
               <Shadow type="ochlv_value">
                 <Field name="FIELDNAME">open</Field>
@@ -306,6 +344,13 @@ function BlocklyComponent(props: any) {
             </Value>
           </Block>
           <Block type="cnt_per_asset" >
+            <Value name="NAME">
+              <Shadow type="math_number">
+                <Field name="NUM">1</Field>
+              </Shadow>
+            </Value>
+          </Block>
+          <Block type="cnt_per_reserve" >
             <Value name="NAME">
               <Shadow type="math_number">
                 <Field name="NUM">1</Field>
