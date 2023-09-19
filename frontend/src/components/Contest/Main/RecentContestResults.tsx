@@ -14,17 +14,17 @@ import {
   RankReturn,
 } from './RecentContestResults.style';
 
-import {recentContestResults} from '../../../api/Contest/Main'
+// import {recentContestResults} from '../../../api/Contest/Main'
 
 function RecentContestResults() {
   const navigate = useNavigate();
   // const [rank,setRank] = useState([])
   
   // api 통신 ==================================================
-    // useEffect(()=>{
-    // recentcontestresults()
+  //   useEffect(()=>{
+  //   recentcontestresults()
   // },[])
-    // const recentcontestresults = async () => {
+  //   const recentcontestresults = async () => {
   //   const contest = await recentContestResults()
   //   console.log(contest)
   // }
