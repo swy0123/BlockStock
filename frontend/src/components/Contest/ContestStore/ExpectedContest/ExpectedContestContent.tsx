@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import KeyboardControlKeyIcon from '@mui/icons-material/KeyboardControlKey';
 import { useRecoilValue } from 'recoil';
@@ -19,41 +19,85 @@ import {
   Term,
   Button,
 } from './ExpectedContestContent.style'
+
+import TablePagination from '@mui/material/TablePagination';
+// import {expectedContestContent} from '../../../../api/Contest/ContestStore'
+
+
+const Line = ({ hide }) => {
+  console.log('hide prop:', hide); // hide prop을 로그에 출력
+  return (
+    <div
+      style={{
+        alignItems: 'center',
+        margin: '0px 0px 0px 0px',
+        border: '1px solid #D3D3D3',
+        display: hide ? 'none' : 'block',
+        marginBottom: '30px'
+      }}
+    >
+    </div>
+  );
+};
+
+
 function ExpectedContestContent(){
 
+  // const [expectedContestList, setExpectedContestList] = useState([])
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(3);
+
+  // 대회참가 모달 ==================================================================
   const [selectedContest, setSelectedContest] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
-  const contestResultList = useRecoilValue(expectedContestListState);
+  // 대회참가 모달 ==================================================================
 
+
+
+  // 리코일로 검색어를 불러온다 ======================================================
   const searchKeyword  = useRecoilValue(searchKeywordState);
+
+
+
+  // api 통신 이 후 삭제 ===============================================================
+  // 리코일로 더미데이터 가져오기 
+  const contestResultList = useRecoilValue(expectedContestListState);
+  // 더미데이터를 검색어를 통해 다시 리스트를 만듬
   const filteredContestList = contestResultList.filter((contest) =>
-    contest.title.includes(searchKeyword)
+  contest.title.includes(searchKeyword)
   );
-
-  const Line = ({ hide }) => {
-    console.log('hide prop:', hide); // hide prop을 로그에 출력
-    return (
-      <div
-        style={{
-          alignItems: 'center',
-          margin: '0px 0px 0px 0px',
-          border: '1px solid #D3D3D3',
-          display: hide ? 'none' : 'block',
-          marginBottom: '30px'
-        }}
-      >
-      </div>
-    );
-  };
+  // api 통신 이 후 삭제 ===============================================================
 
 
+
+
+  // api 통신 =============================================================
+  // const params = {
+  //   status: 'proceed',
+  //   page: page,
+  //   size: rowsPerPage,
+  //   keyWord: searchKeyword
+  // };
+  // useEffect(()=>{
+  //   expectedcontest()
+  // },[page,rowsPerPage,searchKeyword])
+
+  // const expectedcontest = async () => {
+  //   const contest = await expectedContestContent(params)
+  //   console.log(contest)
+  // }
+  // api 통신 =============================================================
+
+
+
+  // 해당 대회만 내용을 보여준다 ==========================================================
+  // filteredContestList 값은 api 통신 후 교체
   const [showContent, setShowContent] = useState(Array(filteredContestList.length).fill(false));
   const toggleContent = (index) => {
     const updatedShowContent = [...showContent];
     updatedShowContent[index] = !updatedShowContent[index];
     setShowContent(updatedShowContent);
-
     
     if (updatedShowContent[index]) {
       setSelectedContest(filteredContestList[index]);
@@ -61,28 +105,63 @@ function ExpectedContestContent(){
       setSelectedContest(null);
     }
   };
+  // 해당 대회만 내용을 보여준다 ==========================================================
 
+
+
+  // 페이지 네이션=====================================================================
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number,
+    ) => {
+      setPage(newPage);
+  };
+
+  // Handle rows per page change
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    ) => {
+      setRowsPerPage(parseInt(event.target.value, 10));
+      setPage(0);
+    };
+    
+  const rowsPerPageOptions = [5, 6, 7, 8];
+    
+  const startIndex = page * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
+  const itemsToDisplay = filteredContestList.slice(startIndex, endIndex);
+  const filteredItems = itemsToDisplay.filter((item) =>
+  item.title.includes(searchKeyword)
+  );
+  // 페이지 네이션=====================================================================
+
+
+
+  // 모달 열고 닫는 이벤트 ====================================================
   const OpenModal = () => {
     setIsModalOpen(!isModalOpen);
   };
-
+  
   const CloseModal = () => {
     setIsModalOpen(false);
   };
-
+  
   const OpenCandelModal = () => {
     setIsCancelModalOpen(!isCancelModalOpen);
   };
-
+  
   const CloseCandelModal = () => {
     setIsCancelModalOpen(false);
   };
+  // 모달 열고 닫는 이벤트 ====================================================
+  
+
 
   return(
     <Container>
 
       <Wrapper>
-        {filteredContestList.map((contest, index) => (
+        {filteredItems.map((contest, index) => (
           <div key={contest.id} style={{margin:'0px 0px 30px 0px'}}>
             <Line hide={index === 0} />
             <ContestBox onClick={() => toggleContent(index)}>
@@ -111,6 +190,18 @@ function ExpectedContestContent(){
             </ContentBox>
           </div>
         ))}
+
+        <TablePagination
+          component="div"
+          count={filteredContestList.length}
+          page={page}
+          onPageChange={handleChangePage}
+          rowsPerPage={rowsPerPage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          rowsPerPageOptions={rowsPerPageOptions}
+          style={{margin:'0px 50px 0px 0px'}}
+        />
+
          {isModalOpen ? <ContestTaticModal selectedContest={selectedContest} onClose={CloseModal}/> : null}
          {isCancelModalOpen ? <ContestCancelModal selectedContest={selectedContest} onClose={CloseCandelModal}/> : null}
       </Wrapper>

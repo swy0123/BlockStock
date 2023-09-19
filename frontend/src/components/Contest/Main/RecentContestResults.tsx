@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Container,
@@ -14,8 +14,21 @@ import {
   RankReturn,
 } from './RecentContestResults.style';
 
+import {recentContestResults} from '../../../api/Contest/Main'
+
 function RecentContestResults() {
   const navigate = useNavigate();
+  // const [rank,setRank] = useState([])
+  
+  // api 통신 ==================================================
+    // useEffect(()=>{
+    // recentcontestresults()
+  // },[])
+    // const recentcontestresults = async () => {
+  //   const contest = await recentContestResults()
+  //   console.log(contest)
+  // }
+  // api 통신 ==================================================
 
   const rank = [
     {

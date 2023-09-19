@@ -1,7 +1,6 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import KeyboardControlKeyIcon from '@mui/icons-material/KeyboardControlKey';
-import styled from "styled-components";
 import { useRecoilValue } from 'recoil';
 import { currentContestListState, searchKeywordState } from '../../../../recoil/Contest/CurrentContest';
 
@@ -18,6 +17,11 @@ import {
   Term,
   Button,
 } from './CurrentContestContent.style'
+
+import TablePagination from '@mui/material/TablePagination';
+
+// api 통신
+// import {currentContestlist} from '../../../../api/Contest/ContestStore'
 
 const Line = ({ hide }) => {
   return (
@@ -36,29 +40,86 @@ const Line = ({ hide }) => {
 
 function CurrentContestContent(){
 
-  const contestResultList = useRecoilValue(currentContestListState);
-
+  // 리코일에서 불러온 검색어
   const searchKeyword  = useRecoilValue(searchKeywordState);
-
+  
+  // api 통신 이후 삭제 =======================================================================
+  // 리코일에서 불러온 더미 데이터
+  const contestResultList = useRecoilValue(currentContestListState);
+  // 검색어로 title 일치하는 것만 다시 리스트로 배열을 만들어 준다
   const filteredContestList = contestResultList.filter((contest) =>
-    contest.title.includes(searchKeyword)
+  contest.title.includes(searchKeyword)
   );
+  // api 통신 이후 삭제 =======================================================================
 
 
+
+  // api 통신 =============================================================
+  // const params = {
+  //   status: 'proceed',
+  //   page: page,
+  //   size: rowsPerPage,
+  //   keyWord: searchKeyword
+  // };
+  // useEffect(()=>{
+  //   currentcontest()    
+  // },[page,rowsPerPage,searchKeyword])
+
+  // const currentcontest = async () => {
+  //     const contest = await currentContestlist(params)
+  //     console.log(contest)
+  //   }
+  // api 통신 =============================================================
+
+
+
+  // 해당 페이지 내용 열기 ==============================================================
   const [showContent, setShowContent] = useState(Array(filteredContestList.length).fill(false));
   const toggleContent = (index) => {
     const updatedShowContent = [...showContent];
     updatedShowContent[index] = !updatedShowContent[index];
     setShowContent(updatedShowContent);
   };
+  // 해당 페이지 내용 열기 ==============================================================
 
+
+
+  // 페이지 네이션=====================================================================
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(3);
   
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number,
+    ) => {
+      setPage(newPage);
+  };
+  
+  // Handle rows per page change
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    ) => {
+      setRowsPerPage(parseInt(event.target.value, 10));
+      setPage(0);
+    };
+    
+  const rowsPerPageOptions = [5, 6, 7, 8];
+    
+  const startIndex = page * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
+  const itemsToDisplay = filteredContestList.slice(startIndex, endIndex);
+  const filteredItems = itemsToDisplay.filter((item) =>
+  item.title.includes(searchKeyword)
+  );
+  // 페이지 네이션=====================================================================
+  
+
 
   return(
     <Container>
 
       <Wrapper>
-        {filteredContestList.map((contest, index) => (
+        {filteredItems.map((contest, index) => (
           <div key={contest.id} style={{margin:'0px 0px 30px 0px'}}>
             <Line hide={index === 0} />
             <ContestBox onClick={() => toggleContent(index)}>
@@ -83,6 +144,17 @@ function CurrentContestContent(){
             </ContentBox>
           </div>
         ))}
+
+        <TablePagination
+          component="div"
+          count={filteredContestList.length}
+          page={page}
+          onPageChange={handleChangePage}
+          rowsPerPage={rowsPerPage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          rowsPerPageOptions={rowsPerPageOptions}
+          style={{margin:'0px 50px 0px 0px'}}
+        />
       </Wrapper>
 
     </Container>
