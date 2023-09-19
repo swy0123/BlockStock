@@ -4,10 +4,12 @@ import com.olock.blockstock.member.domain.member.dto.request.EmailConfirmRequest
 import com.olock.blockstock.member.domain.member.dto.request.EmailSendRequest;
 import com.olock.blockstock.member.domain.member.exception.DuplicateEmailException;
 import com.olock.blockstock.member.domain.member.exception.NoEmailException;
+import com.olock.blockstock.member.domain.member.exception.NoMemberException;
 import com.olock.blockstock.member.domain.member.exception.WrongTokenException;
 import com.olock.blockstock.member.domain.member.persistence.EmailCodeRepository;
 import com.olock.blockstock.member.domain.member.persistence.MemberRepository;
 import com.olock.blockstock.member.domain.member.persistence.entity.EmailCode;
+import com.olock.blockstock.member.domain.member.persistence.entity.Member;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
@@ -15,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
@@ -26,6 +29,7 @@ public class EmailService {
     private final MemberRepository memberRepository;
     private final EmailCodeRepository emailCodeRepository;
     private final JavaMailSender javaMailSender;
+    private final PasswordEncoder passwordEncoder;
 
     @Value("${MAIL_USERNAME}")
     private String smtpUserName;
@@ -58,8 +62,7 @@ public class EmailService {
         MimeMessage message = null;
         try {
             message = createPasswordMessage(email, key);
-            // TODO : Email Update
-//            updateMemberPassword(email, key);
+            updateMemberPassword(email, key);
             javaMailSender.send(message);
         } catch (MailException | MessagingException | UnsupportedEncodingException es) {
             es.printStackTrace();
@@ -154,5 +157,11 @@ public class EmailService {
         }
 
         return key.toString();
+    }
+
+    private void updateMemberPassword(String email, String key) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new NoMemberException("존재하지 않는 회원입니다"));
+        memberRepository.updatePassword(member.getId(), passwordEncoder.encode(key));
     }
 }
