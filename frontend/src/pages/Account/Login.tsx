@@ -1,90 +1,19 @@
-import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { 
+	Container,
+	Wrapper,
+	LoginBox,
+	LogoImg,
+	Input,
+	Title,
+	Box,
+	Text,
+	LoginBtn,
+	Hr,
+	P,
+	BackGround
+ } from "./Login.style";
 
-const Container = styled.div`
-	margin-left: -200px;
-	margin-bottom: -150px;
-	align-items: center;
-	height: 85vh;
-	/* position: fixed; */
-`;
-const BackGround = styled.div`
-	margin-top: -150px;
-
-`
-const Wrapper = styled.div`
-	display: flex;
-	margin-right: 100px;
-	justify-content: end;
-	align-items: center;
-	height: 100%;
-`;
-const LoginBox = styled.div`
-	align-items: center;
-	text-align: center;
-	width: 440px;
-  	height: 550px;
-	flex-shrink: 0;
-	border-radius: 10px;
-	background: #FFF;
-	box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
-	z-index: 20;
-`;
-const LogoImg = styled.img`
-	margin-top: 25px;
-	margin-left: -20px;
-	width: 140px;
-`;
-const Title = styled.p`
-	font-size: 23px;
-	font-style: normal;
-	font-weight: 700;
-	margin-top: 35px;
-	margin-bottom: 5px;
-`;
-const Input = styled.input`
-	margin-top: 20px;
-	width: 330px;
-	height: 45px;
-	border-radius: 10px;
-	border: 1px solid rgba(0, 0, 0, 0.22);
-	background: #FFF;
-	font-size: 15px;
-	padding-left: 20px;
-`;
-const Text = styled.p`
-	color: #9155FD;
-	font-size: 15px ;
-	cursor: pointer;
-`
-const Box = styled.div`
-	display: flex;
-	justify-content: end;
-	margin-right: 45px;
-`;
-
-const LoginBtn = styled.button`
-	width: 360px;
-	height: 45px;
-	font-size: 15px;
-	color: white;
-	border: 0;
-	border-radius: 10px;
-	background: #9155FD;
-	margin-top: 15px;
-	margin-bottom: 25px;
-	cursor: pointer;
-`;
-const Hr = styled.hr`
-	width: 80%;
-	color: lightgray;
-`;
-const P = styled.p`
-	width: 25px;
-	background-color: white;
-	color: gray;
-	margin: -20px auto 20px auto;
-`;
 function Login(){
 	const navigate = useNavigate();
 
