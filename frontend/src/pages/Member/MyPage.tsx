@@ -6,6 +6,9 @@ import LikeList from "../../components/MyPage/LikeList";
 import RecodeList from "../../components/MyPage/RecodeList";
 import TacticList from "../../components/MyPage/TacticList";
 import { useNavigate } from "react-router-dom";
+import NickNameModal from "../../components/MyPage/EditModal/NickNameModal";
+import PasswordModal from "../../components/MyPage/EditModal/ChangePasswordModal";
+import SecessionModal from "../../components/MyPage/EditModal/SecessionModal";
 
 const Container = styled.div`
   width: 100%;
@@ -104,8 +107,22 @@ const ContentContainer = styled.div`
   margin-top: 30px;
 `;
 
+const Btn = styled.button`
+  width: 80px;
+  height: 30px;
+  border: 0;
+  border-radius: 10rem;
+  font-size: 10px;
+  margin: 10px 5px;
+  background-color: white;
+  box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+`
+
 function MyPage() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  const [selectedMenu, setSelectedMenu] = useState("PROFILE"); // 기본 메뉴 선택
+  const [isEditing, setIsEditing] = useState(false);
   const data = {
     id: 12,
     nickname: "ssafy1234",
@@ -121,8 +138,6 @@ function MyPage() {
     money: 122145221,
     ticketCnt: 12,
   };
-
-  const [selectedMenu, setSelectedMenu] = useState("PROFILE"); // 기본 메뉴 선택
 
   const renderContent = () => {
     switch (selectedMenu) {
@@ -140,6 +155,45 @@ function MyPage() {
         return null;
     }
   };
+
+  const enterEditMode = () => {
+    setIsEditing(true);
+  };
+
+  const exitEditMode = () => {
+    setIsEditing(false);
+  };
+  const closeModal = () => {
+    setIsEditing(false);
+  };
+  const [isNameModalOpen, setIsNameModalOpen] = useState(false);
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [isSecessionModalOpen, setIsSecessionModalOpen] = useState(false);
+  
+  const openNameModal = () => {
+    setIsNameModalOpen(true);
+    setIsEditing(true);
+  }
+  const openPasswordModal = () => {
+    setIsPasswordModalOpen(true);
+    setIsEditing(true);
+  }
+  const openSecessionModal = () => {
+    setIsSecessionModalOpen(true);
+    setIsEditing(true);
+  } 
+  const closeNameModal = () => {
+    setIsNameModalOpen(false);
+    setIsEditing(true);
+  }
+  const closePasswordModal = () => {
+    setIsPasswordModalOpen(false);
+    setIsEditing(false);
+  }
+  const closeSecessionModal = () => {
+    setIsSecessionModalOpen(false);
+     setIsEditing(false);
+  }
 
   return (
     <Container>
@@ -162,7 +216,47 @@ function MyPage() {
             <Text>{data.nickname}</Text>
             <Text>{data.email}</Text>
           </Box>
-          <EditBtn onClick={()=> navigate("/userinfoedit")}>회원 정보 수정 →</EditBtn>
+          <NickNameModal
+            isOpen={isNameModalOpen}
+            onClose={() => {
+              closeNameModal();
+              closeModal();
+            }}
+            data = {data.nickname}
+          />
+          <PasswordModal
+            isOpen={isPasswordModalOpen}
+            onClose={() => {
+              closePasswordModal();
+              closeModal();
+            }}
+          />
+          <SecessionModal
+            isOpen={isSecessionModalOpen}
+            onClose={() => {
+              closeSecessionModal();
+              closeModal();
+            }}
+          />
+          <div
+        onMouseEnter={enterEditMode}
+        onMouseLeave={exitEditMode}
+        onClick={exitEditMode}
+      >
+        {isEditing ? (
+          <div>
+            <Btn onClick={openNameModal}>닉네임 변경</Btn>
+            {/* <NickNameModal isOpen={isNameModalOpen} onClose={closeNameModal}/> */}
+            <Btn onClick={openPasswordModal}>비밀번호 변경</Btn>
+            {/* <PasswordModal isOpen={isPasswordModalOpen} onClose={closePasswordModal}/> */}
+            <Btn onClick={openSecessionModal}>회원 탈퇴</Btn>
+            {/* <SecessionModal isOpen={isSecessionModalOpen} onClose={closeSecessionModal}/> */}
+          </div>
+        ) : (
+          <EditBtn>회원 정보 수정 →</EditBtn>
+          // <EditBtn onClick={exitEditMode}>회원 정보 수정 →</EditBtn>
+        )}
+      </div>
         </InfoBox>
       </Wrapper>
       <BtnWrapper>
