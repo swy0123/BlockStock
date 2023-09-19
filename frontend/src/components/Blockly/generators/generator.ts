@@ -85,7 +85,7 @@ pythonGenerator.forBlock['once_volume'] = function(block, generator) {
 pythonGenerator.forBlock['sell'] = function(block, generator) {
   var value_name = generator.valueToCode(block, 'NAME', Order.ATOMIC);
   // TODO: Assemble python into code variable.
-  var code = 'sell('+value_name+')\n';
+  var code = 'sell('+value_name+')';
   return code;
 };
 
@@ -93,7 +93,7 @@ pythonGenerator.forBlock['sell'] = function(block, generator) {
 pythonGenerator.forBlock['buy'] = function(block, generator) {
   var value_name = generator.valueToCode(block, 'NAME', Order.ATOMIC);
   // TODO: Assemble python into code variable.
-  var code = 'buy('+value_name+')\n';
+  var code = 'buy('+value_name+')';
   return code;
 };
 
@@ -101,7 +101,7 @@ pythonGenerator.forBlock['buy'] = function(block, generator) {
 pythonGenerator.forBlock['stay'] = function(block, generator) {
   var field_name = block.getFieldValue('NAME');
   // TODO: Assemble python into code variable.
-  var code = 'stay()\n';
+  var code = 'stay()';
   return code;
 };
 
@@ -121,7 +121,7 @@ pythonGenerator.forBlock['ochlv_value'] = function(block, generator) {
   return [code, Order.NONE];
 };
 
-pythonGenerator.forBlock['calculate_data'] = function(block, generator) {
+pythonGenerator.forBlock['calculate_date_data'] = function(block, generator) {
   // const MAX_LENGTH = 100;
   // var value_date = generator.valueToCode(block, 'DATE', Order.NONE).toString();
   var value_date =  block.getFieldValue('DATE');
@@ -132,7 +132,23 @@ pythonGenerator.forBlock['calculate_data'] = function(block, generator) {
   var value_ochl = generator.valueToCode(block, 'OCHL', Order.NONE).toString();
   var value_hla = generator.valueToCode(block, 'HLA', Order.NONE).toString();
   // TODO: Assemble python into code variable.
-  var code = 'get_recent_indicators('+value_date+', \\\"'+value_ochl+'\\\", \\\"'+value_hla+'\\\")';
+  var code = 'get_recent_indicators('+value_date+', '+value_ochl+', '+value_hla+')';
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Order.NONE];
+};
+
+pythonGenerator.forBlock['calculate_term_data'] = function(block, generator) {
+  // const MAX_LENGTH = 100;
+  // var value_date = generator.valueToCode(block, 'DATE', Order.NONE).toString();
+  var value_date =  block.getFieldValue('DATE');
+  // if (value_date > MAX_LENGTH) {
+  //   value_date = MAX_LENGTH;
+  // }
+  // value_date = value_date.toString();
+  var value_ochl = generator.valueToCode(block, 'OCHL', Order.NONE).toString();
+  var value_hla = generator.valueToCode(block, 'HLA', Order.NONE).toString();
+  // TODO: Assemble python into code variable.
+  var code = 'get_recent_indicators('+value_date+', '+value_ochl+', '+value_hla+')';
   // TODO: Change ORDER_NONE to the correct strength.
   return [code, Order.NONE];
 };
@@ -140,7 +156,7 @@ pythonGenerator.forBlock['calculate_data'] = function(block, generator) {
 pythonGenerator.forBlock['cur_data'] = function(block, generator) {
   var value_name = generator.valueToCode(block, 'OCHL', Order.NONE).toString();
   // TODO: Assemble python into code variable.
-  var code = 'curData(\\\"'+value_name+"\\\")";
+  var code = 'curData('+value_name+')';
   // TODO: Change ORDER_NONE to the correct strength.
   return [code, Order.NONE];
 };
@@ -149,17 +165,18 @@ pythonGenerator.forBlock['cur_data'] = function(block, generator) {
 pythonGenerator.forBlock['cnt_per_asset'] = function(block, generator) {
   var value_name = generator.valueToCode(block, 'NAME', Order.NONE).toString();
   // TODO: Assemble python into code variable.
-  var code = 'asset('+value_name+', \\\"per\\\")';
+  var code = 'asset('+value_name+', per)';
   // TODO: Change ORDER_NONE to the correct strength.
   // return [code, Order.NONE];
   return [code, Order.NONE];
 };
 
+
 //현재 보유량의 %
-pythonGenerator.forBlock['cnt_per_reserves'] = function(block, generator) {
+pythonGenerator.forBlock['cnt_per_reserve'] = function(block, generator) {
   var value_name = generator.valueToCode(block, 'NAME', Order.NONE).toString();
   // TODO: Assemble python into code variable.
-  var code = 'reserves('+value_name+', \\\"per\\\")';
+  var code = 'reserves('+value_name+', per)';
   // TODO: Change ORDER_NONE to the correct strength.
   // return [code, Order.NONE];
   return [code, Order.NONE];

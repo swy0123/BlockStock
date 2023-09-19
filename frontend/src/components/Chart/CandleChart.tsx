@@ -74,7 +74,7 @@ const CandleChart = (props) => {
   );
   const height = props.curheight - 100 > 0 ? props.curheight - 100 : 0;
   const width = props.curwidth > 0 ? props.curwidth : 0;
-  const margin = { left: 0, right: 48, top: 0, bottom: 24 };
+  const margin = { left: 0, right: 48, top: 10, bottom: 24 };
 
   const ema12 = ema()
     .id(1)
@@ -130,7 +130,8 @@ const CandleChart = (props) => {
   };
 
   const candleChartExtents = (data) => {
-    return [data.high, data.low];
+    const gap = data.high-data.low
+    return [data.high+gap, data.low-gap];
   };
 
   const yEdgeIndicator = (data) => {
