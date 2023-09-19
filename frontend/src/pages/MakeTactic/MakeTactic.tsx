@@ -23,6 +23,7 @@ function MakeTactic() {
     const [round, setRound] = useState("");
     const [tacticPythonCode, setTacticPythonCode] = useState(undefined);
     const [tacticJsonCode, setTacticJsonCode] = useState(undefined);
+    const [tacticImg, setTacticImg] = useState(undefined);
 
     const toggleFlag = () => {
         setFlag(!flag);
@@ -50,6 +51,10 @@ function MakeTactic() {
         setTacticJsonCode(ret);
     }
 
+    const returnTacticImg = (ret) => {
+        setTacticImg(ret);
+    }
+
     return (
         <TacticContainer >
             {
@@ -64,6 +69,7 @@ function MakeTactic() {
                             returnRound={(ret) => { returnRound(ret) }}
                             returnTacticPythonCode={(ret) => { returnTacticPythonCode(ret) }}
                             returnTacticJsonCode={(ret) => { returnTacticJsonCode(ret) }}
+                            returnTacticImg={(ret) => { returnTacticImg(ret) }}
                         ></BlockCoding>
                     </> :
                     <>
@@ -76,6 +82,7 @@ function MakeTactic() {
                             round={round}
                             tacticPythonCode={tacticPythonCode}
                             tacticJsonCode={tacticJsonCode}
+                            tacticImg={tacticImg}
                         ></TacticResult>
                     </>
             }
