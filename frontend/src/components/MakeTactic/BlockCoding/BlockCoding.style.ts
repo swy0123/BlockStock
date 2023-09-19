@@ -1,10 +1,11 @@
+import ReactDatePicker from "react-datepicker";
 import styled from "styled-components";
 
 export const BlockCodingContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 100%;
+  height: 95%;
   overflow: hidden;
 `;
 export const TitleDiv = styled.div`
@@ -50,13 +51,7 @@ export const LeftDiv = styled.div`
   padding: 1%;
   height: 100%;
 `;
-export const Input = styled.input`
-  /* width: 95%; */
-  height: 30px;
-  /* border: none; */
-  border-radius: 5px;
-  background-color: transparent;
-`;
+
 export const IsSearchDiv = styled.div`
   background-color: white;
   box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
@@ -165,7 +160,10 @@ export const InputDetailTitle = styled.div`
 export const InputDetailValue = styled.div`
   position: relative;
   width: 25%;
-  height: 100%;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 export const InputOptionDiv = styled.div`
   position: relative;
@@ -176,4 +174,24 @@ export const InputOptionDiv = styled.div`
   height: 14%;
   margin-bottom: 1%;
   align-items: center;
+`;
+
+export const Input = styled.input`
+  width: 120px;
+  height: 35px;
+  font-size: 16px;
+  text-align: center;
+  border-radius: 5px;
+  border-width: 1px;
+  background-color: transparent;
+`;
+
+export const StyledDatePicker = styled(ReactDatePicker)`
+  width: 70%;
+  height: 35px;
+  text-align: center;
+  font-weight: 400;
+  font-size: 16px;
+  border-radius: 5px;
+  border-width: 1px;
 `;
