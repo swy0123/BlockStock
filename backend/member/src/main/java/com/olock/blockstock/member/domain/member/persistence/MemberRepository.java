@@ -24,4 +24,10 @@ public interface MemberRepository extends Neo4jRepository<Member, Long> {
 
 
     boolean existsByEmail(String email);
+
+    @Query("MATCH (n:Member) WHERE n.id = $id SET n.nickname = $nickname")
+    void updateNickname(@Param("id") Long id, @Param("nickname") String nickname);
+
+    @Query("MATCH (n:Member) WHERE n.id = $id SET n.password = $password")
+    void updatePassword(@Param("id") Long id, @Param("password") String password);
 }

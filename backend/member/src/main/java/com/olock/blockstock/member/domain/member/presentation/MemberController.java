@@ -38,13 +38,13 @@ public class MemberController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> modifyNickname(@RequestHeader("Member-id") Long memberId, MemberModifyRequest memberModifyRequest) {
+    public ResponseEntity<Void> modifyNickname(@RequestHeader("Member-id") Long memberId, @RequestBody MemberModifyRequest memberModifyRequest) {
         memberService.modify(memberId, memberModifyRequest);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/password")
-    public ResponseEntity<Void> updatePassword(@RequestHeader("Member-id") Long memberId, PasswordUpdateRequest passwordUpdateRequest) {
+    public ResponseEntity<Void> updatePassword(@RequestHeader("Member-id") Long memberId, @RequestBody PasswordUpdateRequest passwordUpdateRequest) {
         memberService.updatePassword(memberId, passwordUpdateRequest);
         return ResponseEntity.ok().build();
     }

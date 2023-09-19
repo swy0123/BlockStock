@@ -66,11 +66,14 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void modify(Long memberId, MemberModifyRequest memberModifyRequest) {
-
+        memberValidator.validateExistsMember(memberId);
+        System.out.println(memberId + " " + memberModifyRequest.getNickname());
+        memberRepository.updateNickname(memberId, memberModifyRequest.getNickname());
     }
 
     @Override
     public void updatePassword(Long memberId, PasswordUpdateRequest passwordUpdateRequest) {
-
+        memberValidator.validateUpdatePassword(memberId, passwordUpdateRequest);
+        memberRepository.updatePassword(memberId, passwordEncoder.encode(passwordUpdateRequest.getNewPassword()));
     }
 }
