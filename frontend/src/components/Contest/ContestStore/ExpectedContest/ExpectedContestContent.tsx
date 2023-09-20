@@ -73,17 +73,18 @@ function ExpectedContestContent(){
 
 
   // api 통신 =============================================================
-  // const params = {
-  //   status: 'proceed',
-  //   page: page,
-  //   size: rowsPerPage,
-  //   keyWord: searchKeyword
-  // };
+  
   // useEffect(()=>{
   //   expectedcontest()
   // },[page,rowsPerPage,searchKeyword])
 
   // const expectedcontest = async () => {
+  //   const params = {
+  //     status: 'expected',
+  //     page: page,
+  //     size: rowsPerPage,
+  //     keyWord: searchKeyword
+  //   };
   //   const contest = await expectedContestContent(params)
   //   console.log(contest)
   // }
@@ -202,7 +203,7 @@ function ExpectedContestContent(){
           style={{margin:'0px 50px 0px 0px'}}
         />
 
-         {isModalOpen ? <ContestTaticModal selectedContest={selectedContest} onClose={CloseModal}/> : null}
+         {isModalOpen ? <ContestTaticModal selectedContest={selectedContest} type={'contest'} onClose={CloseModal} /> : null}
          {isCancelModalOpen ? <ContestCancelModal selectedContest={selectedContest} onClose={CloseCandelModal}/> : null}
       </Wrapper>
 

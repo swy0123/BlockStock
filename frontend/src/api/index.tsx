@@ -22,7 +22,7 @@ export const privateApi: AxiosInstance = axios.create({
     'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json',
     // Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-    Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6Ik1FTUJFUiIsImlhdCI6MTY5NTEwODA4MywiZXhwIjoxNjk1NzEyODgzfQ.YnhbQl73piCdgpDnnGXQEAZW0_u9HxwO6BN6fQqZWkg`,
+    Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6Ik1FTUJFUiIsInVzZXJuYW1lIjoiMkAyIiwiaWF0IjoxNjk1MTgxMTIyLCJleHAiOjE2OTUxODQ3MjJ9.CQgsyMO8anbGeenjGyQIofYleygiHqywBUviXvJ_hB0`,
   },
 });
 
