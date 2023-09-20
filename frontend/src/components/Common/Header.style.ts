@@ -63,7 +63,6 @@ export const Text = styled.p`
 `;
 
 // #9256FD
-
 export const Text1 = styled.p`
     font-size: 15px;
     margin-right: 15px;
@@ -83,4 +82,27 @@ export const TextBox = styled.div`
     align-items: center;
     height: 100%;
     margin-right: 35px;
+`;
+
+export const DropBoxWrapper = styled.div`
+`;
+
+export const DropBox = styled.div`
+    /* margin-top: 85px; */
+`;
+
+export const ClickBox = styled.div`
+    width: 130px;
+    text-align: center;
+    background-color: #C1BAEE;
+    border: 0;
+    border-radius: 0.7rem;
+    position: absolute;
+    top: 70px;
+    right: 60px;
+`;
+
+export const Content = styled.p`
+    font-size: 15px;
+    color: ivory;
 `;
