@@ -1,8 +1,12 @@
 from fastapi import HTTPException
 from sqlalchemy import desc
-from sqlalchemy.orm import joinedload
 
-from domain.contest.schemas.contest import ContestRequest, InfoRequest, ContestResponse
+from domain.contest.schemas.contest_history_response import ContestHistoryResponse
+from domain.contest.schemas.contest_result_response import ContestResultList
+from domain.contest.schemas.contest_list_resopnse import ContestListResponse
+from domain.contest.schemas.contest_requeset import ContestRequest
+from domain.contest.schemas.info_request import InfoRequest
+from domain.contest.schemas.contest_response import ContestResponse
 from domain.contest.schemas.contest_prev_response import ContestPrevResponse
 from domain.contest.schemas.contest_type import ContestType
 from domain.contest.models.contest import Contest, Participate
@@ -39,8 +43,56 @@ def get_contests(status: str,
                   filter(Contest.title.ilike(f'%%{key_word}%%')).
                   order_by(desc(Contest.created_at)).offset(offset).limit(size).all())
 
-    # for contest in result:
-    #     contest_result.append(ContestResponse(contest))
+    for contest in result:
+        # 참가한건지 안한건지 확인하는 변수 추가
+        # 참여 인원 수 추가
+        is_registed = False
+        join_people = session.query(Participate).where(Contest.id == Participate.contest_id).count()
+        contest_result.append(ContestResponse(contest, is_registed, join_people))
+
+    return ContestListResponse(contest_result, len(contest_result))
+
+
+def get_proceed_contest_result():
+    contests = session.query(Contest).filter(Contest.end_time < datetime.now()).order_by(
+        Contest.start_time.asc()).all()
+
+    result = []
+
+    for contest in contests:
+        rankings = session.query(Participate).filter(Participate.contest_id == contest.id).order_by(
+            Participate.result_money.desc()).all()
+
+        for rank in rankings:
+            # rank.member_id를 통해 image_path 구하기
+
+            profile_image = ""
+            rank_response = ContestPrevResponse(member_id=rank.member_id,
+                                                profile_image=profile_image,
+                                                ticket=contest.ticket,
+                                                result_money=rank.result_money)
+
+            result.append(ContestResultList(contest, rank_response))
+
+    return result
+
+
+def get_contest_result(contest_id: int):
+    result = []
+    contest_ticket = session.query(Contest.ticket).filter(Contest.id == contest_id).one()[0]
+
+    participates = session.query(Participate).filter(Participate.contest_id == contest_id).order_by(
+        Participate.result_money.desc())
+
+    for participate in participates:
+        # 사용자 프로필 이미지 요청
+        profile_image = ""
+
+        result.append(ContestPrevResponse(member_id=participate.member_id,
+                                          profile_image=profile_image,
+                                          ticket=contest_ticket,
+                                          result_money=participate.result_money))
+
     return result
 
 
@@ -95,6 +147,25 @@ def participate_contest(user_id: int, info_create: InfoRequest):
 
     session.add(db_participate)
     session.commit()
+
+
+def get_contest_history(user_id: int):
+    result = []
+
+    participate_history = (session.query(Participate.result_money,
+                                         Participate.tactic_id,
+                                         Contest.ticket).
+                           outerjoin(Contest, Contest.id == Participate.contest_id).
+                           filter(Participate.member_id == user_id).all())
+
+    for history in participate_history:
+        rank = 0
+        result.append(ContestHistoryResponse(result_money=history.result_money,
+                                             tactic_id=history.tactic_id,
+                                             ticket=history.ticket,
+                                             rank=rank))
+
+    return result
 
 
 def cancel_participate_contest(user_id, contest_id):
