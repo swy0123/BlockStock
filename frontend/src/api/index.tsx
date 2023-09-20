@@ -21,8 +21,8 @@ export const privateApi: AxiosInstance = axios.create({
   headers: {
     'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json',
-    // Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-    Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6Ik1FTUJFUiIsImlhdCI6MTY5NTEwODA4MywiZXhwIjoxNjk1NzEyODgzfQ.YnhbQl73piCdgpDnnGXQEAZW0_u9HxwO6BN6fQqZWkg`,
+    Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    // Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6Ik1FTUJFUiIsImlhdCI6MTY5NTEwODA4MywiZXhwIjoxNjk1NzEyODgzfQ.YnhbQl73piCdgpDnnGXQEAZW0_u9HxwO6BN6fQqZWkg`,
   },
 });
 
