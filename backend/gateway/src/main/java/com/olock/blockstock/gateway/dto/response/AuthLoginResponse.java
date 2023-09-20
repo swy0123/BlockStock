@@ -16,11 +16,13 @@ import java.util.Date;
 @Builder
 public class AuthLoginResponse {
     private Long memberId;
+    private String nickname;
     private String accessToken;
     private String refreshToken;
 
     public AuthLoginResponse(TokenDetails tokenDetails) {
         this.memberId = tokenDetails.getMemberId();
+        this.nickname = tokenDetails.getNickname();
         this.accessToken = tokenDetails.getAccessToken();
         this.refreshToken = tokenDetails.getRefreshToken();
     }
