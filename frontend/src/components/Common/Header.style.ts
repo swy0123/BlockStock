@@ -51,3 +51,36 @@ export const Input = styled.input`
     background-color: white;
     filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.25));
 `;
+
+export const Text = styled.p`
+    font-size: 15px;
+    margin-right: 15px;
+    cursor: pointer;
+    :hover&{
+        color: #9256FD; 
+        transition: 0.4s;
+    }
+`;
+
+// #9256FD
+
+export const Text1 = styled.p`
+    font-size: 15px;
+    margin-right: 15px;
+    border-radius: 0.5rem;
+    background-color: #9256FD;
+    padding: 7px;
+    color: white;
+    opacity: 80%;
+    cursor: pointer;
+    :hover&{
+        color: black; 
+        transition: 0.4s;
+    }
+`;
+export const TextBox = styled.div`
+    display: flex;
+    align-items: center;
+    height: 100%;
+    margin-right: 35px;
+`;

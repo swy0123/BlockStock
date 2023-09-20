@@ -3,7 +3,10 @@ import {  BrowserRouter as Switch, Outlet } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import Header from "./components/Common/Header";
 import SideBar from "./components/Common/SideBar";
+import LoginHeader from "./components/Common/LoginHeader";
 import styled from "styled-components";
+import { useRecoilState, } from "recoil";
+import { LoginState } from "./recoil/Auth";
 
 
 const Container = styled.div`
@@ -22,10 +25,12 @@ const OutletBox =styled.div`
 `;
 
 function App() {
+  const [isLogIn, setIsLogIn] = useRecoilState(LoginState);
+  console.log('로그인??????', isLogIn)
 
   return (
     <Container>
-      <Header />
+      {isLogIn? <LoginHeader/> : <Header/>}
       {/* <SideBar /> */}
       <Wrapper>
         <SideBar />
