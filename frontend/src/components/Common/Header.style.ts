@@ -63,6 +63,7 @@ export const Text = styled.p`
 `;
 
 // #9256FD
+
 export const Text1 = styled.p`
     font-size: 15px;
     margin-right: 15px;
