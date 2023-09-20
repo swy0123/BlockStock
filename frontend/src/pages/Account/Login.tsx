@@ -39,15 +39,15 @@ function Login() {
   const [currentUser, setCurrentUser] = useRecoilState(CurrentUserAtom);
 
   const handleEmailField = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length > 20) {
-      e.target.value = e.target.value.slice(0, 20);
+    if (e.target.value.length > 40) {
+      e.target.value = e.target.value.slice(0, 40);
     }
     setEmail(e.target.value.split(" ").join(""));
   };
 
   const handlePasswordField = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length > 20) {
-      e.target.value = e.target.value.slice(0, 20);
+    if (e.target.value.length > 40) {
+      e.target.value = e.target.value.slice(0, 40);
     }
     setPassword(e.target.value.split(" ").join(""));
   };
@@ -70,9 +70,10 @@ function Login() {
       setIsLogin(true); // 로그인 여부 아톰에 저장
       setCurrentUser(userinfo); // 유저 정보 아톰에 저장
       swal("", "로그인에 성공했습니다", "success");
+      navigate('/')
     } else {
       console.log("fail");
-      await swal("로그인이 실패하였습니다");
+      await swal("로그인에 실패하였습니다");
     }
   };
 
@@ -82,7 +83,7 @@ function Login() {
         <Box1>
           <form onSubmit={handleSubmit}>
             <LoginBox>
-              <LogoImg src="./icon/logo.png" />
+              <LogoImg src="./icon/logo.png" onClick={()=> navigate("/")}/>
               <Title>Welcome to Block Stock!</Title>
               <Input
                 placeholder="E-mail"
