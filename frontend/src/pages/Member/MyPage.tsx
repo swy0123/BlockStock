@@ -26,16 +26,12 @@ import { Container,
   ContentContainer
 } from "./Mypage.style";
 
-
 function MyPage() {
   const [selectedMenu, setSelectedMenu] = useState("PROFILE"); // 기본 메뉴 선택
   const [isEditing, setIsEditing] = useState(false);
 
-  // data 받아오기
-  const { data, isLoading, isError } = useQuery(
-    ["myPage"],
-    () => getmypage()
-  );
+  // useQuery data 받아오기
+  const {data, isLoading, isError} = useQuery("mypage", getmypage);
   console.log("data", data)
 
   const renderContent = () => {
