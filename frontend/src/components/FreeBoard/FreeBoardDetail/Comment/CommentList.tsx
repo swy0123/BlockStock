@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useRecoilValue } from "recoil";
 import { commentlist } from '../../../../recoil/FreeBoard/Comment'
 import {
@@ -12,8 +12,32 @@ import {
   Title
 } from './CommentList.style'
 
-function CommentList() {
+// import {commentList, commentDelete} from '../../../../api/FreeBoard/Comment'
+
+
+function CommentList(props) {
+  // 더미데이터
   const comment = useRecoilValue(commentlist);
+
+  const freeboardId  = props.state.id
+
+
+  // 댓글 리스트 api 호출
+  // useEffect(()=>{
+  //   comments()
+  // },[])
+  
+  // const comments =()=>{
+  //   commentList(freeboardId)
+  // }
+  // ============================================
+
+
+  // 댓글 삭제
+  // const handleDelete = (id) => {
+  //   console.log(id);
+  //   commentDelete(id);
+  // };
 
   return (
     <>
@@ -29,7 +53,7 @@ function CommentList() {
                   <NickName>{item.nickName}</NickName>|
                   <Day>{item.createdAt}</Day>
                 </div>
-                <DeleteBtn>삭제</DeleteBtn>
+                <DeleteBtn onClick={() => handleDelete(item.commentId)}>삭제</DeleteBtn>
               </Header>
               <Comment>{item.content}</Comment>
               <hr style={{ border: '1px solid #F4F1F1' }} />
