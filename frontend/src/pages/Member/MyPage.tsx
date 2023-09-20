@@ -5,10 +5,11 @@ import MyBoard from "../../components/MyPage/MyBoard";
 import LikeList from "../../components/MyPage/LikeList";
 import RecodeList from "../../components/MyPage/RecodeList";
 import TacticList from "../../components/MyPage/TacticList";
-import { useNavigate } from "react-router-dom";
 import NickNameModal from "../../components/MyPage/EditModal/NickNameModal";
 import PasswordModal from "../../components/MyPage/EditModal/ChangePasswordModal";
 import SecessionModal from "../../components/MyPage/EditModal/SecessionModal";
+import { getmypage } from "../../api/Mypage";
+import { useQuery } from "react-query";
 
 const Container = styled.div`
   width: 100%;
@@ -120,24 +121,30 @@ const Btn = styled.button`
 `
 
 function MyPage() {
-  // const navigate = useNavigate();
   const [selectedMenu, setSelectedMenu] = useState("PROFILE"); // 기본 메뉴 선택
   const [isEditing, setIsEditing] = useState(false);
-  const data = {
-    id: 12,
-    nickname: "ssafy1234",
-    email: "ssafy1234@naver.com",
-    followerCnt: 12,
-    followingCnt: 0,
-    award: [
-      "제1회 카카오 단기 투자 대회 우승",
-      "제2회 공모주 투자 대회 준우승",
-      "제1회 수익률 of 수익률을 찾아라 준우승",
-      "제2회 카카오 단기 투자 대회 우승",
-    ],
-    money: 122145221,
-    ticketCnt: 12,
-  };
+ 
+  const { data, isLoading, isError } = useQuery(
+    ["myPage", 0],
+    () => getmypage()
+  );
+  console.log(data)
+
+  // const data = {
+  //   id: 12,
+  //   nickname: "ssafy1234",
+  //   email: "ssafy1234@naver.com",
+  //   followerCnt: 12,
+  //   followingCnt: 0,
+  //   award: [
+  //     "제1회 카카오 단기 투자 대회 우승",
+  //     "제2회 공모주 투자 대회 준우승",
+  //     "제1회 수익률 of 수익률을 찾아라 준우승",
+  //     "제2회 카카오 단기 투자 대회 우승",
+  //   ],
+  //   money: 122145221,
+  //   ticketCnt: 12,
+  // };
 
   const renderContent = () => {
     switch (selectedMenu) {
