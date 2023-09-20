@@ -33,7 +33,7 @@ privateApi.interceptors.request.use((config) => {
 });
 
 export async function postRefreshToken() {
-  console.log('리프레시 토큰으로 액세스 재발급');
+  console.log('리프레시 토큰 재발급');
   const headers = {
     'Authorization-refresh': 'Bearer ' + localStorage.getItem('refresh_token'),
   };
