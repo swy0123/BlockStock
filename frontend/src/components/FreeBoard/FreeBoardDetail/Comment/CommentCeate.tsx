@@ -21,24 +21,40 @@ function CommentCreate(props){
 
   const navigate = useNavigate();
   const [content, setContent] = useState('')
-  const isLike = props.state.isLike
+  const { id, isLike, type } = props.state
 
 
   // 댓글 작성 ==========================================
   const data = {
-    "freeboardId": props.state.id,
+    "freeboardId": id,
     'content':content
   }
-  const handleCreate =()=>{
-    console.log(data)
-    commentCreate(data)
+
+  const handleCreate = () => {
+    console.log(data);
+    if (type === 'free') {
+      commentCreate(data);
+    } else if (type === 'tactic') {
+      console.log(data);
+    }
   }
   // ====================================================
 
+  // 목록으로 ===========================================
+  const handleNavigate = ()=>{
+    console.log(id,type)
+    if (type==='free'){
+      navigate('/freeboard')
+    } else if (type==='tactic'){
+      navigate('/tacticboard')
+    }
+  }
+  // 목록으로 ===========================================
 
-  // 댓글 작성 ==========================================
+
+  // 좋아요 ==========================================
   const like = {
-    "freeboardId": props.state.id,
+    "freeboardId": id,
   }
   const handleLike = () => {
     console.log(like)
@@ -61,7 +77,7 @@ function CommentCreate(props){
               />
               좋아요
             </LikeBtn>
-            <BackBtn onClick={()=>navigate('/freeboard')}>
+            <BackBtn onClick={handleNavigate}>
               목록으로
             </BackBtn>
           </LikeBtnBox>
