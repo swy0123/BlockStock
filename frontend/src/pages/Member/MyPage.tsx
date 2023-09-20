@@ -125,7 +125,7 @@ function MyPage() {
   const [isEditing, setIsEditing] = useState(false);
  
   const { data, isLoading, isError } = useQuery(
-    ["myPage", 0],
+    ["myPage"],
     () => getmypage()
   );
   console.log(data)
@@ -203,94 +203,95 @@ function MyPage() {
   }
 
   return (
-    <Container>
-      <Wrapper>
-        <ColorBox>
-          <FollowBox>
-            <Follow>
-              <Text1>{data.followerCnt}</Text1>
-              <Text1>팔로워</Text1>
-            </Follow>
-            <Follow>
-              <Text1>{data.followingCnt}</Text1>
-              <Text1>팔로잉</Text1>
-            </Follow>
-          </FollowBox>
-        </ColorBox>
-        <InfoBox>
-          <Box>
-            <Img src="./icon/user4.png" />
-            <Text>{data.nickname}</Text>
-            <Text>{data.email}</Text>
-          </Box>
-          <NickNameModal
-            isOpen={isNameModalOpen}
-            onClose={() => {
-              closeNameModal();
-              closeModal();
-            }}
-            data = {data.nickname}
-          />
-          <PasswordModal
-            isOpen={isPasswordModalOpen}
-            onClose={() => {
-              closePasswordModal();
-              closeModal();
-            }}
-          />
-          <SecessionModal
-            isOpen={isSecessionModalOpen}
-            onClose={() => {
-              closeSecessionModal();
-              closeModal();
-            }}
-          />
-          <div
-        onMouseEnter={enterEditMode}
-        onMouseLeave={exitEditMode}
-        onClick={exitEditMode}
-      >
-        {isEditing ? (
-          <div>
-            <Btn onClick={openNameModal}>닉네임 변경</Btn>
-            {/* <NickNameModal isOpen={isNameModalOpen} onClose={closeNameModal}/> */}
-            <Btn onClick={openPasswordModal}>비밀번호 변경</Btn>
-            {/* <PasswordModal isOpen={isPasswordModalOpen} onClose={closePasswordModal}/> */}
-            <Btn onClick={openSecessionModal}>회원 탈퇴</Btn>
-            {/* <SecessionModal isOpen={isSecessionModalOpen} onClose={closeSecessionModal}/> */}
-          </div>
-        ) : (
-          <EditBtn>회원 정보 수정 →</EditBtn>
-          // <EditBtn onClick={exitEditMode}>회원 정보 수정 →</EditBtn>
-        )}
-      </div>
-        </InfoBox>
-      </Wrapper>
-      <BtnWrapper>
-        <MenuBtn onClick={() => setSelectedMenu("PROFILE")}
-        isSelected={selectedMenu === "PROFILE"}>
-          PROFILE
-        </MenuBtn>
-        <MenuBtn onClick={() => setSelectedMenu("나의 게시글")}
-        isSelected={selectedMenu === "나의 게시글"}>
-          나의 게시글
-        </MenuBtn>
-        <MenuBtn onClick={() => setSelectedMenu("좋아요 목록")}
-        isSelected={selectedMenu === "좋아요 목록"}
-        >
-          좋아요 목록
-        </MenuBtn>
-        <MenuBtn onClick={() => setSelectedMenu("기록 관리")}
-        isSelected={selectedMenu === "기록 관리"}>
-          기록 관리
-        </MenuBtn>
-        <MenuBtn onClick={() => setSelectedMenu("전략 목록")}
-        isSelected={selectedMenu === "전략 목록"}>
-          전략 목록
-        </MenuBtn>
-      </BtnWrapper>
-      <ContentContainer>{renderContent()}</ContentContainer>
-    </Container>
+    <Container></Container>
+    // <Container>
+    //   <Wrapper>
+    //     <ColorBox>
+    //       <FollowBox>
+    //         <Follow>
+    //           <Text1>{data.followerCnt}</Text1>
+    //           <Text1>팔로워</Text1>
+    //         </Follow>
+    //         <Follow>
+    //           <Text1>{data.followingCnt}</Text1>
+    //           <Text1>팔로잉</Text1>
+    //         </Follow>
+    //       </FollowBox>
+    //     </ColorBox>
+    //     <InfoBox>
+    //       <Box>
+    //         <Img src="./icon/user4.png" />
+    //         <Text>{data.nickname}</Text>
+    //         <Text>{data.email}</Text>
+    //       </Box>
+    //       <NickNameModal
+    //         isOpen={isNameModalOpen}
+    //         onClose={() => {
+    //           closeNameModal();
+    //           closeModal();
+    //         }}
+    //         data = {data.nickname}
+    //       />
+    //       <PasswordModal
+    //         isOpen={isPasswordModalOpen}
+    //         onClose={() => {
+    //           closePasswordModal();
+    //           closeModal();
+    //         }}
+    //       />
+    //       <SecessionModal
+    //         isOpen={isSecessionModalOpen}
+    //         onClose={() => {
+    //           closeSecessionModal();
+    //           closeModal();
+    //         }}
+    //       />
+    //       <div
+    //     onMouseEnter={enterEditMode}
+    //     onMouseLeave={exitEditMode}
+    //     onClick={exitEditMode}
+    //   >
+    //     {isEditing ? (
+    //       <div>
+    //         <Btn onClick={openNameModal}>닉네임 변경</Btn>
+    //         {/* <NickNameModal isOpen={isNameModalOpen} onClose={closeNameModal}/> */}
+    //         <Btn onClick={openPasswordModal}>비밀번호 변경</Btn>
+    //         {/* <PasswordModal isOpen={isPasswordModalOpen} onClose={closePasswordModal}/> */}
+    //         <Btn onClick={openSecessionModal}>회원 탈퇴</Btn>
+    //         {/* <SecessionModal isOpen={isSecessionModalOpen} onClose={closeSecessionModal}/> */}
+    //       </div>
+    //     ) : (
+    //       <EditBtn>회원 정보 수정 →</EditBtn>
+    //       // <EditBtn onClick={exitEditMode}>회원 정보 수정 →</EditBtn>
+    //     )}
+    //   </div>
+    //     </InfoBox>
+    //   </Wrapper>
+    //   <BtnWrapper>
+    //     <MenuBtn onClick={() => setSelectedMenu("PROFILE")}
+    //     isSelected={selectedMenu === "PROFILE"}>
+    //       PROFILE
+    //     </MenuBtn>
+    //     <MenuBtn onClick={() => setSelectedMenu("나의 게시글")}
+    //     isSelected={selectedMenu === "나의 게시글"}>
+    //       나의 게시글
+    //     </MenuBtn>
+    //     <MenuBtn onClick={() => setSelectedMenu("좋아요 목록")}
+    //     isSelected={selectedMenu === "좋아요 목록"}
+    //     >
+    //       좋아요 목록
+    //     </MenuBtn>
+    //     <MenuBtn onClick={() => setSelectedMenu("기록 관리")}
+    //     isSelected={selectedMenu === "기록 관리"}>
+    //       기록 관리
+    //     </MenuBtn>
+    //     <MenuBtn onClick={() => setSelectedMenu("전략 목록")}
+    //     isSelected={selectedMenu === "전략 목록"}>
+    //       전략 목록
+    //     </MenuBtn>
+    //   </BtnWrapper>
+    //   <ContentContainer>{renderContent()}</ContentContainer>
+    // </Container>
   );
 }
 
