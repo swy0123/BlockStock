@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
+import { ItemContainer } from "./OptionHistoryItem.style";
 
 //     {item.optioncode}
 //     {item.optionname}
@@ -11,20 +12,20 @@ const OptionHistoryItem = (props) => {
   //   const [cost, setCost] = useState(props.cost);
 
   return (
-    <div style={{ backgroundColor: "yellow", font: "black" }}>
+    <ItemContainer>
       <div>{props.item.turn}/{props.round}</div>
       <span>
         거래타입 : {props.item.type} ,
         주식가격: {props.item.cost} ,
         거래수량 : {props.item.tradeCnt} ,
-        실현손익 (팔때만) : 
+        체결금액 : {props.item.tradeCnt*props.item.cost}
         {
           props.item.type === "sell"
-            ? <>{props.item.profitAndLoss}</>
+            ? <>실현손익 (팔때만) : {props.item.profitAndLoss}</>
             : <></>
         }
       </span>
-    </div>
+    </ItemContainer>
   );
 };
 
