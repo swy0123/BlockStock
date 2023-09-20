@@ -38,7 +38,7 @@ export const postLogin = async (user: LoginProps) => {
     console.log("postLogin catch: ", err);
   });
   if (res && res.status === 200) {
-    console.log("postLogin then: ", res);
+    console.log("login info: ", res);
     const accessToken = res.data.accessToken; // 응답헤더에서 토큰 받기
     const refreshToken = res.data.refreshToken; // 응답헤더에서 토큰 받기
     localStorage.setItem("access_token", accessToken);
@@ -46,14 +46,11 @@ export const postLogin = async (user: LoginProps) => {
     console.log("access 토큰 :", accessToken);
     console.log("refresh 토큰 :", refreshToken);
 
-    // let email = res.data.email;
-    // let nickname = res.data.nickname;
+    // const nickname = res.data.nickname;
     const userid = res.data.memberId;
-    // let imageUrl = res.data.imageUrl;
-    // let userinfo = { email, nickname, userid, imageUrl };
     const userinfo = { userid };
     console.log("userinfo: ", userinfo);
-    // Login 컴포넌트로 현재 유저 정보 보내기
+
     return userinfo;
   } else return false;
 };
