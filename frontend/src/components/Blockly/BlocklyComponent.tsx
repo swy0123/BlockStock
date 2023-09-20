@@ -33,8 +33,8 @@ import { Block, Category, Field, Shadow, Value } from ".";
 import { Order } from "blockly/javascript";
 import { workspaceCommentOption } from "blockly/core/contextmenu";
 
-import domtoimage from 'dom-to-image';
-import * as FileSaver from 'file-saver';
+import domtoimage from "dom-to-image";
+import * as FileSaver from "file-saver";
 
 Blockly.setLocale(locale);
 
@@ -135,27 +135,28 @@ function BlocklyComponent(props: any) {
   };
 
   const exportImage = () => {
-    const blocklyBlockCanvas = document.querySelector('#blocklyDiv');
-    console.log(blocklyBlockCanvas)
+    const blocklyBlockCanvas = document.querySelector("#blocklyDiv");
+    console.log(blocklyBlockCanvas);
     let file = null;
     if (blocklyBlockCanvas) {
       // blocklyCursor 요소가 존재하는 경우
-      domtoimage.toBlob(blocklyBlockCanvas)
+      domtoimage
+        .toBlob(blocklyBlockCanvas)
         .then((blob) => {
-          file = new File([blob], 'image.png', { type: 'image/png' });
-          console.log(file)
+          file = new File([blob], "image.png", { type: "image/png" });
+          console.log(file);
         })
         // .then(function (blob) {
-        // FileSaver.saveAs(blob, 'blocklyCursor.png'); 
+        // FileSaver.saveAs(blob, 'blocklyCursor.png');
         // })
         .catch(function (error) {
-          console.error('이미지 캡처 중 오류 발생:', error);
+          console.error("이미지 캡처 중 오류 발생:", error);
         });
     } else {
       console.log('클래스 "blocklyCursor"를 가진 SVG 요소가 존재하지 않습니다.');
     }
-    return file
-  }
+    return file;
+  };
 
   useEffect(() => {
     // console.log(primaryWorkspace.current);
@@ -173,8 +174,8 @@ function BlocklyComponent(props: any) {
         props.writeTacticImg(exportImage);
       }
       props.setCodeCheckTrue();
-      console.log(props.codeCheck)
-      console.log("codeCheck low component")
+      console.log(props.codeCheck);
+      console.log("codeCheck low component");
     }
   }, [props.codeCheck]);
 
@@ -214,7 +215,7 @@ function BlocklyComponent(props: any) {
           <Block type="logic_operation" />
           <Block type="logic_negate" />
           <Block type="logic_boolean" />
-          <Block type="logic_ternary" />
+          {/* <Block type="logic_ternary" /> */}
         </Category>
 
         <Category name="Loops" categorystyle="loop_category">
@@ -222,7 +223,7 @@ function BlocklyComponent(props: any) {
           <Block type="controls_whileUntil" />
           <Block type="controls_for" />
           <Block type="controls_forEach" />
-          <Block type="controls_flow_statements" />
+          {/* <Block type="controls_flow_statements" /> */}
         </Category>
 
         <Category name="Math" categorystyle="math_category">
@@ -234,10 +235,10 @@ function BlocklyComponent(props: any) {
           <Block type="math_number_property" />
           <Block type="math_round" />
           <Block type="math_on_list" />
-          <Block type="math_modulo" />
+          {/* <Block type="math_modulo" />
           <Block type="math_constrain" />
           <Block type="math_random_int" />
-          <Block type="math_random_float" />
+          <Block type="math_random_float" /> */}
         </Category>
 
         <Category name="Lists" categorystyle="list_category">
@@ -246,17 +247,15 @@ function BlocklyComponent(props: any) {
           <Block type="lists_length" />
           <Block type="lists_isEmpty" />
           <Block type="lists_indexOf" />
-          <Block type="lists_getIndex" />
+          {/* <Block type="lists_getIndex" />
           <Block type="lists_setIndex" />
           <Block type="lists_getSublist" />
           <Block type="lists_split" />
           <Block type="lists_sort" />
-          <Block type="lists_reverse" />
+          <Block type="lists_reverse" /> */}
         </Category>
 
-        <Category name="Variables" categorystyle="variable_category" custom="VARIABLE"></Category>
-
-        <Category name="Functions" categorystyle="procedure_category" custom="PROCEDURE"></Category>
+        {/* <Category name="Functions" categorystyle="procedure_category" custom="PROCEDURE"></Category> */}
 
         <Category name="Trading" colour="#FF5722">
           {/* <Block type="call_function" /> */}
@@ -295,68 +294,80 @@ function BlocklyComponent(props: any) {
               </Shadow>
             </Value>
           </Block> */}
-          <Block type="sell">
+          <Block type="cnt_per_reserve">
             <Value name="NAME">
               <Shadow type="math_number">
                 <Field name="NUM">1</Field>
+              </Shadow>
+            </Value>
+          </Block>
+          <Block type="cnt_per_asset">
+            <Value name="NAME">
+              <Shadow type="math_number">
+                <Field name="NUM">1</Field>
+              </Shadow>
+            </Value>
+          </Block>
+          <Block type="sell">
+            <Value name="NAME">
+              <Shadow type="cnt_per_reserve">
+                <Value name="NAME">
+                  <Shadow type="math_number">
+                    <Field name="NUM">1</Field>
+                  </Shadow>
+                </Value>
               </Shadow>
             </Value>
           </Block>
           <Block type="buy">
             <Value name="NAME">
-              <Shadow type="math_number">
-                <Field name="NUM">1</Field>
+              <Shadow type="cnt_per_asset">
+                <Value name="NAME">
+                  <Shadow type="math_number">
+                    <Field name="NUM">1</Field>
+                  </Shadow>
+                </Value>
               </Shadow>
             </Value>
           </Block>
           <Block type="stay" />
-          <Block type="minmaxavg_select" />
-          <Block type="ochlv_value" />
-          <Block type="calculate_date_data" >
+
+          {/* <Block type="minmaxavg_select" />
+          <Block type="ochlv_value" /> */}
+
+          <Block type="calculate_scope_data">
+            <Value name="SCOPE">
+              <Shadow type="date_scope" />
+            </Value>
             <Value name="OCHL">
-              <Shadow type="ochlv_value">
-                <Field name="FIELDNAME">open</Field>
-              </Shadow>
+              <Shadow type="ochlv_value"/>
             </Value>
             <Value name="HLA">
-              <Shadow type="minmaxavg_select">
-                <Field name="FIELDNAME">high</Field>
-              </Shadow>
+              <Shadow type="minmaxavg_select"/>
             </Value>
           </Block>
-          <Block type="calculate_term_data" >
+
+          <Block type="calculate_scope_data">
+            <Value name="SCOPE">
+              <Shadow type="term_scope" />
+            </Value>
             <Value name="OCHL">
-              <Shadow type="ochlv_value">
-                <Field name="FIELDNAME">open</Field>
-              </Shadow>
+              <Shadow type="ochlv_value"/>
             </Value>
             <Value name="HLA">
-              <Shadow type="minmaxavg_select">
-                <Field name="FIELDNAME">high</Field>
-              </Shadow>
+              <Shadow type="minmaxavg_select"/>
             </Value>
           </Block>
-          <Block type="cur_data" >
+
+          <Block type="date_scope" disabled="true"/>
+          <Block type="term_scope" disabled="true"/>
+
+          <Block type="cur_data">
             <Value name="OCHL">
-              <Shadow type="ochlv_value">
-                <Field name="FIELDNAME">open</Field>
-              </Shadow>
+              <Shadow type="ochlv_value"/>
             </Value>
           </Block>
-          <Block type="cnt_per_asset" >
-            <Value name="NAME">
-              <Shadow type="math_number">
-                <Field name="NUM">1</Field>
-              </Shadow>
-            </Value>
-          </Block>
-          <Block type="cnt_per_reserve" >
-            <Value name="NAME">
-              <Shadow type="math_number">
-                <Field name="NUM">1</Field>
-              </Shadow>
-            </Value>
-          </Block>
+
           {/* <Block type="calculate_rsi" >
             <Value name="OCHL">
               <Shadow type="ochlv_value">
@@ -369,6 +380,11 @@ function BlocklyComponent(props: any) {
           {/* <Block type="dicts_create_with" /> */}
           {/* <Block type="dict_keys" /> */}
         </Category>
+        
+        <Category name="Variables" categorystyle="variable_category">
+
+        </Category>
+
         {/* <Category name="Custom" colour="#832626">
           {array.map((item, index) => {
             return <Block key={index} type={item} />;
