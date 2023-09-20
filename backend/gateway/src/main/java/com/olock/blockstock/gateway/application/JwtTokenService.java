@@ -53,6 +53,7 @@ public class JwtTokenService {
         return authenticate(authLoginRequest.getEmail(), authLoginRequest.getPassword())
                 .flatMap(tokenDetails -> Mono.just(
                         AuthLoginResponse.builder()
+                                .nickname(tokenDetails.getNickname())
                                 .memberId(tokenDetails.getMemberId())
                                 .accessToken(tokenDetails.getAccessToken())
                                 .refreshToken(tokenDetails.getRefreshToken())
@@ -83,6 +84,7 @@ public class JwtTokenService {
 
     private TokenDetails generateTokenDetail(Member member) {
         return TokenDetails.builder()
+                .nickname(member.getNickname())
                 .memberId(member.getId())
                 .accessToken(generateAccessToken(member))
                 .refreshToken(generateRefreshToken(member))
