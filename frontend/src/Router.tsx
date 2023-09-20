@@ -19,6 +19,7 @@ import UserInfoEdit from "./components/MyPage/UserInfoEdit";
 import FreeBoardDetail from "./pages/FreeBoard/FreeBoardDetail";
 import FreeBoardUpdate from "./pages/FreeBoard/FreeBoardUpdate";
 import TacticBoardList from "./pages/TacticBoard/TacticBoardList";
+import TacticBoardDetail from "./pages/TacticBoard/TacticBoardDetail";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -102,6 +103,11 @@ const router = createBrowserRouter([
             {
                 path: "/tacticboard",
                 element: <TacticBoardList/>,
+                errorElement: <ErrorComponent/>,
+              },
+            {
+                path: "/tacticboarddetail",
+                element: <TacticBoardDetail/>,
                 errorElement: <ErrorComponent/>,
               },
 
