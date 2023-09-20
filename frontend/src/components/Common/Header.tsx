@@ -1,3 +1,4 @@
+// 비로그인 헤더
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -6,8 +7,10 @@ import {
     Logo, Wrapper, 
     InputBox, 
     Input, 
-    AlertImg, 
-    Img} from "./Header.style";
+    Text,
+    Text1,
+    TextBox,
+    } from "./Header.style";
 
 
 function Header(){
@@ -27,10 +30,10 @@ function Header(){
                         type="text"
                         placeholder="검색어를 입력하세요 🔎"/>
                 </InputBox>
-                <InputBox>
-                    <AlertImg src="./icon/isalert.png"></AlertImg>
-                    <Img src="./icon/user_purple.png"></Img>
-                </InputBox>
+                <TextBox>
+                    <Text onClick={()=>navigate("/login")}>Log in</Text>
+                    <Text1 onClick={()=>navigate("/signup")}>Sign up</Text1>
+                </TextBox>
                 </Wrapper>
             </HeaderWrapper>
         </Container>

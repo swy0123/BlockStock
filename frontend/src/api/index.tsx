@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios, { AxiosInstance } from 'axios';
 
 
 //수정
@@ -19,10 +19,9 @@ export const publicApi: AxiosInstance = axios.create({
 export const privateApi: AxiosInstance = axios.create({
   baseURL: BASE_URL,
   headers: {
-    'Access-Control-Allow-Origin': '*',
+    'ngrok-skip-browser-warning': '69420',
     'Content-Type': 'application/json',
     Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-    // Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6Ik1FTUJFUiIsImlhdCI6MTY5NTEwODA4MywiZXhwIjoxNjk1NzEyODgzfQ.YnhbQl73piCdgpDnnGXQEAZW0_u9HxwO6BN6fQqZWkg`,
   },
 });
 
