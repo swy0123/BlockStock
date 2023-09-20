@@ -1,9 +1,5 @@
 // 회원가입 관련 API
-
-import axios from "axios";
-import { privateApi, publicApi } from ".";
-
-// const BASE_URL = 'https://j9b210.p.ssafy.io:8443/api';
+import { publicApi } from ".";
 
 interface userData {
     email: string,
@@ -15,6 +11,11 @@ interface authMail {
     email: string,
     code:  string,
 }
+
+interface enterEmail {
+    email : string
+}
+
 
 // 이메일 인증(발송) api
 export const postmail = async (email: enterEmail) => {
