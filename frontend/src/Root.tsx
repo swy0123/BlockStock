@@ -5,7 +5,7 @@ import Header from "./components/Common/Header";
 import SideBar from "./components/Common/SideBar";
 import LoginHeader from "./components/Common/LoginHeader";
 import styled from "styled-components";
-import { useRecoilState, } from "recoil";
+import { useRecoilValue } from "recoil";
 import { LoginState } from "./recoil/Auth";
 
 
@@ -25,13 +25,12 @@ const OutletBox =styled.div`
 `;
 
 function App() {
-  const [isLogIn, setIsLogIn] = useRecoilState(LoginState);
-  console.log('로그인??????', isLogIn)
+  const isLogIn = useRecoilValue(LoginState);
+  console.log('로그인 했니 안했니', isLogIn)
 
   return (
     <Container>
       {isLogIn? <LoginHeader/> : <Header/>}
-      {/* <SideBar /> */}
       <Wrapper>
         <SideBar />
         <OutletBox>
