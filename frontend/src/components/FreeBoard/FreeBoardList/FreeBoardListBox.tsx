@@ -33,7 +33,7 @@ import {
 } from './FreeBoardListBox.style'
 
 // api
-import {freeBoardListt} from '../../../api/FreeBoard/FreeBoard'
+// import {freeBoardListt} from '../../../api/FreeBoard/FreeBoard'
 
 function FreeBoardListBox() {
 
@@ -45,21 +45,20 @@ function FreeBoardListBox() {
   const [rowsPerPage, setRowsPerPage] = React.useState(8);
 
   // api 통신 =============================================================
-  const params = {
-    sort: menu,
-    page: page,
-    size: rowsPerPage,
-    keyWord: searchKeyword,
-  };
-  
-  useEffect(()=>{
-    freeboard()
-  },[page,rowsPerPage,searchKeyword])
+  // const params = {
+  //   sort: menu,
+  //   page: page,
+  //   size: rowsPerPage,
+  //   keyWord: searchKeyword,
+  // };
+  // useEffect(()=>{
+  //   freeboard()
+  // },[page,rowsPerPage,searchKeyword])
 
-  const freeboard = async () => {
-    const freeBoard = await freeBoardListt(params)
-    console.log(freeBoard)
-  }
+  // const freeboard = async () => {
+  //   const freeBoard = await freeBoardListt(params)
+  //   console.log(freeBoard)
+  // }
   // api 통신 =================
 
 
@@ -173,12 +172,16 @@ function FreeBoardListBox() {
             ><div style={{ display: 'flex', cursor:'pointer' }}>
               <ItemNumber>{item.freeboard.id}</ItemNumber>
               <ItemTitle
-               onClick={() => {
-                setPostid(item.freeboard.id); 
-                // navigate(`/freeboarddetail/${item.freeboard.id}`);
-                navigate(`/freeboarddetail`);
-              }}
-              >{item.freeboard.title}</ItemTitle>
+                onClick={() => {
+                  setPostid(item.freeboard.id); 
+                  navigate(`/freeboarddetail`, {
+                    state: { postId: item.freeboard.id } // URL 매개변수 설정
+                  });
+                }}
+              >
+                {item.freeboard.title}
+              </ItemTitle>
+
 
               <Tooltip state={{ nickname: item.freeboard.nickname, id: item.freeboard.id }}>
                 <ItemWriter>{item.freeboard.nickname}</ItemWriter>
