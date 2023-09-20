@@ -99,7 +99,6 @@ def get_contest_result(contest_id: int):
 def get_prev_contest_result():
     contest = session.query(Contest).filter(Contest.end_time < datetime.now()).order_by(Contest.end_time.desc()).first()
 
-    print(contest)
     members = (session.query(Participate.member_id, Participate.result_money).
                outerjoin(Contest, Contest.id == Participate.contest_id).
                filter(Contest.id == contest.id).
