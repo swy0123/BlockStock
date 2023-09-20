@@ -38,9 +38,16 @@ position: absolute;
 `;
  
 export const Title = styled.div`
-margin: 30px 0px 0px 330px;
+margin-top: 20px;
 font-size: 30px;
 font-weight: 600;
+`;
+
+export const TitleBox = styled.div`
+width: 100%;
+display: flex; /* Flex 컨테이너로 설정 */
+  justify-content: center; /* 수평 가운데 정렬 */
+  align-items: center; /* 수직 가운데 정렬 */
 `;
 export const Wrapper = styled.div`
 margin: 50px 0px 0px 0px;
