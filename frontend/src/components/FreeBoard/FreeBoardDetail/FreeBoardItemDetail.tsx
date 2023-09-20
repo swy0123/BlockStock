@@ -122,9 +122,9 @@ function FreeBoardItemDetail({}){
           </BtnBox>
         </Wrapper>
         <Line />
-        <CommentCreate state={{ id, isLike }} />
+        <CommentCreate state={{ id, isLike, type:'free' }} />
         <Line />
-        <CommentList state={{ id }}/>
+        <CommentList state={{ id, type:'free' }}/>
 
       </Container>
     </>
