@@ -21,7 +21,7 @@ import {
 } from './ExpectedContestContent.style'
 
 import TablePagination from '@mui/material/TablePagination';
-// import {expectedContestContent} from '../../../../api/Contest/ContestStore'
+import {expectedContestContent} from '../../../../api/Contest/ContestStore'
 
 
 const Line = ({ hide }) => {
@@ -74,20 +74,19 @@ function ExpectedContestContent(){
 
   // api 통신 =============================================================
   
-  // useEffect(()=>{
-  //   expectedcontest()
-  // },[page,rowsPerPage,searchKeyword])
+  useEffect(()=>{
+    expectedcontest()
+  },[page,rowsPerPage,searchKeyword])
 
-  // const expectedcontest = async () => {
-  //   const params = {
-  //     status: 'expected',
-  //     page: page,
-  //     size: rowsPerPage,
-  //     keyWord: searchKeyword
-  //   };
-  //   const contest = await expectedContestContent(params)
-  //   console.log(contest)
-  // }
+  const expectedcontest = async () => {
+    const params = {
+      status: 'expected',
+      page: page,
+      size: rowsPerPage
+    };
+    const contest = await expectedContestContent(params)
+    console.log(contest)
+  }
   // api 통신 =============================================================
 
 

@@ -4,12 +4,14 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import TablePagination from '@mui/material/TablePagination';
 import './style.css'
+
 import { useRecoilValue } from "recoil";
 import { useRecoilState } from 'recoil';
 import { freeBoardList } from '../../../recoil/FreeBoard/FreeBoardList'
 import { postidState } from '../../../recoil/FreeBoard/Post';
-import TablePagination from '@mui/material/TablePagination';
+
 import { useNavigate } from "react-router-dom";
 import Tooltip from "../../Tooltip/Tooltip";
 import {
