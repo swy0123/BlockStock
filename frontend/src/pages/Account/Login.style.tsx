@@ -9,7 +9,6 @@ export const Container = styled.div`
 `;
 export const BackGround = styled.div`
 	margin-top: -150px;
-
 `
 export const Wrapper = styled.div`
 	display: flex;
@@ -17,6 +16,9 @@ export const Wrapper = styled.div`
 	justify-content: end;
 	align-items: center;
 	height: 100%;
+`;
+export const Box1 = styled.div`
+    z-index: 1000;
 `;
 export const LoginBox = styled.div`
 	align-items: center;
@@ -27,7 +29,6 @@ export const LoginBox = styled.div`
 	border-radius: 10px;
 	background: #FFF;
 	box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
-	z-index: 20;
 `;
 export const LogoImg = styled.img`
 	margin-top: 25px;
