@@ -18,25 +18,34 @@ import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
 
-const preventDefault = (event) => event.preventDefault();
+// const preventDefault = (event) => event.preventDefault();
 
 function FreeBoardUpdateBox(){
+
   const location = useLocation();
   const state = location.state;
 
   const navigate = useNavigate();
-  const [selectedFiles, setSelectedFiles] = useState([]); 
-  const [formData, setFormData] = useState({
-    title: state.title,
-    content: state.content,
-    files: [],
-  });
+  const [title, setTitle] = useState(state.title); 
+  const [content, setContent] = useState(state.content); 
+  const [file, setFile] = useState(null)
+  const [fileName, setFileName] = useState('')
+
+  // const [selectedFiles, setSelectedFiles] = useState([]); 
+  // const [formData, setFormData] = useState({
+  //   title: state.title,
+  //   content: state.content,
+  //   files: [],
+  // });
 
   
   const handleFileSelect = (e) => {
-    const files = e.target.files;
-    const imageFiles = Array.from(files).filter(file => file.type.startsWith('image/'));
-    setSelectedFiles([...selectedFiles, ...imageFiles]);
+    const files = e.target.files[0];
+    // const imageFiles = Array.from(files).filter(file => file.type.startsWith('image/'));
+    // setSelectedFiles([...selectedFiles, ...imageFiles]);
+    console.log(files)
+    setFileName(files.name)
+    setFile(files)
   };
 
   // const handleFileSelect = (e) => {
@@ -45,18 +54,38 @@ function FreeBoardUpdateBox(){
   //   setFormData({ ...formData, files: [...formData.files, ...files] });
   // };
 
-  const removeFile = (index) => {
-    const updatedFiles = [...selectedFiles];
-    updatedFiles.splice(index, 1);
-    setSelectedFiles(updatedFiles);
+  const removeFile = () => {
+    setFile(null)
+    setFileName('')
+  //   const updatedFiles = [...selectedFiles];
+  //   updatedFiles.splice(index, 1);
+  //   setSelectedFiles(updatedFiles);
 
-    const updatedFormData = { ...formData };
-    updatedFormData.files.splice(index, 1);
-    setFormData(updatedFormData);
+  //   const updatedFormData = { ...formData };
+  //   updatedFormData.files.splice(index, 1);
+  //   setFormData(updatedFormData);
   };
 
   const handleSubmit = () => {
+    const formData = new FormData();
+    formData.append('file', file)
+
+    formData.append('freeboardId', new Blob([JSON.stringify(state.id)], {
+      type: "application/json"
+    }));
+    formData.append('title', new Blob([JSON.stringify(title)], {
+      type: "application/json"
+    }));
+    formData.append('content', new Blob([JSON.stringify(content)], {
+      type: "application/json"
+    }));
+
+    console.log("freeboardId:", state.id);
+    console.log("title:", title);
+    console.log("content:", content);
+    console.log("file:", file);
     console.log("Form Data:", formData);
+    // freeBoardCreate(formData)
     // navigate("/freeboard");
   };
 
@@ -65,13 +94,13 @@ function FreeBoardUpdateBox(){
     <Container>
       <TitleInput
             placeholder="제목을 입력하세요."
-            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-          >{formData.title}</TitleInput>
+            onChange={(e) => setTitle(e.target.value )}
+          >{title}</TitleInput>
       <hr />
       <ContentInput
           placeholder="내용을 입력하세요."
-          onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-        >{formData.content}</ContentInput>
+          onChange={(e) => setContent(e.target.value)}
+        >{content}</ContentInput>
       <hr />
 
       <Wrapper>
@@ -80,7 +109,7 @@ function FreeBoardUpdateBox(){
           <FileInput type="file" accept="image/*" onChange={handleFileSelect} multiple />
         </FileBtn>
         <FileList>
-          {selectedFiles.map((file, index) => (
+          {/* {selectedFiles.map((file, index) => (
             <div key={index} style={{ display: 'flex', margin: '0px 0px 0px 10px' }}>
               <Box
                 sx={{
@@ -102,7 +131,16 @@ function FreeBoardUpdateBox(){
                 onClick={() => removeFile(index)} // Call removeFile function on icon click
               />
             </div>
-          ))}
+          ))} */}
+          {fileName && (
+              <>
+                {fileName}
+                <HighlightOffIcon
+                  style={{ margin: '0px 0px 0px 4px', cursor: 'pointer' }}
+                  onClick={() => removeFile()} 
+                />
+              </>
+            )}
         </FileList>
       </Wrapper>
     </Container>

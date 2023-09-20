@@ -94,8 +94,8 @@ display: flex;
 justify-content: center; /* 수평 가운데 정렬 */
 align-items: center;
 color: #6D6D6D;
-
 `;
+
 export const BtnBox = styled.div`
 width: 100%;
 min-height: 100px;

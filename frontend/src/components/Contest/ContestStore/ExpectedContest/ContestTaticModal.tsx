@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import CloseIcon from '@mui/icons-material/Close';
 import { useRecoilValue } from "recoil";
 import { contestTatic } from '../../../../recoil/Contest/ExpectedContest'
@@ -25,16 +25,23 @@ import {
   TaticTitle,
   TaticImg,
   TaticTime,
-  Button
+  Button,
+  TitleBox
 } from './ContestTaticModal.style'
 import ContestTicketModal from "./ContestTicketModal";
 
-function ContestTaticModal({selectedContest, onClose}){
+function ContestTaticModal(props){
+  const { selectedContest, type, onClose } = props;
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const contestTaticList = useRecoilValue(contestTatic);
   const [isStarred, setIsStarred] = useState(Array(contestTaticList.length).fill(false));
   const [selectedTacticIndex, setSelectedTacticIndex] = useState(-1);
   const [tacticId, setTacticId] = useState(0)
+
+  useEffect(() => {
+    console.log(type);
+  }, []);
 
   const handleCardClick = (e) => {
     setTacticId(e.t)
@@ -49,8 +56,7 @@ function ContestTaticModal({selectedContest, onClose}){
   };
 
   const OpenModal = () => {
-    console.log(selectedContest)
-    // console.log(selectedTacticIndex)
+    console.log(selectedContest);
     setIsModalOpen(!isModalOpen);
   };
 
@@ -63,7 +69,13 @@ function ContestTaticModal({selectedContest, onClose}){
       <Container>
         <Modal>
           <Header>
-            <Title>{selectedContest.title} 대회 참가 (1/2)</Title>
+            <TitleBox>
+              {type === 'contest' ? (
+                <Title>{selectedContest.title} 대회 참가 (1/2)</Title>
+                ) : (
+                  <Title>전략 불러오기</Title>
+                )}
+            </TitleBox>
             <CloseBtn onClick={onClose}><CloseIcon/></CloseBtn>
           </Header>
           <Wrapper>
@@ -108,11 +120,23 @@ function ContestTaticModal({selectedContest, onClose}){
             ))}
             </Swiper>
           </Wrapper>
-          <Explanation1>대회에 참가할 전략을 선택해주세요.</Explanation1>
-          <Explanation2>전략 선택은 대회 당 1개로 제한합니다.</Explanation2>
+
+          {type === 'contest' ? (
+            <div>
+              <Explanation1 >대회에 참가할 전략을 선택해주세요.</Explanation1>
+              <Explanation2 >전략 선택은 대회 당 1개로 제한합니다.</Explanation2>
+            </div>
+          ) : (
+            <div>
+              <Explanation1 >전략을 선택해주세요.</Explanation1>
+              <Explanation2 >전략 선택은 1개로 제한합니다.</Explanation2>
+            </div>
+          )}
+
           <Button onClick={OpenModal}>
             선택하기
           </Button>
+          
         </Modal>
       </Container>
       {isModalOpen ? 

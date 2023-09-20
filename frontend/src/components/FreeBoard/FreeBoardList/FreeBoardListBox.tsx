@@ -31,16 +31,44 @@ import {
   ItemTime,
   ItemtHit
 } from './FreeBoardListBox.style'
+
+// api
+// import {freeBoardListt} from '../../../api/FreeBoard/FreeBoard'
+
 function FreeBoardListBox() {
-  const [postid, setPostid] = useRecoilState(postidState);
+
   const navigate = useNavigate();
-  const [menu, setMenu] = useState("최신순");
-  const BoardList = useRecoilValue(freeBoardList);
-  const [sortedList, setBoardList] = useState([]);
+
+  const [menu, setMenu] = useState("createdAt");
+  const [searchKeyword, setSearchKeyword] = useState("");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(8);
-  const [searchKeyword, setSearchKeyword] = useState("");
 
+  // api 통신 =============================================================
+  // const params = {
+  //   sort: menu,
+  //   page: page,
+  //   size: rowsPerPage,
+  //   keyWord: searchKeyword,
+  // };
+  // useEffect(()=>{
+  //   freeboard()
+  // },[page,rowsPerPage,searchKeyword])
+
+  // const freeboard = async () => {
+  //   const freeBoard = await freeBoardListt(params)
+  //   console.log(freeBoard)
+  // }
+  // api 통신 =================
+
+
+  // 더미데이터 ============================================
+  const [postid, setPostid] = useRecoilState(postidState);
+  const BoardList = useRecoilValue(freeBoardList);
+  const [sortedList, setBoardList] = useState([]);
+
+
+  // 더미데이터를 사용하여 직접 조건에 맞게 다시 배열을 만들기
   useEffect(() => {
     // Sort the BoardList in "최신순" order when the component mounts
     const sortedListCopy = [...BoardList].sort((a, b) =>
@@ -65,8 +93,13 @@ function FreeBoardListBox() {
 
     setBoardList(sortedListCopy);
   };
+  // 더미데이터 ============================================
 
-  // Handle page change
+
+
+
+  // 페이지네이션 ============================================
+
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number,
@@ -94,6 +127,7 @@ function FreeBoardListBox() {
   const filteredItems = itemsToDisplay.filter((item) =>
     item.freeboard.title.includes(searchKeyword)
   );
+  // 페이지네이션 ============================================
 
 
   return (
@@ -109,9 +143,9 @@ function FreeBoardListBox() {
                 value={menu}
                 onChange={handleChange}
               >
-                <MenuItem value="최신순">최신순</MenuItem>
-                <MenuItem value="좋아요">좋아요</MenuItem>
-                <MenuItem value="조회수">조회수</MenuItem>
+                <MenuItem value="createdAt">최신순</MenuItem>
+                <MenuItem value="likes">좋아요</MenuItem>
+                <MenuItem value="hits">조회수</MenuItem>
               </Select>
             </FormControl>
           </Box>
@@ -138,12 +172,16 @@ function FreeBoardListBox() {
             ><div style={{ display: 'flex', cursor:'pointer' }}>
               <ItemNumber>{item.freeboard.id}</ItemNumber>
               <ItemTitle
-               onClick={() => {
-                setPostid(item.freeboard.id); 
-                // navigate(`/freeboarddetail/${item.freeboard.id}`);
-                navigate(`/freeboarddetail`);
-              }}
-              >{item.freeboard.title}</ItemTitle>
+                onClick={() => {
+                  setPostid(item.freeboard.id); 
+                  navigate(`/freeboarddetail`, {
+                    state: { postId: item.freeboard.id } // URL 매개변수 설정
+                  });
+                }}
+              >
+                {item.freeboard.title}
+              </ItemTitle>
+
 
               <Tooltip state={{ nickname: item.freeboard.nickname, id: item.freeboard.id }}>
                 <ItemWriter>{item.freeboard.nickname}</ItemWriter>
