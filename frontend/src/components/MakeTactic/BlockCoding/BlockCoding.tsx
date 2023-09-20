@@ -189,12 +189,12 @@ const BlockCoding = (props) => {
     // console.log(optionLikeList);
   };
 
-  const handleOptionCodeField = (e: ChangeEvent<HTMLInputElement>) => {
-    // if (e.target.value.length > MAX_LENGTH) {
-    //     e.target.value = e.target.value.slice(0, MAX_LENGTH);
-    // }
-    setOptionCode(parseInt(e.target.value));
-  };
+  // const handleOptionCodeField = (e: ChangeEvent<HTMLInputElement>) => {
+  //   // if (e.target.value.length > MAX_LENGTH) {
+  //   //     e.target.value = e.target.value.slice(0, MAX_LENGTH);
+  //   // }
+  //   setOptionCode(parseInt(e.target.value));
+  // };
 
   const setOption = (curOptionCode: number, curOptionName: string) => {
     setOptionCode(curOptionCode);
@@ -219,7 +219,8 @@ const BlockCoding = (props) => {
       writeTacticImg !== undefined
     ) {
       console.log("테스트 버튼 누름 -----------------");
-      if (title === "") setTitle("제목 없는 전략");
+      if (title === "") props.returnTitle("제목 없는 전략");
+      else props.returnTitle(title);
       // console.log(optionCode)
       // console.log(startAsset)
       // console.log(returnDate())
@@ -227,8 +228,8 @@ const BlockCoding = (props) => {
       // console.log(round)
       // console.log(tacticPythonCode)
       // console.log(tacticJsonCode)
-      props.returnTitle(title);
       props.returnOptionCode(optionCode);
+      props.returnOptionName(optionName);
       props.returnStartDate(startDate);
       props.returnTerm(term);
       props.returnRound(round);
@@ -404,7 +405,7 @@ const BlockCoding = (props) => {
         <InputOptionDiv>
           <span>
             종목을&nbsp;
-             <Input type="text" value={optionName} onChange={handleOptionCodeField} readOnly/>
+             <Input type="text" value={optionName} readOnly/>
             으로 <button onClick={onClickTestButton}>테스트하기</button>
           </span>
         </InputOptionDiv>

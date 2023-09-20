@@ -1,5 +1,5 @@
 
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import '../../components/Blockly/blocks/customblocks';
 import '../../components/Blockly/generators/generator';
 import CandleChart from '../../components/Chart/CandleChart';
@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { TacticContainer } from './MakeTactic.style';
 import BlockCoding from '../../components/MakeTactic/BlockCoding/BlockCoding';
 import TacticResult from '../../components/MakeTactic/TacticResult/TacticResult';
+import { useLocation } from 'react-router-dom';
 
 const TestDiv = styled.div`
     background-color: rgba(255,0,0,0.3);
@@ -18,6 +19,7 @@ function MakeTactic() {
 
     const [title, setTitle] = useState("");
     const [optionCode, setOptionCode] = useState("");
+    const [optionName, setOptionName] = useState("");
     const [startDate, setStartDate] = useState(new Date());
     const [term, setTerm] = useState("");
     const [round, setRound] = useState("");
@@ -25,15 +27,28 @@ function MakeTactic() {
     const [tacticJsonCode, setTacticJsonCode] = useState(undefined);
     const [tacticImg, setTacticImg] = useState(undefined);
 
+    //차트에서 사이드바로 전략테스트로 이동
+    let location = useLocation();
+    const [currentPath, setCurrentPath] = useState("");
+    useEffect(() => {
+      if(currentPath === location.pathname){
+        setFlag(true);
+      }
+      console.log(location.pathname)
+      setCurrentPath(location.pathname);
+    }, [location]);
+
     const toggleFlag = () => {
         setFlag(!flag);
     }
-
     const returnTitle = (ret) => {
         setTitle(ret);
     }
     const returnOptionCode = (ret) => {
         setOptionCode(ret);
+    }
+    const returnOptionName = (ret) => {
+        setOptionName(ret);
     }
     const returnStartDate = (ret) => {
         setStartDate(ret);
@@ -59,32 +74,30 @@ function MakeTactic() {
         <TacticContainer >
             {
                 flag ?
-                    <>
-                        <BlockCoding
-                            toggleFlag={toggleFlag}
-                            returnTitle={(ret) => { returnTitle(ret) }}
-                            returnOptionCode={(ret) => { returnOptionCode(ret) }}
-                            returnStartDate={(ret) => { returnStartDate(ret) }}
-                            returnTerm={(ret) => { returnTerm(ret) }}
-                            returnRound={(ret) => { returnRound(ret) }}
-                            returnTacticPythonCode={(ret) => { returnTacticPythonCode(ret) }}
-                            returnTacticJsonCode={(ret) => { returnTacticJsonCode(ret) }}
-                            returnTacticImg={(ret) => { returnTacticImg(ret) }}
-                        ></BlockCoding>
-                    </> :
-                    <>
-                        <button onClick={toggleFlag} style={{ height: "30px", width: "60px" }} >toggle</button>
-                        <TacticResult
-                            title={title}
-                            optionCode={optionCode}
-                            startDate={startDate}
-                            term={term}
-                            round={round}
-                            tacticPythonCode={tacticPythonCode}
-                            tacticJsonCode={tacticJsonCode}
-                            tacticImg={tacticImg}
-                        ></TacticResult>
-                    </>
+                    <BlockCoding
+                        toggleFlag={toggleFlag}
+                        returnTitle={(ret) => { returnTitle(ret) }}
+                        returnOptionCode={(ret) => { returnOptionCode(ret) }}
+                        returnOptionName={(ret) => { returnOptionName(ret) }}
+                        returnStartDate={(ret) => { returnStartDate(ret) }}
+                        returnTerm={(ret) => { returnTerm(ret) }}
+                        returnRound={(ret) => { returnRound(ret) }}
+                        returnTacticPythonCode={(ret) => { returnTacticPythonCode(ret) }}
+                        returnTacticJsonCode={(ret) => { returnTacticJsonCode(ret) }}
+                        returnTacticImg={(ret) => { returnTacticImg(ret) }}
+                    ></BlockCoding>
+                    :
+                    <TacticResult
+                        title={title}
+                        optionCode={optionCode}
+                        optionName={optionName}
+                        startDate={startDate}
+                        term={term}
+                        round={round}
+                        tacticPythonCode={tacticPythonCode}
+                        tacticJsonCode={tacticJsonCode}
+                        tacticImg={tacticImg}
+                    ></TacticResult>
             }
         </TacticContainer >
     )
