@@ -22,29 +22,23 @@ interface paramProps {
   keyWord: string
 }
 export const expectedContestContent = async ( props:paramProps ) => {
-  const { status, page, size, keyWord } = props;
-  const url = `/contest?status=${status}&page=${page}&size=${size}&key_word=${keyWord}`;
-  const res = await privateApi.get(url);
-  console.log(res);
-  // try {
-  //   console.log(props)
-  //   console.log("sssssssssssssss")
-  //   // https://j9b210.p.ssafy.io:8443/api/contest?status=finish&page=0&size=10&key_word=st
-  //   const res = await privateApi.get(`/contest?status=finish&page=0&size=10&key_word=st`);
-  //   // const res = await privateApi.get(`/contest`, {params:{
-  //   //   status: props.status,
-  //   //   page: props.page,
-  //   //   size: props.size,
-  //   //   keyWord: props.keyWord
-  //   // }});
-  //   console.log("성공")
-  
-  //   console.log(res);
-  //   // return res; 
-  // } catch(error) {
-  //   console.log('에러')
-  //   console.log(error)
-  // }
+  // const { status, page, size, keyWord } = props;
+  // const url = `/contest?status=${status}&page=${page}&size=${size}&key_word=${keyWord}`;
+  // const res = await privateApi.get(url);
+  // console.log(res);
+  try {
+    console.log(props)
+    const res = await privateApi.get(`/contest`, {params:{
+      status: props.status,
+      page: props.page,
+      size: props.size,
+      keyWord: props.keyWord
+    }});
+    console.log(res);
+    return res.data; 
+  } catch(error) {
+    console.log(error)
+  }
 };
 
 
