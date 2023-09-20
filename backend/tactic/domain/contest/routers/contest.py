@@ -15,6 +15,9 @@ def get_contest(status: str = Query(default=None),
                 size: int = Query(default=None)):
     return contest_service.get_contests(status, key_word, page, size)
 
+@router.get("/api/contest/result")
+def get_contest_result():
+    return contest_service.get_contest_result()
 
 @router.get("/api/result/prev")
 def get_prev_contest_result():

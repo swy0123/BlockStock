@@ -1,6 +1,6 @@
 from fastapi import HTTPException
 from sqlalchemy import desc
-
+from domain.contest.schemas.contest_result_response import ContestResultList
 from domain.contest.schemas.contest_list_resopnse import ContestListResponse
 from domain.contest.schemas.contest_requeset import ContestRequest
 from domain.contest.schemas.info_request import InfoRequest
@@ -49,6 +49,30 @@ def get_contests(status: str,
         contest_result.append(ContestResponse(contest, is_registed, join_people))
 
     return ContestListResponse(contest_result, len(contest_result))
+
+
+def get_contest_result():
+    contests = session.query(Contest).filter(Contest.end_time < datetime.now()).order_by(
+        Contest.start_time.asc()).all()
+
+    result = []
+
+    for contest in contests:
+        rankings = session.query(Participate).filter(Participate.contest_id == contest.id).order_by(
+            Participate.result_money.desc()).all()
+
+        for rank in rankings:
+            # rank.member_id를 통해 image_path 구하기
+
+            profile_image = ""
+            rank_response = ContestPrevResponse(member_id=rank.member_id,
+                                                profile_image=profile_image,
+                                                ticket=contest.ticket,
+                                                result_money=rank.result_money)
+
+            result.append(ContestResultList(contest, rank_response))
+
+    return result
 
 
 def get_prev_contest_result():
