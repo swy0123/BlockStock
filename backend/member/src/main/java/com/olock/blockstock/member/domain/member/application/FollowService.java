@@ -12,7 +12,7 @@ public interface FollowService {
 
     void follow(Long memberId, FollowMemberRequest followMemberRequest);
 
-    void unfollow(Long memberId, FollowMemberRequest followMemberRequest);
+    void unfollow(Long memberId, Long target);
 
     List<FollowMemberResponse> getFollowers(Long myId, Long targetId);
 
