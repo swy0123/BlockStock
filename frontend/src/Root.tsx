@@ -31,7 +31,6 @@ function App() {
   return (
     <Container>
       {isLogIn? <LoginHeader/> : <Header/>}
-      {/* <SideBar /> */}
       <Wrapper>
         <SideBar />
         <OutletBox>
