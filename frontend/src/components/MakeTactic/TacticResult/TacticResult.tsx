@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import CandleChart from "../../Chart/CandleChart";
 import useComponentSize from "../../Util/ComponentSize";
-import { HistoryChartDiv, HistorySaveButton, HistorySummary, HistorySummaryContents, TacticTitle, TradingHistoryContainer, TradingHistoryContents, TradingHistoryDiv } from "./TacticResult.style";
+import { CenterDiv, HistoryChartDiv, HistorySaveButton, HistorySummary, HistorySummaryContents, HistorySummaryContentsItem, HistorySummaryContentsResult, HistorySummaryContentsTitle, LeftDiv, OptionHistoryItemList, OptionHistoryItemTitle, RightDiv, TacticTitle, TradingHistoryContainer, TradingHistoryContents, TradingHistoryDiv, TradingHistoryTitle } from "./TacticResult.style";
 import OptionHistoryItem from "./OptionHistoryItem";
+import { format } from "d3-format";
 
 export interface saveTacticProps {
     title: string;
@@ -24,7 +25,7 @@ const TacticResult = (props) => {
     // const [startDate, setStartDate] = useState(new Date());
     // const [term, setTerm] = useState("");
     // const [round, setRound] = useState("");
-
+    const pricesDisplayFormat = format(",");
     const axiosGetData = async () => {
         const res = await dummyData;
         setOptionHistory(res.optionHistory)
@@ -149,51 +150,74 @@ const TacticResult = (props) => {
 
             <TradingHistoryContents>
                 {/* 매매내역 */}
-                <TradingHistoryDiv>
-                    <div>매매내역</div>
-                    {optionHistory.map((item, index) => (
-                        <div style={{ margin: "5px" }} key={index}>
-                            <OptionHistoryItem item={item} round={props.round}></OptionHistoryItem>
-                            <button>select</button>
-                        </div>
-                    ))}
+                <LeftDiv>
+                    <TradingHistoryDiv>
+                        <TradingHistoryTitle>매매내역</TradingHistoryTitle>
+                        <OptionHistoryItemList>
+                            <OptionHistoryItemTitle>
+                                <div style={{ position: "absolute", left: "5%" }}>유형</div>
+                                <div style={{ position: "absolute", left: "35%", transform: "translate(-50%, 0%)" }}>
+                                    가격(수량)<br />
+                                    수수료
+                                </div>
+                                <div style={{ position: "absolute", right: "10%" }}>
+                                    체결금액<br />
+                                    실현손익
+                                </div>
+                            </OptionHistoryItemTitle>
+                            {optionHistory.map((item, index) => (
+                                <OptionHistoryItem item={item} round={props.round} key={index}></OptionHistoryItem>
+                            ))}
+                        </OptionHistoryItemList>
 
-                </TradingHistoryDiv>
-                <HistoryChartDiv ref={componentRef}>
-                    {/* <div >
+                    </TradingHistoryDiv>
+                </LeftDiv>
+                <CenterDiv>
+                    <HistoryChartDiv ref={componentRef}>
+                        <TradingHistoryTitle>매매내역 상세</TradingHistoryTitle>
+                        {/* <div >
                         <p>가로너비: {size.width}px</p>
                         <p>세로너비: {size.height}px</p>
                     </div> */}
-                    {/* 차트 */}
-                    {
-                        (size.width > 0 && size.height > 0)
-                            ? <CandleChart curwidth={size.width} curheight={size.height} optionHistory={optionHistory}></CandleChart>
-                            : <></>
-                    }
+                        {/* 차트 */}
+                        {
+                            (size.width > 0 && size.height > 0)
+                                ? <CandleChart curwidth={size.width - 10} curheight={size.height - 10} optionHistory={optionHistory}></CandleChart>
+                                : <></>
+                        }
 
-                </HistoryChartDiv>
-                <HistorySummary>
-                    <HistorySummaryContents>
-                        {/* 요약 */}
-                        <div>초기자산{startAsset}</div>
-                        <div>최종자산{startAsset * returnPercent}</div>
-                        <div>종목:이름({props.optionCode})</div>
-                        <div>주기/횟수:{props.term}/{props.round}</div>
-                        <div>시작 일자:{props.startDate.toLocaleDateString()}</div>
+                    </HistoryChartDiv>
+                </CenterDiv>
+                <RightDiv>
+                    <HistorySummary>
+                        <HistorySummaryContents>
+                            <TradingHistoryTitle>요약</TradingHistoryTitle>
+                            <HistorySummaryContentsResult>
+                                <div style={{fontSize:"14px"}}>초기자산</div>
+                                <div style={{fontSize:"13px"}}>{pricesDisplayFormat(startAsset)}원</div>
+                                <div>↓</div>
+                                <div style={{fontSize:"14px"}}>최종자산</div>
+                                <div style={{fontSize:"16px", color:"red"}}>{pricesDisplayFormat(startAsset * returnPercent)}원</div>
 
-                        <div>수익률:{returnPercent}</div>
-                        <div>수익금:{startAsset * returnPercent - startAsset}</div>
-                        <div>수수료 및 세금:???</div>
-                        <div>총 거래 횟수:{optionHistory.length}</div>
+                            </HistorySummaryContentsResult>
 
-                    </HistorySummaryContents>
+                            <HistorySummaryContentsItem ><span>종목:</span><span>{props.optionName}({props.optionCode})</span></HistorySummaryContentsItem>
+                            <HistorySummaryContentsItem>주기/횟수:{props.term}/{props.round}</HistorySummaryContentsItem>
+                            <HistorySummaryContentsItem>시작 일자:{props.startDate.toLocaleDateString()}</HistorySummaryContentsItem>
 
-                    {/* 버튼 */}
-                    <HistorySaveButton onClick={saveTactic}>저장하기</HistorySaveButton>
+                            <HistorySummaryContentsItem>수익률:{pricesDisplayFormat(returnPercent)}%</HistorySummaryContentsItem>
+                            <HistorySummaryContentsItem>수익금:{pricesDisplayFormat(startAsset * returnPercent - startAsset)}</HistorySummaryContentsItem>
+                            <HistorySummaryContentsItem>수수료 및 세금:???</HistorySummaryContentsItem>
+                            <HistorySummaryContentsItem>총 거래 횟수:{optionHistory.length}</HistorySummaryContentsItem>
 
-                </HistorySummary>
+                        </HistorySummaryContents>
+
+                        {/* 버튼 */}
+                        <HistorySaveButton onClick={saveTactic}>저장하기</HistorySaveButton>
+                    </HistorySummary>
+                </RightDiv>
             </TradingHistoryContents>
-        </TradingHistoryContainer>
+        </TradingHistoryContainer >
     )
 
 }
