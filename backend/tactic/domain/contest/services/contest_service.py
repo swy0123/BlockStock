@@ -51,7 +51,7 @@ def get_contests(status: str,
     return ContestListResponse(contest_result, len(contest_result))
 
 
-def get_contest_result():
+def get_proceed_contest_result():
     contests = session.query(Contest).filter(Contest.end_time < datetime.now()).order_by(
         Contest.start_time.asc()).all()
 
@@ -71,6 +71,26 @@ def get_contest_result():
                                                 result_money=rank.result_money)
 
             result.append(ContestResultList(contest, rank_response))
+
+    return result
+
+
+def get_contest_result(contest_id: int):
+
+    result = []
+    contest_ticket = session.query(Contest.ticket).filter(Contest.id == contest_id).one()[0]
+
+    participates = session.query(Participate).filter(Participate.contest_id == contest_id).order_by(
+        Participate.result_money.desc())
+
+    for participate in participates:
+        # 사용자 프로필 이미지 요청
+        profile_image = ""
+
+        result.append(ContestPrevResponse(member_id=participate.member_id,
+                                          profile_image=profile_image,
+                                          ticket=contest_ticket,
+                                          result_money=participate.result_money))
 
     return result
 

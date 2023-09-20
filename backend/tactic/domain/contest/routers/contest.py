@@ -15,13 +15,21 @@ def get_contest(status: str = Query(default=None),
                 size: int = Query(default=None)):
     return contest_service.get_contests(status, key_word, page, size)
 
+
 @router.get("/api/contest/result")
-def get_contest_result():
+def get_proceed_contest_result():
     return contest_service.get_contest_result()
+
+
+@router.get("/api/contest/result/{contest_id}")
+def get_contest_result(contest_id: int):
+    return contest_service.get_contest_result(contest_id)
+
 
 @router.get("/api/result/prev")
 def get_prev_contest_result():
     return contest_service.get_prev_contest_result()
+
 
 @router.post("/api/contest")
 def enroll_contest(contest_create: ContestRequest):
