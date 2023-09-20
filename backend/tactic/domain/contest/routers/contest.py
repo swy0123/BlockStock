@@ -46,9 +46,11 @@ def enroll_contest(contest_create: ContestRequest):
 def participate_contest(info_create: InfoRequest, user_id: Optional[int] = Header(None)):
     contest_service.participate_contest(user_id, info_create)
 
+
 @router.delete("/api/contest/participate/{contest_id}")
 def cancel_participate_contest(contest_id: int, user_id: Optional[int] = Header(None)):
     contest_service.cancel_participate_contest(user_id, contest_id)
+
 
 @router.delete("/{contest_id}")
 def delete_contest(contest_id: int):
@@ -57,9 +59,15 @@ def delete_contest(contest_id: int):
 
     return {"message": "대회 삭제"}
 
-@router.get('/contest/result/prev')
+
+@router.get('/api/contest/result/prev')
 def get_prev_contest_result():
     return contest_service.get_prev_contest_result()
+
+
+@router.get('/api/contest/history')
+def get_contest_history(user_id: Optional[int] = Header(None)):
+    return contest_service.get_contest_history(user_id)
 
 
 @router.get("/real-time")

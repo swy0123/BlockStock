@@ -1,5 +1,7 @@
 from fastapi import HTTPException
 from sqlalchemy import desc
+
+from domain.contest.schemas.contest_history_response import ContestHistoryResponse
 from domain.contest.schemas.contest_result_response import ContestResultList
 from domain.contest.schemas.contest_list_resopnse import ContestListResponse
 from domain.contest.schemas.contest_requeset import ContestRequest
@@ -76,7 +78,6 @@ def get_proceed_contest_result():
 
 
 def get_contest_result(contest_id: int):
-
     result = []
     contest_ticket = session.query(Contest.ticket).filter(Contest.id == contest_id).one()[0]
 
@@ -115,7 +116,6 @@ def get_prev_contest_result():
     return result
 
 
-
 def create_contest(contest_create: ContestRequest):
     db_contest = Contest(contest_create)
 
@@ -136,7 +136,6 @@ def delete_contest(contest_id: int):
 
 
 def participate_contest(user_id: int, info_create: InfoRequest):
-
     db_participate = Participate(user_id, info_create)
 
     # user 유효한지 확인
@@ -148,6 +147,25 @@ def participate_contest(user_id: int, info_create: InfoRequest):
 
     session.add(db_participate)
     session.commit()
+
+
+def get_contest_history(user_id: int):
+    result = []
+
+    participate_history = (session.query(Participate.result_money,
+                                         Participate.tactic_id,
+                                         Contest.ticket).
+                           outerjoin(Contest, Contest.id == Participate.contest_id).
+                           filter(Participate.member_id == user_id).all())
+
+    for history in participate_history:
+        rank = 0
+        result.append(ContestHistoryResponse(result_money=history.result_money,
+                                             tactic_id=history.tactic_id,
+                                             ticket=history.ticket,
+                                             rank=rank))
+
+    return result
 
 
 def cancel_participate_contest(user_id, contest_id):
