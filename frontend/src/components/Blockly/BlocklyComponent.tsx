@@ -257,7 +257,7 @@ function BlocklyComponent(props: any) {
 
         {/* <Category name="Functions" categorystyle="procedure_category" custom="PROCEDURE"></Category> */}
 
-        <Category name="Trading" colour="#FF5722">
+        <Category name="Trading" colour="300">
           {/* <Block type="call_function" /> */}
           {/* <Block type="once_volume" >
             <Value name="NAME">
@@ -319,8 +319,10 @@ function BlocklyComponent(props: any) {
           </Block>
           <Block type="stay" />
 
-          {/* <Block type="minmaxavg_select" />
-          <Block type="ochlv_value" /> */}
+          <Block type="minmaxavg_select" />
+          <Block type="ochlv_value" />
+          <Block type="date_scope" />
+          <Block type="term_scope" />
 
 
 
@@ -382,8 +384,6 @@ function BlocklyComponent(props: any) {
             </Value>
           </Block>
         </Category>
-        <Block type="date_scope" disabled="true" />
-        <Block type="term_scope" disabled="true" />
         {/* <Category name="Custom" colour="#832626">
           {array.map((item, index) => {
             return <Block key={index} type={item} />;
