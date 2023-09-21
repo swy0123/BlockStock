@@ -27,5 +27,8 @@ export const TacticBoardList = atom({
 
 export const tacticdata = atom({
   key: 'tacticdata',
-  default: null
+  default: {
+    tacticId : 0,
+    imgPath: null
+  }
 })

@@ -44,17 +44,24 @@ function ContestTaticModal(props){
 
   // 전략 게시글
   const [state, setState] = useRecoilState(tacticdata);
-  const [tacticImg, setTacticImg] = useState(null)
+  const [tactic, setTactic] = useState({
+    tacticId: 0,
+    imgPath: null
+  })
 
 
   useEffect(() => {
-    console.log(type);
+    console.log('tactic',tactic);
   }, []);
 
 
   const handleCardClick = (e) => {
-    console.log(e)
-    setTacticImg(e.img)
+    console.log('tactic',tactic);
+    setTactic({
+      ...tactic,
+      tacticId: e.i,
+      imgPath: e.img
+    });
     setTacticId(e.t)
     const newIsStarred = [...isStarred];
     newIsStarred[e.i] = !newIsStarred[e.i];
@@ -69,8 +76,8 @@ function ContestTaticModal(props){
 
   const OpenModal = () => {
     if (type==='tactic'){
-      console.log(tacticImg);
-      setState(tacticImg);
+      console.log(tactic);
+      setState(tactic);
       onClose()
     } else {
       console.log(selectedContest);

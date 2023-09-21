@@ -48,10 +48,13 @@ function FreeBoardItemDetail({}){
   const state = location.state;
 
   useEffect(()=>{
-    // freeBoardDetail(state.postId)
+    // detailApi()
   },[])
   // api 통신 =================================
 
+  // const detailApi = ()=>{
+    // freeBoardDetail(state.postId)
+  // }
 
   // 게시글 삭제
   const handleDelete =()=> {
