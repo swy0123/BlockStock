@@ -50,6 +50,8 @@ export const ImgBox = styled.div`
   background-color: white;
 `;
 export const Img = styled.img`
+width: 90%;
+height: 90%;
 `;
 
 export const FileBtn = styled.label`
