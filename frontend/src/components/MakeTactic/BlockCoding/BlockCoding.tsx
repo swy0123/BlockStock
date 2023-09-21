@@ -296,7 +296,8 @@ const BlockCoding = (props) => {
           {/* 검색 */}
           <SearchInputDiv>
             <SearchImg src={SearchImgSrc} onClick={searchKeyword} alt="검색"/>
-            <SearchInput type="text" value={keyword} onChange={handleKeywordField} />
+            <SearchInput type="text" value={keyword} onChange={handleKeywordField} 
+            placeholder="종목 이름 혹은 번호를 입력해주세요"/>
           </SearchInputDiv>
 
           <SearchItemList>
