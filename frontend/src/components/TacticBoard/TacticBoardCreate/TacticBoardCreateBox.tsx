@@ -10,16 +10,16 @@ import {
   ImgContainer,
   ImgBox,
   FileBtn,
-  FileInput,
   ButtonBox,
   Button1,
   Button2,
   Line,
+  Img,
 } from './TacticBoardCreateBox.style'
 import { useNavigate } from "react-router-dom";
 
+import ContestTaticModal from "../../Contest/ContestStore/ExpectedContest/ContestTaticModal";
 
-// const preventDefault = (event) => event.preventDefault();
 
 function TacticBoardCreateBox(){
 
@@ -27,19 +27,7 @@ function TacticBoardCreateBox(){
   const [title, setTitle] = useState(''); 
   const [content, setContent] = useState(''); 
   const [file, setFile] = useState(null)
-  const [fileName, setFileName] = useState('')
-  
-
-
-  // 이미지 파일만
-  const handleFileSelect = (e) => {
-    const files = e.target.files[0];
-    // const imageFiles = Array.from(files).filter(file => file.type.startsWith('image/'));
-    console.log(files)
-    setFileName(files.name)
-    setFile(files)
-  };
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
 
   // 글 등록
@@ -59,10 +47,19 @@ function TacticBoardCreateBox(){
     console.log("content:", content);
     console.log("file:", file);
     console.log("Form Data:", formData);
-    // freeBoardCreate(formData)
-    // navigate("/freeboard");
   };
 
+
+
+  // 모달 열고 닫기 ======================================
+  const OpenModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+  
+  const CloseModal = () => {
+    setIsModalOpen(false);
+  };
+  // 모달 열고 닫기 ======================================
 
 
   return(
@@ -76,10 +73,11 @@ function TacticBoardCreateBox(){
       <Wrapper>
         <ImgContainer>
             <ImgBox>
-                <FileBtn>
+            {file ? 
+            (<Img src="/icon/전략블록.png"/>) :
+                (<FileBtn onClick={OpenModal}>
                     전략 선택하기
-                    <FileInput type="file" accept="image/*" onChange={handleFileSelect} multiple />
-                </FileBtn>
+                </FileBtn>)}
             </ImgBox>
         </ImgContainer>
       <ContentInput
@@ -94,6 +92,8 @@ function TacticBoardCreateBox(){
       <Button1 onClick={()=>navigate('/tacticboard')}>목록</Button1>
       <Button2 onClick={handleSubmit}>등록</Button2>
     </ButtonBox>
+
+    {isModalOpen ? <ContestTaticModal type={'tactic'} onClose={CloseModal} /> : null}
 
     </>
   )
