@@ -140,13 +140,22 @@ export const Test = styled.div`
   min-height: 400px;
   margin-bottom: 5%;
 `;
+export const InputDetailTitleBox = styled.div`
+  /* position: relative; */
+  display: flex;
+  margin: 0px 0px 0px 45px;
+  color: #ABABAB;
+  width: 700px;
+  height: 20px;
+  background: #FFFFFF;
+  border-radius: 10px;
+`;
 export const InputDetailDiv = styled.div`
   /* position: relative; */
   display: flex;
-  margin: 0px 0px 0px 50px;
   color: #ABABAB;
   width: 700px;
-  height: 40px;
+  height: 30px;
   background: #FFFFFF;
   border: 1px solid #ECECEC;
   border-radius: 10px;
@@ -154,46 +163,58 @@ export const InputDetailDiv = styled.div`
 `;
 
 export const InputDetailTitle = styled.div`
-  width: 25%;
-  height: 30px;
+  min-width: 150px;
+  height: 20px;
   margin: 0px 0px 0px 20px;
 `;
 export const InputDetailValue = styled.div`
-  position: relative;
-  width: 25%;
-  height: 35px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  /* position: relative; */
+  width: 150px;
+  /* display: flex; */
+  /* align-items: center; */
+  /* justify-content: center; */
 `;
 export const InputOptionDiv = styled.div`
-  position: relative;
   display: flex;
-  flex-direction: row-reverse;
+  /* flex-direction: row-reverse; */
   align-items: center;
   width: 100%;
-  height: 14%;
-  margin-bottom: 1%;
-  align-items: center;
+  margin: 10px 0px 0px 75%;
+  /* align-items: center; */
 `;
 
 export const Input = styled.input`
   width: 120px;
-  height: 35px;
-  font-size: 16px;
+  height: 30px;
+  font-size: 12px;
   text-align: center;
   border-radius: 5px;
   border: 1px solid transparent; /* 보더를 투명하게 만듭니다. */
   background-color: transparent;
   outline: none;
 `;
+export const StocksInput = styled.input`
+  width: 120px;
+  height: 25px;
+  font-size: 14px;
+  text-align: center;
+  border-radius: 5px;
+  border: 1px solid transparent; /* 보더를 투명하게 만듭니다. */
+  background-color: transparent;
+  background: #FFFFFF;
+  border: 3px solid #9155FD;
+  border-radius: 10px;
+  margin: 10px 10px 0px 10px;
+`;
+
+
 
 export const StyledDatePicker = styled(ReactDatePicker)`
   width: 70%;
-  height: 35px;
+  height: 30px;
   text-align: center;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 12px;
   border-radius: 5px;
   border-width: 1px;
   border: 1px solid transparent; /* 보더를 투명하게 만듭니다. */
@@ -204,16 +225,53 @@ export const StyledDatePicker = styled(ReactDatePicker)`
 //======================================
 export const Wrapper = styled.div`
   width: 802px;
-height: 588px;
+height: 595px;
 background: #FFFFFF;
 box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
 border-radius: 10px;
 `;
 
-// export const Box = styled.div`
-// width: 802px;
-// height: 588px;
-// background: #FFFFFF;
-// box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
-// border-radius: 10px;
-// `;
+export const MoneyBox = styled.div`
+background: #FFFFFF;
+border: 1px solid #D9D9DA;
+border-radius: 6px;
+`;
+
+export const ScheduleBox = styled.div`
+background: #FFFFFF;
+border: 1px solid #D9D9DA;
+border-radius: 6px;
+margin: 0px 0px 0px 30px;
+`;
+
+export const PeriodBox = styled.div`
+background: #FFFFFF;
+/* border: 1px solid #D9D9DA; */
+border-radius: 6px;
+margin: 0px 0px 0px 30px;
+`;
+
+export const ChoiceBox = styled.div`
+width: 100%;
+margin: 0px 0px 0px 40px;
+font-size: 12px;
+`;
+
+export const ChoiceTitleBox = styled.div`
+  display: flex;
+  color: #ABABAB;
+`;
+
+export const TestButton = styled.div`
+background: #9155FD;
+border-radius: 6px;
+font-weight: 600;
+font-size: 12px;
+display: flex;
+align-items: center;
+text-align: center;
+color: #FFFFFF;
+padding: 8px 13px;
+margin: 10px 0px 0px 10px;
+`;
+

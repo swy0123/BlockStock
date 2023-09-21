@@ -27,8 +27,13 @@ import {
   TitleInput,
 
   Wrapper,
-  Box,
-
+  MoneyBox,
+  ChoiceTitleBox,
+  PeriodBox,
+  ScheduleBox,
+  ChoiceBox,
+  StocksInput,
+  TestButton,
 } from "./BlockCoding.style";
 import { ThemeProvider, createTheme } from "@mui/system";
 import { ToggleButtonGroup, ToggleButton } from "@mui/material";
@@ -58,6 +63,7 @@ const theme = createTheme({
 });
 
 const BlockCoding = (props) => {
+
   const [isSearch, setSearch] = useState(true);
 
   const ref = useRef(null);
@@ -261,6 +267,14 @@ const BlockCoding = (props) => {
     return formattedDate;
   };
 
+  
+  // 검색
+  const [searchKeyword1, setSearchKeyword1] = useState("");
+
+    const filteredItems = dummydata.filter((item) =>
+    item.optionName.includes(searchKeyword1)
+  );
+
   return (
     <BlockCodingContainer>
         <div>
@@ -303,18 +317,22 @@ const BlockCoding = (props) => {
                 {/* 검색 */}
                 <SearchInputDiv>
                   <SearchImg src={SearchImgSrc} onClick={searchKeyword} alt="검색"/>
-                  <SearchInput type="text" value={keyword} onChange={handleKeywordField} />
+                  <SearchInput onChange={(e)=>setSearchKeyword1(e.target.value)} type="text" value={searchKeyword1}
+                  //  onChange={handleKeywordField} 
+                   />
                 </SearchInputDiv>
 
                 <SearchItemList>
                   {isSearch ? (
                     <>
                       검색결과
-                      {optionLikeList.map((item, index) => (
+                      {filteredItems.map((item, index) => (
                         <OptionLikeListItem
                           key={index}
                           isLike={item.isLike}
                           item={item}
+                          index={index}
+                          list={filteredItems}
                           setOption={setOption}
                         ></OptionLikeListItem>
                       ))}
@@ -322,7 +340,7 @@ const BlockCoding = (props) => {
                   ) : (
                     <>
                       관심목록
-                      {optionLikeList.map((item, index) => (
+                      {filteredItems.map((item, index) => (
                         <OptionLikeListItem
                           key={index}
                           isLike={item.isLike}
@@ -369,45 +387,56 @@ const BlockCoding = (props) => {
               </Test>
 
               {/* 세부 입력 */}
-              <div style={{ minWidth:'700px'}}>
-                <InputDetailDiv>
-                  <InputDetailTitle><div>초기자산</div></InputDetailTitle>
-                  <InputDetailTitle>시작시간</InputDetailTitle>
-                  <InputDetailTitle>주기</InputDetailTitle>
-                  <InputDetailTitle>반복횟수</InputDetailTitle>
-                </InputDetailDiv>
+              <ChoiceBox>
+
+                <ChoiceTitleBox>
+                  <InputDetailTitle>초기자산</InputDetailTitle>
+                  <InputDetailTitle style={{margin:'0px 0px 0px 30px'}}>시작시간</InputDetailTitle>
+                  <InputDetailTitle style={{margin:'0px 0px 0px 50px'}}>주기</InputDetailTitle>
+                  <InputDetailTitle style={{margin:'0px 0px 0px 20px'}}>반복횟수</InputDetailTitle>
+                </ChoiceTitleBox>
 
                 <InputDetailDiv>
 
-                  <div style={{padding:'10px', border: '1px solid black'}}>
-                    <InputDetailValue>
+                  <MoneyBox>
+                    <InputDetailValue style={{margin:'0px 0px 0px 0px'}}>
                       <Input type="text" onChange={handleStartAsset} value={addComma(startAsset) || ""} />원
                     </InputDetailValue>
-                  </div>
+                  </MoneyBox>
 
-                  <InputDetailValue style={{margin:'0px 0px 0px 25px'}}>
-                    <StyledDatePicker dateFormat="yyyy-MM-dd" selected={startDate} onChange={(date) => setStartDate(date)} />
-                  </InputDetailValue>
+                  <ScheduleBox>
+                    <InputDetailValue style={{margin:'0px 0px 0px 25px'}}>
+                      <StyledDatePicker dateFormat="yyyy-MM-dd" selected={startDate} onChange={(date) => setStartDate(date)} />
+                    </InputDetailValue>
+                  </ScheduleBox>
 
-                  <InputDetailValue>
-                    <ToggleButtonGroup size="small" {...controlTerm} aria-label="Small sizes">
+                  <PeriodBox>
+                    <ToggleButtonGroup style={{maxHeight:'30px'}} size="small" {...controlTerm} aria-label="Small sizes">
                       <ToggleButton value="1m" key="min">
+                        <div style={{fontSize:'10px'}}>
                         &nbsp;1분
+                        </div>
                       </ToggleButton>
                       <ToggleButton value="10m" key="10min">
+                      <div style={{fontSize:'10px'}}>
                         10분
+                      </div>
                       </ToggleButton>
                       <ToggleButton value="1d" key="day">
+                      <div style={{fontSize:'10px'}}>
                         &nbsp;1일
+                      </div>
                       </ToggleButton>
                       <ToggleButton value="1w" key="week">
+                      <div style={{fontSize:'10px'}}>
                         &nbsp;1주
+                        </div>
                       </ToggleButton>
                     </ToggleButtonGroup>
-                  </InputDetailValue>
+                  </PeriodBox>
 
-                  <InputDetailValue>
-                    <ToggleButtonGroup size="small" {...controlRound} aria-label="Small sizes">
+                  <PeriodBox>
+                    <ToggleButtonGroup style={{maxHeight:'30px'}} size="small" {...controlRound} aria-label="Small sizes">
                       <ToggleButton value="50" key="fifty">
                         50번
                       </ToggleButton>
@@ -418,20 +447,22 @@ const BlockCoding = (props) => {
                         100번
                       </ToggleButton>
                     </ToggleButtonGroup>
-                  </InputDetailValue>
+                  </PeriodBox>
 
                 </InputDetailDiv>
-              </div>
 
-              <div>
+              </ChoiceBox>
+
                 <InputOptionDiv>
-                  <span>
+                  <div style={{margin:'8px 0px 0px 0px', fontSize:'12px'}}>
                     종목을&nbsp;
-                    <Input type="text" value={optionName} readOnly/>
-                    으로 <button onClick={onClickTestButton}>테스트하기</button>
-                  </span>
+                  </div>
+                  <StocksInput type="text" value={optionName} readOnly/>
+                  <div style={{margin:'8px 5px 0px 5px', fontSize:'12px'}}>
+                    으로 
+                  </div>
+                  <TestButton onClick={onClickTestButton}>테스트하기</TestButton>
                 </InputOptionDiv>
-              </div>
 
             </BlockCodingDiv>
           </Wrapper>
