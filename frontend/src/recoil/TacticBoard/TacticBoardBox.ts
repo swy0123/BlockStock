@@ -24,3 +24,8 @@ export const TacticBoardList = atom({
   default: [...dummyData
   ]
 })
+
+export const tacticdata = atom({
+  key: 'tacticdata',
+  default: null
+})

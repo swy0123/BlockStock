@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from "react";
 import CloseIcon from '@mui/icons-material/Close';
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useRecoilState  } from "recoil";
 import { contestTatic } from '../../../../recoil/Contest/ExpectedContest'
+import { tacticdata } from '../../../../recoil/TacticBoard/TacticBoardBox'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -31,19 +32,29 @@ import {
 import ContestTicketModal from "./ContestTicketModal";
 
 function ContestTaticModal(props){
+  // 전달 받은 데이터
   const { selectedContest, type, onClose } = props;
   
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const contestTaticList = useRecoilValue(contestTatic);
   const [isStarred, setIsStarred] = useState(Array(contestTaticList.length).fill(false));
   const [selectedTacticIndex, setSelectedTacticIndex] = useState(-1);
   const [tacticId, setTacticId] = useState(0)
 
+  // 전략 게시글
+  const [state, setState] = useRecoilState(tacticdata);
+  const [tacticImg, setTacticImg] = useState(null)
+
+
   useEffect(() => {
     console.log(type);
   }, []);
 
+
   const handleCardClick = (e) => {
+    console.log(e)
+    setTacticImg(e.img)
     setTacticId(e.t)
     const newIsStarred = [...isStarred];
     newIsStarred[e.i] = !newIsStarred[e.i];
@@ -55,14 +66,23 @@ function ContestTaticModal(props){
     }
   };
 
+
   const OpenModal = () => {
-    console.log(selectedContest);
-    setIsModalOpen(!isModalOpen);
+    if (type==='tactic'){
+      console.log(tacticImg);
+      setState(tacticImg);
+      onClose()
+    } else {
+      console.log(selectedContest);
+      setIsModalOpen(!isModalOpen);
+    }
   };
+
 
   const CloseModal = () => {
     setIsModalOpen(false);
   };
+
 
   return(
       <>
@@ -90,7 +110,7 @@ function ContestTaticModal(props){
             {contestTaticList.map((contest,index)=>(
               <SwiperSlide className="slide" key={contest.tacticId}>
                 <div>
-                  <Card onClick={() => handleCardClick({'i':index, 't':contest.tacticId})}
+                  <Card onClick={() => handleCardClick({'i':index, 't':contest.tacticId, 'img': contest.imgPath})}
                     style={{
                       border: selectedTacticIndex === index  ? "3.5px solid #a782ec" : "", 
                       boxShadow: selectedTacticIndex === index  ? "rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset" : "", 
@@ -111,7 +131,7 @@ function ContestTaticModal(props){
                         </TaticTime>
                         <hr style={{width:'170px'}}/>
                         {/* <TaticImg  src={contest.imgPath}/> */}
-                        <TaticImg  src='/icon/전략블록.png'/>
+                        <TaticImg src='/icon/전략블록.png'/>
                   </Card>
               </div>
               </SwiperSlide>
