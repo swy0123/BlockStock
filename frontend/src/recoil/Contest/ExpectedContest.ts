@@ -73,49 +73,49 @@ export const contestTatic = atom({
       tacticId: 1,
       title: "빠르게 가는 전략",
       optionCode: "005147",
-      imgPath: "",
+      imgPath: "/icon/전략블록.png",
       updatedAt: "2023.09.04"
     },
     {
       tacticId: 2,
       title: "천천히 가는 전략",
       optionCode: "006666",
-      imgPath: "",
+      imgPath: "/icon/admin2.png",
       updatedAt: "2023.09.04"
     },
     {
       tacticId: 3,
       title: "적당히 가는 전략",
       optionCode: "007777",
-      imgPath: "",
+      imgPath: "/icon/medal3.png",
       updatedAt: "2023.09.04"
     },
     {
       tacticId: 4,
       title: "고위험 고수익 전략",
       optionCode: "009999",
-      imgPath: "",
+      imgPath: "/icon/admin2.png",
       updatedAt: "2023.09.05"
     },
     {
       tacticId: 5,
       title: "안전한 투자 전략",
       optionCode: "004321",
-      imgPath: "",
+      imgPath: "/icon/admin2.png",
       updatedAt: "2023.09.05"
     },
     {
       tacticId: 6,
       title: "장기 투자 전략",
       optionCode: "002222",
-      imgPath: "",
+      imgPath: "/icon/strategy.png",
       updatedAt: "2023.09.06"
     },
     {
       tacticId: 7,
       title: "단기 투자 전략",
       optionCode: "008888",
-      imgPath: "",
+      imgPath: "/icon/admin2.png",
       updatedAt: "2023.09.06"
     }
   ]

@@ -18,17 +18,35 @@ import {
 } from './TacticBoardCreateBox.style'
 import { useNavigate } from "react-router-dom";
 
+import { useRecoilValue } from "recoil";
+import { tacticdata } from '../../../recoil/TacticBoard/TacticBoardBox'
+
 import ContestTaticModal from "../../Contest/ContestStore/ExpectedContest/ContestTaticModal";
 
 
 function TacticBoardCreateBox(){
 
+  // 전략 이미지
+  const tacticImg = useRecoilValue(tacticdata);
+
   const navigate = useNavigate();
   const [title, setTitle] = useState(''); 
   const [content, setContent] = useState(''); 
-  const [file, setFile] = useState(null)
+  const [file, setFile] = useState(tacticImg)
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+
+  // // 이미지 읽기
+  // useEffect(() => {
+  //   if (tacticImg) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setFile(reader.result);
+  //     };
+  //     // 직접 File 객체를 전달합니다.
+  //     reader.readAsDataURL(tacticImg);
+  //   }
+  // }, [tacticImg]);
 
   // 글 등록
   const handleSubmit = () => {
@@ -74,7 +92,7 @@ function TacticBoardCreateBox(){
         <ImgContainer>
             <ImgBox>
             {file ? 
-            (<Img src="/icon/전략블록.png"/>) :
+            (<Img onClick={OpenModal} src={tacticImg}/>) :
                 (<FileBtn onClick={OpenModal}>
                     전략 선택하기
                 </FileBtn>)}
