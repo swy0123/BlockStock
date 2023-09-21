@@ -1,9 +1,8 @@
 import axios, { AxiosInstance } from "axios";
-import { useRecoilState } from "recoil";
-import { CurrentUserAtom, LoginState } from "./../recoil/Auth";
 
 //수정
 const BASE_URL = "https://j9b210.p.ssafy.io:8443/api";
+// const navigate = useNavigate();
 
 axios.defaults.withCredentials = true;
 
@@ -61,20 +60,21 @@ privateApi.interceptors.response.use(
     const originRequest = config;
     try {
       const response = await postRefreshToken();
-      const newAccessToken = response.data.accessToken;
-      localStorage.setItem("access_token", response.data.accessToken);
-      localStorage.setItem("refresh_token", response.data.refreshToken);
+      const newAccessToken = response.data.accessToken
+      localStorage.setItem(
+        'access_token',
+        response.data.accessToken
+      );
+      localStorage.setItem(
+        'refresh_token',
+        response.data.refreshToken
+      );
       axios.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
-      // 기존 요청 헤더 토큰 변경
       originRequest.headers.Authorization = `Bearer ${newAccessToken}`;
       return axios(originRequest);
     } catch {
-      const [isLogin, setIsLogin] = useRecoilState(LoginState);
-      const [currentUser, setCurrentUser] = useRecoilState(CurrentUserAtom);
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("refresh_token");
-      setIsLogin(false); // 로그인 여부 아톰에 저장
-      setCurrentUser(""); // 유저 정보 아톰에 저장
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
       // window.location.href = ("/");
     }
     return Promise.reject(error);
