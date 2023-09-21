@@ -15,7 +15,13 @@ import {
   LikeBtnBox,
   LikeBtn, 
 } from '../FreeBoardItemDetail.style'
+
+// FreeBoard api
 import {commentCreate, likeCreate, likeDelete} from '../../../../api/FreeBoard/Comment'
+
+// FreeBoard api
+import {tacticcommentCreate, tacticlikeCreate, tacticlikeDelete} from '../../../../api/TacticBoard/Comment'
+
 
 function CommentCreate(props){
 
@@ -25,16 +31,20 @@ function CommentCreate(props){
 
 
   // 댓글 작성 ==========================================
-  const data = {
-    "freeboardId": id,
-    'content':content
-  }
 
   const handleCreate = () => {
-    console.log(data);
     if (type === 'free') {
+      const data = {
+        "freeboardId": id,
+        'content':content
+      }
       commentCreate(data);
     } else if (type === 'tactic') {
+      const data = {
+        "freeboardId": id,
+        'content':content
+      }
+      tacticcommentCreate(data)
       console.log(data);
     }
   }
@@ -57,11 +67,18 @@ function CommentCreate(props){
     "freeboardId": id,
   }
   const handleLike = () => {
-    console.log(like)
-    if (isLike) {
-      likeDelete(like);
-    } else {
-      likeCreate(like);
+    if (type==='free'){
+      if (isLike) {
+        likeDelete(like);
+      } else {
+        likeCreate(like);
+      }
+    } else if (type==='tactic'){
+      if (isLike) {
+        tacticlikeDelete(like);
+      } else {
+        tacticlikeCreate(like);
+      }
     }
   };
   // ====================================================

@@ -33,6 +33,9 @@ import {
   Hit,
 } from './TacticBoardBox.style'
 
+// 게시글 조회 api
+import {tacticBoardList} from '../../../api/TacticBoard/TacticBoard'
+
 function TacticBoardBox() {
 
   const navigate = useNavigate();
@@ -47,6 +50,25 @@ function TacticBoardBox() {
   const handleSearchInputChange = (event) => {
     setSearchKeyword(event.target.value);
   };
+
+
+
+  // api 통신 =============================================================
+  // const params = {
+  //   sort: menu,
+  //   page: page,
+  //   size: rowsPerPage,
+  //   keyWord: searchKeyword,
+  // };
+  // useEffect(()=>{
+  //   freeboard()
+  // },[page,rowsPerPage,searchKeyword])
+
+  // const freeboard = async () => {
+  //   const freeBoard = await tacticBoardList(params)
+  //   console.log(freeBoard)
+  // }
+  // api 통신 =================
 
 
 
@@ -145,7 +167,12 @@ function TacticBoardBox() {
                 <div key={index}>
 
                 <TitleBox>
-                  <Title>
+                  <Title
+                  onClick={() => {
+                    navigate(`/tacticboarddetail`, {
+                      state: { postId: item.tacticPostId } // URL 매개변수 설정
+                    });
+                  }}>
                     {item.title}
                   </Title>
                 </TitleBox>

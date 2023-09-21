@@ -12,31 +12,43 @@ import {
   Title
 } from './CommentList.style'
 
-// import {commentList, commentDelete} from '../../../../api/FreeBoard/Comment'
+// 자유게시판 댓글 api
+import {commentList, commentDelete} from '../../../../api/FreeBoard/Comment'
+
+// 전략게시판 댓글 api
+import { tacticcommentList,tacticcommentDelete } from '../../../../api/TacticBoard/Comment'
 
 
 function CommentList(props) {
   // 더미데이터
   const comment = useRecoilValue(commentlist);
 
-  const freeboardId  = props.state.id
+  const { id, type } = props.state
 
 
   // 댓글 리스트 api 호출
-  // useEffect(()=>{
-  //   comments()
-  // },[])
+  useEffect(()=>{
+    comments()
+  },[])
   
-  // const comments =()=>{
-  //   commentList(freeboardId)
-  // }
+  const comments =()=>{
+    if (type==='free'){
+      commentList(id)
+    } else if ( type==='tactic'){
+      tacticcommentList(id)
+    }
+  }
   // ============================================
 
 
   // 댓글 삭제
   // const handleDelete = (id) => {
-  //   console.log(id);
-  //   commentDelete(id);
+  //   if (type==='free'){
+  //     console.log(id);
+  //     commentDelete(id);
+  //   }else if (type==='tactic'){
+  //     tacticcommentDelete(id)
+  //   }
   // };
 
   return (
