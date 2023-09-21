@@ -5,12 +5,12 @@ export const BlockCodingContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 95%;
+  min-height: 800px;
   overflow: hidden;
 `;
 export const TitleDiv = styled.div`
   display: flex;
-  width: 100%;
+  width: 300px;
   height: 50px;
   align-items: center;
   justify-content: center;
@@ -47,9 +47,10 @@ export const LeftDiv = styled.div`
   flex-direction: column;
   position: relative;
   width: 27%;
-  /* margin-right: 2%; */
   padding: 1%;
   height: 100%;
+  width: 300px;
+  margin: 0px 50px 0px 0px;
 `;
 
 export const IsSearchDiv = styled.div`
@@ -61,7 +62,7 @@ export const IsSearchDiv = styled.div`
   margin-bottom: 50px;
   border-radius: 10px;
   width: 90%;
-  height: 85%;
+  height: 65%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -124,38 +125,38 @@ export const SearchItemList = styled.div`
 
 //-----------------------------------------------
 export const BlockCodingDiv = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
+  /* display: flex; */
+  /* justify-content: flex-start; */
+  /* flex-direction: column; */
   /* background-color: rgba(0, 0, 0, 0.08); */
-  position: relative;
-  padding: 1%;
+  /* position: relative; */
+  /* padding: 1%; */
   width: 72%;
-  height: 100%;
+  max-height: 300px;
 `;
 export const Test = styled.div`
   position: relative;
-  width: 100%;
-  height: 75%;
+  width: 700px;
+  min-height: 400px;
   margin-bottom: 5%;
 `;
 export const InputDetailDiv = styled.div`
-  position: relative;
+  /* position: relative; */
   display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 5%;
-  text-align: center;
-  margin-bottom: 1%;
-  /* margin-top: 1%; */
+  margin: 0px 0px 0px 50px;
+  color: #ABABAB;
+  width: 700px;
+  height: 40px;
+  background: #FFFFFF;
+  border: 1px solid #ECECEC;
+  border-radius: 10px;
+  padding: 10px;
 `;
+
 export const InputDetailTitle = styled.div`
-  position: relative;
   width: 25%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 30px;
+  margin: 0px 0px 0px 20px;
 `;
 export const InputDetailValue = styled.div`
   position: relative;
@@ -182,8 +183,9 @@ export const Input = styled.input`
   font-size: 16px;
   text-align: center;
   border-radius: 5px;
-  border-width: 1px;
+  border: 1px solid transparent; /* 보더를 투명하게 만듭니다. */
   background-color: transparent;
+  outline: none;
 `;
 
 export const StyledDatePicker = styled(ReactDatePicker)`
@@ -194,4 +196,24 @@ export const StyledDatePicker = styled(ReactDatePicker)`
   font-size: 16px;
   border-radius: 5px;
   border-width: 1px;
+  border: 1px solid transparent; /* 보더를 투명하게 만듭니다. */
+  background-color: transparent;
+  outline: none;
 `;
+
+//======================================
+export const Wrapper = styled.div`
+  width: 802px;
+height: 588px;
+background: #FFFFFF;
+box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
+border-radius: 10px;
+`;
+
+// export const Box = styled.div`
+// width: 802px;
+// height: 588px;
+// background: #FFFFFF;
+// box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
+// border-radius: 10px;
+// `;
