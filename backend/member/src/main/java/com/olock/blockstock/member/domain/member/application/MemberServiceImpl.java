@@ -9,6 +9,7 @@ import com.olock.blockstock.member.domain.member.dto.request.PasswordUpdateReque
 import com.olock.blockstock.member.domain.member.dto.response.MemberInfoResponse;
 import com.olock.blockstock.member.domain.member.exception.DuplicateEmailException;
 import com.olock.blockstock.member.domain.member.exception.NoMemberException;
+import com.olock.blockstock.member.domain.member.persistence.FollowRepository;
 import com.olock.blockstock.member.domain.member.persistence.MemberRepository;
 import com.olock.blockstock.member.domain.member.persistence.entity.Member;
 import com.olock.blockstock.member.domain.member.persistence.entity.Role;
@@ -30,6 +31,7 @@ public class MemberServiceImpl implements MemberService {
     private final PasswordEncoder passwordEncoder;
     private final MemberValidator memberValidator;
     private final ObjectMapper objectMapper = new ObjectMapper();
+    private final FollowRepository followRepository;
 
     @Override
     public void join(MemberJoinRequest memberJoinRequest) {
@@ -61,13 +63,12 @@ public class MemberServiceImpl implements MemberService {
         memberValidator.validateExistsMember(memberId);
         Member member = memberRepository.findByMemberId(memberId).get();
 
-        return new MemberInfoResponse(member);
+        return new MemberInfoResponse(member, followRepository.findFollowerCnt(memberId), followRepository.findFollowingCnt(memberId));
     }
 
     @Override
     public void modify(Long memberId, MemberModifyRequest memberModifyRequest) {
         memberValidator.validateExistsMember(memberId);
-        System.out.println(memberId + " " + memberModifyRequest.getNickname());
         memberRepository.updateNickname(memberId, memberModifyRequest.getNickname());
     }
 

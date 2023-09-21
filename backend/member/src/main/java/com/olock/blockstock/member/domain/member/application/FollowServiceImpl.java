@@ -35,11 +35,11 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public List<FollowMemberResponse> getFollowers(Long myId, Long targetId) {
-        return null;
+        return followRepository.findAllFollowers(myId, targetId);
     }
 
     @Override
     public List<FollowMemberResponse> getFollowings(Long myId, Long targetId) {
-        return null;
+        return followRepository.findAllFollowings(myId, targetId);
     }
 }
