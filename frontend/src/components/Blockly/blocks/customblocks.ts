@@ -37,7 +37,7 @@ Blockly.Blocks["sell"] = {
     this.appendDummyInput().appendField("주 만큼 매도하기");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
-    this.setColour(230);
+    this.setColour(300);
     this.setTooltip("");
     this.setHelpUrl("");
   },
@@ -49,7 +49,7 @@ Blockly.Blocks["buy"] = {
     this.appendDummyInput().appendField("주 만큼 매수하기");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
-    this.setColour(230);
+    this.setColour(300);
     this.setTooltip("");
     this.setHelpUrl("");
   },
@@ -59,7 +59,7 @@ Blockly.Blocks["stay"] = {
   init: function () {
     this.appendDummyInput().appendField(new Blockly.FieldLabelSerializable("유지하기"), "STAY");
     this.setPreviousStatement(true, null);
-    this.setColour(230);
+    this.setColour(300);
     this.setTooltip("");
     this.setHelpUrl("");
   },
@@ -79,7 +79,7 @@ Blockly.Blocks["minmaxavg_select"] = {
       "FIELDNAME"
     );
     this.setOutput(true, 'indicators');
-    this.setColour(230);
+    this.setColour(300);
     this.setTooltip("");
     this.setHelpUrl("");
   },
@@ -98,7 +98,7 @@ Blockly.Blocks["ochlv_value"] = {
       "FIELDNAME"
     );
     this.setOutput(true, 'ochlv');
-    this.setColour(230);
+    this.setColour(300);
     this.setTooltip("");
     this.setHelpUrl("");
   },
@@ -112,6 +112,7 @@ Blockly.Blocks["calculate_scope_data"] = {
     this.appendValueInput("OCHL").setCheck('ochlv');
     this.appendDummyInput().appendField("의 ");
     this.appendValueInput("HLA").setCheck('indicators');
+    this.appendDummyInput().appendField(" 값");
     this.setOutput(true, 'Number');
     this.setColour(360);
     this.setTooltip("");
@@ -127,11 +128,11 @@ Blockly.Blocks["date_scope"] = {
       return newValue;
     };
     this.appendDummyInput()
-      .appendField("최근 ")
+      .appendField("어제부터 ")
       .appendField(new Blockly.FieldTextInput("1", validator), "DATE")
-      .appendField("일 ");
+      .appendField("일 까지의 주가 데이터 ");
     this.setOutput(true, 'scope');
-    this.setColour(230);
+    this.setColour(300);
     this.setTooltip("");
     this.setHelpUrl("");
   },
@@ -144,21 +145,46 @@ Blockly.Blocks["term_scope"] = {
       return newValue;
     };
     this.appendDummyInput()
-      .appendField("최근 주기의 ")
+      .appendField("주기의 직전 시점부터")
       .appendField(new Blockly.FieldTextInput("1", validator), "DATE")
-      .appendField("번째 까지 ");
+      .appendField("번째 주기 까지의 주가 데이터 ");
     this.setOutput(true, 'scope');
-    this.setColour(230);
+    this.setColour(300);
     this.setTooltip("");
     this.setHelpUrl("");
   },
 };
 
+// Blockly.Blocks["cur_data"] = {
+//   init: function () {
+//     this.appendValueInput("OCHL")
+//       .setCheck(null)
+//       .appendField(new Blockly.FieldLabelSerializable("현재 날짜의"), "OCHL");
+//     this.setInputsInline(true);
+//     this.setOutput(true, 'Number');
+//     this.setColour(360);
+//     this.setTooltip("");
+//     this.setHelpUrl("");
+//   },
+// };
 Blockly.Blocks["cur_data"] = {
   init: function () {
-    this.appendValueInput("OCHL")
-      .setCheck(null)
-      .appendField(new Blockly.FieldLabelSerializable("현재 날짜의"), "OCHL");
+    this.appendDummyInput().appendField("현재 날짜의 ");
+    this.appendValueInput("OCHL").setCheck('ochlv')
+    this.setInputsInline(true);
+    this.setOutput(true, 'Number');
+    this.setColour(360);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
+//현재 자산의 %
+Blockly.Blocks["cnt_per_asset"] = {
+  init: function () {
+    this.appendDummyInput().appendField("현재 자산의 ");
+    this.appendValueInput("NAME").setCheck("Number");
+    this.appendDummyInput().appendField("%");
     this.setInputsInline(true);
     this.setOutput(true, 'Number');
     this.setColour(360);
