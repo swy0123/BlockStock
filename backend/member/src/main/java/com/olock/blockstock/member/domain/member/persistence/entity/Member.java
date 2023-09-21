@@ -26,7 +26,7 @@ public class Member {
     private String nickname;
     private String imagePath;
     private Integer ticketCount = 0;
-    private Long money = 100000000L;
+    private Long money = 10000000L;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime createdAt;

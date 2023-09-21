@@ -2,25 +2,16 @@ package com.olock.blockstock.member.domain.member.application;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.olock.blockstock.member.domain.member.dto.request.EmailSendRequest;
-import com.olock.blockstock.member.domain.member.dto.request.MemberJoinRequest;
-import com.olock.blockstock.member.domain.member.dto.request.MemberModifyRequest;
-import com.olock.blockstock.member.domain.member.dto.request.PasswordUpdateRequest;
+import com.olock.blockstock.member.domain.member.dto.request.*;
 import com.olock.blockstock.member.domain.member.dto.response.MemberInfoResponse;
-import com.olock.blockstock.member.domain.member.exception.DuplicateEmailException;
-import com.olock.blockstock.member.domain.member.exception.NoMemberException;
 import com.olock.blockstock.member.domain.member.persistence.FollowRepository;
 import com.olock.blockstock.member.domain.member.persistence.MemberRepository;
 import com.olock.blockstock.member.domain.member.persistence.entity.Member;
 import com.olock.blockstock.member.domain.member.persistence.entity.Role;
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
-import org.springframework.mail.MailException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 
 @Service
@@ -35,7 +26,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void join(MemberJoinRequest memberJoinRequest) {
-        memberValidator.validateDuplicateEmail(memberJoinRequest);
+        memberValidator.hasSameEmail(memberJoinRequest);
 
         Member member = Member.builder()
                 .id(memberRepository.findLastIdx())
@@ -60,7 +51,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberInfoResponse getInfo(Long memberId) {
-        memberValidator.validateExistsMember(memberId);
+        memberValidator.existsMember(memberId);
         Member member = memberRepository.findByMemberId(memberId).get();
 
         return new MemberInfoResponse(member, followRepository.findFollowerCnt(memberId), followRepository.findFollowingCnt(memberId));
@@ -68,13 +59,28 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void modify(Long memberId, MemberModifyRequest memberModifyRequest) {
-        memberValidator.validateExistsMember(memberId);
+        memberValidator.existsMember(memberId);
         memberRepository.updateNickname(memberId, memberModifyRequest.getNickname());
     }
 
     @Override
     public void updatePassword(Long memberId, PasswordUpdateRequest passwordUpdateRequest) {
-        memberValidator.validateUpdatePassword(memberId, passwordUpdateRequest);
+        memberValidator.canUpdatePassword(memberId, passwordUpdateRequest);
         memberRepository.updatePassword(memberId, passwordEncoder.encode(passwordUpdateRequest.getNewPassword()));
     }
+
+    @Override
+    public void buyTicket(Long memberId, int ticketCount) {
+        memberValidator.existsMember(memberId);
+        memberValidator.canBuyTicket(memberId, ticketCount);
+        memberRepository.updateMoney(memberId, ticketCount * (-10000000L));
+        memberRepository.updateTicket(memberId, ticketCount);
+    }
+
+    @Override
+    public void chargeMoney(Long memberId, MoneyChargeRequest moneyChargeRequest) {
+        memberValidator.existsMember(memberId);
+        memberRepository.updateMoney(memberId, moneyChargeRequest.getMoney());
+    }
+
 }
