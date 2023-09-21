@@ -134,28 +134,149 @@ function BlocklyComponent(props: any) {
     console.log("load");
   };
 
+  //전체 블록 화면 창 이미지 캡쳐
+  // const exportImage = () => {
+  //   const blocklyBlockCanvas = document.querySelector(".blocklyBlockCanvas");
+  //   console.log(blocklyBlockCanvas);
+  //   let file = null;
+  //   if (blocklyBlockCanvas) {
+  //     // blocklyCursor 요소가 존재하는 경우
+  //     domtoimage
+  //       .toBlob(blocklyBlockCanvas)
+  //       // .then((blob) => {
+  //       //   file = new File([blob], "image.png", { type: "image/png" });
+  //       //   console.log(file);
+  //       // })
+  //       .then(function (blob) {
+  //         FileSaver.saveAs(blob, "blocklyCursor.png");
+  //       })
+  //       .catch(function (error) {
+  //         console.error("이미지 캡처 중 오류 발생:", error);
+  //       });
+  //   } else {
+  //     console.log('클래스 "blocklyCursor"를 가진 SVG 요소가 존재하지 않습니다.');
+  //   }
+  //   return file;
+  // };
+
+  //블록코드만 svg로 다운
+  // const exportImage = () => {
+  //   const blocklyBlockCanvas = document.querySelector(".blocklyBlockCanvas");
+
+  //   console.log(blocklyBlockCanvas);
+
+  //   let blob = null;
+  //   if (blocklyBlockCanvas) {
+  //     const clonedSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  //     clonedSVG.appendChild(blocklyBlockCanvas.cloneNode(true));
+  //     const svgXML = new XMLSerializer().serializeToString(clonedSVG);
+  //     // Blob 생성
+  //     blob = new Blob([svgXML], { type: "image/svg+xml" });
+  //     const url = URL.createObjectURL(blob);
+  //     const img = document.createElement("img");
+  //     img.src = url;
+  //     document.body.appendChild(img);
+  //     const a = document.createElement("a");
+  //     a.href = url;
+  //     a.download = "myImage.svg"; // 다운로드될 파일 이름
+  //     a.style.display = "none"; // 화면에 표시되지 않도록 함
+  //     document.body.appendChild(a);
+  //     a.click();
+  //     URL.revokeObjectURL(url);
+  //   } else {
+  //     console.log('클래스 "blocklyCursor"를 가진 SVG 요소가 존재하지 않습니다.');
+  //   }
+  //   console.log(blob)
+  //   return blob;
+  // };
+
   const exportImage = () => {
-    const blocklyBlockCanvas = document.querySelector("#blocklyDiv");
+    const blocklyBlockCanvas = document.querySelector(".blocklyBlockCanvas");
+
     console.log(blocklyBlockCanvas);
+
     let file = null;
     if (blocklyBlockCanvas) {
-      // blocklyCursor 요소가 존재하는 경우
-      domtoimage
-        .toBlob(blocklyBlockCanvas)
-        .then((blob) => {
-          file = new File([blob], "image.png", { type: "image/png" });
-          console.log(file);
-        })
-        // .then(function (blob) {
-        // FileSaver.saveAs(blob, 'blocklyCursor.png');
-        // })
-        .catch(function (error) {
-          console.error("이미지 캡처 중 오류 발생:", error);
-        });
+      const clonedSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      clonedSVG.appendChild(blocklyBlockCanvas.cloneNode(true));
+      const svgXML = new XMLSerializer().serializeToString(clonedSVG);
+
+      // var parser = new DOMParser();
+      // var svgDoc = parser.parseFromString(svgXML, "image/svg+xml");
+      // var svgElement = svgDoc.documentElement;
+      // // SVG 요소의 경계 상자 가져오기
+      // var bbox = svgElement.getBBox();
+
+      // // 너비와 높이 가져오기
+      // var originalWidth = bbox.width;
+      // var originalHeight = bbox.height;
+
+      // console.log("원래 너비: " + originalWidth);
+      // console.log("원래 높이: " + originalHeight);
+
+      let totalWidth = 0;
+      let totalHeight = 0;
+      
+      blocklyBlockCanvas.querySelectorAll('rect, circle').forEach((element) => {
+        totalWidth += element.getBBox().width;
+        totalHeight += element.getBBox().height;
+      });
+
+      console.log(`그룹의 가로 크기: ${totalWidth}`);
+      console.log(`그룹의 세로 크기: ${totalHeight}`);
+
+      // Blob 생성
+      let blob = new Blob([svgXML], { type: "image/svg+xml" });
+
+      convertBlobToImage(blob, (image) => {
+        let canvas = document.createElement("canvas");
+        canvas.width = image.width * 2;
+        canvas.height = image.height * 2;
+        console.log("사진 너비: " + canvas.width);
+        console.log("사진 높이: " + canvas.height);
+        let ctx = canvas.getContext("2d");
+        ctx.drawImage(image, 0, 0);
+
+        // const url = URL.createObjectURL(blob);
+        // const img = document.createElement("img");
+        // img.src = url;
+        // document.body.appendChild(img);
+        // const a = document.createElement("a");
+
+        // const imageWidth = img.width;
+        // const imageHeight = img.height;
+
+        // console.log(`이미지의 너비: ${imageWidth}px`);
+        // console.log(`이미지의 높이: ${imageHeight}px`);
+
+        // Canvas에서 PNG 이미지로 저장
+        canvas.toBlob(function (pngBlob) {
+          let url = URL.createObjectURL(pngBlob);
+
+          // PNG 이미지를 다운로드할 수 있는 링크 생성
+          let a = document.createElement("a");
+          a.href = url;
+          a.download = "image.png";
+          a.click();
+          console.log(a)
+          // 더 이상 사용하지 않는 URL 객체 해제
+          URL.revokeObjectURL(url);
+        }, "image/png");
+      });
     } else {
       console.log('클래스 "blocklyCursor"를 가진 SVG 요소가 존재하지 않습니다.');
     }
+    console.log(file);
     return file;
+  };
+
+  const convertBlobToImage = (blob: Blob, callback: any) => {
+    var img = new Image();
+    img.onload = function () {
+      callback(img);
+    };
+    img.src = URL.createObjectURL(blob);
+    console.log(img);
   };
 
   useEffect(() => {
@@ -324,9 +445,6 @@ function BlocklyComponent(props: any) {
           <Block type="date_scope" />
           <Block type="term_scope" />
 
-
-
-
           {/* <Block type="calculate_rsi" >
             <Value name="OCHL">
               <Shadow type="ochlv_value">
@@ -340,7 +458,7 @@ function BlocklyComponent(props: any) {
           {/* <Block type="dict_keys" /> */}
         </Category>
 
-        <Category name="Variables" colour='360'>
+        <Category name="Variables" colour="360">
           <Block type="cnt_per_reserve">
             <Value name="NAME">
               <Shadow type="math_number">
