@@ -4,7 +4,6 @@ import com.olock.blockstock.member.domain.member.application.EmailService;
 import com.olock.blockstock.member.domain.member.application.MemberService;
 import com.olock.blockstock.member.domain.member.dto.request.*;
 import com.olock.blockstock.member.domain.member.dto.response.MemberInfoResponse;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,16 +14,6 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
     private final MemberService memberService;
     private final EmailService emailService;
-
-    @GetMapping("/info")
-    public String info() {
-        return "hell0";
-    }
-
-    @GetMapping("/detail")
-    public String detail(HttpServletRequest httpServletRequest) {
-        return httpServletRequest.getHeader("Authorization");
-    }
 
     @PostMapping
     public ResponseEntity<Void> join(@RequestBody MemberJoinRequest memberJoinRequest) {
@@ -64,6 +53,18 @@ public class MemberController {
     @PostMapping("/confirm-email")
     public ResponseEntity<Void> confirmEmail(@RequestBody EmailConfirmRequest emailConfirmRequest) {
         emailService.confirmEmail(emailConfirmRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/ticket")
+    public ResponseEntity<Void> buyTicket(@RequestHeader("Member-id") Long memberId, @RequestParam("count") Integer ticketCount) {
+        memberService.buyTicket(memberId, ticketCount);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/money")
+    public ResponseEntity<Void> chargeMoney(@RequestHeader("Member-id") Long memberId, @RequestBody MoneyChargeRequest moneyChargeRequest) {
+        memberService.chargeMoney(memberId, moneyChargeRequest);
         return ResponseEntity.ok().build();
     }
 

@@ -1,5 +1,6 @@
 package com.olock.blockstock.member.global.error;
 
+import com.olock.blockstock.member.domain.member.exception.LessMoneyException;
 import com.olock.blockstock.member.domain.member.exception.NoEmailException;
 import com.olock.blockstock.member.domain.member.exception.WrongConfirmException;
 import com.olock.blockstock.member.domain.member.exception.WrongTokenException;
@@ -23,6 +24,12 @@ public class ExceptionAdvice {
     @ExceptionHandler({WrongConfirmException.class})
     public ResponseEntity<ErrorResponse> wrongConfirm() {
         ErrorResponse errorResponse = new ErrorResponse(ErrorCode.WRONG_CONFIRM, "잘못된 비밀번호 인증입니다");
+        return ResponseEntity.status(HttpStatus.valueOf(ErrorStatus.INVALID_REQUEST.getValue())).body(errorResponse);
+    }
+
+    @ExceptionHandler({LessMoneyException.class})
+    public ResponseEntity<ErrorResponse> cantBuy() {
+        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.WRONG_CONFIRM, "구매할 수 없습니다");
         return ResponseEntity.status(HttpStatus.valueOf(ErrorStatus.INVALID_REQUEST.getValue())).body(errorResponse);
     }
 }
