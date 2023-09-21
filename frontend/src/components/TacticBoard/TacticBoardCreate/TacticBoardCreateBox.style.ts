@@ -51,9 +51,7 @@ export const ImgBox = styled.div`
 `;
 export const Img = styled.img`
 `;
-export const FileInput = styled.input`
-display: none; 
-`;
+
 export const FileBtn = styled.label`
   display: inline-block;
   padding: 5px 10px;
