@@ -15,9 +15,9 @@ public interface FollowRepository extends Neo4jRepository<Member, Long> {
     @Query("MATCH (follower:Member)-[r:FOLLOW]->(following:Member) WHERE follower.id = $memberId AND following.id = $targetId DELETE r")
     void unfollow(@Param("memberId") Long memberId, @Param("targetId") Long targetId);
 
-    @Query("MATCH (follower:Member)-[r:FOLLOW]->(following:Member WHERE following.id = $targetId WITH follower MATCH (me:Member)-[f:FOLLOW]->(myFollowing:Member) WHERE me.id = $myId RETURN follower.id AS id, follower.nickname as nickname, CASE WHEN follower.id IN COLLECT(myFollowing.id) THEN 'true' ELSE 'false' END AS isFollowing")
+    @Query("MATCH (follower:Member)-[r:FOLLOW]->(following:Member) WHERE following.id = $targetId RETURN follower.id AS id, follower.nickname AS nickname, EXISTS { MATCH (me:Member)-[:FOLLOW]->(myFollowing:Member) WHERE me.id = $myId AND myFollowing.id = follower.id } AS isFollowing")
     List<FollowMemberResponse> findAllFollowers(@Param("myId") Long myId, @Param("targetId") Long targetId);
 
-    @Query("MATCH (follower:Member)-[r:FOLLOW]->(following:Member WHERE follower.id = $targetId WITH follower MATCH (me:Member)-[f:FOLLOW]->(myFollowing:Member) WHERE me.id = $myId RETURN follower.id AS id, follower.nickname as nickname, CASE WHEN follower.id IN COLLECT(myFollowing.id) THEN 'true' ELSE 'false' END AS isFollowing")
+    @Query("MATCH (follower:Member)-[r:FOLLOW]->(following:Member) WHERE follower.id = $targetId RETURN following.id AS id, following.nickname AS nickname, EXISTS { MATCH (me:Member)-[:FOLLOW]->(myFollowing:Member) WHERE me.id = 0 AND myFollowing.id = following.id } AS isFollowing")
     List<FollowMemberResponse> findAllFollowings(@Param("myId") Long myId, @Param("targetId") Long targetId);
 }
