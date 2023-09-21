@@ -8,7 +8,9 @@ import com.olock.blockstock.member.domain.member.persistence.FollowRepository;
 import com.olock.blockstock.member.domain.member.persistence.MemberRepository;
 import com.olock.blockstock.member.domain.member.persistence.entity.Member;
 import com.olock.blockstock.member.domain.member.persistence.entity.Role;
+import com.olock.blockstock.member.global.kafka.MemberProducer;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -53,7 +55,6 @@ public class MemberServiceImpl implements MemberService {
     public MemberInfoResponse getInfo(Long memberId) {
         memberValidator.existsMember(memberId);
         Member member = memberRepository.findByMemberId(memberId).get();
-
         return new MemberInfoResponse(member, followRepository.findFollowerCnt(memberId), followRepository.findFollowingCnt(memberId));
     }
 
@@ -61,12 +62,14 @@ public class MemberServiceImpl implements MemberService {
     public void modify(Long memberId, MemberModifyRequest memberModifyRequest) {
         memberValidator.existsMember(memberId);
         memberRepository.updateNickname(memberId, memberModifyRequest.getNickname());
+        produceMessage(memberId);
     }
 
     @Override
     public void updatePassword(Long memberId, PasswordUpdateRequest passwordUpdateRequest) {
         memberValidator.canUpdatePassword(memberId, passwordUpdateRequest);
         memberRepository.updatePassword(memberId, passwordEncoder.encode(passwordUpdateRequest.getNewPassword()));
+        produceMessage(memberId);
     }
 
     @Override
@@ -75,12 +78,24 @@ public class MemberServiceImpl implements MemberService {
         memberValidator.canBuyTicket(memberId, ticketCount);
         memberRepository.updateMoney(memberId, ticketCount * (-10000000L));
         memberRepository.updateTicket(memberId, ticketCount);
+        produceMessage(memberId);
     }
 
     @Override
     public void chargeMoney(Long memberId, MoneyChargeRequest moneyChargeRequest) {
         memberValidator.existsMember(memberId);
         memberRepository.updateMoney(memberId, moneyChargeRequest.getMoney());
+        produceMessage(memberId);
+    }
+
+    @Async
+    private void produceMessage(Long memberId) {
+        try {
+            Member member = memberRepository.findByMemberId(memberId).get();
+            memberProducer.sendMessage(objectMapper.writeValueAsString(member));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
