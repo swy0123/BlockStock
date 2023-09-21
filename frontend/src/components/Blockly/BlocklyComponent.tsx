@@ -294,20 +294,7 @@ function BlocklyComponent(props: any) {
               </Shadow>
             </Value>
           </Block> */}
-          <Block type="cnt_per_reserve">
-            <Value name="NAME">
-              <Shadow type="math_number">
-                <Field name="NUM">1</Field>
-              </Shadow>
-            </Value>
-          </Block>
-          <Block type="cnt_per_asset">
-            <Value name="NAME">
-              <Shadow type="math_number">
-                <Field name="NUM">1</Field>
-              </Shadow>
-            </Value>
-          </Block>
+
           <Block type="sell">
             <Value name="NAME">
               <Shadow type="cnt_per_reserve">
@@ -335,38 +322,8 @@ function BlocklyComponent(props: any) {
           {/* <Block type="minmaxavg_select" />
           <Block type="ochlv_value" /> */}
 
-          <Block type="calculate_scope_data">
-            <Value name="SCOPE">
-              <Shadow type="date_scope" />
-            </Value>
-            <Value name="OCHL">
-              <Shadow type="ochlv_value"/>
-            </Value>
-            <Value name="HLA">
-              <Shadow type="minmaxavg_select"/>
-            </Value>
-          </Block>
 
-          <Block type="calculate_scope_data">
-            <Value name="SCOPE">
-              <Shadow type="term_scope" />
-            </Value>
-            <Value name="OCHL">
-              <Shadow type="ochlv_value"/>
-            </Value>
-            <Value name="HLA">
-              <Shadow type="minmaxavg_select"/>
-            </Value>
-          </Block>
 
-          <Block type="date_scope" disabled="true"/>
-          <Block type="term_scope" disabled="true"/>
-
-          <Block type="cur_data">
-            <Value name="OCHL">
-              <Shadow type="ochlv_value"/>
-            </Value>
-          </Block>
 
           {/* <Block type="calculate_rsi" >
             <Value name="OCHL">
@@ -380,11 +337,53 @@ function BlocklyComponent(props: any) {
           {/* <Block type="dicts_create_with" /> */}
           {/* <Block type="dict_keys" /> */}
         </Category>
-        
-        <Category name="Variables" categorystyle="variable_category">
 
+        <Category name="Variables" colour='360'>
+          <Block type="cnt_per_reserve">
+            <Value name="NAME">
+              <Shadow type="math_number">
+                <Field name="NUM">1</Field>
+              </Shadow>
+            </Value>
+          </Block>
+          <Block type="cnt_per_asset">
+            <Value name="NAME">
+              <Shadow type="math_number">
+                <Field name="NUM">1</Field>
+              </Shadow>
+            </Value>
+          </Block>
+          <Block type="cur_data">
+            <Value name="OCHL">
+              <Shadow type="ochlv_value" />
+            </Value>
+          </Block>
+          <Block type="calculate_scope_data">
+            <Value name="SCOPE">
+              <Shadow type="date_scope" />
+            </Value>
+            <Value name="OCHL">
+              <Shadow type="ochlv_value" />
+            </Value>
+            <Value name="HLA">
+              <Shadow type="minmaxavg_select" />
+            </Value>
+          </Block>
+
+          <Block type="calculate_scope_data">
+            <Value name="SCOPE">
+              <Shadow type="term_scope" />
+            </Value>
+            <Value name="OCHL">
+              <Shadow type="ochlv_value" />
+            </Value>
+            <Value name="HLA">
+              <Shadow type="minmaxavg_select" />
+            </Value>
+          </Block>
         </Category>
-
+        <Block type="date_scope" disabled="true" />
+        <Block type="term_scope" disabled="true" />
         {/* <Category name="Custom" colour="#832626">
           {array.map((item, index) => {
             return <Block key={index} type={item} />;
