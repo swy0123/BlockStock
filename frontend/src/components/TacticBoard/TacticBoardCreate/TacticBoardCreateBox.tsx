@@ -23,16 +23,19 @@ import { tacticdata } from '../../../recoil/TacticBoard/TacticBoardBox'
 
 import ContestTaticModal from "../../Contest/ContestStore/ExpectedContest/ContestTaticModal";
 
+// 글 작성 api
+// import {tacticBoardCreate} from '../../../api/TacticBoard/TacticBoard'
+
 
 function TacticBoardCreateBox(){
 
   // 전략 이미지
-  const tacticImg = useRecoilValue(tacticdata);
+  const {tacticId, imgPath}  = useRecoilValue(tacticdata);
 
   const navigate = useNavigate();
   const [title, setTitle] = useState(''); 
   const [content, setContent] = useState(''); 
-  const [file, setFile] = useState(tacticImg)
+  // const [file, setFile] = useState(tacticImg)
   const [isModalOpen, setIsModalOpen] = useState(false);
 
 
@@ -48,12 +51,21 @@ function TacticBoardCreateBox(){
   //   }
   // }, [tacticImg]);
 
+  useEffect(()=>{
+    console.log('id', tacticId)
+    console.log('imgPath', imgPath)
+  },[])
+  
+
   // 글 등록
   const handleSubmit = () => {
 
     const formData = new FormData();
-    formData.append('file', file)
+    formData.append('imgPath', imgPath)
 
+    formData.append('tacticId', new Blob([JSON.stringify(tacticId)], {
+      type: "application/json"
+    }));
     formData.append('title', new Blob([JSON.stringify(title)], {
       type: "application/json"
     }));
@@ -63,8 +75,9 @@ function TacticBoardCreateBox(){
 
     console.log("title:", title);
     console.log("content:", content);
-    console.log("file:", file);
+    console.log("imgPath:", imgPath);
     console.log("Form Data:", formData);
+    // tacticBoardCreate(formData)
   };
 
 
@@ -91,8 +104,8 @@ function TacticBoardCreateBox(){
       <Wrapper>
         <ImgContainer>
             <ImgBox>
-            {file ? 
-            (<Img onClick={OpenModal} src={tacticImg}/>) :
+            {imgPath ? 
+            (<Img onClick={OpenModal} src={imgPath}/>) :
                 (<FileBtn onClick={OpenModal}>
                     전략 선택하기
                 </FileBtn>)}

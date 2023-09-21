@@ -1,5 +1,5 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, {useEffect} from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import SmsIcon from '@mui/icons-material/Sms';
@@ -29,10 +29,23 @@ import {
     BtnBox,
   } from './TacticBoardItemDetail.style'
 
+// 상세페이지 api 호출
+import {tacticBoardDetail, tacticBoardDelete} from '../../../api/TacticBoard/TacticBoard'
+
 function TacticBoardItemDetail(){
 
     const navigate = useNavigate();
 
+    const location = useLocation();
+    const state = location.state;
+
+    useEffect(()=>{
+        // detailApi()
+    },[])
+
+    // const detailApi = ()=>{
+        // tacticBoardDetail(state.postId)
+    // }
 
     //더미데이터
     const data = {
@@ -51,7 +64,8 @@ function TacticBoardItemDetail(){
 
     // 삭제
     const handleDelete = ()=>{
-
+        // tacticBoardDelete(state.postId)
+        // navigate('/tacticboard')
     }
 
     return(
