@@ -46,4 +46,11 @@ public class MemberValidator {
             throw new LessMoneyException("자본이 부족합니다");
         }
     }
+
+    public void canUseTicket(Long memberId, int ticketCount) {
+        Member member = memberRepository.findByMemberId(memberId).get();
+        if (member.getTicketCount() < ticketCount) {
+            throw new LessMoneyException("티켓이 부족합니다");
+        }
+    }
 }
