@@ -46,9 +46,9 @@ export const postLogin = async (user: LoginProps) => {
     console.log("access 토큰 :", accessToken);
     console.log("refresh 토큰 :", refreshToken);
 
-    // const nickname = res.data.nickname;
+    const nickname = res.data.nickname;
     const userid = res.data.memberId;
-    const userinfo = { userid };
+    const userinfo = { userid, nickname };
     console.log("userinfo: ", userinfo);
 
     return userinfo;
