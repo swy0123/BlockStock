@@ -23,7 +23,7 @@ export const freeBoardCreate = async (data:data) => {
 };
 
 
-// 자유게시판 게시글 
+// 자유게시판 게시글 상세페이지
 export const freeBoardDetail = async (postId:postId) => {
   console.log(postId)
   const res = await privateApi.get(`/free-board/${postId}`);
