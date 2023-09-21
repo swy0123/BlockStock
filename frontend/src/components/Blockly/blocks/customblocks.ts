@@ -33,7 +33,7 @@ import "../fields/BlocklyReactField";
 
 Blockly.Blocks["sell"] = {
   init: function () {
-    this.appendValueInput("NAME").setCheck(['count', 'Number']);
+    this.appendValueInput("NAME").setCheck('Number');
     this.appendDummyInput().appendField("주 만큼 매도하기");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
@@ -45,7 +45,7 @@ Blockly.Blocks["sell"] = {
 
 Blockly.Blocks["buy"] = {
   init: function () {
-    this.appendValueInput("NAME").setCheck(['count', 'Number']);
+    this.appendValueInput("NAME").setCheck('Number');
     this.appendDummyInput().appendField("주 만큼 매수하기");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
@@ -113,7 +113,7 @@ Blockly.Blocks["calculate_scope_data"] = {
     this.appendDummyInput().appendField("의 ");
     this.appendValueInput("HLA").setCheck('indicators');
     this.setOutput(true, 'Number');
-    this.setColour(230);
+    this.setColour(360);
     this.setTooltip("");
     this.setHelpUrl("");
   },
@@ -160,8 +160,8 @@ Blockly.Blocks["cur_data"] = {
       .setCheck(null)
       .appendField(new Blockly.FieldLabelSerializable("현재 날짜의"), "OCHL");
     this.setInputsInline(true);
-    this.setOutput(true, 'Array');
-    this.setColour(230);
+    this.setOutput(true, 'Number');
+    this.setColour(360);
     this.setTooltip("");
     this.setHelpUrl("");
   },
@@ -174,8 +174,8 @@ Blockly.Blocks["cnt_per_reserve"] = {
     this.appendValueInput("NAME").setCheck("Number");
     this.appendDummyInput().appendField("%");
     this.setInputsInline(true);
-    this.setOutput(true, 'count');
-    this.setColour(230);
+    this.setOutput(true, 'Number');
+    this.setColour(360);
     this.setTooltip("");
     this.setHelpUrl("");
   },
@@ -187,8 +187,8 @@ Blockly.Blocks["cnt_per_asset"] = {
     this.appendValueInput("NAME").setCheck("Number");
     this.appendDummyInput().appendField("%");
     this.setInputsInline(true);
-    this.setOutput(true, 'count');
-    this.setColour(230);
+    this.setOutput(true, 'Number');
+    this.setColour(360);
     this.setTooltip("");
     this.setHelpUrl("");
   },
