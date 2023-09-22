@@ -42,7 +42,6 @@ export const expectedContestContent = async ( props:paramProps ) => {
 };
 
 
-
 // 완료 대회 api
 export const completedContestContent = async ( params:params ) => {
   console.log(params)
