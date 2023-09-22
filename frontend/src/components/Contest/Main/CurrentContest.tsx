@@ -30,7 +30,7 @@ import {
  } from './CurrentContest.style'
 
  // api 통신 
-//  import {currentContest} from '../../../api/Contest/Main'
+ import {currentContest} from '../../../api/Contest/Main'
 
 function CurrentContest(){
 
@@ -41,13 +41,13 @@ function CurrentContest(){
 
 
   // api 통신 ====================================================
-  // useEffect(()=>{
-    // currentcontest()
-  // },[])
-    // const currentcontest = async () => {
-  //   const contest = await currentContest()
-  //   console.log(contest)
-  // }
+  useEffect(()=>{
+    currentcontest()
+  },[])
+    const currentcontest = async () => {
+    const contest = await currentContest()
+    console.log('현재 대회 결과 - 컴포넌트',contest)
+  }
   // api 통신 ====================================================
 
   

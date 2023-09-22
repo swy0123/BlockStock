@@ -14,20 +14,20 @@ import {
   RankReturn,
 } from './RecentContestResults.style';
 
-// import {recentContestResults} from '../../../api/Contest/Main'
+import {recentContestResults} from '../../../api/Contest/Main'
 
 function RecentContestResults() {
   const navigate = useNavigate();
   // const [rank,setRank] = useState([])
   
   // api 통신 ==================================================
-  //   useEffect(()=>{
-  //   recentcontestresults()
-  // },[])
-  //   const recentcontestresults = async () => {
-  //   const contest = await recentContestResults()
-  //   console.log(contest)
-  // }
+    useEffect(()=>{
+    recentcontestresults()
+  },[])
+    const recentcontestresults = async () => {
+    const contest = await recentContestResults()
+    console.log('직전 대회 결과 - 컴포넌트',contest)
+  }
   // api 통신 ==================================================
 
   const rank = [

@@ -69,21 +69,21 @@ function ExpectedContest(){
 
 
   // api 통신 ==================================================
-  // const params = {
-  //   status: 'expected',
-  //   page: 0,
-  //   size: 100,
-  //   keyWord: 'str'
-  // };
+  const params = {
+    status: 'expected',
+    page: 0,
+    size: 100,
+    keyWord: 'str'
+  };
   
-  // useEffect(()=>{
-  //   expectedcontest()
-  // },[page,rowsPerPage,searchKeyword])
+  useEffect(()=>{
+    expectedcontest()
+  },[])
 
-  // const expectedcontest = async () => {
-  //   const contest = await expectedContestContent(params)
-  //   console.log(contest)
-  // }
+  const expectedcontest = async () => {
+    const contest = await expectedContest(params)
+    console.log('예정 대회 결과 - 컴포넌트',contest)
+  }
   // api 통신 ==================================================
 
 

@@ -21,7 +21,7 @@ import {
 } from './ExpectedContestContent.style'
 
 import TablePagination from '@mui/material/TablePagination';
-import {expectedContestContent} from '../../../../api/Contest/ContestStore'
+import {expectedContestList} from '../../../../api/Contest/ContestStore'
 
 
 const Line = ({ hide }) => {
@@ -85,7 +85,7 @@ function ExpectedContestContent(){
       size: rowsPerPage,
       keyWord: searchKeyword
     };
-    const contest = await expectedContestContent(params)
+    const contest = await expectedContestList(params)
     console.log(contest)
   }
   // api 통신 =============================================================
