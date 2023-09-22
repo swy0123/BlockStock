@@ -76,10 +76,8 @@ class Participate(Base):
     contest = relationship("Contest", back_populates="participate")
     tactic = relationship("Tactic", back_populates="participate")
 
-    def __init__(self, user_id: int, info_create: InfoRequest):
+    def __init__(self, user_id: int, info_create: InfoRequest, ticket: int):
         self.member_id = user_id
-        self.contest_id = info_create.contestId
-        self.tactic_id = info_create.tacticId
-        self.result_money = 0;
-
-
+        self.contest_id = info_create.contest_id
+        self.tactic_id = info_create.tactic_id
+        self.result_money = ticket * 10000000;

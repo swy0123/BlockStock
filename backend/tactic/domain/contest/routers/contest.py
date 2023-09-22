@@ -60,10 +60,6 @@ def delete_contest(contest_id: int):
     return {"message": "대회 삭제"}
 
 
-@router.get('/api/contest/result/prev')
-def get_prev_contest_result():
-    return contest_service.get_prev_contest_result()
-
 
 @router.get('/api/contest/history')
 def get_contest_history(user_id: Optional[int] = Header(None)):

@@ -17,21 +17,6 @@ session = engine.sessionmaker()
 
 sched = BackgroundScheduler(timezone='Asia/Seoul')
 
-def cur_data(type: int):
-    return ""
-
-
-def get_recent_indicators(range_type: str, scope: int, idx: int, cost_type: str):
-    return ""
-
-
-def buy(n: int):
-    return ""
-
-
-def sell(n: int):
-    return ""
-
 
 # 9시부터 15시까지 1분 마다 실행하는 것으로 바꾸기
 @sched.scheduled_job('interval', seconds=60, id='remove_inactive_image')
@@ -119,5 +104,3 @@ def start_contest(contest_info: Contest,
         # DB는 멀티 스레드 작업 끝나고 한 번에 MariaDB에 저장해주기
         schedule.run_pending()
         time.sleep(1) # 부하가 안생길 만큼의 초
-
-
