@@ -1,7 +1,10 @@
 import { useState } from "react";
+import swal from "sweetalert";
 // import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
+import { putPassword } from "../../../api/Mypage";
+import { useNavigate } from "react-router-dom";
 // import swal from "sweetalert";
 
 interface PasswordModalProps {
@@ -114,6 +117,7 @@ const ErrorMessage = styled.span`
 `;
 
 function PasswordModal(props: PasswordModalProps) {
+  const navigate = useNavigate();
   const { isOpen, onClose } = props;
 
   const {
@@ -123,12 +127,32 @@ function PasswordModal(props: PasswordModalProps) {
     formState: { errors },
   } = useForm({ mode: "onBlur" });
 
-  const password: string = watch("password");
+  const originPassword: string = watch("originPassword");
+  const newPassword: string = watch("newPassword");
+  const confirmPassword: string = watch("confirmPassword");
+  const isPasswordMatching = watch("newPassword") === watch("confirmPassword");
 
+  const pwData = {
+    originPassword: originPassword,
+    newPassword: newPassword,
+    confirmPassword: confirmPassword,
+  }
+
+  // console.log(pwData)
   const handleCloseModal = () => {
-    reset();
+    reset()
     onClose();
+    // window.location.reload(); 
   };
+  const handleSubmitPw = async() =>{
+    const response = await putPassword(pwData);
+    if(response?.status == 200){
+      swal("", "비밀번호가 변경되었습니다🙂", "success")
+      navigate("/mypage")
+    } else{
+      swal("", "현재 비밀번호가 잘못되었습니다.", "")
+    }
+  }
 
   return (
     <ModalWrapper isOpen={isOpen}>
@@ -138,12 +162,13 @@ function PasswordModal(props: PasswordModalProps) {
         <InputTitle>현재 비밀번호</InputTitle>
         <Input
           type="password"
+          {...register("originPassword")}
         />
         <InputTitle>새 비밀번호</InputTitle>
         <Input
           placeholder="8~16자리의 비밀번호를 입력해주세요."
           type="password"
-          {...register("password", {
+          {...register("newPassword", {
             pattern: {
               value:
                 /(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}/,
@@ -152,20 +177,24 @@ function PasswordModal(props: PasswordModalProps) {
             },
         })}
         />
-         <ErrorMessage>{errors.password?.message as string}</ErrorMessage>
+         <ErrorMessage>{errors.newPassword?.message as string}</ErrorMessage>
          <InputTitle>비밀번호 확인</InputTitle>
         <Input
           placeholder="Check Password"
           type="password"
-          {...register("checkpassword", {
+          {...register("confirmPassword", {
             validate: (value) =>
-              value === password || "비밀번호가 일치하지 않습니다.",
+              value === watch("newPassword") || "비밀번호가 일치하지 않습니다.",
           })}
         />
-        <ErrorMessage>{errors?.checkpassword?.message as string}</ErrorMessage>
+        <ErrorMessage>{errors?.confirmPassword?.message as string}</ErrorMessage>
 
         <ProfileBox>
-          <SubmitBtn>✔ 완료</SubmitBtn>
+          <SubmitBtn 
+          onClick={handleSubmitPw}
+          disabled={!isPasswordMatching}
+          >
+            ✔ 완료</SubmitBtn>
           <CancleBtn onClick={handleCloseModal}>취소</CancleBtn>
         </ProfileBox>
       </ModalContent>
