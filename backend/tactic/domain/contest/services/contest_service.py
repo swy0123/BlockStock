@@ -11,7 +11,7 @@ from domain.contest.schemas.contest_prev_response import ContestPrevResponse
 from domain.contest.schemas.contest_type import ContestType
 from domain.contest.models.contest import Contest, Participate
 from domain.contest.error.contest_exception import StatusCode, Message
-from db.conn import engineconn
+from common.conn import engineconn
 from datetime import datetime
 
 engine = engineconn()
