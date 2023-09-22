@@ -25,7 +25,7 @@ public class AuthController {
         return jwtTokenService.login(authLoginRequest);
     }
 
-    @PostMapping("/refresh")
+    @PutMapping("/refresh")
     public Mono<AuthLoginResponse> refresh(@RequestHeader("Authorization-refresh") String refreshToken) {
         return jwtTokenService.refresh(refreshToken.substring(7));
     }
