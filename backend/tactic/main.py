@@ -15,7 +15,7 @@ app = FastAPI(host="0.0.0.0", port=8000)
 
 origins = [
     "http://localhost:5173/",
-    "http://127.0.0.1:5173",
+    "http://127.0.0.1:5173/",
     "https://j9b210.p.ssafy.io:8443/"
     "https://seal-striking-presumably.ngrok-free.app",
 ]
