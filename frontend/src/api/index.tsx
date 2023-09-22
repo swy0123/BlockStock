@@ -1,8 +1,9 @@
 import axios, { AxiosInstance } from "axios";
+import { useRecoilState } from "recoil";
+import { CurrentUserAtom, LoginState } from "./../recoil/Auth";
 
 //수정
 const BASE_URL = "https://j9b210.p.ssafy.io:8443/api";
-// const navigate = useNavigate();
 
 axios.defaults.withCredentials = true;
 
