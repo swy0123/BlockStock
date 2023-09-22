@@ -11,9 +11,9 @@ class ContestResponse:
     ticket: int
     term: int
     maxCapacity: int
-    join_people: int
-    is_registed: bool
-    option_code: str
+    joinPeople: int
+    isRegisted: bool
+    optionCode: str
 
     def __init__(self, contest: Contest, is_registed: bool, join_people: int):
         self.id = contest.id
@@ -24,6 +24,6 @@ class ContestResponse:
         self.ticket = contest.ticket
         self.term = contest.term
         self.maxCapacity = contest.max_capacity
-        self.join_people = join_people
-        self.is_registed = is_registed
-        self.option_code = contest.option_code
+        self.joinPeople = join_people
+        self.isRegisted = is_registed
+        self.optionCode = contest.option_code
