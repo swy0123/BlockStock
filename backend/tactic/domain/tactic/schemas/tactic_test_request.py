@@ -1,12 +1,14 @@
 import datetime
+from typing import Optional
 
 from pydantic import BaseModel
 
+
 class TacticTestRequest(BaseModel):
-    optionCode: str
-    tacticPythonCode: str
-    tacticJsonCode: str
-    startAsset: int
-    startTime: str
-    term: str
-    repeatCnt: int
+    optionCode: Optional[str]
+    tacticPythonCode: Optional[str]
+    tacticJsonCode: Optional[str]
+    startAsset: Optional[int]
+    startTime: Optional[str]
+    term: Optional[str]
+    repeatCnt: Optional[int]
