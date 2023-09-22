@@ -405,7 +405,7 @@ const BlockCoding = (props) => {
                   </MoneyBox>
 
                   <ScheduleBox>
-                    <InputDetailValue style={{margin:'0px 0px 0px 25px'}}>
+                    <InputDetailValue style={{margin:'0px 0px 0px 15px'}}>
                       <StyledDatePicker dateFormat="yyyy-MM-dd" selected={startDate} onChange={(date) => setStartDate(date)} />
                     </InputDetailValue>
                   </ScheduleBox>
