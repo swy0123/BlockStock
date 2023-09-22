@@ -82,7 +82,8 @@ function ExpectedContestContent(){
     const params = {
       status: 'expected',
       page: page,
-      size: rowsPerPage
+      size: rowsPerPage,
+      keyWord: searchKeyword
     };
     const contest = await expectedContestContent(params)
     console.log(contest)

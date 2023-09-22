@@ -25,6 +25,15 @@ import {
   Title,
   TitleDiv,
   TitleInput,
+
+  Wrapper,
+  MoneyBox,
+  ChoiceTitleBox,
+  PeriodBox,
+  ScheduleBox,
+  ChoiceBox,
+  StocksInput,
+  TestButton,
 } from "./BlockCoding.style";
 import { ThemeProvider, createTheme } from "@mui/system";
 import { ToggleButtonGroup, ToggleButton } from "@mui/material";
@@ -54,6 +63,7 @@ const theme = createTheme({
 });
 
 const BlockCoding = (props) => {
+
   const [isSearch, setSearch] = useState(true);
 
   const ref = useRef(null);
@@ -257,160 +267,205 @@ const BlockCoding = (props) => {
     return formattedDate;
   };
 
+  
+  // 검색
+  const [searchKeyword1, setSearchKeyword1] = useState("");
+
+    const filteredItems = dummydata.filter((item) =>
+    item.optionName.includes(searchKeyword1)
+  );
+
   return (
     <BlockCodingContainer>
-      <LeftDiv>
-        <TitleDiv ref={ref}>
-          {editable ? (
-            <TitleInput
-              type="text"
-              value={title}
-              onChange={(e) => handleTitleField(e)}
-              onKeyDown={handleKeyDown}
-            />
-          ) : title !== "" ? (
-            <Title onClick={editSetTrue}>{title}</Title>
-          ) : (
-            <Title onClick={editSetTrue}>제목 없는 전략</Title>
-          )}
-        </TitleDiv>
-        {/* <Input
-          type="text"
-          value={title}
-          onChange={handleTitleField}
-          placeholder="제목을 입력해주세요"
-        /> */}
-        <IsSearchDiv>
-          {/* 이름 */}
-          <SearchTypeDiv>
-            <SearchType onClick={setSearchTrue} $isChecked={isSearch}>
-              검색
-              {/* <SearchTypeUnderLine $isChecked={isSearch}></SearchTypeUnderLine> */}
-            </SearchType>
-            <SearchType onClick={setSearchFasle} $isChecked={!isSearch}>
-              관심종목
-              {/* <SearchTypeUnderLine $isChecked={!isSearch}></SearchTypeUnderLine> */}
-            </SearchType>
-          </SearchTypeDiv>
-
-          {/* 검색 */}
-          <SearchInputDiv>
-            <SearchImg src={SearchImgSrc} onClick={searchKeyword} alt="검색"/>
-            <SearchInput type="text" value={keyword} onChange={handleKeywordField} 
-            placeholder="종목 이름 혹은 번호를 입력해주세요"/>
-          </SearchInputDiv>
-
-          <SearchItemList>
-            {isSearch ? (
-              <>
-                검색결과
-                {optionLikeList.map((item, index) => (
-                  <OptionLikeListItem
-                    key={index}
-                    isLike={item.isLike}
-                    item={item}
-                    setOption={setOption}
-                  ></OptionLikeListItem>
-                ))}
-              </>
+        <div>
+          <TitleDiv ref={ref}>
+            {editable ? (
+              <TitleInput
+                type="text"
+                value={title}
+                onChange={(e) => handleTitleField(e)}
+                onKeyDown={handleKeyDown}
+              />
+            ) : title !== "" ? (
+              <Title onClick={editSetTrue}>{title}</Title>
             ) : (
-              <>
-                관심목록
-                {optionLikeList.map((item, index) => (
-                  <OptionLikeListItem
-                    key={index}
-                    isLike={item.isLike}
-                    item={item}
-                    setOption={setOption}
-                  ></OptionLikeListItem>
-                ))}
-              </>
+              <Title onClick={editSetTrue}>제목 없는 전략</Title>
             )}
-          </SearchItemList>
+          </TitleDiv>
 
-          {/* 미니 차트 */}
-          {/* <MiniChart></MiniChart> */}
-        </IsSearchDiv>
-      </LeftDiv>
+          <LeftDiv>
+            
+              {/* <Input
+                type="text"
+                value={title}
+                onChange={handleTitleField}
+                placeholder="제목을 입력해주세요"
+              /> */}
+              <IsSearchDiv>
+                {/* 이름 */}
+                <SearchTypeDiv>
+                  <SearchType onClick={setSearchTrue} $isChecked={isSearch}>
+                    검색
+                    {/* <SearchTypeUnderLine $isChecked={isSearch}></SearchTypeUnderLine> */}
+                  </SearchType>
+                  <SearchType onClick={setSearchFasle} $isChecked={!isSearch}>
+                    관심종목
+                    {/* <SearchTypeUnderLine $isChecked={!isSearch}></SearchTypeUnderLine> */}
+                  </SearchType>
+                </SearchTypeDiv>
 
-      <BlockCodingDiv>
-        {/* 블록코딩 */}
-        <Test>
-          <BlocklyComponent
-            readOnly={false}
-            trashcan={true}
-            media={"media/"}
-            move={{
-              scrollbars: true,
-              drag: true,
-              wheel: true,
-            }}
-            writeTacticPythonCode={(str) => {
-              writeTacticPythonCode(str);
-            }}
-            writeTacticJsonCode={(str) => {
-              writeTacticJsonCode(str);
-            }}
-            writeTacticImg={(str) => {
-              writeTacticImg(str);
-            }}
-            codeCheck={codeCheck}
-            setCodeCheckTrue={setCodeCheckTrue}
-          ></BlocklyComponent>
-        </Test>
+                {/* 검색 */}
+                <SearchInputDiv>
+                  <SearchImg src={SearchImgSrc} onClick={searchKeyword} alt="검색"/>
+                  <SearchInput onChange={(e)=>setSearchKeyword1(e.target.value)} type="text" value={searchKeyword1}
+                  //  onChange={handleKeywordField} 
+                   />
+                </SearchInputDiv>
 
-        {/* 세부 입력 */}
-        <InputDetailDiv>
-          <InputDetailTitle>초기자산</InputDetailTitle>
-          <InputDetailTitle>시작시간</InputDetailTitle>
-          <InputDetailTitle>주기</InputDetailTitle>
-          <InputDetailTitle>반복횟수</InputDetailTitle>
-        </InputDetailDiv>
-        <InputDetailDiv>
-          <InputDetailValue>
-            <Input type="text" onChange={handleStartAsset} value={addComma(startAsset) || ""} />
-          </InputDetailValue>
-          <InputDetailValue>
-            <StyledDatePicker dateFormat="yyyy-MM-dd" selected={startDate} onChange={(date) => setStartDate(date)} />
-          </InputDetailValue>
-          <InputDetailValue>
-            <ToggleButtonGroup size="small" {...controlTerm} aria-label="Small sizes">
-              <ToggleButton value="1m" key="min">
-                &nbsp;1분
-              </ToggleButton>
-              <ToggleButton value="10m" key="10min">
-                10분
-              </ToggleButton>
-              <ToggleButton value="1d" key="day">
-                &nbsp;1일
-              </ToggleButton>
-              <ToggleButton value="1w" key="week">
-                &nbsp;1주
-              </ToggleButton>
-            </ToggleButtonGroup>
-          </InputDetailValue>
-          <InputDetailValue>
-            <ToggleButtonGroup size="small" {...controlRound} aria-label="Small sizes">
-              <ToggleButton value="50" key="fifty">
-                50번
-              </ToggleButton>
-              <ToggleButton value="70" key="seventy">
-                70번
-              </ToggleButton>
-              <ToggleButton value="100" key="hundred">
-                100번
-              </ToggleButton>
-            </ToggleButtonGroup>
-          </InputDetailValue>
-        </InputDetailDiv>
-        <InputOptionDiv>
-          <span>
-            종목을&nbsp;
-             <Input type="text" value={optionName} readOnly/>
-            으로 <button onClick={onClickTestButton}>테스트하기</button>
-          </span>
-        </InputOptionDiv>
-      </BlockCodingDiv>
+                <SearchItemList>
+                  {isSearch ? (
+                    <>
+                      검색결과
+                      {filteredItems.map((item, index) => (
+                        <OptionLikeListItem
+                          key={index}
+                          isLike={item.isLike}
+                          item={item}
+                          index={index}
+                          list={filteredItems}
+                          setOption={setOption}
+                        ></OptionLikeListItem>
+                      ))}
+                    </>
+                  ) : (
+                    <>
+                      관심목록
+                      {filteredItems.map((item, index) => (
+                        <OptionLikeListItem
+                          key={index}
+                          isLike={item.isLike}
+                          item={item}
+                          setOption={setOption}
+                        ></OptionLikeListItem>
+                      ))}
+                    </>
+                  )}
+                </SearchItemList>
+
+                {/* 미니 차트 */}
+                {/* <MiniChart></MiniChart> */}
+              </IsSearchDiv>
+            </LeftDiv>
+        </div>
+
+          <Wrapper>
+
+            <BlockCodingDiv>
+              {/* 블록코딩 */}
+              <Test>
+                <BlocklyComponent
+                  readOnly={false}
+                  trashcan={true}
+                  media={"media/"}
+                  move={{
+                    scrollbars: true,
+                    drag: true,
+                    wheel: true,
+                  }}
+                  writeTacticPythonCode={(str) => {
+                    writeTacticPythonCode(str);
+                  }}
+                  writeTacticJsonCode={(str) => {
+                    writeTacticJsonCode(str);
+                  }}
+                  writeTacticImg={(str) => {
+                    writeTacticImg(str);
+                  }}
+                  codeCheck={codeCheck}
+                  setCodeCheckTrue={setCodeCheckTrue}
+                ></BlocklyComponent>
+              </Test>
+
+              {/* 세부 입력 */}
+              <ChoiceBox>
+
+                <ChoiceTitleBox>
+                  <InputDetailTitle>초기자산</InputDetailTitle>
+                  <InputDetailTitle style={{margin:'0px 0px 0px 30px'}}>시작시간</InputDetailTitle>
+                  <InputDetailTitle style={{margin:'0px 0px 0px 50px'}}>주기</InputDetailTitle>
+                  <InputDetailTitle style={{margin:'0px 0px 0px 20px'}}>반복횟수</InputDetailTitle>
+                </ChoiceTitleBox>
+
+                <InputDetailDiv>
+
+                  <MoneyBox>
+                    <InputDetailValue style={{margin:'0px 0px 0px 0px'}}>
+                      <Input type="text" onChange={handleStartAsset} value={addComma(startAsset) || ""} />원
+                    </InputDetailValue>
+                  </MoneyBox>
+
+                  <ScheduleBox>
+                    <InputDetailValue style={{margin:'0px 0px 0px 15px'}}>
+                      <StyledDatePicker dateFormat="yyyy-MM-dd" selected={startDate} onChange={(date) => setStartDate(date)} />
+                    </InputDetailValue>
+                  </ScheduleBox>
+
+                  <PeriodBox>
+                    <ToggleButtonGroup style={{maxHeight:'30px'}} size="small" {...controlTerm} aria-label="Small sizes">
+                      <ToggleButton value="1m" key="min">
+                        <div style={{fontSize:'10px'}}>
+                        &nbsp;1분
+                        </div>
+                      </ToggleButton>
+                      <ToggleButton value="10m" key="10min">
+                      <div style={{fontSize:'10px'}}>
+                        10분
+                      </div>
+                      </ToggleButton>
+                      <ToggleButton value="1d" key="day">
+                      <div style={{fontSize:'10px'}}>
+                        &nbsp;1일
+                      </div>
+                      </ToggleButton>
+                      <ToggleButton value="1w" key="week">
+                      <div style={{fontSize:'10px'}}>
+                        &nbsp;1주
+                        </div>
+                      </ToggleButton>
+                    </ToggleButtonGroup>
+                  </PeriodBox>
+
+                  <PeriodBox>
+                    <ToggleButtonGroup style={{maxHeight:'30px'}} size="small" {...controlRound} aria-label="Small sizes">
+                      <ToggleButton value="50" key="fifty">
+                        50번
+                      </ToggleButton>
+                      <ToggleButton value="70" key="seventy">
+                        70번
+                      </ToggleButton>
+                      <ToggleButton value="100" key="hundred">
+                        100번
+                      </ToggleButton>
+                    </ToggleButtonGroup>
+                  </PeriodBox>
+
+                </InputDetailDiv>
+
+              </ChoiceBox>
+
+                <InputOptionDiv>
+                  <div style={{margin:'8px 0px 0px 0px', fontSize:'12px'}}>
+                    종목을&nbsp;
+                  </div>
+                  <StocksInput type="text" value={optionName} readOnly/>
+                  <div style={{margin:'8px 5px 0px 5px', fontSize:'12px'}}>
+                    으로 
+                  </div>
+                  <TestButton onClick={onClickTestButton}>테스트하기</TestButton>
+                </InputOptionDiv>
+
+            </BlockCodingDiv>
+          </Wrapper>
     </BlockCodingContainer>
   );
 };
