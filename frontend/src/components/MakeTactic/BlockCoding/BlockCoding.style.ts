@@ -53,46 +53,6 @@ export const LeftDiv = styled.div`
   margin: 0px 50px 0px 0px;
 `;
 
-export const TitleDiv = styled.div`
-  display: flex;
-  width: 100%;
-  height: 10%;
-  align-items: center;
-  justify-content: start;
-  /* overflow: hidden; */
-`;
-export const Title = styled.div`
-  display: flex;
-  font-size: 18px;
-  font-weight: bolder;
-  width: 100%;
-  height: 100%;
-  align-items: center;
-  white-space: nowrap;
-  /* text-overflow: ellipsis; */
-  outline: none;
-  overflow: hidden;
-  border-style: solid;
-  border-width: 0 0 2px 0;
-  border-color: transparent;
-`;
-export const TitleInput = styled.input`
-display: flex;
-  width: 100%;
-  height: 100%;
-  font-size: 18px;
-  font-weight: bolder;
-  align-items: center;
-  white-space: nowrap;
-  /* text-overflow: ellipsis; */
-  overflow: hidden;
-  outline: none;
-  border-style: solid;
-  border-width: 0 0 2px 0;
-  margin: 1px 0 0.5px 0;
-  /* margin: 0; */
-  background-color: transparent;
-`;
 export const IsSearchDiv = styled.div`
   background-color: white;
   box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
