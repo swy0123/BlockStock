@@ -208,7 +208,7 @@ function BlocklyComponent(props: any) {
       <div ref={blocklyDiv} id="blocklyDiv" />
       {/* <div id='blocklyBlockCanvas'></div> */}
       <div style={{ display: "none" }} ref={toolbox}>
-        <Category name="Logic" categorystyle="logic_category">
+        <Category name="Logic" categorystyle="logic_category" >
           <Block type="controls_if" />
           <Block type="controls_ifelse" />
           <Block type="logic_compare" />
