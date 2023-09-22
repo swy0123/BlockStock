@@ -30,7 +30,7 @@ import {
  } from './CurrentContest.style'
 
  // api 통신 
- import {currentContest} from '../../../api/Contest/Main'
+//  import {currentContest} from '../../../api/Contest/Main'
 
 function CurrentContest(){
 
