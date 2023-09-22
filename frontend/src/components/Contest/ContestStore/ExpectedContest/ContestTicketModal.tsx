@@ -35,7 +35,7 @@ function ContestTicketModal({tacticid ,selectedContest, onClose}){
   
   const participant = async () => {
     const contest = await contestParticipant(info)
-    console.log(contest)
+    console.log('참가 완료 모달', contest)
   }
   // 대회 참가 api ==========================================================
 

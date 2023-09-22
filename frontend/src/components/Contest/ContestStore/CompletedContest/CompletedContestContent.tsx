@@ -23,7 +23,7 @@ import TablePagination from '@mui/material/TablePagination';
 
 
 // api 통신
-// import {completedContestContent} from '../../../../api/Contest/ContestStore'
+import {completedContestList} from '../../../../api/Contest/ContestStore'
 
 
 const Line = ({ hide }) => {
@@ -47,8 +47,10 @@ function CompletedContestContent() {
 
   // 검색어
   const searchKeyword = useRecoilValue(searchKeywordState);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(3);
 
-
+  
   // 더미데이터 api 통신 후 삭제 ================================================
   const contestResultList = useRecoilValue(completedContestListState);
   const filteredContestList = contestResultList.filter((contest) =>
@@ -60,20 +62,20 @@ function CompletedContestContent() {
   
 
   // api 통신 =============================================================
-  // const params = {
-  //   status: 'finish',
-  //   page: page,
-  //   size: rowsPerPage,
-  //   keyWord: searchKeyword
-  // };
-  // useEffect(()=>{
-  //   completedcontest()    
-  // },[page,rowsPerPage,searchKeyword])
+  const params = {
+    status: 'finish',
+    page: page,
+    size: rowsPerPage,
+    keyWord: searchKeyword
+  };
+  useEffect(()=>{
+    completedcontest()    
+  },[page,rowsPerPage,searchKeyword])
 
-  // const completedcontest = async () => {
-  //     const contest = await completedContestContent(params)
-  //     console.log(contest)
-  //   }
+  const completedcontest = async () => {
+      const contest = await completedContestList(params)
+      console.log(contest)
+    }
   // api 통신 =============================================================
 
 
@@ -116,8 +118,6 @@ function CompletedContestContent() {
 
 
    // 페이지 네이션=====================================================================
-   const [page, setPage] = React.useState(0);
-   const [rowsPerPage, setRowsPerPage] = React.useState(3);
 
    const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
