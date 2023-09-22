@@ -54,8 +54,9 @@ def get_contests(status: str,
 
 
 def get_proceed_contest_result():
-    contests = session.query(Contest).filter(Contest.end_time < datetime.now()).order_by(
-        Contest.start_time.asc()).all()
+    contests = (session.query(Contest).filter(Contest.start_time <= datetime.now(), datetime.now() < Contest.end_time).
+                order_by(Contest.start_time.asc()).all())
+
 
     result = []
 
@@ -63,23 +64,34 @@ def get_proceed_contest_result():
         rankings = session.query(Participate).filter(Participate.contest_id == contest.id).order_by(
             Participate.result_money.desc()).all()
 
+        ranking_result = []
         for rank in rankings:
             # rank.member_id를 통해 image_path 구하기
 
             profile_image = ""
-            rank_response = ContestPrevResponse(member_id=rank.member_id,
-                                                profile_image=profile_image,
-                                                ticket=contest.ticket,
-                                                result_money=rank.result_money)
+            ranking_response = ContestPrevResponse(member_id=rank.member_id,
+                                                   profile_image=profile_image,
+                                                   ticket=contest.ticket,
+                                                   result_money=rank.result_money)
 
-            result.append(ContestResultList(contest, rank_response))
+            ranking_result.append(ranking_response)
+            # ranking_result.append(ranking_result)
+
+        result.append(ContestResultList(contest, ranking_result))
 
     return result
 
 
 def get_contest_result(contest_id: int):
     result = []
-    contest_ticket = session.query(Contest.ticket).filter(Contest.id == contest_id).one()[0]
+
+    contest = session.get(Contest, contest_id)
+    if not contest:
+        raise HTTPException(status_code=StatusCode.CONTEST_NOT_EXIST_ERROR_CODE,
+                            detail=Message.CONTEST_NOT_EXIST_ERROR_CODE)
+
+    contest_ticket = contest.ticket
+    # contest_ticket = session.query(Contest.ticket).filter(Contest.id == contest_id).one()[0]
 
     participates = session.query(Participate).filter(Participate.contest_id == contest_id).order_by(
         Participate.result_money.desc())
@@ -117,6 +129,15 @@ def get_prev_contest_result():
 
 
 def create_contest(contest_create: ContestRequest):
+
+    if contest_create.start_time < datetime.now():
+        raise HTTPException(status_code=StatusCode.CONTEST_NOT_EXIST_ERROR_CODE,
+                            detail=Message.CONTEST_ENROLL_BOFORE_TODAY)
+
+    if contest_create.end_time < contest_create.start_time:
+        raise HTTPException(status_code=StatusCode.CONTEST_ENROLL_START_END_ERROR,
+                            detail=Message.CONTEST_ENROLL_START_END_ERROR)
+
     db_contest = Contest(contest_create)
 
     session.add(db_contest)
@@ -140,13 +161,11 @@ def participate_contest(user_id: int, info_create: InfoRequest):
 
     db_participate = Participate(user_id, info_create, contest_ticket)
 
-
     # user 유효한지 확인
 
     # 이미 참가 했으면 에러
-
     if session.query(Participate).filter(
-            Participate.contest_id == info_create.contest_id, Participate.member_id == user_id):
+            Participate.contest_id == info_create.contest_id, Participate.member_id == user_id).all():
         raise HTTPException(status_code=StatusCode.ALREADY_EXIST_PARTICIPATE_CODE,
                             detail=Message.ALREADY_EXIST_PARTICIPATE_CODE)
 

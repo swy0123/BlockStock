@@ -1,8 +1,10 @@
 from datetime import datetime as dt
 from domain.contest.schemas.contest_requeset import ContestRequest
 from domain.contest.schemas.info_request import InfoRequest
-from sqlalchemy import Column, Integer, String, DateTime, TEXT, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, TEXT, ForeignKey, Float
 from sqlalchemy.orm import declarative_base, relationship
+
+from domain.tactic.schemas.tactic_request import TacticRequest
 
 Base = declarative_base()
 
@@ -35,18 +37,47 @@ class Contest(Base):
         self.created_at = dt.now()
 
 
+class Tactic(Base):
+    __tablename__ = 'tactic'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    member_id = Column(Integer, nullable=False)
+    title = Column(String(200), nullable=False)
+    option_code = Column(String(10), nullable=False)
+    tactic_json_code = Column(TEXT, nullable=False)
+    tactic_python_code = Column(TEXT, nullable=False)
+    test_returns = Column(Float, nullable=True)
+    contest_returns = Column(Float, nullable=True)
+    img_path = Column(String(400), nullable=False)
+    created_at = Column(DateTime, nullable=False)
+    updated_at = Column(DateTime, nullable=False)
+
+    participate = relationship("Participate", back_populates="tactic", uselist=False)
+
+    def __init__(self, tactic_request: TacticRequest):
+        self.title = tactic_request.title
+        self.option_code = tactic_request.option_code
+        self.tactic_json_code = tactic_request.tactic_json_code
+        self.tactic_python_code = tactic_request.tactic_python_code
+        self.test_returns = tactic_request.test_returns
+        self.contest_returns = tactic_request.contest_returns
+        self.img_path = tactic_request.img_path
+        self.created_at = tactic_request.created_at
+        self.updated_at = tactic_request.updated_at
+
+
 class Participate(Base):
     __tablename__ = 'participate'
     id = Column(Integer, primary_key=True, autoincrement=True)
     contest_id = Column(Integer, ForeignKey("contest.id"), nullable=False)
-    # tactic_id = Column(Integer, ForeignKey("tactic.id"), nullable=False)
-    tactic_id = Column(Integer, nullable=False)
+    tactic_id = Column(Integer, ForeignKey("tactic.id"), nullable=False)
     member_id = Column(Integer, nullable=False)
     result_money = Column(Integer, nullable=False)
 
     contest = relationship("Contest", back_populates="participate")
-    def __init__(self, user_id: int, info_create: InfoRequest, contest_ticket: int):
+    tactic = relationship("Tactic", back_populates="participate")
+
+    def __init__(self, user_id: int, info_create: InfoRequest, ticket: int):
         self.member_id = user_id
         self.contest_id = info_create.contest_id
         self.tactic_id = info_create.tactic_id
-        self.result_money = contest_ticket * 10000000;
+        self.result_money = ticket * 10000000;
