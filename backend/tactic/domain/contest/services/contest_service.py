@@ -54,8 +54,9 @@ def get_contests(status: str,
 
 
 def get_proceed_contest_result():
-    contests = session.query(Contest).filter(Contest.end_time < datetime.now()).order_by(
-        Contest.start_time.asc()).all()
+    contests = (session.query(Contest).filter(Contest.start_time <= datetime.now(), datetime.now() < Contest.end_time).
+                order_by(Contest.start_time.asc()).all())
+
 
     result = []
 
@@ -63,16 +64,20 @@ def get_proceed_contest_result():
         rankings = session.query(Participate).filter(Participate.contest_id == contest.id).order_by(
             Participate.result_money.desc()).all()
 
+        ranking_result = []
         for rank in rankings:
             # rank.member_id를 통해 image_path 구하기
 
             profile_image = ""
-            rank_response = ContestPrevResponse(member_id=rank.member_id,
-                                                profile_image=profile_image,
-                                                ticket=contest.ticket,
-                                                result_money=rank.result_money)
+            ranking_response = ContestPrevResponse(member_id=rank.member_id,
+                                                   profile_image=profile_image,
+                                                   ticket=contest.ticket,
+                                                   result_money=rank.result_money)
 
-            result.append(ContestResultList(contest, rank_response))
+            ranking_result.append(ranking_response)
+            # ranking_result.append(ranking_result)
+
+        result.append(ContestResultList(contest, ranking_result))
 
     return result
 
