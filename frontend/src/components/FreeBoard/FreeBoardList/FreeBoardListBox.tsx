@@ -151,7 +151,9 @@ function FreeBoardListBox() {
               </Select>
             </FormControl>
           </Box>
+
           <Search placeholder="  검색" onChange={handleSearchInputChange} />
+          
           <CreateBtn>
             <div onClick={()=>navigate('/freeboardcreate')} style={{ margin: '7px 0px 0px 0px' }}>
               글 작성

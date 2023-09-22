@@ -9,11 +9,12 @@ import ContestCreate from '../../components/Contest/ContestCreate/ContestCreate'
 
   // 스타일드 컴포넌트를 함수 내부에 정의
   const ContestBox = styled.div`
-    margin: 50px 0px 0px 60px ;
+    margin: 10px 0px 0px 30px ;
   `;
 
   const ContestContent = styled.div`
     display: flex;
+    margin: 0px 0px 0px 0px;
   `;
 
 

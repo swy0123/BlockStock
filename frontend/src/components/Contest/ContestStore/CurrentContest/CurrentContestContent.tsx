@@ -23,20 +23,20 @@ import TablePagination from '@mui/material/TablePagination';
 // api 통신
 import {currentContestList} from '../../../../api/Contest/ContestStore'
 
-const Line = ({ hide }) => {
-  return (
-    <div
-      style={{
-        alignItems: 'center',
-        margin: '0px 0px 0px 0px',
-        border: '1px solid #D3D3D3',
-        display: hide ? 'none' : 'block',
-        marginBottom: '20px'
-      }}
-    >
-    </div>
-  );
-};
+// const Line = ({ hide }) => {
+//   return (
+//     <div
+//       style={{
+//         alignItems: 'center',
+//         margin: '0px 0px 0px 0px',
+//         border: '1px solid #D3D3D3',
+//         display: hide ? 'none' : 'block',
+//         marginBottom: '20px'
+//       }}
+//     >
+//     </div>
+//   );
+// };
 
 function CurrentContestContent(){
 
@@ -122,16 +122,16 @@ function CurrentContestContent(){
       <Wrapper>
         {filteredItems.map((contest, index) => (
           <div key={index} style={{margin:'0px 0px 30px 0px'}}>
-            <Line hide={index === 0} />
+            {/* <Line hide={index === 0} /> */}
             <ContestBox onClick={() => toggleContent(index)}>
               <div>
                 <Title> [경진대회] {contest.title}</Title>
                 <Schedule>대회 기간  {contest.startAt} ~ {contest.endAt}</Schedule>
               </div>
               {showContent[index] ? (
-                <KeyboardControlKeyIcon style={{ fontSize: '50px', marginLeft: '450px', marginRight: '0px' }} />
+                <KeyboardControlKeyIcon style={{ fontSize: '50px', marginLeft: 'auto', marginRight: '50px' }} />
               ) : (
-                <ExpandMoreIcon style={{ fontSize: '50px', marginLeft: '450px', marginRight: '0px' }} />
+                <ExpandMoreIcon style={{ fontSize: '50px', marginLeft: 'auto', marginRight: '50px' }} />
               )}
             </ContestBox>
 
@@ -143,8 +143,11 @@ function CurrentContestContent(){
               <Content>{contest.content}</Content>
               <Button>진행 현황</Button>  
             </ContentBox>
+            <hr style={{margin:'30px 0px 0px 0px'}}/>
+
           </div>
         ))}
+      </Wrapper>
 
         <TablePagination
           component="div"
@@ -156,7 +159,6 @@ function CurrentContestContent(){
           rowsPerPageOptions={rowsPerPageOptions}
           style={{margin:'0px 50px 0px 0px'}}
         />
-      </Wrapper>
 
     </Container>
   )

@@ -60,3 +60,17 @@ export const completedContestList = async ( params:params ) => {
     console.log('완료 대회 api',err)
   }
 };
+
+// 완료 대회 결과 상세조회 api
+export const contestResult = async ( contestId: contestId ) => {
+  console.log('완료 대회 결과 상세조회 api 진입')
+  try{
+    console.log(contestId)
+    const res = await privateApi.get(`/contest/result${contestId}`);
+    console.log(res.data);
+    return res.data;
+  }
+  catch(err){
+    console.log('완료 대회 결과 상세조회 api api',err)
+  }
+};
