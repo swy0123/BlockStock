@@ -3,7 +3,7 @@ from typing import Optional
 from domain.contest.schemas.contest_requeset import ContestRequest
 from domain.contest.schemas.info_request import InfoRequest
 from domain.contest.services import contest_service
-from common.conn import redis_config
+from common.config import redis_config
 
 router = APIRouter()
 
