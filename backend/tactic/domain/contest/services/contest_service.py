@@ -128,6 +128,15 @@ def get_prev_contest_result():
 
 
 def create_contest(contest_create: ContestRequest):
+
+    if contest_create.start_time < datetime.now():
+        raise HTTPException(status_code=StatusCode.CONTEST_NOT_EXIST_ERROR_CODE,
+                            detail=Message.CONTEST_ENROLL_BOFORE_TODAY)
+
+    if contest_create.end_time < contest_create.start_time:
+        raise HTTPException(status_code=StatusCode.CONTEST_ENROLL_START_END_ERROR,
+                            detail=Message.CONTEST_ENROLL_START_END_ERROR)
+
     db_contest = Contest(contest_create)
 
     session.add(db_contest)
