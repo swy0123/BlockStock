@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 
-function ContestCreateBtn(){
-
     const Btn = styled.button`
         width: 120px;
         height: 40px;
@@ -20,7 +18,9 @@ function ContestCreateBtn(){
         cursor: pointer;
     }
     `;
-    
+
+function ContestCreateBtn(){
+
     return(
         <Btn>
             대회생성

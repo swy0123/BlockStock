@@ -3,13 +3,19 @@ import { privateApi } from "../index";
 
 
 // 진행 중 대회 api
-export const currentContestlist = async ( params:params ) => {
-  console.log(params)
-  const res = await privateApi.get(`/contest`, {
-    params: { params }
-  });
-  console.log(res.data);
-  return res.data;
+export const currentContestList = async ( params:params ) => {
+  console.log('진행 중 대회 api 진입')
+  try{
+    console.log(params)
+    const res = await privateApi.get(`/contest`, {
+      params 
+    });
+    console.log(res.data);
+    return res.data;
+  }
+  catch(err){
+    console.log('진행 중 대회 api',err)
+  }
 };
 
 
@@ -21,11 +27,8 @@ interface paramProps {
   size: number,
   keyWord: string
 }
-export const expectedContestContent = async ( props:paramProps ) => {
-  // const { status, page, size, keyWord } = props;
-  // const url = `/contest?status=${status}&page=${page}&size=${size}&key_word=${keyWord}`;
-  // const res = await privateApi.get(url);
-  // console.log(res);
+export const expectedContestList = async ( props:paramProps ) => {
+  console.log('예정 대회 api 진입')
   try {
     console.log(props)
     const res = await privateApi.get(`/contest`, {params:{
@@ -37,18 +40,23 @@ export const expectedContestContent = async ( props:paramProps ) => {
     console.log(res);
     return res.data; 
   } catch(error) {
-    console.log(error)
+    console.log('예정 대회 api', error)
   }
 };
 
 
 // 완료 대회 api
-export const completedContestContent = async ( params:params ) => {
-  console.log(params)
-  const res = await privateApi.get(`/contest`, {
-    params: { params }
-  });
-  console.log(res.data);
-  console.log("saaaaaaaa")
-  return res.data;
+export const completedContestList = async ( params:params ) => {
+  console.log('완료 대회 api 진입')
+  try{
+    console.log(params)
+    const res = await privateApi.get(`/contest`, {
+      params 
+    });
+    console.log(res.data);
+    return res.data;
+  }
+  catch(err){
+    console.log('완료 대회 api',err)
+  }
 };

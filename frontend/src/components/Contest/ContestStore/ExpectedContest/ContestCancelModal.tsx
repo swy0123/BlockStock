@@ -13,20 +13,20 @@ import {
   Personnel,
 } from './ContestCancelModal.style'
 
-// import {contestCancel} from '../../../../api/Contest/ContestCancel'
+import {contestCancel} from '../../../../api/Contest/ContestCancel'
 
 function ContestCancelModal( {selectedContest, onClose}){
 
 
   const handleCancel = () =>{
     console.log('대회 번호', selectedContest.id)
-    // cancel()
+    cancel()
   }
 
-  // const cancel = async () => {
-  //       const contest = await contestCancel(selectedContest.id)
-  //       console.log(contest)
-  //     }
+  const cancel = async () => {
+        const contest = await contestCancel(selectedContest.id)
+        console.log(contest)
+      }
 
   return(
     <Container>

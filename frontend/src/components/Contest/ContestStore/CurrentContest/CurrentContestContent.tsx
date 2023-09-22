@@ -21,7 +21,7 @@ import {
 import TablePagination from '@mui/material/TablePagination';
 
 // api 통신
-// import {currentContestlist} from '../../../../api/Contest/ContestStore'
+import {currentContestList} from '../../../../api/Contest/ContestStore'
 
 const Line = ({ hide }) => {
   return (
@@ -43,6 +43,9 @@ function CurrentContestContent(){
   // 리코일에서 불러온 검색어
   const searchKeyword  = useRecoilValue(searchKeywordState);
   
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(3);
+
   // api 통신 이후 삭제 =======================================================================
   // 리코일에서 불러온 더미 데이터
   const contestResultList = useRecoilValue(currentContestListState);
@@ -55,20 +58,20 @@ function CurrentContestContent(){
 
 
   // api 통신 =============================================================
-  // const params = {
-  //   status: 'proceed',
-  //   page: page,
-  //   size: rowsPerPage,
-  //   keyWord: searchKeyword
-  // };
-  // useEffect(()=>{
-  //   currentcontest()    
-  // },[page,rowsPerPage,searchKeyword])
+  const params = {
+    status: 'proceed',
+    page: page,
+    size: rowsPerPage,
+    keyWord: searchKeyword
+  };
+  useEffect(()=>{
+    currentcontest()    
+  },[page,rowsPerPage,searchKeyword])
 
-  // const currentcontest = async () => {
-  //     const contest = await currentContestlist(params)
-  //     console.log(contest)
-  //   }
+  const currentcontest = async () => {
+      const contest = await currentContestList(params)
+      console.log('진행중 대회 페이지', contest)
+    }
   // api 통신 =============================================================
 
 
@@ -85,8 +88,6 @@ function CurrentContestContent(){
 
 
   // 페이지 네이션=====================================================================
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(3);
   
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -120,7 +121,7 @@ function CurrentContestContent(){
 
       <Wrapper>
         {filteredItems.map((contest, index) => (
-          <div key={contest.id} style={{margin:'0px 0px 30px 0px'}}>
+          <div key={index} style={{margin:'0px 0px 30px 0px'}}>
             <Line hide={index === 0} />
             <ContestBox onClick={() => toggleContent(index)}>
               <div>
