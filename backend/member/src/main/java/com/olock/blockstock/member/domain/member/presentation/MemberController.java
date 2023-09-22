@@ -32,6 +32,12 @@ public class MemberController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping
+    public ResponseEntity<Void> deleteMember(@RequestHeader("Member-id") Long memberId) {
+        memberService.delete(memberId);
+        return ResponseEntity.ok().build();
+    }
+
     @PutMapping("/password")
     public ResponseEntity<Void> updatePassword(@RequestHeader("Member-id") Long memberId, @RequestBody PasswordUpdateRequest passwordUpdateRequest) {
         memberService.updatePassword(memberId, passwordUpdateRequest);

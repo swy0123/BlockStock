@@ -66,6 +66,12 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public void delete(Long memberId) {
+        memberValidator.existsMember(memberId);
+        memberRepository.deleteByMemberId(memberId);
+    }
+
+    @Override
     public void updatePassword(Long memberId, PasswordUpdateRequest passwordUpdateRequest) {
         memberValidator.canUpdatePassword(memberId, passwordUpdateRequest);
         memberRepository.updatePassword(memberId, passwordEncoder.encode(passwordUpdateRequest.getNewPassword()));
