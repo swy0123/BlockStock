@@ -36,4 +36,7 @@ public interface MemberRepository extends Neo4jRepository<Member, Long> {
 
     @Query("MATCH (n:Member) WHERE n.id = $memberId SET n.ticketCount = n.ticketCount + $ticketCount")
     void updateTicket(@Param("memberId") Long memberId, @Param("ticketCount") int ticketCount);
+
+    @Query("MATCH (n:Member) WHERE n.id = $memberId OPTIONAL MATCH (n)-[r]-() DELETE n, r")
+    void deleteByMemberId(@Param("memberId") Long memberId);
 }

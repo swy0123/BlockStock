@@ -82,6 +82,10 @@ public class JwtTokenService {
                 ).switchIfEmpty(Mono.error(new AuthException("잘못된 이메일", "INVALID_USERNAME")));
     }
 
+    public void logout(String refreshToken) {
+        refreshTokenRepository.deleteById(refreshToken);
+    }
+
     private TokenDetails generateTokenDetail(Member member) {
         return TokenDetails.builder()
                 .nickname(member.getNickname())

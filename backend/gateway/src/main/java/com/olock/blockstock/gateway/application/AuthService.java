@@ -17,23 +17,6 @@ public class AuthService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void register(MemberJoinRequest memberJoinRequest) {
-        // TODO : Validator 넣기
-        Member member = Member.builder()
-                .email(memberJoinRequest.getEmail())
-                .password(passwordEncoder.encode(memberJoinRequest.getPassword()))
-                .nickname(memberJoinRequest.getNickname())
-                .imagePath(memberJoinRequest.getImagePath())
-                .role(Role.MEMBER.name())
-                .createdAt(LocalDateTime.now())
-                .createdAt(LocalDateTime.now())
-                .build();
-
-        memberRepository.save(member).subscribe(savedMember -> {
-            System.out.println("회원가입 완료");
-        });
-    }
-
     public Mono<Member> getMemberById(Long id) {
         return memberRepository.findByMemberId(id);
     }

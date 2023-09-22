@@ -12,6 +12,8 @@ public interface MemberService {
     MemberInfoResponse getInfo(Long memberId);
 
     void modify(Long memberId, MemberModifyRequest memberModifyRequest);
+
+    void delete(Long memberId);
     void updatePassword(Long memberId, PasswordUpdateRequest passwordUpdateRequest);
 
     void buyTicket(Long memberId, int ticketCount);

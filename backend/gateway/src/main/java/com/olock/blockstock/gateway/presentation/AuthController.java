@@ -20,12 +20,6 @@ public class AuthController {
     private final JwtTokenService jwtTokenService;
     private final AuthService authService;
 
-
-    @PostMapping("/join")
-    public void register(@RequestBody MemberJoinRequest memberJoinRequest) {
-        authService.register(memberJoinRequest);
-    }
-
     @PostMapping("/login")
     public Mono<AuthLoginResponse> login(@RequestBody AuthLoginRequest authLoginRequest) {
         return jwtTokenService.login(authLoginRequest);
@@ -36,9 +30,8 @@ public class AuthController {
         return jwtTokenService.refresh(refreshToken.substring(7));
     }
 
-    @GetMapping("/info")
-    public Mono<Member> getUserInfo(Authentication authentication) {
-        CustomPrincipal customPrincipal = (CustomPrincipal) authentication.getPrincipal();
-        return authService.getMemberById(customPrincipal.getId());
+    @DeleteMapping("/logout")
+    public void logout(@RequestHeader("Authorization-refresh") String refreshToken) {
+        jwtTokenService.logout(refreshToken);
     }
 }
