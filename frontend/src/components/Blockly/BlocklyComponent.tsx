@@ -41,6 +41,7 @@ Blockly.setLocale(locale);
 function BlocklyComponent(props: any) {
   const [array, setArray] = useState<any>([]);
   const [cnt, setCnt] = useState<number>(0);
+  // const [test, setest] = useState<any>(undefined);
   const blocklyDiv = useRef();
   const toolbox = useRef();
   let primaryWorkspace = useRef();
@@ -135,21 +136,21 @@ function BlocklyComponent(props: any) {
   };
 
   //전체 블록 화면 창 이미지 캡쳐
-  // const exportImage = () => {
-  //   const blocklyBlockCanvas = document.querySelector(".blocklyBlockCanvas");
+  // const exportImageAsPNG = () => {
+  //   const blocklyBlockCanvas = document.querySelector("#blocklyDiv");
   //   console.log(blocklyBlockCanvas);
   //   let file = null;
   //   if (blocklyBlockCanvas) {
   //     // blocklyCursor 요소가 존재하는 경우
   //     domtoimage
   //       .toBlob(blocklyBlockCanvas)
-  //       // .then((blob) => {
-  //       //   file = new File([blob], "image.png", { type: "image/png" });
-  //       //   console.log(file);
-  //       // })
-  //       .then(function (blob) {
-  //         FileSaver.saveAs(blob, "blocklyCursor.png");
+  //       .then((blob) => {
+  //         file = new File([blob], "image.png", { type: "image/png" });
+  //         console.log(file);
   //       })
+  //       // .then(function (blob) {
+  //       //   FileSaver.saveAs(blob, "blocklyCursor.png");
+  //       // })
   //       .catch(function (error) {
   //         console.error("이미지 캡처 중 오류 발생:", error);
   //       });
@@ -159,125 +160,128 @@ function BlocklyComponent(props: any) {
   //   return file;
   // };
 
-  //블록코드만 svg로 다운
-  // const exportImage = () => {
-  //   const blocklyBlockCanvas = document.querySelector(".blocklyBlockCanvas");
 
-  //   console.log(blocklyBlockCanvas);
-
-  //   let blob = null;
-  //   if (blocklyBlockCanvas) {
-  //     const clonedSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  //     clonedSVG.appendChild(blocklyBlockCanvas.cloneNode(true));
-  //     const svgXML = new XMLSerializer().serializeToString(clonedSVG);
-  //     // Blob 생성
-  //     blob = new Blob([svgXML], { type: "image/svg+xml" });
-  //     const url = URL.createObjectURL(blob);
-  //     const img = document.createElement("img");
-  //     img.src = url;
-  //     document.body.appendChild(img);
-  //     const a = document.createElement("a");
-  //     a.href = url;
-  //     a.download = "myImage.svg"; // 다운로드될 파일 이름
-  //     a.style.display = "none"; // 화면에 표시되지 않도록 함
-  //     document.body.appendChild(a);
-  //     a.click();
-  //     URL.revokeObjectURL(url);
-  //   } else {
-  //     console.log('클래스 "blocklyCursor"를 가진 SVG 요소가 존재하지 않습니다.');
-  //   }
-  //   console.log(blob)
-  //   return blob;
-  // };
-
-  const exportImage = () => {
-    const blocklyBlockCanvas = document.querySelector(".blocklyBlockCanvas");
-
-    console.log(blocklyBlockCanvas);
-
-    let file = null;
-    if (blocklyBlockCanvas) {
-      const clonedSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-      clonedSVG.appendChild(blocklyBlockCanvas.cloneNode(true));
-      const svgXML = new XMLSerializer().serializeToString(clonedSVG);
-
-      // var parser = new DOMParser();
-      // var svgDoc = parser.parseFromString(svgXML, "image/svg+xml");
-      // var svgElement = svgDoc.documentElement;
-      // // SVG 요소의 경계 상자 가져오기
-      // var bbox = svgElement.getBBox();
-
-      // // 너비와 높이 가져오기
-      // var originalWidth = bbox.width;
-      // var originalHeight = bbox.height;
-
-      // console.log("원래 너비: " + originalWidth);
-      // console.log("원래 높이: " + originalHeight);
-
-      let totalWidth = 0;
-      let totalHeight = 0;
-      
-      blocklyBlockCanvas.querySelectorAll('rect, circle').forEach((element) => {
-        totalWidth += element.getBBox().width;
-        totalHeight += element.getBBox().height;
-      });
-
-      console.log(`그룹의 가로 크기: ${totalWidth}`);
-      console.log(`그룹의 세로 크기: ${totalHeight}`);
-
-      // Blob 생성
-      let blob = new Blob([svgXML], { type: "image/svg+xml" });
-
-      convertBlobToImage(blob, (image) => {
-        let canvas = document.createElement("canvas");
-        canvas.width = image.width * 2;
-        canvas.height = image.height * 2;
-        console.log("사진 너비: " + canvas.width);
-        console.log("사진 높이: " + canvas.height);
-        let ctx = canvas.getContext("2d");
-        ctx.drawImage(image, 0, 0);
-
-        // const url = URL.createObjectURL(blob);
-        // const img = document.createElement("img");
-        // img.src = url;
-        // document.body.appendChild(img);
-        // const a = document.createElement("a");
-
-        // const imageWidth = img.width;
-        // const imageHeight = img.height;
-
-        // console.log(`이미지의 너비: ${imageWidth}px`);
-        // console.log(`이미지의 높이: ${imageHeight}px`);
-
-        // Canvas에서 PNG 이미지로 저장
-        canvas.toBlob(function (pngBlob) {
-          let url = URL.createObjectURL(pngBlob);
-
-          // PNG 이미지를 다운로드할 수 있는 링크 생성
-          let a = document.createElement("a");
-          a.href = url;
-          a.download = "image.png";
-          a.click();
-          console.log(a)
-          // 더 이상 사용하지 않는 URL 객체 해제
-          URL.revokeObjectURL(url);
-        }, "image/png");
-      });
-    } else {
-      console.log('클래스 "blocklyCursor"를 가진 SVG 요소가 존재하지 않습니다.');
-    }
-    console.log(file);
-    return file;
-  };
-
-  const convertBlobToImage = (blob: Blob, callback: any) => {
+  /**
+   * Convert an SVG datauri into a PNG datauri.
+   * @param {string} data SVG datauri.
+   * @param {number} width Image width.
+   * @param {number} height Image height.
+   * @param {!Function} callback Callback.
+   */
+  const svgToPng_ = (data, width, height) => {
+    var canvas = document.createElement("canvas");
+    var context = canvas.getContext("2d");
     var img = new Image();
+
+    var pixelDensity = 10;
+    var dataUri;
+    canvas.width = width * pixelDensity;
+    canvas.height = height * pixelDensity;
     img.onload = function () {
-      callback(img);
+      context.drawImage(
+        img, 0, 0, width, height, 0, 0, canvas.width, canvas.height);
+      try {
+        dataUri = canvas.toDataURL('image/png');
+        // console.log("dataUri")
+        // console.log(dataUri)
+        // setest(dataUri)
+      } catch (err) {
+        console.warn('Error converting the workspace svg to a png');
+      }
     };
-    img.src = URL.createObjectURL(blob);
-    console.log(img);
-  };
+    img.src = data;
+    // setest(data)
+   return data;
+  }
+
+  /**
+   * Create an SVG of the blocks on the workspace.
+   * @param {!Blockly.WorkspaceSvg} workspace The workspace.
+   * @param {!Function} callback Callback.
+   * @param {string=} customCss Custom CSS to append to the SVG.
+   */
+  const workspaceToSvg_ = (workspace, customCss) => {
+
+    // Go through all text areas and set their value.
+    var textAreas = document.getElementsByTagName("textarea");
+    for (var i = 0; i < textAreas.length; i++) {
+      textAreas[i].innerHTML = textAreas[i].value;
+    }
+
+    var bBox = workspace.getBlocksBoundingBox();
+    var x = bBox.x || bBox.left;
+    var y = bBox.y || bBox.top;
+    var width = bBox.width || bBox.right - x;
+    var height = bBox.height || bBox.bottom - y;
+
+    var blockCanvas = workspace.getCanvas();
+    var clone = blockCanvas.cloneNode(true);
+    clone.removeAttribute('transform');
+
+    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    svg.appendChild(clone);
+    svg.setAttribute('viewBox',
+      x + ' ' + y + ' ' + width + ' ' + height);
+
+    svg.setAttribute('class', 'blocklySvg ' +
+      (workspace.options.renderer || 'geras') + '-renderer ' +
+      (workspace.getTheme ? workspace.getTheme().name + '-theme' : ''));
+    svg.setAttribute('width', width);
+    svg.setAttribute('height', height);
+    svg.setAttribute("style", 'background-color: transparent');
+
+    var css = [].slice.call(document.head.querySelectorAll('style'))
+      .filter(function (el) {
+        return /\.blocklySvg/.test(el.innerText) ||
+          (el.id.indexOf('blockly-') === 0);
+      }).map(function (el) {
+        return el.innerText;
+      }).join('\n');
+    var style = document.createElement('style');
+    style.innerHTML = css + '\n' + customCss;
+    svg.insertBefore(style, svg.firstChild);
+
+    var svgAsXML = (new XMLSerializer).serializeToString(svg);
+    svgAsXML = svgAsXML.replace(/&nbsp/g, '&#160');
+    var data = 'data:image/svg+xml,' + encodeURIComponent(svgAsXML);
+
+    return svgToPng_(data, width, height);
+
+  }
+
+
+  const exportImageAsPNG = () => {
+    if (primaryWorkspace.current != undefined) {
+      let file = workspaceToSvg_(primaryWorkspace.current, "");
+      // console.log(file)
+      return file;
+    }
+    else {
+      console.log("false")
+      return null
+    }
+  }
+  // const exportImageAsPNG = () => {
+  //   if (primaryWorkspace.current != undefined) {
+  //     let file = workspaceToSvg_(primaryWorkspace.current, function (datauri) {
+  //       var a = document.createElement('a');
+  //       a.download = 'screenshot.png';
+  //       a.target = '_self';
+  //       a.href = datauri;
+  //       document.body.appendChild(a);
+  //       console.log(a)
+  //       a.click();
+  //       a.parentNode.removeChild(a);
+  //     }, "");
+  //     console.log(file)
+  //     return file;
+  //   }
+  //   else {
+  //     console.log("false")
+  //     return null
+  //   }
+  // }
 
   useEffect(() => {
     // console.log(primaryWorkspace.current);
@@ -292,7 +296,7 @@ function BlocklyComponent(props: any) {
       if (primaryWorkspace.current != undefined) {
         props.writeTacticJsonCode(Blockly.serialization.workspaces.save(primaryWorkspace.current));
         props.writeTacticPythonCode(pythonGenerator.workspaceToCode(primaryWorkspace.current));
-        props.writeTacticImg(exportImage);
+        props.writeTacticImg(exportImageAsPNG);
       }
       props.setCodeCheckTrue();
       console.log(props.codeCheck);
@@ -325,7 +329,11 @@ function BlocklyComponent(props: any) {
       <button onClick={reset}>reset</button>
       <button onClick={save}>save</button>
       <button onClick={load}>load</button>
-      <button onClick={() => exportImage()}>이미지</button>
+      <button onClick={() => exportImageAsPNG()}>이미지</button>
+      {/* <div style={{height:"100px"}}>
+        파일출력 테스트
+        {test!==undefined ? <img src={test}/>:<></>}
+      </div> */}
       <div ref={blocklyDiv} id="blocklyDiv" />
       {/* <div id='blocklyBlockCanvas'></div> */}
       <div style={{ display: "none" }} ref={toolbox}>
