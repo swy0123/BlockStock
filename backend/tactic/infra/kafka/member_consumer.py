@@ -10,7 +10,7 @@ loop = asyncio.get_event_loop()
 
 async def consume():
     consumer = AIOKafkaConsumer("member-topic", loop=loop,
-                                bootstrap_servers=os.environ["KAFKA_SERVER"], group_id="tactic-consumer")
+                                bootstrap_servers=os.environ["KAFKA_SERVER"], group_id="tactic-consumer-tmp")
     await consumer.start()
     try:
         async for msg in consumer:
