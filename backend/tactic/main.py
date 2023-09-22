@@ -1,4 +1,3 @@
-
 import os
 import uvicorn
 from fastapi import FastAPI, Depends, status, APIRouter
@@ -12,10 +11,11 @@ from common.conn import engineconn
 from domain.tactic.routers import tactic
 from domain.contest.routers import contest
 from domain.option.routers import option
-import asyncio
-import infra.kafka.member_consumer as member_consumer
 from common.conn import redis_config
 from domain.contest.services.contest_schedule import check_contest
+import asyncio
+import infra.kafka.member_consumer as member_consumer
+
 
 import py_eureka_client.eureka_client as eureka_client
 
