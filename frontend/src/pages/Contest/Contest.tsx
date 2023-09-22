@@ -6,12 +6,6 @@ import RecentContestResults from '../../components/Contest/Main/RecentContestRes
 import ContestCreateBtn from '../../components/Contest/ContestCreate/ContestCreateBtn';
 import ContestCreate from '../../components/Contest/ContestCreate/ContestCreate';
 
-function Contest() {
-  const [isCreateContestVisible, setCreateContestVisible] = useState(false);
-
-  const toggleCreateContest = () => {
-    setCreateContestVisible(!isCreateContestVisible);
-  };
 
   // 스타일드 컴포넌트를 함수 내부에 정의
   const ContestBox = styled.div`
@@ -21,6 +15,14 @@ function Contest() {
   const ContestContent = styled.div`
     display: flex;
   `;
+
+
+function Contest() {
+  const [isCreateContestVisible, setCreateContestVisible] = useState(false);
+
+  const toggleCreateContest = () => {
+    setCreateContestVisible(!isCreateContestVisible);
+  };
 
   return (
     <>
