@@ -2,6 +2,7 @@ from aiokafka import AIOKafkaConsumer
 import asyncio
 from fastapi import APIRouter
 import os.path
+from domain.member.services.member_service import msg_to_member, is_key_exists, save_member_data
 
 route = APIRouter()
 
@@ -14,6 +15,8 @@ async def consume():
     await consumer.start()
     try:
         async for msg in consumer:
-            print(f'Consumer msg: {msg}')
+            member = msg_to_member(msg.value)
+            if is_key_exists(member.id):
+                save_member_data(member)
     finally:
         await consumer.stop()

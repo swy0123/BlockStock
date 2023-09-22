@@ -2,9 +2,7 @@ from sqlalchemy import *
 from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
 
-import os.path
 import os
-import redis
 
 load_dotenv()
 
@@ -24,18 +22,3 @@ class engineconn:
     def connection(self):
         conn = self.engine.connect()
         return conn
-
-
-def redis_config():
-    try:
-        REDIS_HOST = str = os.environ["REDIS_HOST"]
-        REDIS_PORT = integer = os.environ["REDIS_PORT"]
-        REDIS_PASSWORD = str = os.environ["REDIS_PASSWORD"]
-
-        return redis.Redis(host=REDIS_HOST,
-                           port=REDIS_PORT,
-                           db=5,
-                           password=REDIS_PASSWORD)
-
-    except:
-        print("redis connection failure")

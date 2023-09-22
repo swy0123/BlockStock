@@ -1,23 +1,17 @@
-import os
-import uvicorn
-from fastapi import FastAPI, Depends, status, APIRouter
+import asyncio
+
+import py_eureka_client.eureka_client as eureka_client
+from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from starlette import status
 
-from common.conn import engineconn
-from starlette import status
-
-from common.conn import engineconn
-from domain.tactic.routers import tactic
-from domain.contest.routers import contest
-from domain.option.routers import option
-from common.conn import redis_config
-from domain.contest.services.contest_schedule import check_contest
-import asyncio
 import infra.kafka.member_consumer as member_consumer
-
-
-import py_eureka_client.eureka_client as eureka_client
+from common.conn import engineconn
+from domain.contest.routers import contest
+from domain.contest.services.contest_schedule import check_contest
+from domain.member.services.member_service import req_member_data, save_member_data, get_member_data, is_key_exists
+from domain.option.routers import option
+from domain.tactic.routers import tactic
 
 app = FastAPI(host="0.0.0.0", port=8000)
 check_contest()
@@ -63,22 +57,9 @@ engine = engineconn()
 session = engine.sessionmaker()
 
 
-
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
-
-
-@app.get("/api/redis_test")
-async def redis_test():
-    res = await redis_test()
-
-    return {"res": res}
-
-
-async def redis_test():
-    rd = redis_config()
-
-    return {
-        "data": rd.get("juice")
-    }
+    # member = await req_member_data(10)
+    # print(get_member_data(10).nickname)
+    # print(str(is_key_exists(10)) + "===" + str(is_key_exists(2)))
+    return "hello root"
