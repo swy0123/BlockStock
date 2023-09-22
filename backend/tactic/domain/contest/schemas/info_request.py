@@ -2,6 +2,6 @@ from fastapi_camelcase import CamelModel
 from datetime import datetime
 
 class InfoRequest(CamelModel):
-    contestId: int
-    tacticId: int
+    contest_id: int
+    tactic_id: int
 

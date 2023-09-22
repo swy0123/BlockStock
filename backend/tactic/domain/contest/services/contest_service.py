@@ -135,12 +135,23 @@ def delete_contest(contest_id: int):
 
 
 def participate_contest(user_id: int, info_create: InfoRequest):
-    db_participate = Participate(user_id, info_create)
+    contest_ticket = session.get(Contest, info_create.contest_id).ticket
+
+    db_participate = Participate(user_id, info_create, contest_ticket)
+
 
     # user 유효한지 확인
+
     # 이미 참가 했으면 에러
-    if not session.get(Contest, InfoRequest.contestId):
-        raise HTTPException(status_code=StatusCode.CONTEST_NOT_EXIST_ERROR_CODE)
+
+    if session.query(Participate).filter(
+            Participate.contest_id == info_create.contest_id, Participate.member_id == user_id):
+        raise HTTPException(status_code=StatusCode.ALREADY_EXIST_PARTICIPATE_CODE,
+                            detail=Message.ALREADY_EXIST_PARTICIPATE_CODE)
+
+    if not session.get(Contest, info_create.contest_id):
+        raise HTTPException(status_code=StatusCode.CONTEST_NOT_EXIST_ERROR_CODE,
+                            detail=Message.CONTEST_NOT_EXIST_ERROR_CODE)
 
     # tactic 값 유효한지 확인
 
