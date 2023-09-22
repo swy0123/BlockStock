@@ -105,4 +105,11 @@ export const ClickBox = styled.div`
 export const Content = styled.p`
     font-size: 15px;
     color: ivory;
+    cursor: pointer;
+`;
+
+export const Hr = styled.hr`
+    width: 70%;
+    border: dashed 0.5px;
+    color: gray;
 `;
