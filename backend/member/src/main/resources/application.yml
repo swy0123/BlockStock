@@ -16,9 +16,9 @@ jwt:
 
 spring:
   kafka:
-    bootstrap-servers: 3.35.20.219:9092
+    bootstrap-servers: ${KAFKA_SERVER}
     consumer:
-      group-id: olock
+      group-id: member-consumer
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
