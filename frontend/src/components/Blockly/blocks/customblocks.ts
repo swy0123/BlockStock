@@ -28,12 +28,11 @@ import "../fields/BlocklyReactField";
 //   },
 // };
 
-
 //------------------------------------------------------------
 
 Blockly.Blocks["sell"] = {
   init: function () {
-    this.appendValueInput("NAME").setCheck('Number');
+    this.appendValueInput("NAME").setCheck("Number");
     this.appendDummyInput().appendField("주 만큼 매도하기");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
@@ -45,7 +44,7 @@ Blockly.Blocks["sell"] = {
 
 Blockly.Blocks["buy"] = {
   init: function () {
-    this.appendValueInput("NAME").setCheck('Number');
+    this.appendValueInput("NAME").setCheck("Number");
     this.appendDummyInput().appendField("주 만큼 매수하기");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
@@ -78,7 +77,7 @@ Blockly.Blocks["minmaxavg_select"] = {
       ]),
       "FIELDNAME"
     );
-    this.setOutput(true, 'indicators');
+    this.setOutput(true, "indicators");
     this.setColour(300);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -97,7 +96,7 @@ Blockly.Blocks["ochlv_value"] = {
       ]),
       "FIELDNAME"
     );
-    this.setOutput(true, 'ochlv');
+    this.setOutput(true, "ochlv");
     this.setColour(300);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -107,13 +106,13 @@ Blockly.Blocks["ochlv_value"] = {
 //최근 n일의 [시고저종]의 [최대최소평균rsi]
 Blockly.Blocks["calculate_scope_data"] = {
   init: function () {
-    this.appendValueInput("SCOPE").setCheck('scope');
+    this.appendValueInput("SCOPE").setCheck("scope");
     this.appendDummyInput().appendField("중 ");
-    this.appendValueInput("OCHL").setCheck('ochlv');
+    this.appendValueInput("OCHL").setCheck("ochlv");
     this.appendDummyInput().appendField("의 ");
-    this.appendValueInput("HLA").setCheck('indicators');
+    this.appendValueInput("HLA").setCheck("indicators");
     this.appendDummyInput().appendField(" 값");
-    this.setOutput(true, 'Number');
+    this.setOutput(true, "Number");
     this.setColour(360);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -125,13 +124,14 @@ Blockly.Blocks["date_scope"] = {
   init: function () {
     var validator = function (newValue) {
       if (newValue > 100) newValue = 100;
+      if (newValue <= 0) newValue = 1;
       return newValue;
     };
     this.appendDummyInput()
       .appendField("어제부터 ")
       .appendField(new Blockly.FieldTextInput("1", validator), "DATE")
       .appendField("일 까지의 주가 데이터 ");
-    this.setOutput(true, 'scope');
+    this.setOutput(true, "scope");
     this.setColour(300);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -142,13 +142,14 @@ Blockly.Blocks["term_scope"] = {
   init: function () {
     var validator = function (newValue) {
       if (newValue > 100) newValue = 100;
+      if (newValue <= 0) newValue = 1;
       return newValue;
     };
     this.appendDummyInput()
       .appendField("주기의 직전 시점부터")
       .appendField(new Blockly.FieldTextInput("1", validator), "DATE")
       .appendField("번째 주기 까지의 주가 데이터 ");
-    this.setOutput(true, 'scope');
+    this.setOutput(true, "scope");
     this.setColour(300);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -170,9 +171,9 @@ Blockly.Blocks["term_scope"] = {
 Blockly.Blocks["cur_data"] = {
   init: function () {
     this.appendDummyInput().appendField("현재 날짜의 ");
-    this.appendValueInput("OCHL").setCheck('ochlv')
+    this.appendValueInput("OCHL").setCheck("ochlv");
     this.setInputsInline(true);
-    this.setOutput(true, 'Number');
+    this.setOutput(true, "Number");
     this.setColour(360);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -186,7 +187,7 @@ Blockly.Blocks["cnt_per_asset"] = {
     this.appendValueInput("NAME").setCheck("Number");
     this.appendDummyInput().appendField("%");
     this.setInputsInline(true);
-    this.setOutput(true, 'Number');
+    this.setOutput(true, "Number");
     this.setColour(360);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -200,21 +201,76 @@ Blockly.Blocks["cnt_per_reserve"] = {
     this.appendValueInput("NAME").setCheck("Number");
     this.appendDummyInput().appendField("%");
     this.setInputsInline(true);
-    this.setOutput(true, 'Number');
+    this.setOutput(true, "Number");
     this.setColour(360);
     this.setTooltip("");
     this.setHelpUrl("");
   },
 };
-//현재 자산의 %
-Blockly.Blocks["cnt_per_asset"] = {
+
+//과거 데이터의 특정 날의 주가정보
+Blockly.Blocks["specific_date_data"] = {
   init: function () {
-    this.appendDummyInput().appendField("현재 자산의 ");
-    this.appendValueInput("NAME").setCheck("Number");
-    this.appendDummyInput().appendField("%");
+    var validator = function (newValue) {
+      if (newValue > 100) newValue = 100;
+      if (newValue <= 0) newValue = 1;
+      return newValue;
+    };
+    this.appendDummyInput()
+      .appendField("오늘부터")
+      .appendField(new Blockly.FieldTextInput("1", validator), "DATE")
+      .appendField("일 전날의 ");
+    this.appendValueInput("OCHL").setCheck("ochlv");
     this.setInputsInline(true);
-    this.setOutput(true, 'Number');
+    this.setOutput(true, "Number");
     this.setColour(360);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
+//과거 데이터의 특정 주기의 주가정보
+Blockly.Blocks["specific_term_data"] = {
+  init: function () {
+    var validator = function (newValue) {
+      if (newValue > 100) newValue = 100;
+      if (newValue <= 0) newValue = 1;
+      return newValue;
+    };
+    this.appendDummyInput()
+      .appendField("현재부터")
+      .appendField(new Blockly.FieldTextInput("1", validator), "Number")
+      .appendField("번째 전 주기의 ");
+    this.appendValueInput("OCHL").setCheck("ochlv");
+    this.setInputsInline(true);
+    this.setOutput(true, "Number");
+    this.setColour(360);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
+
+
+//----------------------수
+
+
+//특정 값의 %
+Blockly.Blocks["math_percent"] = {
+  init: function () {
+    var validator = function (newValue) {
+      if (newValue > 100) newValue = 100;
+      if (newValue < 0) newValue = 0;
+      return newValue;
+    };
+    
+    this.appendValueInput("Number").setCheck("Number");
+    this.appendDummyInput()
+      .appendField("값의 ")
+      .appendField(new Blockly.FieldTextInput("1", validator), "percent")
+      .appendField("%");
+    this.setOutput(true, "Number");
+    this.setColour('230');
     this.setTooltip("");
     this.setHelpUrl("");
   },
