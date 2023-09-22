@@ -12,6 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import javax.swing.text.html.Option;
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Component
 public class MemberValidator {
@@ -41,8 +44,12 @@ public class MemberValidator {
     }
 
     public void canBuyTicket(Long memberId, int ticketCount) {
-        Member member = memberRepository.findByMemberId(memberId).get();
-        if (member.getMoney() < ticketCount * 10000000L) {
+        Optional<Member> member = memberRepository.findByMemberId(memberId);
+        if (member.isEmpty()) {
+            throw new NoMemberException("기존 비밀번호가 틀렸습니다");
+        }
+
+        if (member.get().getMoney() < ticketCount * 10000000L) {
             throw new LessMoneyException("자본이 부족합니다");
         }
     }

@@ -2,6 +2,8 @@ package com.olock.blockstock.member.domain.member.application;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.olock.blockstock.member.domain.member.dto.MemberDeleteMessage;
+import com.olock.blockstock.member.domain.member.dto.MemberUpdateMessage;
 import com.olock.blockstock.member.domain.member.dto.request.*;
 import com.olock.blockstock.member.domain.member.dto.response.MemberInfoResponse;
 import com.olock.blockstock.member.domain.member.persistence.FollowRepository;
@@ -69,6 +71,7 @@ public class MemberServiceImpl implements MemberService {
     public void delete(Long memberId) {
         memberValidator.existsMember(memberId);
         memberRepository.deleteByMemberId(memberId);
+        produceMessage(new MemberDeleteMessage(memberId));
     }
 
     @Override
@@ -80,7 +83,6 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void buyTicket(Long memberId, int ticketCount) {
-        memberValidator.existsMember(memberId);
         memberValidator.canBuyTicket(memberId, ticketCount);
         memberRepository.updateMoney(memberId, ticketCount * (-10000000L));
         memberRepository.updateTicket(memberId, ticketCount);
@@ -98,10 +100,20 @@ public class MemberServiceImpl implements MemberService {
     private void produceMessage(Long memberId) {
         try {
             Member member = memberRepository.findByMemberId(memberId).get();
-            memberProducer.sendMessage(objectMapper.writeValueAsString(member));
+            memberProducer.sendMessage(objectMapper.writeValueAsString(new MemberUpdateMessage(member)));
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
     }
+
+    @Async
+    private void produceMessage(MemberDeleteMessage memberDeleteMessage) {
+        try {
+            memberProducer.sendMessage(objectMapper.writeValueAsString(memberDeleteMessage));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 }
