@@ -34,34 +34,22 @@ def check_contest():
     # 시작 30분 전인 대회 찾기
     if contest:
         cur_contest = contest[0]
-        participates = session.query(Participate).filter(Participate.contest_id == cur_contest.id).all()
+        print(cur_contest.start_time, " ", cur_contest.id, " ", cur_contest.option_code)
         # 참여하는 사람들
-        start_contest(option_code=contest.option_code,
-                      contest_info=contest,
+        participates = session.query(Participate).filter(Participate.contest_id == cur_contest.id).all()
+        start_contest(contest_info=cur_contest,
                       participates=participates)
         # 대회 시작
         # 멀티 스레딩
         # contest에 참여하는 Participate 내역 가져오기
         # participates = session.query(Participate).filter(Participate.contest_id == contest.id).all()
 
-        # session.query(Contest).filter(Contest.start_time)
-        # '현재 시간 - 30분 == start_time' - 데이터 수집하기 시작
-        # start_contest(option_code)
-
-        # '현재 시간 == start_time' 1초마다 데이터 update하고 로직실행하기 시작
-        # 대회 시작
-        # 해당 대회에 대해 참가하는 사람들에 대해 대회 주기 시간 마다 알고리즘 적용
-        # 자산 변동
-
-
-        print()
-
     return ""
 
 sched.start()
 
-def start_contest(option_code: int,
-                  contest_info: Contest,
+
+def start_contest(contest_info: Contest,
                   participates: Participate):
 
     # 실시간 데이터 저장할 변수
@@ -89,7 +77,7 @@ def start_contest(option_code: int,
 
     params = {
         "fid_cond_mrkt_div_code":"J",
-        "fid_input_iscd":[option_code]
+        "fid_input_iscd":[contest_info.option_code]
     }
 
     def get_real_time_stock(URL, headers, params):
@@ -111,12 +99,13 @@ def start_contest(option_code: int,
     # 스케줄러에 작업 추가
     schedule.every(1).seconds.do(get_real_time_stock, URL, headers, params)
 
-    while True:
+    while datetime.now() < contest_info.end_time:
         current_data = get_real_time_stock(URL, headers, params)
         real_data = real_data.append(current_data, ignore_index=True)
         print(real_data)
-
         # 여기에서 알고리즘 시작 시키기
+        # 해당 대회에 대해 참가하는 사람들에 대해 대회 주기 시간 마다 알고리즘 적용
+        # 자산 변동
 
         # 멀티스레드
         # DB는 멀티 스레드 작업 끝나고 한 번에 MariaDB에 저장해주기
