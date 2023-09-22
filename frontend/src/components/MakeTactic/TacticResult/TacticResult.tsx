@@ -130,6 +130,37 @@ const TacticResult = (props) => {
     }, [])
 
 
+    // post tactic api
+    const uploadData = async(requestData) => {
+
+        const formData = new FormData();
+        formData.append('data', requestData);
+        // formData.append('title', postData.title); 
+        // formData.append('optionCode', postData.optionCode); 
+        // formData.append('taticJsonCode', postData.taticJsonCode); 
+        // formData.append('tacticPythonCode', postData.tacticPythonCode); 
+        // formData.append('testReturns', postData.testReturns); 
+
+        console.log(formData);
+        // try {
+        //     const response = await axios.post('/upload', formData, {
+        //         headers: {
+        //             'Content-Type': 'multipart/form-data',
+        //         },
+        //     });
+
+        //     if (response.status === 200) {
+        //         console.log('이미지와 문자열 데이터가 성공적으로 업로드되었습니다.');
+        //     } else {
+        //         console.error('데이터 업로드 중 오류가 발생했습니다.');
+        //     }
+        // } catch (error) {
+        //     console.error('네트워크 오류:', error);
+        // }
+    }
+
+
+
     const saveTactic = () => {
         const requestProps = {
             title: props.title,
@@ -137,8 +168,9 @@ const TacticResult = (props) => {
             taticJsonCode: props.tacticJsonCode,
             tacticPythonCode: props.tacticPythonCode,
             testReturns: returnPercent.toString(),
+            tacticImg: props.tacticImg,
         }
-        alert("console에 찍음")
+        uploadData(requestProps)
         console.log(requestProps);
     }
 
@@ -147,6 +179,7 @@ const TacticResult = (props) => {
         <TradingHistoryContainer>
             {/* 전략 이름 */}
             <TacticTitle>{props.title}</TacticTitle>
+            {/* {props.tacticImg ? <img src={props.tacticImg}/>:<></>} */}
 
             <TradingHistoryContents>
                 {/* 매매내역 */}
@@ -193,11 +226,11 @@ const TacticResult = (props) => {
                         <HistorySummaryContents>
                             <TradingHistoryTitle>요약</TradingHistoryTitle>
                             <HistorySummaryContentsResult>
-                                <div style={{fontSize:"14px"}}>초기자산</div>
-                                <div style={{fontSize:"13px"}}>{pricesDisplayFormat(startAsset)}원</div>
+                                <div style={{ fontSize: "14px" }}>초기자산</div>
+                                <div style={{ fontSize: "13px" }}>{pricesDisplayFormat(startAsset)}원</div>
                                 <div>↓</div>
-                                <div style={{fontSize:"14px"}}>최종자산</div>
-                                <div style={{fontSize:"16px", color:"red"}}>{pricesDisplayFormat(startAsset * returnPercent)}원</div>
+                                <div style={{ fontSize: "14px" }}>최종자산</div>
+                                <div style={{ fontSize: "16px", color: "red" }}>{pricesDisplayFormat(startAsset * returnPercent)}원</div>
 
                             </HistorySummaryContentsResult>
 
