@@ -32,7 +32,7 @@ function MyPage() {
 
   // useQuery data 받아오기
   const {data, isLoading, isError} = useQuery("mypage", getmypage);
-  console.log("data", data)
+  // console.log("data", data)
 
   const renderContent = () => {
     switch (selectedMenu) {
@@ -79,7 +79,7 @@ function MyPage() {
   } 
   const closeNameModal = () => {
     setIsNameModalOpen(false);
-    setIsEditing(true);
+    setIsEditing(false);
   }
   const closePasswordModal = () => {
     setIsPasswordModalOpen(false);
