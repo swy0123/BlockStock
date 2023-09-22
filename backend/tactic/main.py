@@ -1,17 +1,18 @@
-import os
-
-import uvicorn
-from fastapi import FastAPI, Depends, status
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from db.conn import engineconn
+from starlette import status
+
+from common.conn import engineconn
 from domain.tactic.routers import tactic
 from domain.contest.routers import contest
 from domain.option.routers import option
-from redis_config import redis_config
+from common.conn import redis_config
+from domain.contest.services.contest_schedule import check_contest
 
 import py_eureka_client.eureka_client as eureka_client
 
-app = FastAPI(host="0.0.0.0", port=8000)
+app = FastAPI()
+check_contest() # 대회 시작시간인지 확인하는 스케줄러
 
 origins = [
     "http://localhost:5173/",
