@@ -1,5 +1,5 @@
 // 회원가입 관련 API
-import { publicApi } from ".";
+import { publicApi } from "..";
 
 interface userData {
     email: string,

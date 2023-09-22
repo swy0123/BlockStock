@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 // import Swal from 'sweetalert2';
 import swal from "sweetalert";
 import { useNavigate } from "react-router";
-import { postJoin, postmail, checkmail } from "../../api/Join";
+import { postJoin, postmail, checkmail } from "../../api/Auth/Join";
 import {
   Container,
   BackGround,
