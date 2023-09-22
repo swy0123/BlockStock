@@ -84,7 +84,14 @@ def get_proceed_contest_result():
 
 def get_contest_result(contest_id: int):
     result = []
-    contest_ticket = session.query(Contest.ticket).filter(Contest.id == contest_id).one()[0]
+
+    contest = session.get(Contest, contest_id)
+    if not contest:
+        raise HTTPException(status_code=StatusCode.CONTEST_NOT_EXIST_ERROR_CODE,
+                            detail=Message.CONTEST_NOT_EXIST_ERROR_CODE)
+
+    contest_ticket = contest.ticket
+    # contest_ticket = session.query(Contest.ticket).filter(Contest.id == contest_id).one()[0]
 
     participates = session.query(Participate).filter(Participate.contest_id == contest_id).order_by(
         Participate.result_money.desc())
