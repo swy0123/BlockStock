@@ -102,7 +102,7 @@ function SideBar(){
 								<ClickBox onClick={()=>navigate("/freeboard")}>
 										<Menu>자유 게시판</Menu>
                 </ClickBox>
-								<ClickBox>
+								<ClickBox onClick={()=>navigate("/tacticboard")}>
 										<Menu>전략 게시판</Menu>
                 </ClickBox>
 								<ClickBox>
