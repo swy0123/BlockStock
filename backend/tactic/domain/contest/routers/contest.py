@@ -18,7 +18,7 @@ def get_contest(status: str = Query(default=None),
 
 @router.get("/api/contest/result")
 def get_proceed_contest_result():
-    return contest_service.get_contest_result()
+    return contest_service.get_proceed_contest_result()
 
 
 @router.get("/api/contest/result/{contest_id}")
