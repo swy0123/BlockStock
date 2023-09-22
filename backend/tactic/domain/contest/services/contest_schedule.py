@@ -21,12 +21,10 @@ sched = BackgroundScheduler(timezone='Asia/Seoul')
 # 9시부터 15시까지 1분 마다 실행하는 것으로 바꾸기
 @sched.scheduled_job('interval', seconds=60, id='remove_inactive_image')
 def check_contest():
-    print("안녕")
 
     real_time = []
     # DB에 있는 contest 조회
-    # 대회 목록 봐서 start_time의 YYYY.MM.DD HH:MM == now의 YYYY.MM.DD HH:MM
-    # 이 되면 대회 시작!
+    # 대회 목록 봐서 start_time의 YYYY.MM.DD HH:MM == now의 YYYY.MM.DD HH:MM 이 되면 대회 시작!
     now_formatted = (datetime.now() + timedelta(minutes=30)).strftime('%Y-%m-%d %H:%M')
 
     contest = session.query(Contest).where(func.date_format(Contest.start_time, '%Y-%m-%d %H:%i') == now_formatted).all()
@@ -39,12 +37,9 @@ def check_contest():
         participates = session.query(Participate).filter(Participate.contest_id == cur_contest.id).all()
         start_contest(contest_info=cur_contest,
                       participates=participates)
-        # 대회 시작
-        # 멀티 스레딩
-        # contest에 참여하는 Participate 내역 가져오기
-        # participates = session.query(Participate).filter(Participate.contest_id == contest.id).all()
 
     return ""
+
 
 sched.start()
 
@@ -89,8 +84,6 @@ def start_contest(contest_info: Contest,
                         '4': res.json()['output']['stck_lwpr'], # 저가
                         '5': res.json()['output']['stck_prpr'] # 종가
                         }
-        # print(res.json()['output'])
-
         return current_data
 
     get_real_time_stock(URL, headers, params)
@@ -111,6 +104,3 @@ def start_contest(contest_info: Contest,
         # DB는 멀티 스레드 작업 끝나고 한 번에 MariaDB에 저장해주기
         schedule.run_pending()
         time.sleep(1) # 부하가 안생길 만큼의 초
-
-
-# start_contest("005930")

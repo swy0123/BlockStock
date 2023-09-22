@@ -3,6 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from starlette import status
 
 from common.conn import engineconn
+from starlette import status
+
+from common.conn import engineconn
 from domain.tactic.routers import tactic
 from domain.contest.routers import contest
 from domain.option.routers import option
