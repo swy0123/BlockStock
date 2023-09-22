@@ -40,6 +40,9 @@ Blockly.setLocale(locale);
 
 function BlocklyComponent(props: any) {
   const [array, setArray] = useState<any>([]);
+  const [defArray, setDefArray] = useState<any>([]);
+  const [settingArray, setSettingArray] = useState<any>([]);
+  const [getArray, setGetArray] = useState<any>([]);
   const [cnt, setCnt] = useState<number>(0);
   // const [test, setest] = useState<any>(undefined);
   const blocklyDiv = useRef();
@@ -52,31 +55,93 @@ function BlocklyComponent(props: any) {
   };
 
   const generateVar = () => {
-    const tmp = prompt("insert value", "");
-    const type = tmp != null ? tmp : "";
-    Blockly.Blocks[type] = {
+    console.log("generateVar");
+    const tmp = prompt("변수명(10자 이하 영어만 입력해주세요)", "");
+    if (tmp === null || !/^[a-zA-Z]+$/.test(tmp) || tmp.length > 10) {
+      alert("올바른 영어 입력이 아닙니다.");
+      return;
+    } else {
+      alert("올바른 영어 입력입니다.");
+    }
+
+    const def = "custom_value_def_" + tmp;
+    const set = "custom_value_set_" + tmp;
+    const get = "custom_value_get_" + tmp;
+    const data = "custom_value_" + tmp;
+
+    //def
+    Blockly.Blocks[def] = {
       init: function () {
-        this.appendDummyInput().appendField(new Blockly.FieldLabelSerializable(type), type);
-        this.setOutput(true, null);
-        this.setColour(230);
+        this.appendDummyInput()
+          .appendField(new Blockly.FieldLabelSerializable(tmp), def)
+          .appendField(" 변수 선언");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(360);
+        this.setColour(360);
         this.setTooltip("");
         this.setHelpUrl("");
       },
     };
-    pythonGenerator.forBlock[type] = function (block: any, generator: any) {
-      var field = block.getFieldValue(type);
-      // TODO: Assemble python into code variable.
-      var code = field;
-      // TODO: Change ORDER_NONE to the correct strength.
+    pythonGenerator.forBlock[def] = function (block: any, generator: any) {
+      // var field = block.getFieldValue(def);/
+      var code = data + " = 0\n";
+      return code;
+    };
+
+    //set
+    Blockly.Blocks[set] = {
+      init: function () {
+        this.appendDummyInput()
+          .appendField(new Blockly.FieldLabelSerializable(tmp), set)
+          .appendField("의 값을 ");
+        this.appendValueInput("Number").setCheck("Number");
+        this.appendDummyInput().appendField("으로 설정");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(360);
+        this.setTooltip("");
+        this.setHelpUrl("");
+      },
+    };
+    pythonGenerator.forBlock[set] = function (block: any, generator: any) {
+      // var field = block.getFieldValue(set);
+      var number_value = generator.valueToCode(block, "Number", Order.NONE).toString();
+      var code = data + ' = ' + number_value+'\n';
+      return code;
+    };
+
+    //get
+    Blockly.Blocks[get] = {
+      init: function () {
+        this.appendDummyInput().appendField(new Blockly.FieldLabelSerializable(tmp), def);
+        this.setOutput(true, "Number");
+        this.setColour(360);
+        this.setTooltip("");
+        this.setHelpUrl("");
+      },
+    };
+    pythonGenerator.forBlock[get] = function (block: any, generator: any) {
+      // var field = block.getFieldValue(get);
+      var code = data;
       return [code, Order.NONE];
     };
+
     setCnt(cnt + 1);
-    let newArray = array;
-    newArray.push(type);
-    setArray(newArray);
+    let newArray1 = defArray;
+    newArray1.push(def);
+    setDefArray(newArray1);
+    let newArray2 = settingArray;
+    newArray2.push(set);
+    setSettingArray(newArray2);
+    let newArray3 = getArray;
+    newArray3.push(get);
+    setGetArray(newArray3);
     console.log("generateVar");
 
-    console.log(array);
+    console.log(defArray);
+    console.log(setArray);
+    console.log(getArray);
   };
 
   const reset = () => {
@@ -135,32 +200,6 @@ function BlocklyComponent(props: any) {
     console.log("load");
   };
 
-  //전체 블록 화면 창 이미지 캡쳐
-  // const exportImageAsPNG = () => {
-  //   const blocklyBlockCanvas = document.querySelector("#blocklyDiv");
-  //   console.log(blocklyBlockCanvas);
-  //   let file = null;
-  //   if (blocklyBlockCanvas) {
-  //     // blocklyCursor 요소가 존재하는 경우
-  //     domtoimage
-  //       .toBlob(blocklyBlockCanvas)
-  //       .then((blob) => {
-  //         file = new File([blob], "image.png", { type: "image/png" });
-  //         console.log(file);
-  //       })
-  //       // .then(function (blob) {
-  //       //   FileSaver.saveAs(blob, "blocklyCursor.png");
-  //       // })
-  //       .catch(function (error) {
-  //         console.error("이미지 캡처 중 오류 발생:", error);
-  //       });
-  //   } else {
-  //     console.log('클래스 "blocklyCursor"를 가진 SVG 요소가 존재하지 않습니다.');
-  //   }
-  //   return file;
-  // };
-
-
   /**
    * Convert an SVG datauri into a PNG datauri.
    * @param {string} data SVG datauri.
@@ -178,21 +217,20 @@ function BlocklyComponent(props: any) {
     canvas.width = width * pixelDensity;
     canvas.height = height * pixelDensity;
     img.onload = function () {
-      context.drawImage(
-        img, 0, 0, width, height, 0, 0, canvas.width, canvas.height);
+      context.drawImage(img, 0, 0, width, height, 0, 0, canvas.width, canvas.height);
       try {
-        dataUri = canvas.toDataURL('image/png');
+        dataUri = canvas.toDataURL("image/png");
         // console.log("dataUri")
         // console.log(dataUri)
         // setest(dataUri)
       } catch (err) {
-        console.warn('Error converting the workspace svg to a png');
+        console.warn("Error converting the workspace svg to a png");
       }
     };
     img.src = data;
     // setest(data)
-   return data;
-  }
+    return data;
+  };
 
   /**
    * Create an SVG of the blocks on the workspace.
@@ -201,7 +239,6 @@ function BlocklyComponent(props: any) {
    * @param {string=} customCss Custom CSS to append to the SVG.
    */
   const workspaceToSvg_ = (workspace, customCss) => {
-
     // Go through all text areas and set their value.
     var textAreas = document.getElementsByTagName("textarea");
     for (var i = 0; i < textAreas.length; i++) {
@@ -216,52 +253,54 @@ function BlocklyComponent(props: any) {
 
     var blockCanvas = workspace.getCanvas();
     var clone = blockCanvas.cloneNode(true);
-    clone.removeAttribute('transform');
+    clone.removeAttribute("transform");
 
-    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
     svg.appendChild(clone);
-    svg.setAttribute('viewBox',
-      x + ' ' + y + ' ' + width + ' ' + height);
+    svg.setAttribute("viewBox", x + " " + y + " " + width + " " + height);
 
-    svg.setAttribute('class', 'blocklySvg ' +
-      (workspace.options.renderer || 'geras') + '-renderer ' +
-      (workspace.getTheme ? workspace.getTheme().name + '-theme' : ''));
-    svg.setAttribute('width', width);
-    svg.setAttribute('height', height);
-    svg.setAttribute("style", 'background-color: transparent');
+    svg.setAttribute(
+      "class",
+      "blocklySvg " +
+        (workspace.options.renderer || "geras") +
+        "-renderer " +
+        (workspace.getTheme ? workspace.getTheme().name + "-theme" : "")
+    );
+    svg.setAttribute("width", width);
+    svg.setAttribute("height", height);
+    svg.setAttribute("style", "background-color: transparent");
 
-    var css = [].slice.call(document.head.querySelectorAll('style'))
+    var css = [].slice
+      .call(document.head.querySelectorAll("style"))
       .filter(function (el) {
-        return /\.blocklySvg/.test(el.innerText) ||
-          (el.id.indexOf('blockly-') === 0);
-      }).map(function (el) {
+        return /\.blocklySvg/.test(el.innerText) || el.id.indexOf("blockly-") === 0;
+      })
+      .map(function (el) {
         return el.innerText;
-      }).join('\n');
-    var style = document.createElement('style');
-    style.innerHTML = css + '\n' + customCss;
+      })
+      .join("\n");
+    var style = document.createElement("style");
+    style.innerHTML = css + "\n" + customCss;
     svg.insertBefore(style, svg.firstChild);
 
-    var svgAsXML = (new XMLSerializer).serializeToString(svg);
-    svgAsXML = svgAsXML.replace(/&nbsp/g, '&#160');
-    var data = 'data:image/svg+xml,' + encodeURIComponent(svgAsXML);
+    var svgAsXML = new XMLSerializer().serializeToString(svg);
+    svgAsXML = svgAsXML.replace(/&nbsp/g, "&#160");
+    var data = "data:image/svg+xml," + encodeURIComponent(svgAsXML);
 
     return svgToPng_(data, width, height);
-
-  }
-
+  };
 
   const exportImageAsPNG = () => {
     if (primaryWorkspace.current != undefined) {
       let file = workspaceToSvg_(primaryWorkspace.current, "");
-      // console.log(file)
+      console.log(file);
       return file;
+    } else {
+      console.log("false");
+      return null;
     }
-    else {
-      console.log("false")
-      return null
-    }
-  }
+  };
   // const exportImageAsPNG = () => {
   //   if (primaryWorkspace.current != undefined) {
   //     let file = workspaceToSvg_(primaryWorkspace.current, function (datauri) {
@@ -286,6 +325,7 @@ function BlocklyComponent(props: any) {
   useEffect(() => {
     // console.log(primaryWorkspace.current);
     if (primaryWorkspace.current != undefined) {
+      primaryWorkspace.current.registerButtonCallback("generateblock", generateVar);
       primaryWorkspace.current.updateToolbox(toolbox.current);
       primaryWorkspace.current.getFlyout().hide();
     }
@@ -319,6 +359,8 @@ function BlocklyComponent(props: any) {
     if (initialXml) {
       Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(initialXml), primaryWorkspace.current);
     }
+
+    primaryWorkspace.current.registerButtonCallback("generateblock", generateVar);
     // console.log(array, cnt, toolbox.current, primaryWorkspace.current);
   }, [primaryWorkspace, toolbox, blocklyDiv, props]);
 
@@ -337,7 +379,7 @@ function BlocklyComponent(props: any) {
       <div ref={blocklyDiv} id="blocklyDiv" />
       {/* <div id='blocklyBlockCanvas'></div> */}
       <div style={{ display: "none" }} ref={toolbox}>
-        <Category name="Logic" categorystyle="logic_category" >
+        <Category name="Logic" categorystyle="logic_category">
           <Block type="controls_if" />
           <Block type="controls_ifelse" />
           <Block type="logic_compare" />
@@ -357,6 +399,7 @@ function BlocklyComponent(props: any) {
 
         <Category name="Math" categorystyle="math_category">
           <Block type="math_number" />
+          <Block type="math_percent" />
           <Block type="math_arithmetic" />
           <Block type="math_single" />
           <Block type="math_trig" />
@@ -370,19 +413,13 @@ function BlocklyComponent(props: any) {
           <Block type="math_random_float" /> */}
         </Category>
 
-        <Category name="Lists" categorystyle="list_category">
+        {/* <Category name="Lists" categorystyle="list_category">
           <Block type="lists_create_with" />
           <Block type="lists_repeat" />
           <Block type="lists_length" />
           <Block type="lists_isEmpty" />
           <Block type="lists_indexOf" />
-          {/* <Block type="lists_getIndex" />
-          <Block type="lists_setIndex" />
-          <Block type="lists_getSublist" />
-          <Block type="lists_split" />
-          <Block type="lists_sort" />
-          <Block type="lists_reverse" /> */}
-        </Category>
+        </Category> */}
 
         {/* <Category name="Functions" categorystyle="procedure_category" custom="PROCEDURE"></Category> */}
 
@@ -509,12 +546,30 @@ function BlocklyComponent(props: any) {
               <Shadow type="minmaxavg_select" />
             </Value>
           </Block>
+
+          <Block type="specific_date_data">
+            <Value name="OCHL">
+              <Shadow type="ochlv_value" />
+            </Value>
+          </Block>
+          <Block type="specific_term_data">
+            <Value name="OCHL">
+              <Shadow type="ochlv_value" />
+            </Value>
+          </Block>
         </Category>
-        {/* <Category name="Custom" colour="#832626">
-          {array.map((item, index) => {
+        <Category name="Custom" colour="#832626">
+          <button text="사용자 변수 생성" callbackkey="generateblock"></button>
+          {defArray.map((item, index) => {
             return <Block key={index} type={item} />;
           })}
-        </Category> */}
+          {settingArray.map((item, index) => {
+            return <Block key={index} type={item} />;
+          })}
+          {getArray.map((item, index) => {
+            return <Block key={index} type={item} />;
+          })}
+        </Category>
       </div>
     </div>
   );
