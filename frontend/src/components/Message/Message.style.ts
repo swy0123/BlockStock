@@ -61,6 +61,8 @@ padding: 15px 20px 0px 20px;
 `;
 
 export const Send = styled.div`
+display: flex;
+padding: 3px 5px;
 width: 70px;
 height: 25px;
 color: white;
@@ -71,7 +73,7 @@ border-radius: 5px;
 display: flex; /* Set display to flex */
 justify-content: center; /* Center horizontally */
 align-items: center; 
-margin: 0px 0px 0px 85%;
+margin: 10px 0px 0px 85%;
 cursor: pointer;
 transition: background-color 0.5s ease, color 0.5s ease;
 &:hover{

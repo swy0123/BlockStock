@@ -32,7 +32,7 @@ export const CurrentContestTitle = styled.div`
 
 export const CurrentContestBox = styled.div`
   width: 1000px;
-  height: 270px;
+  height: 300px;
   border: 1px solid #D4D4D4;
   margin-bottom: 50px;
   border-radius: 10px;

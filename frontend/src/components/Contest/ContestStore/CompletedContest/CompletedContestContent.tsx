@@ -23,24 +23,23 @@ import TablePagination from '@mui/material/TablePagination';
 
 
 // api 통신
-import {completedContestList} from '../../../../api/Contest/ContestStore'
+import { completedContestList, contestResult  } from '../../../../api/Contest/ContestStore'
 
 
-const Line = ({ hide }) => {
-  console.log('hide prop:', hide); // hide prop을 로그에 출력
-  return (
-    <div
-      style={{
-        alignItems: 'center',
-        margin: '10px 0px 0px 0px',
-        border: '1px solid #D3D3D3',
-        display: hide ? 'none' : 'block',
-        marginBottom: '30px'
-      }}
-    >
-    </div>
-  );
-};
+// const Line = ({ hide }) => {
+//   console.log('hide prop:', hide); // hide prop을 로그에 출력
+//   return (
+//     <div
+//       style={{
+//         alignItems: 'center',
+//         margin: '10px 0px 30px 0px',
+//         border: '1px solid #D3D3D3',
+//         display: hide ? 'none' : 'block',
+//       }}
+//     >
+//     </div>
+//   );
+// };
 
 
 function CompletedContestContent() {
@@ -106,7 +105,9 @@ function CompletedContestContent() {
   const [selectedContest, setSelectedContest] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const OpenModal = () => {
+  const OpenModal = (id) => {
+    console.log(id)
+    result(id)
     setIsModalOpen(!isModalOpen);
   };
 
@@ -117,7 +118,15 @@ function CompletedContestContent() {
 
 
 
-   // 페이지 네이션=====================================================================
+  // api ================================================================
+  const result = (id)=>{
+    contestResult(id)
+  };
+  // api ================================================================
+  
+
+
+  // 페이지 네이션=====================================================================
 
    const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -152,7 +161,7 @@ function CompletedContestContent() {
         <Wrapper>
           {filteredItems.map((contest, index) => (
             <div key={contest.id} style={{ margin: "0px 0px 30px 0px" }}>
-              <Line hide={index === 0} />
+              {/* <Line hide={index === 0} /> */}
               <ContestBox onClick={() => toggleContent(index)}>
                 <div>
                   <Title> [경진대회] {contest.title}</Title>
@@ -187,10 +196,14 @@ function CompletedContestContent() {
                 <Term>전략 실행 주기 : {contest.term}</Term>
                 <div>내용</div>
                 <Content>{contest.content}</Content>
-                <Button onClick={OpenModal}>결과보기</Button>
+                <Button onClick={()=>OpenModal(contest.id)}>결과보기</Button>
               </ContentBox>
+            <hr style={{margin:'30px 0px 0px 0px'}}/>
             </div>
           ))}
+
+          {isModalOpen ? <CompletedContestModal selectedContest={selectedContest} onClose={CloseModal}/> : null}
+        </Wrapper>
 
         <TablePagination
           component="div"
@@ -202,9 +215,6 @@ function CompletedContestContent() {
           rowsPerPageOptions={rowsPerPageOptions}
           style={{margin:'0px 50px 0px 0px'}}
         />
-
-          {isModalOpen ? <CompletedContestModal selectedContest={selectedContest} onClose={CloseModal}/> : null}
-        </Wrapper>
       </Container>
 
 
