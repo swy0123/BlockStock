@@ -3,9 +3,10 @@ import { privateApi } from "../index";
 // 전략게시판 게시글 
 export const tacticBoardList = async (Params:Params) => {
   console.log(Params)
-  const res = await privateApi.get(`/tactic-board`,{
-    params:{Params}
-  });
+  const res = await privateApi.get(`/contest?status=finish&page=0&size=10`)
+  // const res = await privateApi.get(`/tactic-board`,{
+    // params:{Params}
+  // });
   console.log(res.data);
   return res.data
 };

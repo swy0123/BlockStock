@@ -185,7 +185,7 @@ export const InputOptionDiv = styled.div`
 
 export const Input = styled.input`
   width: 120px;
-  height: 30px;
+  height: 25px;
   font-size: 12px;
   text-align: center;
   border-radius: 5px;
@@ -211,7 +211,7 @@ export const StocksInput = styled.input`
 
 export const StyledDatePicker = styled(ReactDatePicker)`
   width: 70%;
-  height: 30px;
+  height: 25px;
   text-align: center;
   font-weight: 400;
   font-size: 12px;
@@ -247,6 +247,7 @@ margin: 0px 0px 0px 30px;
 export const PeriodBox = styled.div`
 background: #FFFFFF;
 /* border: 1px solid #D9D9DA; */
+width: 150px;
 border-radius: 6px;
 margin: 0px 0px 0px 30px;
 `;
