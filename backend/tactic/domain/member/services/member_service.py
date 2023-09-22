@@ -19,9 +19,10 @@ def get_member_data(member_id):
         return None
 
 
-def str_to_member(data_str):
+def msg_to_member(data_str):
     data_dict = json.loads(data_str)
-    return Member(**data_dict)
+    snake_case_data_dict = {camel_to_snake(key): value for key, value in data_dict.items()}
+    return Member(**snake_case_data_dict)
 
 
 def save_member_data(member):
@@ -54,3 +55,13 @@ async def req_member_data(member_id):
             }
 
             return Member(**member_data)
+
+
+def camel_to_snake(name):
+    result = [name[0].lower()]
+    for char in name[1:]:
+        if char.isupper():
+            result.extend(['_', char.lower()])
+        else:
+            result.append(char)
+    return ''.join(result)
