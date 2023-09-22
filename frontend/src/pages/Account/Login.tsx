@@ -6,7 +6,7 @@ import React, {
 import { useNavigate } from "react-router-dom";
 // import { useCookies } from "react-cookie";
 // import axios from "axios";
-import { postLogin } from "../../api/login";
+import { postLogin } from "../../api/Auth/login";
 import swal from "sweetalert";
 import { useRecoilState } from "recoil";
 import { CurrentUserAtom, LoginState } from "../../recoil/Auth";

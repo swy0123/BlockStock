@@ -1,12 +1,15 @@
 // 로그인 관련 API
-import {  publicApi } from ".";
+import {  publicApi } from "..";
 
-// const BASE_URL = 'https://j9b210.p.ssafy.io:8443/api';
 
 interface LoginProps {
   email: string;
   password: string;
 }
+interface emailProps {
+    email: string
+}
+
 
 //로그인
 export const postLogin = async (user: LoginProps) => {
@@ -31,3 +34,15 @@ export const postLogin = async (user: LoginProps) => {
     return userinfo;
   } else return false;
 };
+
+// 비밀번호 찾기 api
+export const findPw =async (email : emailProps) => {
+  try {
+  const response = await publicApi.put("/member/request-email", email);
+  console.log('try 결과', response.request)
+  return response;
+  } catch (error) {
+    console.log('err', error);
+  }
+}
+

@@ -1,6 +1,5 @@
 import axios, { AxiosInstance } from "axios";
-import { useRecoilState } from "recoil";
-import { CurrentUserAtom, LoginState } from "./../recoil/Auth";
+import { useNavigate } from "react-router-dom";
 
 //수정
 const BASE_URL = "https://j9b210.p.ssafy.io:8443/api";
@@ -36,13 +35,13 @@ privateApi.interceptors.request.use((config) => {
 export async function postRefreshToken() {
   console.log("리프레시 토큰 재발급");
   const headers = {
-    withCredential: true,
+    // withCredential: true,
     "Authorization-refresh": "Bearer " + localStorage.getItem("refresh_token"),
     // 'Access-Control-Allow-Origin': '*',
     // "Access-Control-Allow-Credentials": true,
   };
   const response = await publicApi.put("/auth/refresh", null, { headers });
-  console.log("리프리프리프리프");
+  console.log("리프레시 성공");
   return response;
 }
 
@@ -50,7 +49,7 @@ export async function postRefreshToken() {
 privateApi.interceptors.response.use(  
   // 응답 성공시
   (response) => {
-    console.log("response");
+    console.log("===================================interceptors");
     return response;
   },
   // 응답 실패시(토큰 재발급 필요시)
@@ -58,6 +57,7 @@ privateApi.interceptors.response.use(
     const { config } = error;
     console.log("===================================error");
     console.log("error", error);
+
     const originRequest = config;
     try {
       const response = await postRefreshToken();
