@@ -1,7 +1,7 @@
 .custom-datepicker {
-  width: 190.25px;
-  height: 46.07px;
-  font-size: 16px;
+  width: 150.25px;
+  height: 35.07px;
+  font-size: 13px;
   font-weight: bold;
   background: #FFFFFF;
   border: 2px solid rgba(160, 155, 163, 0.59);
@@ -18,13 +18,13 @@
 
 .btn{
   width: 70px;
-  height: 46.07px;
+  height: 35.07px;
   border: none;
   border-right: 2px solid rgba(160, 155, 163, 0.59);
   background-color: white;
   transition: background-color 0.2s; 
   cursor: pointer;
-  font-size: 18px;
+  font-size: 13px;
   font-weight: 600px;
 }
 

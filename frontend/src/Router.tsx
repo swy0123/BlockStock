@@ -21,6 +21,7 @@ import FreeBoardUpdate from "./pages/FreeBoard/FreeBoardUpdate";
 import TacticBoardList from "./pages/TacticBoard/TacticBoardList";
 import TacticBoardDetail from "./pages/TacticBoard/TacticBoardDetail";
 import TacticBoardCreate from "./pages/TacticBoard/TacticBoardCreate";
+import ContestManagement from "./pages/Admin/ContestManagement";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -114,6 +115,11 @@ const router = createBrowserRouter([
             {
                 path: "/tacticboardcreate",
                 element: <TacticBoardCreate/>,
+                errorElement: <ErrorComponent/>,
+              },
+            {
+                path: "/contestmanagement",
+                element: <ContestManagement/>,
                 errorElement: <ErrorComponent/>,
               },
 
