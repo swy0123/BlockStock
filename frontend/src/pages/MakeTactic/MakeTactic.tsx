@@ -21,8 +21,9 @@ function MakeTactic() {
     const [optionCode, setOptionCode] = useState("");
     const [optionName, setOptionName] = useState("");
     const [startDate, setStartDate] = useState(new Date());
+    const [startAsset, setStartAsset] = useState(10000000);
     const [term, setTerm] = useState("");
-    const [round, setRound] = useState("");
+    const [repeatCnt, setRepeatCnt] = useState("");
     const [tacticPythonCode, setTacticPythonCode] = useState(undefined);
     const [tacticJsonCode, setTacticJsonCode] = useState(undefined);
     const [tacticImg, setTacticImg] = useState(undefined);
@@ -44,6 +45,9 @@ function MakeTactic() {
     const returnTitle = (ret) => {
         setTitle(ret);
     }
+    const returnStartAsset = (ret) => {
+        setStartAsset(ret);
+    }
     const returnOptionCode = (ret) => {
         setOptionCode(ret);
     }
@@ -56,8 +60,8 @@ function MakeTactic() {
     const returnTerm = (ret) => {
         setTerm(ret);
     }
-    const returnRound = (ret) => {
-        setRound(ret);
+    const returnRepeatCnt = (ret) => {
+        setRepeatCnt(ret);
     }
     const returnTacticPythonCode = (ret) => {
         setTacticPythonCode(ret);
@@ -81,19 +85,21 @@ function MakeTactic() {
                         returnOptionName={(ret) => { returnOptionName(ret) }}
                         returnStartDate={(ret) => { returnStartDate(ret) }}
                         returnTerm={(ret) => { returnTerm(ret) }}
-                        returnRound={(ret) => { returnRound(ret) }}
+                        returnRepeatCnt={(ret) => { returnRepeatCnt(ret) }}
                         returnTacticPythonCode={(ret) => { returnTacticPythonCode(ret) }}
                         returnTacticJsonCode={(ret) => { returnTacticJsonCode(ret) }}
                         returnTacticImg={(ret) => { returnTacticImg(ret) }}
+                        returnStartAsset={(ret) => { returnStartAsset(ret) }}
                     ></BlockCoding>
                     :
                     <TacticResult
                         title={title}
+                        startAsset={startAsset}
                         optionCode={optionCode}
                         optionName={optionName}
                         startDate={startDate}
                         term={term}
-                        round={round}
+                        repeatCnt={repeatCnt}
                         tacticPythonCode={tacticPythonCode}
                         tacticJsonCode={tacticJsonCode}
                         tacticImg={tacticImg}
