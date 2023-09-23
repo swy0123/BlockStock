@@ -20,7 +20,6 @@ async def get_member_tactic(member_id: int):
     tactic_responses = []
 
     for tactic in tactics:
-        # print(str(tactic.id) + " " + tactic.img_path)
         tactic_response = TacticInfoResponse(tactic)
         tactic_responses.append(tactic_response)
 

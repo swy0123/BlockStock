@@ -72,7 +72,6 @@ recent_indicators_data = 0
 
 def get_tactic_test_response(tactic_test_request):
     response = TacticTestResponse()
-
     # set start_asset
     response.startAsset = tactic_test_request.startAsset
 
@@ -130,8 +129,11 @@ def get_tactic_test_response(tactic_test_request):
 
     for data in all_data:
         info = ChartInfo()
-        info.date = data[0]
-        info.time = data[1]
+        info.date = str(data[0])
+        if data[1] == 0:
+            info.time = "0000"
+        else:
+            info.time = data[1]
         info.open = data[2]
         info.high = data[3]
         info.low = data[4]
