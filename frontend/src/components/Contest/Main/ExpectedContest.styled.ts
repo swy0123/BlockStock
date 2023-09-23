@@ -25,7 +25,7 @@ cursor: pointer;
 `;
 export const Wrappe = styled.div`
 width: 550px;
-height: 208px;
+height: 314.5px;
 border: 1px solid #D4D4D4;
 overflow: auto;
 box-sizing: border-box;

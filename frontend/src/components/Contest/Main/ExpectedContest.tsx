@@ -22,7 +22,7 @@ import {
 } from './ExpectedContest.styled'
 
 // api 통신
-import { expectedContest } from '../../../api/Contest/Main';
+// import { expectedContest } from '../../../api/Contest/Main';
 
 function ExpectedContest(){
   const navigate = useNavigate();
@@ -40,6 +40,30 @@ function ExpectedContest(){
       maxCapacity: "100",
       joinPeople: "42",
       isRegisted: true
+    },
+    {
+      id: "2",
+      title: "Design Contest",
+      startAt: "2023-10-01 09:30:00",
+      endAt: "2023-10-10 17:30:00",
+      content: "Showcase your design skills and win prizes.",
+      ticket: "2",
+      term: "14",
+      maxCapacity: "50",
+      joinPeople: "28",
+      isRegisted: false
+    },
+    {
+      id: "2",
+      title: "Design Contest",
+      startAt: "2023-10-01 09:30:00",
+      endAt: "2023-10-10 17:30:00",
+      content: "Showcase your design skills and win prizes.",
+      ticket: "2",
+      term: "14",
+      maxCapacity: "50",
+      joinPeople: "28",
+      isRegisted: false
     },
     {
       id: "2",
