@@ -5,6 +5,9 @@ interface pwData {
     newPassword: string;
     confirmPassword: string,
   }
+interface nickName {
+    nickname: string;
+}
   
 // 마이페이지 조회 api
 export const getmypage = async () => {
@@ -21,10 +24,23 @@ export const getmypage = async () => {
 // 비밀번호 수정
 export const putPassword = async(pw : pwData) => {
     try{
-        console.log('-----------------',pw)
+        // console.log('-----------------',pw)
         const response = await privateApi.put("/member/password", pw);
         return response.request
     }catch(error){
         console.log("error!", error)
+    }
+}
+
+// 닉네임 수정
+export const putNickName = async(name: nickName) => {
+    try{
+        // console.log('-----------------', name)
+        const response = await privateApi.put("/member", name);
+        // console.log('결과', response.request)
+        return response
+
+    }catch(error){
+        console.log('err', error)
     }
 }

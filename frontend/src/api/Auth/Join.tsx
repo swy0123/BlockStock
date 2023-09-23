@@ -38,8 +38,13 @@ export const checkmail = async (data: authMail) => {
 
 // 회원가입 api
 export const postJoin = async (user: userData) => {
-    console.log("userData", user);
-    const response = await publicApi.post("/member", user);
-    console.log(response.data);
-    return response.data;
+    try{
+        console.log("userData", user);
+        const response = await publicApi.post("/member", user);
+        console.log(response.data);
+        return response.data;    
+    }catch(error){
+        console.log("err",error)
+    }
+    
 };
