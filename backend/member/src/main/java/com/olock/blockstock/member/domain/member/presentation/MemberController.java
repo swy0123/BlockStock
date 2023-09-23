@@ -4,9 +4,17 @@ import com.olock.blockstock.member.domain.member.application.EmailService;
 import com.olock.blockstock.member.domain.member.application.MemberService;
 import com.olock.blockstock.member.domain.member.dto.request.*;
 import com.olock.blockstock.member.domain.member.dto.response.MemberInfoResponse;
+import jakarta.ws.rs.Path;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 
 @RestController
 @RequestMapping("/api/member")
@@ -36,6 +44,11 @@ public class MemberController {
     public ResponseEntity<Void> deleteMember(@RequestHeader("Member-id") Long memberId) {
         memberService.delete(memberId);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/profile/{memberId}")
+    public ResponseEntity<InputStreamResource> profile(@PathVariable("memberId") Long memberId) throws IOException {
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(memberService.getProfile(memberId));
     }
 
     @PutMapping("/password")
