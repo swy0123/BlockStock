@@ -4,7 +4,7 @@ from domain.tactic.schemas.tactic_test_response import TacticTestResponse
 from domain.tactic.services.tactic_service import get_tactic_test_response
 
 app = APIRouter(
-    prefix="/tactic"
+    prefix="/api/tactic"
 )
 
 
