@@ -2,35 +2,36 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: 1000px;
-  min-height: 200px;
+  height: 650px;
   border: 1px solid black;
   background: #FFFFFF;
   border: 1px solid #D4D4D4;
   box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
   border-radius: 10px;
   margin: 30px 0px 0px 0px;
-  overflow: auto;
-
-    /* 스크롤바 트랙 (배경) 스타일링 */
-    &::-webkit-scrollbar {
-    width: 8px; /* 스크롤바의 너비 설정 */
-  }
-
-  /* 스크롤바 색상 설정 */
-  &::-webkit-scrollbar-thumb {
-    background: #888; /* 스크롤바 색상 설정 */
-    border-radius: 6px; /* 스크롤바 모양을 둥글게 만듭니다. */
-  }
-
-  /* 스크롤바 hover 시 색상 변경 */
-  &::-webkit-scrollbar-thumb:hover {
-    background: #555; /* 스크롤바 hover 시 색상 변경 */
-  }
 
 `;
 
 export const Wrapper = styled.div`
 margin: 30px 0px 0px 0px;
+height: 84%;
+overflow: auto;
+
+/* 스크롤바 트랙 (배경) 스타일링 */
+&::-webkit-scrollbar {
+width: 8px; /* 스크롤바의 너비 설정 */
+}
+
+/* 스크롤바 색상 설정 */
+&::-webkit-scrollbar-thumb {
+background: #888; /* 스크롤바 색상 설정 */
+border-radius: 6px; /* 스크롤바 모양을 둥글게 만듭니다. */
+}
+
+/* 스크롤바 hover 시 색상 변경 */
+&::-webkit-scrollbar-thumb:hover {
+background: #555; /* 스크롤바 hover 시 색상 변경 */
+}
 `;
 
 export const Title = styled.div`
@@ -39,7 +40,7 @@ height: 30px;
 font-weight: 600;
 font-size: 20px;
 line-height: 26px;
-margin: 0px 0px 5px 30px;
+margin: 0px 0px 10px 50px;
 `;
 
 export const Schedule = styled.div`
@@ -53,7 +54,7 @@ line-height: 15px;
 display: flex;
 align-items: center;
 color: #B6ABBB;
-margin: 0px 0px 0px 30px;
+margin: 0px 0px 0px 50px;
 `;
 
 export const ContestBox = styled.div`
@@ -61,7 +62,7 @@ display: flex;
 `;
 
 export const ContentBox = styled.div`
-margin: 0px 0px 0px 30px;
+margin: 0px 0px 0px 50px;
 `;
 
 export const Content = styled.div`

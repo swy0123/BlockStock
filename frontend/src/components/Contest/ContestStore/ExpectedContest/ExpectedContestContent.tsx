@@ -24,21 +24,21 @@ import TablePagination from '@mui/material/TablePagination';
 import {expectedContestList} from '../../../../api/Contest/ContestStore'
 
 
-const Line = ({ hide }) => {
-  console.log('hide prop:', hide); // hide prop을 로그에 출력
-  return (
-    <div
-      style={{
-        alignItems: 'center',
-        margin: '0px 0px 0px 0px',
-        border: '1px solid #D3D3D3',
-        display: hide ? 'none' : 'block',
-        marginBottom: '30px'
-      }}
-    >
-    </div>
-  );
-};
+// const Line = ({ hide }) => {
+//   console.log('hide prop:', hide); // hide prop을 로그에 출력
+//   return (
+//     <div
+//       style={{
+//         alignItems: 'center',
+//         margin: '0px 0px 0px 0px',
+//         border: '1px solid #D3D3D3',
+//         display: hide ? 'none' : 'block',
+//         marginBottom: '30px'
+//       }}
+//     >
+//     </div>
+//   );
+// };
 
 
 function ExpectedContestContent(){
@@ -164,7 +164,7 @@ function ExpectedContestContent(){
       <Wrapper>
         {filteredItems.map((contest, index) => (
           <div key={contest.id} style={{margin:'0px 0px 30px 0px'}}>
-            <Line hide={index === 0} />
+            {/* <Line hide={index === 0} /> */}
             <ContestBox onClick={() => toggleContent(index)}>
               <div>
                 <Title> [경진대회] {contest.title}</Title>
@@ -189,9 +189,15 @@ function ExpectedContestContent(){
                 <Button onClick={OpenModal}>참가하기</Button>
               )} 
             </ContentBox>
+            <hr style={{margin:'30px 0px 0px 0px'}}/>
+
           </div>
         ))}
 
+
+         {isModalOpen ? <ContestTaticModal selectedContest={selectedContest} type={'contest'} onClose={CloseModal} /> : null}
+         {isCancelModalOpen ? <ContestCancelModal selectedContest={selectedContest} onClose={CloseCandelModal}/> : null}
+      </Wrapper>
         <TablePagination
           component="div"
           count={filteredContestList.length}
@@ -202,10 +208,6 @@ function ExpectedContestContent(){
           rowsPerPageOptions={rowsPerPageOptions}
           style={{margin:'0px 50px 0px 0px'}}
         />
-
-         {isModalOpen ? <ContestTaticModal selectedContest={selectedContest} type={'contest'} onClose={CloseModal} /> : null}
-         {isCancelModalOpen ? <ContestCancelModal selectedContest={selectedContest} onClose={CloseCandelModal}/> : null}
-      </Wrapper>
 
     </Container>
   )
