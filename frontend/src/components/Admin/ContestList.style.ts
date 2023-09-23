@@ -5,7 +5,7 @@ width: 613.02px;
 height: 571px;
 background: #FFFFFF;
 border: 1px solid #D4D4D4;
-box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
+box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.25);
 border-radius: 10px;
 `;
 
