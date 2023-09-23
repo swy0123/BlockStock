@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import { format } from "d3-format";
 import { timeFormat } from "d3-time-format";
@@ -32,7 +32,7 @@ import {
   LabelAnnotation,
   HoverTooltip,
 } from "react-financial-charts";
-import { initialData } from "./data copy";
+// import { initialData } from "./data copy";
 
 // 데이터 형식형식
 // {
@@ -75,6 +75,11 @@ const CandleChart = (props) => {
   const height = props.curheight - 100 > 0 ? props.curheight - 100 : 0;
   const width = props.curwidth > 0 ? props.curwidth : 0;
   const margin = { left: 0, right: 100, top: 0, bottom: 24 };
+  
+  useEffect(()=>{
+    console.log("props.chartInfos")
+    console.log(props.chartInfos)
+  }, [])
 
   const ema12 = ema()
     .id(1)
@@ -92,9 +97,10 @@ const CandleChart = (props) => {
     })
     .accessor((d) => d.ema26);
   const elder = elderRay();
+  
 
-  const calculatedData = elder(ema26(ema12(initialData)));
-  const { data, xScale, xAccessor, displayXAccessor } = ScaleProvider(initialData);
+  const calculatedData = elder(ema26(ema12(props.chartInfos)));
+  const { data, xScale, xAccessor, displayXAccessor } = ScaleProvider(props.chartInfos);
   const pricesDisplayFormat = format(",");
   const max = xAccessor(data[data.length - 1]);
   const min = xAccessor(data[Math.max(0, data.length - 100)]);
@@ -160,12 +166,12 @@ const CandleChart = (props) => {
 
 
   const returnNum = (d) => {
+    // console.log(xAccessor)
     let cur = d.datum.high
     let curMax = d.yScale.domain()[1]
     let curMin = d.yScale.domain()[0]
     // let plus = d.datum.open > d.datum.close ? (20) : (0)
     const plus = 10
-    // console.log(chartHeight * ((cur - curMin) / (curMax - curMin)))
     // console.log(tmp/chartHeight*(d.datum.open/(d.yScale.domain()[1]-d.yScale.domain()[0])))
     return chartHeight - (chartHeight * ((cur - curMin) / (curMax - curMin))) - plus
   }
@@ -198,17 +204,17 @@ const CandleChart = (props) => {
     fontSize: 20,
     fill: "#060f8f",
     opacity: 0.8,
-    text: "매도",
+    text: "매수",
     y: d => returnNum(d),
     onClick: console.log.bind(console),
   };
   const annotationBuyPropsPos = {
     fontFamily: "Glyphicons Halflings",
-    fontSize: 40,
+    fontSize: 20,
     fill: "#000000",
     opacity: 0.8,
     text: "―",
-    y: d => returnPos(d)+13.5,
+    y: d => returnPos(d)+7,
   };
 
   const annotationSellProps = {
@@ -216,17 +222,17 @@ const CandleChart = (props) => {
     fontSize: 20,
     fill: "#8f0606",
     opacity: 0.8,
-    text: "매수",
+    text: "매도",
     y: d => returnNum(d),
     onClick: console.log.bind(console),
   };
   const annotationSellPropsPos = {
     fontFamily: "Glyphicons Halflings",
-    fontSize: 40,
+    fontSize: 20,
     fill: "#000000",
     opacity: 0.8,
     text: "―",
-    y: d => returnPos(d)+13.5,
+    y: d => returnPos(d)+7,
   };
 
   const checkHistoryType = (date: string, time: string, type: string) => {
@@ -269,7 +275,7 @@ const CandleChart = (props) => {
         <CurrentCoordinate yAccessor={ema26.accessor()} fillStyle={ema26.stroke()} />
         <LineSeries yAccessor={ema12.accessor()} strokeStyle={ema12.stroke()} />
         <CurrentCoordinate yAccessor={ema12.accessor()} fillStyle={ema12.stroke()} />
-        <MouseCoordinateY rectWidth={margin.right} displayFormat={pricesDisplayFormat} />
+        {/* <MouseCoordinateY rectWidth={margin.right} displayFormat={pricesDisplayFormat} /> */}
         <EdgeIndicator
           itemType="last"
           rectWidth={margin.right}
