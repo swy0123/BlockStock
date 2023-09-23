@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from sqlalchemy import desc
+from sqlalchemy import desc, func
 
 from domain.contest.schemas.contest_history_response import ContestHistoryResponse
 from domain.contest.schemas.contest_result_response import ContestResultList
@@ -182,18 +182,41 @@ def participate_contest(user_id: int, info_create: InfoRequest):
 def get_contest_history(user_id: int):
     result = []
 
-    participate_history = (session.query(Participate.result_money,
+    participate_history = (session.query(Participate.id,
+                                         Participate.result_money,
                                          Participate.tactic_id,
-                                         Contest.ticket).
+                                         Participate.member_id,
+                                         Contest.title,
+                                         Contest.ticket,
+                                         Contest.id.label('contest_id')).
                            outerjoin(Contest, Contest.id == Participate.contest_id).
                            filter(Participate.member_id == user_id).all())
 
+    rank = None
+
     for history in participate_history:
-        rank = 0
-        result.append(ContestHistoryResponse(result_money=history.result_money,
+        subquery = (
+            session
+            .query(Participate.id, Participate.member_id,
+                   func.rank().over(order_by=Participate.result_money.desc()).label('rank'))
+            .join(Contest, Participate.contest_id == Contest.id)
+            .filter(Contest.id == history.contest_id)
+            .subquery()
+        )
+
+        rank = (
+            session
+            .query(subquery.c.rank)
+            .filter(subquery.c.member_id == history.member_id)
+            .first()
+        )
+
+        result.append(ContestHistoryResponse(participate_id=history.id,
+                                             title=history.title,
+                                             result_money=history.result_money,
                                              tactic_id=history.tactic_id,
-                                             ticket=history.ticket,
-                                             rank=rank))
+                                             rank=rank[0],
+                                             ticket=history.ticket))
 
     return result
 
@@ -211,7 +234,3 @@ def cancel_participate_contest(user_id, contest_id):
 
     session.delete(participate)
     session.commit()
-
-
-def save_contest_sec_info():
-    return ""
