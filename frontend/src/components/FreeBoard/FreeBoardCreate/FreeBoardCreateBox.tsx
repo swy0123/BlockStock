@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import './style.css'
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';import {
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import {
   Container,
   TitleInput,
   ContentInput,
