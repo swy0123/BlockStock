@@ -52,7 +52,7 @@ def cancel_participate_contest(contest_id: int, user_id: Optional[int] = Header(
     contest_service.cancel_participate_contest(user_id, contest_id)
 
 
-@router.delete("/{contest_id}")
+@router.delete("/api/contest/{contest_id}")
 def delete_contest(contest_id: int):
     # 관리자인지 확인하는 과정 추가
     contest_service.delete_contest(contest_id)

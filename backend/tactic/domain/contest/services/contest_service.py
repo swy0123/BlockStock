@@ -57,7 +57,6 @@ def get_proceed_contest_result():
     contests = (session.query(Contest).filter(Contest.start_time <= datetime.now(), datetime.now() < Contest.end_time).
                 order_by(Contest.start_time.asc()).all())
 
-
     result = []
 
     for contest in contests:
@@ -129,7 +128,6 @@ def get_prev_contest_result():
 
 
 def create_contest(contest_create: ContestRequest):
-
     if contest_create.start_time < datetime.now():
         raise HTTPException(status_code=StatusCode.CONTEST_NOT_EXIST_ERROR_CODE,
                             detail=Message.CONTEST_ENROLL_BOFORE_TODAY)
@@ -145,12 +143,15 @@ def create_contest(contest_create: ContestRequest):
 
 
 def delete_contest(contest_id: int):
-    contest = session.get(Contest, contest_id)
+    # Contest 삭제 전에 관련된 participate 레코드들을 먼저 삭제합니다.
+    session.query(Participate).filter(Participate.contest_id == contest_id).delete()
 
-    if not contest:
+    contest_delete = (session.query(Contest).where(Contest.id == contest_id)).one()
+
+    if not contest_delete:
         raise HTTPException(status_code=StatusCode.CONTEST_NOT_EXIST_ERROR_CODE,
                             detail=Message.CONTEST_NOT_EXIST_ERROR_CODE)
-    session.delete(contest)
+    session.delete(contest_delete)
     session.commit()
 
     return {"ok": True}
