@@ -29,6 +29,7 @@ export const Follow = styled.div`
   text-align: center;
   margin-top: 80px;
   margin-right: 25px;
+  cursor: pointer;
 `;
 export const BtnWrapper = styled.div`
   display: flex;
