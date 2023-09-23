@@ -50,7 +50,7 @@ function BlocklyComponent(props: any) {
   let primaryWorkspace = useRef();
 
   const generateCode = () => {
-    var code = pythonGenerator.workspaceToCode(primaryWorkspace.current);
+    var code = '"""'+pythonGenerator.workspaceToCode(primaryWorkspace.current)+'"""';
     console.log(code);
   };
 
@@ -60,9 +60,10 @@ function BlocklyComponent(props: any) {
     if (tmp === null || !/^[a-zA-Z]+$/.test(tmp) || tmp.length > 10) {
       alert("올바른 영어 입력이 아닙니다.");
       return;
-    } else {
-      alert("올바른 영어 입력입니다.");
-    }
+    } 
+    // else {
+    //   alert("올바른 영어 입력입니다.");
+    // }
 
     const def = "custom_value_def_" + tmp;
     const set = "custom_value_set_" + tmp;
@@ -335,7 +336,7 @@ function BlocklyComponent(props: any) {
     if (!props.codeCheck) {
       if (primaryWorkspace.current != undefined) {
         props.writeTacticJsonCode(Blockly.serialization.workspaces.save(primaryWorkspace.current));
-        props.writeTacticPythonCode(pythonGenerator.workspaceToCode(primaryWorkspace.current));
+        props.writeTacticPythonCode('"""'+pythonGenerator.workspaceToCode(primaryWorkspace.current)+'"""');
         props.writeTacticImg(exportImageAsPNG);
       }
       props.setCodeCheckTrue();
