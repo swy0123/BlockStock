@@ -70,10 +70,10 @@ Blockly.Blocks["minmaxavg_select"] = {
   init: function () {
     this.appendDummyInput().appendField(
       new Blockly.FieldDropdown([
-        ["최고", "max"],
-        ["최저", "min"],
-        ["평균", "avg"],
-        ["RSI", "rsi"],
+        ["최고", '\"max\"'],
+        ["최저", '\"min\"'],
+        ["평균", '\"avg\"'],
+        ["RSI", '\"rsi\"'],
       ]),
       "FIELDNAME"
     );

@@ -16,7 +16,7 @@ const OptionLikeListItem = (props) => {
 
   const clickEvent = () => {
     console.log(props)
-    props.setOption(Number(props.item.optionCode), props.item.optionName);
+    props.setOption(props.item.optionCode, props.item.optionName);
   };
 
   //종목 좋아요 버튼, axios 통신

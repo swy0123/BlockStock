@@ -13,7 +13,7 @@ const OptionHistoryItem = (props) => {
 
   return (
     <ItemContainer>
-      <div>{props.item.turn}/{props.round}</div>
+      <div>{props.item.turn}/{props.repeatCnt}</div>
       <span>
         거래타입 : {props.item.type} ,
         주식가격: {props.item.cost} ,
