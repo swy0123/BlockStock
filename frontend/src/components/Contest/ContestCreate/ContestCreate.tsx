@@ -102,12 +102,12 @@ function ContestCreate(){
         <Container>
 
             <Header>
-                <LibraryAddIcon style={{width:'25px', height: '25px', margin:'7px 10px 0px 0px'}}/>   
+                <LibraryAddIcon style={{width:'22px', height: '22px', margin:'7px 10px 0px 0px'}}/>   
                 <CreateTitle>대회 생성</CreateTitle>
                 <CreateImage src='./icon/user_purple.png'/>
                 <CreateNickName>Admin</CreateNickName>
             </Header>
-            <hr style={{width:'650px', background:'##D3D3D3'}}/>
+            <hr style={{width:'100%', background:'##D3D3D3'}}/>
 
             <ContestNameBox>
                 <ContestName>대회명</ContestName>
@@ -138,7 +138,7 @@ function ContestCreate(){
                     className="custom-datepicker"
                 />
 
-                <div style={{margin:'13px 15px 0px 15px', fontSize: '30px', fontWeight:'bold'}}>~</div>
+                <div style={{margin:'17px 15px 0px 15px', fontSize: '20px', fontWeight:'bold'}}>~</div>
 
                 <DatePicker
                     selected={endDate}
@@ -160,6 +160,7 @@ function ContestCreate(){
                 onChange={(e)=>
                     setTicket(e.target.value)
                 }
+                style={{height:'32px', width:'60px', fontSize:'13px'}}
                 />
                 <Box
                     sx={{
@@ -169,6 +170,7 @@ function ContestCreate(){
                         '& > *': {
                         m: 1,
                         },
+                        height:'40px'
                     }}
                     >
                     <ButtonGroup color="secondary" aria-label="medium secondary button group">
@@ -187,7 +189,7 @@ function ContestCreate(){
                 }
                 />
             </ContestContentBox>
-            <hr style={{margin:'30px 0px 0px 30px', width:'650px', background:'##D3D3D3'}}/>
+            <hr style={{margin:'60px 0px 0px 0px', width:'100%', background:'##D3D3D3'}}/>
             
             <BtnBox>
                 <CreateBtn onClick={handleChange}>생성</CreateBtn>

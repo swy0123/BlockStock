@@ -19,11 +19,6 @@ import ContestCreate from '../../components/Contest/ContestCreate/ContestCreate'
 
 
 function Contest() {
-  const [isCreateContestVisible, setCreateContestVisible] = useState(false);
-
-  const toggleCreateContest = () => {
-    setCreateContestVisible(!isCreateContestVisible);
-  };
 
   return (
     <>
@@ -38,10 +33,6 @@ function Contest() {
           </div>
         </ContestContent>
       </ContestBox>
-      <div onClick = {toggleCreateContest}>
-        <ContestCreateBtn />
-      </div>
-      {isCreateContestVisible && <ContestCreate />}
     </>
   );
 }
