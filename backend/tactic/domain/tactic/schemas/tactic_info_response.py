@@ -1,15 +1,26 @@
-from fastapi_camelcase import CamelModel
 from datetime import datetime
 
 
-class TacticInfoResponse(CamelModel):
+class TacticInfoResponse:
     id: int
-    member_id: int
+    memberId: int
     title: str
-    option_code: str
-    tactic_json_code: str
-    tactic_python_code: str
-    test_returns: float
-    contest_returns: float
-    img_path: str
-    created_at: datetime
+    optionCode: str
+    tacticJsonCode: str
+    tacticPythonCode: str
+    testReturns: float
+    contestReturns: float
+    imgPath: str
+    createdAt: datetime
+
+    def __init__(self, tactic):
+        self.id = tactic.id
+        self.memberId = tactic.member_id
+        self.title = tactic.title
+        self.optionCode = tactic.option_code
+        self.tacticJsonCode = tactic.tactic_json_code
+        self.tacticPythonCode = tactic.tactic_python_code
+        self.testReturns = tactic.test_returns
+        self.contestReturns = tactic.contest_returns
+        self.imgPath = tactic.img_path
+        self.createdAt = tactic.created_at
