@@ -1,10 +1,11 @@
+import datetime
 from datetime import datetime as dt
 from domain.contest.schemas.contest_requeset import ContestRequest
 from domain.contest.schemas.info_request import InfoRequest
 from sqlalchemy import Column, Integer, String, DateTime, TEXT, ForeignKey, Float
 from sqlalchemy.orm import declarative_base, relationship
 
-from domain.tactic.schemas.tactic_request import TacticRequest
+from domain.tactic.schemas.tactic_add_request import TacticAddRequest
 
 Base = declarative_base()
 
@@ -24,6 +25,7 @@ class Contest(Base):
     created_at = Column(DateTime, nullable=False)
 
     participate = relationship("Participate", back_populates="contest", uselist=False)
+
     def __init__(self, contest_request: ContestRequest):
         self.member_id = contest_request.member_id
         self.title = contest_request.title
@@ -53,16 +55,15 @@ class Tactic(Base):
 
     participate = relationship("Participate", back_populates="tactic", uselist=False)
 
-    def __init__(self, tactic_request: TacticRequest):
-        self.title = tactic_request.title
-        self.option_code = tactic_request.option_code
-        self.tactic_json_code = tactic_request.tactic_json_code
-        self.tactic_python_code = tactic_request.tactic_python_code
-        self.test_returns = tactic_request.test_returns
-        self.contest_returns = tactic_request.contest_returns
-        self.img_path = tactic_request.img_path
-        self.created_at = tactic_request.created_at
-        self.updated_at = tactic_request.updated_at
+    def __init__(self, tactic_add_request: TacticAddRequest):
+        self.title = tactic_add_request.title
+        self.option_code = tactic_add_request.option_code
+        self.tactic_json_code = tactic_add_request.tactic_json_code
+        self.tactic_python_code = tactic_add_request.tactic_python_code
+        self.test_returns = tactic_add_request.test_returns
+        self.img_path = tactic_add_request.img_path
+        self.created_at = datetime.datetime.now()
+        self.updated_at = datetime.datetime.now()
 
 
 class Participate(Base):
@@ -80,4 +81,4 @@ class Participate(Base):
         self.member_id = user_id
         self.contest_id = info_create.contest_id
         self.tactic_id = info_create.tactic_id
-        self.result_money = ticket * 10000000;
+        self.result_money = ticket * 10000000
