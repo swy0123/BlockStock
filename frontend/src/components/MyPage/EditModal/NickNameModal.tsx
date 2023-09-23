@@ -1,7 +1,7 @@
 import { useState } from "react";
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
-import { putNickName } from "../../../api/Mypage";
+import { putNickName } from "../../../api/MyPage/Mypage";
 
 import { 
   ModalWrapper,
