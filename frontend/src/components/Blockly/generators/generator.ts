@@ -117,7 +117,7 @@ pythonGenerator.forBlock['date_scope'] = function(block:any, generator:any) {
   // const MAX_LENGTH = 100;
   // var value_date = generator.valueToCode(block, 'DATE', Order.NONE).toString();
   var value_date =  block.getFieldValue('DATE');
-  var code = 'date, '+value_date;
+  var code = '\"date\", '+value_date;
   return [code, Order.NONE];
 };
 
@@ -125,7 +125,7 @@ pythonGenerator.forBlock['term_scope'] = function(block:any, generator:any) {
   // const MAX_LENGTH = 100;
   // var value_date = generator.valueToCode(block, 'DATE', Order.NONE).toString();
   var value_date =  block.getFieldValue('DATE');
-  var code = 'term, '+value_date;
+  var code = '\"term\", '+value_date;
   return [code, Order.NONE];
 };
 
@@ -133,7 +133,7 @@ pythonGenerator.forBlock['term_scope'] = function(block:any, generator:any) {
 pythonGenerator.forBlock['cur_data'] = function(block:any, generator:any) {
   var value_name = generator.valueToCode(block, 'OCHL', Order.NONE).toString();
   // TODO: Assemble python into code variable.
-  var code = 'curData('+value_name+')';
+  var code = 'cur_data('+value_name+')';
   return [code, Order.NONE];
 };
 
@@ -141,7 +141,7 @@ pythonGenerator.forBlock['cur_data'] = function(block:any, generator:any) {
 pythonGenerator.forBlock['cnt_per_asset'] = function(block:any, generator:any) {
   var value_name = generator.valueToCode(block, 'NAME', Order.NONE).toString();
   // TODO: Assemble python into code variable.
-  var code = 'asset('+value_name+', per)';
+  var code = 'asset('+value_name+')';
   return [code, Order.NONE];
 };
 
@@ -150,7 +150,7 @@ pythonGenerator.forBlock['cnt_per_asset'] = function(block:any, generator:any) {
 pythonGenerator.forBlock['cnt_per_reserve'] = function(block:any, generator:any) {
   var value_name = generator.valueToCode(block, 'NAME', Order.NONE).toString();
   // TODO: Assemble python into code variable.
-  var code = 'reserves('+value_name+', per)';
+  var code = 'reserve('+value_name+')';
   return [code, Order.NONE];
 };
 
