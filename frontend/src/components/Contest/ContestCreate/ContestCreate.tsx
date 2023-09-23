@@ -236,7 +236,7 @@ function ContestCreate({onClose, selectedContest}){
                 <MaxCapacityName>
                     참여인원
                 </MaxCapacityName>
-                <MaxCapacityInput onChange={()=>setmaxCapacity(maxCapacity)} type="number" min={0}/>
+                <MaxCapacityInput onChange={(e)=>setmaxCapacity(e.target.value)} value={maxCapacity} type="number" min={0}/>
             </MaxCapacityBox>
 
   
