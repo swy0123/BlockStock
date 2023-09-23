@@ -1,9 +1,11 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import DatePicker from 'react-datepicker';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+
 import './style.css'
 import { useNavigate } from "react-router-dom";
 
@@ -28,24 +30,40 @@ import {
     ContestContent,
     BtnBox,
     CreateBtn,
-    CancelBtn
+    CancelBtn,
+    FileInput,
+    FileBtn,
+    FileList,
+    FileBox
 } from './ContestCreate.style'
 
-function ContestCreate(){
+function ContestCreate({onClose, selectedContest}){
 
     const navigate = useNavigate();
     const [title, setTitle] = useState('')
     const [stockName, setStockName] = useState('')
-    const [ticket, setTicket] = useState(0)
+    const [ticket, setTicket] = useState('티켓 개수')
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [activeButton, setActiveButton] = useState('one');
     const [content, setContent] = useState('')
 
+    useEffect(()=>{
+        if(selectedContest){
+            setTitle(selectedContest.title)
+            setStartDate(new Date(selectedContest.startAt))
+            setEndDate(new Date(selectedContest.endAt))
+            setContent(selectedContest.content)
+            setTicket(selectedContest.ticket)
+        }
+    },[])
+
+
     const handleButtonClick = (key) => {
         setActiveButton(key);
     };
 
+    
     const buttons = [
         <div className="btns">
             <button
@@ -76,26 +94,53 @@ function ContestCreate(){
     ]
     
     const handleChange =()=>{
-        const startformattedDate = `${startDate.getFullYear()}.${(startDate.getMonth() + 1)
-            .toString()
-            .padStart(2, "0")}.${startDate.getDate().toString().padStart(2, "0")} ${
-                startDate.getHours().toString().padStart(2, "0")
-          }:${startDate.getMinutes().toString().padStart(2, "0")}:${startDate.getSeconds().toString().padStart(2, "0")}`;
-        const endformattedDate = `${endDate.getFullYear()}.${(endDate.getMonth() + 1)
-            .toString()
-            .padStart(2, "0")}.${endDate.getDate().toString().padStart(2, "0")} ${
-                endDate.getHours().toString().padStart(2, "0")
-          }:${endDate.getMinutes().toString().padStart(2, "0")}:${endDate.getSeconds().toString().padStart(2, "0")}`;
-        console.log(`
-        title ${title} 
-        stockName ${stockName} 
-        ticket ${ticket} 
-        startDate ${startformattedDate} 
-        endDate ${endformattedDate}
-        activeButton ${activeButton}
-        content ${content}
-        `)
-        console.log('대회생성')
+        console.log(selectedContest)
+        // const startformattedDate = `${startDate.getFullYear()}.${(startDate.getMonth() + 1)
+        //     .toString()
+        //     .padStart(2, "0")}.${startDate.getDate().toString().padStart(2, "0")} ${
+        //         startDate.getHours().toString().padStart(2, "0")
+        //   }:${startDate.getMinutes().toString().padStart(2, "0")}:${startDate.getSeconds().toString().padStart(2, "0")}`;
+        // const endformattedDate = `${endDate.getFullYear()}.${(endDate.getMonth() + 1)
+        //     .toString()
+        //     .padStart(2, "0")}.${endDate.getDate().toString().padStart(2, "0")} ${
+        //         endDate.getHours().toString().padStart(2, "0")
+        //   }:${endDate.getMinutes().toString().padStart(2, "0")}:${endDate.getSeconds().toString().padStart(2, "0")}`;
+        // console.log(`
+        // title ${title} 
+        // stockName ${stockName} 
+        // ticket ${ticket} 
+        // startDate ${startformattedDate} 
+        // endDate ${endformattedDate}
+        // activeButton ${activeButton}
+        // content ${content}
+        // file ${file}
+        // `)
+        // console.log('대회생성')
+    }
+
+      // 이미지 파일 저장
+    // const [title, setTitle] = useState(''); 
+    // const [content, setContent] = useState(''); 
+    const [file, setFile] = useState(null)
+    const [fileName, setFileName] = useState('')
+
+      // 이미지 파일만
+    const handleFileSelect = (e) => {
+        const files = e.target.files[0];
+        console.log(files)
+        setFileName(files.name)
+        setFile(files)
+    };
+
+      // 해당 파일만 취소
+    const removeFile = () => {
+        setFile(null)
+        setFileName('')
+    };
+
+    const handleClose = () =>{
+        console.log('모달 닫기')
+        onClose()
     }
 
     return(
@@ -107,7 +152,7 @@ function ContestCreate(){
                 <CreateImage src='./icon/user_purple.png'/>
                 <CreateNickName>Admin</CreateNickName>
             </Header>
-            <hr style={{width:'100%', background:'##D3D3D3'}}/>
+            <hr style={{width:'99.7%', background:'##D3D3D3'}}/>
 
             <ContestNameBox>
                 <ContestName>대회명</ContestName>
@@ -160,7 +205,7 @@ function ContestCreate(){
                 onChange={(e)=>
                     setTicket(e.target.value)
                 }
-                style={{height:'32px', width:'60px', fontSize:'13px'}}
+                style={{height:'20px', width:'50px', fontSize:'13px'}}
                 />
                 <Box
                     sx={{
@@ -189,12 +234,43 @@ function ContestCreate(){
                 }
                 />
             </ContestContentBox>
-            <hr style={{margin:'60px 0px 0px 0px', width:'100%', background:'##D3D3D3'}}/>
+
+            <FileBox>
+                <FileBtn>
+                    업로드
+                    <FileInput type="file" accept="image/*" onChange={handleFileSelect} multiple />
+                </FileBtn>
+
+                <FileList>
+                    {fileName && (
+                        <>
+                            <div style={{margin:'3px 0px 0px 0px'}}>
+                            {fileName}
+                            </div>
+                            <HighlightOffIcon
+                                style={{ 
+                                    margin: '0px 0px 0px 4px', 
+                                    cursor: 'pointer',
+                                    width:'20px',
+                                }}
+                                onClick={() => removeFile()} 
+                            />
+                        </>
+                    )}
+                </FileList>
+            </FileBox>
+            <hr style={{margin:'10px 0px 0px 0px', width:'99.7%', background:'##D3D3D3'}}/>
             
+            {selectedContest ? (
             <BtnBox>
                 <CreateBtn onClick={handleChange}>생성</CreateBtn>
-                <CancelBtn onClick={()=>navigate('../')}>취소</CancelBtn>
+                <CancelBtn onClick={handleClose}>취소</CancelBtn>
+            </BtnBox>) : (
+            <BtnBox style={{margin:'20px 0px 0px 500px'}}>
+                <CreateBtn onClick={handleChange}>생성</CreateBtn>
+                {/* <CancelBtn onClick={handleClose}>취소</CancelBtn> */}
             </BtnBox>
+            )}
 
         </Container>
     )

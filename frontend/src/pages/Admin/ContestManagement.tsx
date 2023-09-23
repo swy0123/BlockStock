@@ -23,7 +23,7 @@ function ContestManagement(){
   return(
     <>
     <Container>
-      <div style={{margin:'50px 0px 0px 0px'}}>
+      <div style={{margin:'0px 0px 0px 0px'}}>
       <AdminInfo/>
       </div>
       <div style={{margin:'0px 0px 0px 50px'}}>

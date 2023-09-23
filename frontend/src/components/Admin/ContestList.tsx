@@ -17,7 +17,7 @@ import {
   UpdateBtn,
   DeleteBtn
 } from './ContestList.style'
-import ContestCreate from "../Contest/ContestCreate/ContestCreate";
+import ContestUpdate from "./ContestUpdate";
 import { useRecoilValue } from "recoil";
 import { completedContestListState } from "../../recoil/Contest/CompletedContest";
 
@@ -137,8 +137,8 @@ function ContestList(){
           </div>
         ))}
 
-        {isModalOpen ? <ContestCreate selectedContest={selectedContest} onClose={CloseModal}/> : null}
       </Wrapper>
+        {isModalOpen ? <ContestUpdate selectedContest={selectedContest} onClose={CloseModal}/> : null}
 
       <TablePagination
         component="div"
