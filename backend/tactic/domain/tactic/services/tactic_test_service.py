@@ -150,11 +150,13 @@ def get_tactic_test_response(tactic_test_request):
     while True:
         if now_repeat_cnt == tactic_test_request.repeatCnt:
             break
+
         exec(tactic_test_request.tacticPythonCode)
         # if (get_recent_indicators("date" ,10, "low", "avg")) < (curData("low")):
         #     buy(asset(10))
         #     sell(reserve(10))
         #     buy(10)
+
         now_repeat_cnt += 1
 
     # 반복문 끝나고 남은 주식 매수
@@ -460,9 +462,8 @@ def buy(param):
 
 def sell(param):
     global now_stock_cnt, now_asset, sell_sum, sell_cnt
-    print("sell")
     # param 들어온 수만큼 팔 수 있는지 확인
-    if param <= now_stock_cnt:
+    if now_stock_cnt != 0 and param <= now_stock_cnt:
         now_asset += param * now_data[now_repeat_cnt][4]
         now_stock_cnt -= param
         # 매수 총 합, 개수 계산
