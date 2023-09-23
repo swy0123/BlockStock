@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-width: 707px;
+width: 613.02px;
 height: 571px;
 background: #FFFFFF;
 border: 1px solid #D4D4D4;
@@ -99,7 +99,7 @@ margin: 10px 0px 30px 0px;
 
 export const BtnBox = styled.div`
 display: flex;
-margin: 0px 0px 0px 480px;
+margin: 0px 0px 0px 380px;
 `;
 export const UpdateBtn = styled.button`
 padding: 5px 10px;
@@ -138,8 +138,6 @@ border: none;
   transition: background-color 0.6s ease;
 }
 `;
-
-
 
 
 

@@ -1,12 +1,12 @@
 .custom-datepicker {
   width: 150.25px;
-  height: 35.07px;
+  height: 25.07px;
   font-size: 13px;
-  font-weight: bold;
+  font-weight: 500;
   background: #FFFFFF;
   border: 2px solid rgba(160, 155, 163, 0.59);
   border-radius: 6px;
-  margin: 10px 0px 0px 0px;
+  margin: 15px 0px 0px 0px;
   text-align: center;
   cursor: pointer;
 }
@@ -18,7 +18,7 @@
 
 .btn{
   width: 70px;
-  height: 35.07px;
+  height: 24px;
   border: none;
   border-right: 2px solid rgba(160, 155, 163, 0.59);
   background-color: white;
