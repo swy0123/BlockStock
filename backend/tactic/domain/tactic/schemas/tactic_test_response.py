@@ -6,9 +6,9 @@ from domain.tactic.schemas import option_history_response, chart_info_response
 
 class TacticTestResponse(BaseModel):
 
-    optionHistory: Optional[list]
-    chartInfos: Optional[list]
-    startAsset: Optional[int]
-    endAsset: Optional[int]
-    returnPercent: Optional[float]
+    optionHistory: Optional[list] = None
+    chartInfos: Optional[list] = None
+    startAsset: Optional[int] = None
+    endAsset: Optional[int] = None
+    returnPercent: Optional[float] = None
 

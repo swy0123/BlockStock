@@ -5,10 +5,10 @@ from pydantic import BaseModel
 
 
 class TacticTestRequest(BaseModel):
-    optionCode: Optional[str]
-    tacticPythonCode: Optional[str]
-    tacticJsonCode: Optional[str]
-    startAsset: Optional[int]
-    startTime: Optional[str]
-    term: Optional[str]
-    repeatCnt: Optional[int]
+    optionCode: Optional[str] = None
+    tacticPythonCode: Optional[str] = None
+    tacticJsonCode: Optional[str] = None
+    startAsset: Optional[int] = None
+    startTime: Optional[str] = None
+    term: Optional[str] = None
+    repeatCnt: Optional[int] = None

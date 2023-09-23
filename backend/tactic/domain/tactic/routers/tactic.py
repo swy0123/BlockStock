@@ -11,7 +11,6 @@ app = APIRouter(
 @app.post("/test")
 #@app.post("/test", response_model=TacticTestResponse)
 async def tactic_test(tactic_test_request: TacticTestRequest):
-    # print(tactic_test_request.tacticPythonCode)
     response = get_tactic_test_response(tactic_test_request)
 
     return response
