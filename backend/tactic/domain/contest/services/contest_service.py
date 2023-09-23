@@ -143,7 +143,6 @@ def create_contest(contest_create: ContestRequest):
 
 
 def delete_contest(contest_id: int):
-    # Contest 삭제 전에 관련된 participate 레코드들을 먼저 삭제합니다.
     session.query(Participate).filter(Participate.contest_id == contest_id).delete()
 
     contest_delete = (session.query(Contest).where(Contest.id == contest_id)).one()
