@@ -12,7 +12,6 @@ app = APIRouter(
 
 
 @app.post("/test")
-# @app.post("/test", response_model=TacticTestResponse)
 async def tactic_test(tactic_test_request: TacticTestRequest):
     response = get_tactic_test_response(tactic_test_request)
 
@@ -20,8 +19,9 @@ async def tactic_test(tactic_test_request: TacticTestRequest):
 
 
 @app.post("")
-async def add_tactic(tactic_add_request: TacticAddRequest):
-    await create_tactic(tactic_add_request)
+async def add_tactic(request: Request, tactic_add_request: TacticAddRequest):
+    member_id = request.headers.get("Member-id")
+    await create_tactic(member_id, tactic_add_request)
 
 
 @app.get("")
