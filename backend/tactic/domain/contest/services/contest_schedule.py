@@ -22,7 +22,6 @@ sched = BackgroundScheduler(timezone='Asia/Seoul')
 @sched.scheduled_job('interval', seconds=60, id='remove_inactive_image')
 def check_contest():
 
-    real_time = []
     # DB에 있는 contest 조회
     # 대회 목록 봐서 start_time의 YYYY.MM.DD HH:MM == now의 YYYY.MM.DD HH:MM 이 되면 대회 시작!
     now_formatted = (datetime.now() + timedelta(minutes=30)).strftime('%Y-%m-%d %H:%M')
@@ -35,6 +34,7 @@ def check_contest():
         print(cur_contest.start_time, " ", cur_contest.id, " ", cur_contest.option_code)
         # 참여하는 사람들
         participates = session.query(Participate).filter(Participate.contest_id == cur_contest.id).all()
+
         start_contest(contest_info=cur_contest,
                       participates=participates)
 
@@ -96,9 +96,16 @@ def start_contest(contest_info: Contest,
         current_data = get_real_time_stock(URL, headers, params)
         real_data = real_data.append(current_data, ignore_index=True)
         print(real_data)
+        print("-------------------------")
+        print(real_data.iloc[-1]['4'])
+        print("=========================")
+
+
         # 여기에서 알고리즘 시작 시키기
+
         # 해당 대회에 대해 참가하는 사람들에 대해 대회 주기 시간 마다 알고리즘 적용
         # 자산 변동
+
 
         # 멀티스레드
         # DB는 멀티 스레드 작업 끝나고 한 번에 MariaDB에 저장해주기
