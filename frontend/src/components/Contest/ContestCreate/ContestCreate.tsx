@@ -31,11 +31,13 @@ import {
     BtnBox,
     CreateBtn,
     CancelBtn,
-    FileInput,
-    FileBtn,
-    FileList,
-    FileBox
+    MaxCapacityBox,
+    MaxCapacityName,
+    MaxCapacityInput
 } from './ContestCreate.style'
+
+// 대회생성 api
+import { contestCreate } from "../../../api/Admin/Admin";
 
 function ContestCreate({onClose, selectedContest}){
 
@@ -47,6 +49,7 @@ function ContestCreate({onClose, selectedContest}){
     const [endDate, setEndDate] = useState(new Date());
     const [activeButton, setActiveButton] = useState('one');
     const [content, setContent] = useState('')
+    const [maxCapacity, setmaxCapacity] = useState(0)
 
     useEffect(()=>{
         if(selectedContest){
@@ -70,73 +73,68 @@ function ContestCreate({onClose, selectedContest}){
                 className={`btn ${activeButton === 'one' ? 'active' : ''}`}
                 onClick={() => handleButtonClick('one')}
             >
-                1분
+                15초
             </button>
             <button
                 className={`btn ${activeButton === 'two' ? 'active' : ''}`}
                 onClick={() => handleButtonClick('two')}
             >
-                10분
+                일단
             </button>
             <button
                 className={`btn ${activeButton === 'three' ? 'active' : ''}`}
                 onClick={() => handleButtonClick('three')}
             >
-                1시간
+                15초로
             </button>
             <button
                 className={`btn ${activeButton === 'four' ? 'active' : ''}`}
                 onClick={() => handleButtonClick('four')}
             >
-                1일
+                ^^
             </button>
         </div>
     ]
     
     const handleChange =()=>{
         console.log(selectedContest)
-        // const startformattedDate = `${startDate.getFullYear()}.${(startDate.getMonth() + 1)
-        //     .toString()
-        //     .padStart(2, "0")}.${startDate.getDate().toString().padStart(2, "0")} ${
-        //         startDate.getHours().toString().padStart(2, "0")
-        //   }:${startDate.getMinutes().toString().padStart(2, "0")}:${startDate.getSeconds().toString().padStart(2, "0")}`;
-        // const endformattedDate = `${endDate.getFullYear()}.${(endDate.getMonth() + 1)
-        //     .toString()
-        //     .padStart(2, "0")}.${endDate.getDate().toString().padStart(2, "0")} ${
-        //         endDate.getHours().toString().padStart(2, "0")
-        //   }:${endDate.getMinutes().toString().padStart(2, "0")}:${endDate.getSeconds().toString().padStart(2, "0")}`;
-        // console.log(`
-        // title ${title} 
-        // stockName ${stockName} 
-        // ticket ${ticket} 
-        // startDate ${startformattedDate} 
-        // endDate ${endformattedDate}
-        // activeButton ${activeButton}
-        // content ${content}
-        // file ${file}
-        // `)
-        // console.log('대회생성')
+        const startformattedDate = `${startDate.getFullYear()}-${(startDate.getMonth() + 1)
+            .toString()
+            .padStart(2, "0")}-${startDate.getDate().toString().padStart(2, "0")} ${
+                startDate.getHours().toString().padStart(2, "0")
+          }:${startDate.getMinutes().toString().padStart(2, "0")}:${startDate.getSeconds().toString().padStart(2, "0")}`;
+        const endformattedDate = `${endDate.getFullYear()}-${(endDate.getMonth() + 1)
+            .toString()
+            .padStart(2, "0")}-${endDate.getDate().toString().padStart(2, "0")} ${
+                endDate.getHours().toString().padStart(2, "0")
+          }:${endDate.getMinutes().toString().padStart(2, "0")}:${endDate.getSeconds().toString().padStart(2, "0")}`;
+        console.log(`
+        title ${title} 
+        stockName ${stockName} 
+        ticket ${ticket} 
+        startDate ${startformattedDate} 
+        endDate ${endformattedDate}
+        activeButton ${activeButton}
+        content ${content}
+        maxCapacity ${maxCapacity}
+        `)
+        const formData = {
+            memberId:1,
+            title: title,
+            content: content,
+            startTime:startformattedDate,
+            endTime:endformattedDate,
+            maxCapacity:maxCapacity,
+            term: 15,
+            ticket:Number(ticket),
+            optionCode:stockName
+        }
+        console.log('대회생성')
+
+        if(!selectedContest){
+            contestCreate(formData)
+        }
     }
-
-      // 이미지 파일 저장
-    // const [title, setTitle] = useState(''); 
-    // const [content, setContent] = useState(''); 
-    const [file, setFile] = useState(null)
-    const [fileName, setFileName] = useState('')
-
-      // 이미지 파일만
-    const handleFileSelect = (e) => {
-        const files = e.target.files[0];
-        console.log(files)
-        setFileName(files.name)
-        setFile(files)
-    };
-
-      // 해당 파일만 취소
-    const removeFile = () => {
-        setFile(null)
-        setFileName('')
-    };
 
     const handleClose = () =>{
         console.log('모달 닫기')
@@ -234,31 +232,14 @@ function ContestCreate({onClose, selectedContest}){
                 }
                 />
             </ContestContentBox>
+            <MaxCapacityBox>
+                <MaxCapacityName>
+                    참여인원
+                </MaxCapacityName>
+                <MaxCapacityInput onChange={()=>setmaxCapacity(maxCapacity)} type="number" min={0}/>
+            </MaxCapacityBox>
 
-            <FileBox>
-                <FileBtn>
-                    업로드
-                    <FileInput type="file" accept="image/*" onChange={handleFileSelect} multiple />
-                </FileBtn>
-
-                <FileList>
-                    {fileName && (
-                        <>
-                            <div style={{margin:'3px 0px 0px 0px'}}>
-                            {fileName}
-                            </div>
-                            <HighlightOffIcon
-                                style={{ 
-                                    margin: '0px 0px 0px 4px', 
-                                    cursor: 'pointer',
-                                    width:'20px',
-                                }}
-                                onClick={() => removeFile()} 
-                            />
-                        </>
-                    )}
-                </FileList>
-            </FileBox>
+  
             <hr style={{margin:'10px 0px 0px 0px', width:'99.7%', background:'##D3D3D3'}}/>
             
             {selectedContest ? (

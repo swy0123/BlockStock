@@ -139,7 +139,7 @@ resize: none;
 
 export const BtnBox = styled.div`
 display: flex;
-margin: 20px 0px 0px 400px;
+margin: 15px 0px 0px 400px;
 `;
 
 export const CreateBtn = styled.button`
@@ -189,37 +189,22 @@ cursor: pointer;
 }
 `;
 
-export const FileInput = styled.input`
-display: none; 
-`;
-export const FileBtn = styled.label`
-  display: inline-block;
-  padding: 5px 10px;
-  width: 50px;
-  height: 15px;
-  font-size: 11px;
-  background-color: #7B7B7B;
-  color: #fff;
-  cursor: pointer;
-  border: none;
-  margin: 15px 0px 0px 20px;
-  border-radius: 5px;
-  display: flex; /* Set display to flex */
-  justify-content: center; /* Center horizontally */
-  align-items: center; 
-`;
-
-export const FileList = styled.div`
+export const MaxCapacityBox = styled.div`
 display: flex;
-max-width: 900px;
-max-height: 30px;
-margin: 15px 0px 0px 30px;
-overflow-y: auto;
-font-size: 12px;
+margin: 20px 0px 20px 40px;
 `;
-
-export const FileBox = styled.div`
-margin: 20px 0px 20px 18px;
-height: 40px;
-display: flex;
+export const MaxCapacityName = styled.div`
+font-size: 14px;
+color: #4D5055;
+margin: 15px 35px 0px 0px;
+`;
+export const MaxCapacityInput = styled.input`
+min-width: 80px;
+height: 25px;
+border: 2px solid rgba(160, 155, 163, 0.59);
+border-radius: 6px;
+font-size: 14px;
+font-weight: 600;
+margin: 8px 20px 0px 0px;
+text-align: center;
 `;

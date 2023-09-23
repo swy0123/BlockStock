@@ -18,14 +18,14 @@
 
 .btn{
   width: 70px;
-  height: 24px;
+  height: 23px;
   border: none;
   border-right: 2px solid rgba(160, 155, 163, 0.59);
   background-color: white;
-  transition: background-color 0.2s; 
+  transition: background-color 0.5s; 
   cursor: pointer;
   font-size: 13px;
-  font-weight: 600px;
+  font-weight: 500px;
 }
 
 .btn.active {
