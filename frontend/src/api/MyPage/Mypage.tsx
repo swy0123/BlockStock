@@ -1,4 +1,4 @@
-import { privateApi, } from ".";
+import { privateApi, } from "..";
 
 interface pwData {
     originPassword: string;

@@ -7,8 +7,9 @@ import TacticList from "../../components/MyPage/TacticList";
 import NickNameModal from "../../components/MyPage/EditModal/NickNameModal";
 import PasswordModal from "../../components/MyPage/EditModal/ChangePasswordModal";
 import SecessionModal from "../../components/MyPage/EditModal/SecessionModal";
+import FollowListModal from "../../components/MyPage/FollowModal/FollowListModal";
 import { useQuery } from "react-query";
-import { getmypage } from "../../api/Mypage";
+import { getmypage } from "../../api/MyPage/Mypage";
 import { Container,
   Wrapper,
   ColorBox,
@@ -54,7 +55,6 @@ function MyPage() {
   const enterEditMode = () => {
     setIsEditing(true);
   };
-
   const exitEditMode = () => {
     setIsEditing(false);
   };
@@ -64,7 +64,20 @@ function MyPage() {
   const [isNameModalOpen, setIsNameModalOpen] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [isSecessionModalOpen, setIsSecessionModalOpen] = useState(false);
-  
+  const [isFollowModalOpen, setIsFollowModalOpen] = useState(false)
+  const [isFollowType, setIsFollowType] = useState("")
+
+  const openFollowerModal = () => {
+    setIsFollowModalOpen(true);
+    setIsFollowType("follower");
+  }
+  const openFollowingModal = () => {
+    setIsFollowModalOpen(true);
+    setIsFollowType("following");
+  }
+  const closeFollowModal = () => {
+    setIsFollowModalOpen(false);
+  }
   const openNameModal = () => {
     setIsNameModalOpen(true);
     setIsEditing(true);
@@ -101,16 +114,21 @@ function MyPage() {
       <Wrapper>
         <ColorBox>
           <FollowBox>
-            <Follow>
+            <Follow onClick={openFollowerModal}>
               <Text1>{data.followerCnt}</Text1>
               <Text1>팔로워</Text1>
             </Follow>
-            <Follow>
+            <Follow onClick={openFollowingModal}>
               <Text1>{data.followingCnt}</Text1>
               <Text1>팔로잉</Text1>
             </Follow>
           </FollowBox>
         </ColorBox>
+        <FollowListModal
+        isOpen={isFollowModalOpen}
+        onClose={closeFollowModal}
+        text={isFollowType}
+        />
         <InfoBox>
           <Box>
             <Img src="./icon/user4.png" />
