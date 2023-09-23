@@ -8,7 +8,7 @@ engine = engineconn()
 session = engine.sessionmaker()
 
 
-def add_tactic(tactic_add_request: TacticAddRequest):
+async def create_tactic(tactic_add_request: TacticAddRequest):
     db_tactic = Tactic(tactic_add_request)
     session.add(db_tactic)
     session.commit()

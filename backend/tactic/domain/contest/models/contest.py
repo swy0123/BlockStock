@@ -56,6 +56,7 @@ class Tactic(Base):
     participate = relationship("Participate", back_populates="tactic", uselist=False)
 
     def __init__(self, tactic_add_request: TacticAddRequest):
+        self.member_id = tactic_add_request.member_id
         self.title = tactic_add_request.title
         self.option_code = tactic_add_request.option_code
         self.tactic_json_code = tactic_add_request.tactic_json_code
