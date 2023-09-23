@@ -12,10 +12,17 @@ import com.olock.blockstock.member.domain.member.persistence.entity.Member;
 import com.olock.blockstock.member.domain.member.persistence.entity.Role;
 import com.olock.blockstock.member.global.kafka.MemberProducer;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.time.LocalDateTime;
 
 @Service
@@ -94,6 +101,26 @@ public class MemberServiceImpl implements MemberService {
         memberValidator.existsMember(memberId);
         memberRepository.updateMoney(memberId, moneyChargeRequest.getMoney());
         produceMessage(memberId);
+    }
+
+    @Override
+    public InputStreamResource getProfile(Long memberId) {
+        // TODO : S3 이미지 저장소와 연결
+        String imageUrl = "https://firebasestorage.googleapis.com/v0/b/pocket-sch.appspot.com/o/user4.png?alt=media&token=a402c7d3-2f93-4a14-b291-4c143d4e450b";
+
+        URL url = null;
+        InputStream in = null;
+        try {
+            url = new URL(imageUrl);
+            URLConnection connection = url.openConnection();
+            connection.setDoOutput(true);
+
+            in = connection.getInputStream();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return new InputStreamResource(in);
     }
 
     @Async
