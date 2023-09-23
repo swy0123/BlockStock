@@ -68,13 +68,13 @@ function SignUp() {
       try {
         const authResult = await checkmail(authMail);
         console.log(authResult);
-        swal("이메일 인증이 완료되었습니다.");
+        swal("", "이메일 인증이 완료되었습니다.", "success");
       } catch (error) {
         console.error("인증번호 틀림", error);
-        swal("잘못된 인증번호 입니다.");
+        swal("잘못된 인증번호 입니다. ⚠️");
       }
     } else {
-      swal("인증번호를 입력해주세요");
+      swal("인증번호를 입력해주세요. ⚠️");
     }
   };
 
@@ -86,7 +86,7 @@ function SignUp() {
       // 회원가입 API 요청
       const signUpResult = await postJoin(userData);
       console.log("Sign-up success:", signUpResult);
-      swal("Success", "회원가입이 완료되었습니다.", "success");
+      swal("Success", "회원가입 성공 ✔️ \n 로그인 페이지로 이동합니다.", "success");
       navigate("/login");
     } catch (error) {
       console.error("Sign-up error:", error);

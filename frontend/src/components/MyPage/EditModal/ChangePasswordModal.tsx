@@ -3,7 +3,7 @@ import swal from "sweetalert";
 // import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import { putPassword } from "../../../api/Mypage";
+import { putPassword } from "../../../api/MyPage/Mypage";
 import { useNavigate } from "react-router-dom";
 // import swal from "sweetalert";
 

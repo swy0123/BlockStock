@@ -69,7 +69,7 @@ function Login() {
     if (userinfo) {
       setIsLogin(true); // 로그인 여부 아톰에 저장
       setCurrentUser(userinfo); // 유저 정보 아톰에 저장
-      swal("", "로그인에 성공했습니다", "success");
+      swal("",`   ${userinfo.nickname}님 \n 반갑습니다 :)`, "success");
       navigate('/')
     } else {
       console.log("fail");
