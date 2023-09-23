@@ -20,7 +20,7 @@ import {
 import ContestUpdate from "./ContestUpdate";
 import { useRecoilValue } from "recoil";
 import { completedContestListState } from "../../recoil/Contest/CompletedContest";
-
+import {contestDelete} from '../../api/Admin/Admin'
 function ContestList(){
 
   const contestResultList = useRecoilValue(completedContestListState);
@@ -28,25 +28,27 @@ function ContestList(){
   const [rowsPerPage, setRowsPerPage] = React.useState(3);
 
 
-    // 클릭한 대회 내용 ==========================================================
-    const [showContent, setShowContent] = useState(
-      Array(contestResultList.length).fill(false)
-    );
-  
-    const toggleContent = (index) => {
-      const updatedShowContent = [...showContent];
-      updatedShowContent[index] = !updatedShowContent[index];
-      setShowContent(updatedShowContent);
-  
-      if (updatedShowContent[index]) {
-        setSelectedContest(contestResultList[index]);
-      } else {
-        setSelectedContest(null);
-      }
-    };
-    // 클릭한 대회 내용 ==========================================================
+  // 클릭한 대회 내용 ==========================================================
+  const [showContent, setShowContent] = useState(
+    Array(contestResultList.length).fill(false)
+  );
 
-      // 선택한 대회 상세보기(모달) ======================================================
+  const toggleContent = (index) => {
+    const updatedShowContent = [...showContent];
+    updatedShowContent[index] = !updatedShowContent[index];
+    setShowContent(updatedShowContent);
+
+    if (updatedShowContent[index]) {
+      setSelectedContest(contestResultList[index]);
+    } else {
+      setSelectedContest(null);
+    }
+  };
+  // 클릭한 대회 내용 ==========================================================
+
+
+
+  // 선택한 대회 상세보기(모달) ======================================================
   const [selectedContest, setSelectedContest] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -58,6 +60,7 @@ function ContestList(){
     setIsModalOpen(false);
   };
   // 선택한 대회 상세보기(모달) ======================================================
+
 
 
   // 페이지 네이션=====================================================================
@@ -87,6 +90,8 @@ function ContestList(){
   // );
   // 페이지 네이션=====================================================================
 
+
+  
   return(
     <>
     <Container>
@@ -128,8 +133,8 @@ function ContestList(){
               <div>내용</div>
               <Content>{contest.content}</Content>
               <BtnBox>
-                <UpdateBtn onClick={()=>OpenModal(contest.id)}>수정하기</UpdateBtn>
-                <DeleteBtn>삭제하기</DeleteBtn>
+                <UpdateBtn onClick={()=>OpenModal()}>수정하기</UpdateBtn>
+                <DeleteBtn onClick={()=>contestDelete(contest.id)}>삭제하기</DeleteBtn>
               </BtnBox>
             </ContentBox>
 
