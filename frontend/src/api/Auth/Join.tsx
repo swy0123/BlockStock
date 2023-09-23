@@ -46,5 +46,4 @@ export const postJoin = async (user: userData) => {
     }catch(error){
         console.log("err",error)
     }
-    
 };
