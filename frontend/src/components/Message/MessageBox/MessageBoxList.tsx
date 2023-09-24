@@ -72,15 +72,15 @@ function MessageBoxList({name, onButtonClick}){
 
 
   useEffect(() => {
-    if (name === 'Receive') {
+    if (name === 'RECEIVE') {
       setData(r_data);
       setCheckAll(false)
       setCheckItems([])
-    } else if (name === 'Send') {
+    } else if (name === 'SEND') {
       setData(s_data);
       setCheckAll(false)
       setCheckItems([])
-    } else if (name === 'Keep') {
+    } else if (name === 'KEEP') {
       setData(k_data);
       setCheckAll(false)
       setCheckItems([])
@@ -182,7 +182,7 @@ function MessageBoxList({name, onButtonClick}){
                   onClick={() => toggleBookmark(item.senderId)}
                 />
 
-                <ItemContentBox onClick={() => handleButtonClick('detail')}>
+                <ItemContentBox onClick={() => handleButtonClick(item.senderId)}>
                 <MessageItemTitle>{item.content}</MessageItemTitle>
                 <MessageItemSchedule>{item.createdAt}</MessageItemSchedule>
                 </ItemContentBox>
