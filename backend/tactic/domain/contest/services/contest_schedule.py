@@ -240,17 +240,18 @@ def start_contest(contest_info: Contest,
     # 스케줄러에 작업 추가
     schedule.every(1).seconds.do(get_real_time_stock, URL, headers, params)
 
+    thread_last_executed = datetime.now()
+
     while datetime.now() < contest_info.end_time:
         current_data = get_real_time_stock(URL, headers, params)
         real_data = real_data.append(current_data, ignore_index=True)
-        # print(real_data)
 
-        # 여기에서 알고리즘 시작 시키기
-
-        # 해당 대회에 대해 참가하는 사람들에 대해 대회 주기 시간 마다 알고리즘 적용
         # 멀티스레드
-        for participate in participates:
-            _thread.start_new_thread(contest_thread, (participate,))
+        # 대회 알고리즘 실행은 15초마다
+        if (datetime.now() - thread_last_executed).seconds >= 15:
+            thread_last_executed = datetime.now()
+            for participate in participates:
+                _thread.start_new_thread(contest_thread, (participate,))
 
         schedule.run_pending()
         time.sleep(1)  # 부하가 안생길 만큼의 초
