@@ -20,10 +20,9 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import ReplayIcon from '@mui/icons-material/Replay';
 // 보관함 아이콘
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-// 보관함 아이콘 체크시
-import BookmarkIcon from '@mui/icons-material/Bookmark';
 
-function MessageBoxList({name}){
+
+function MessageBoxList({name, onButtonClick}){
   const [data, setData] = useState([])
   const [checkAll, setCheckAll] = useState(false);
   const [checkItems, setCheckItems] = useState([]);
@@ -138,6 +137,10 @@ function MessageBoxList({name}){
     });
   };
 
+  const handleButtonClick = (buttonType) => {
+    onButtonClick(buttonType);
+  };
+
   return(
     <>
     <Container>
@@ -159,7 +162,7 @@ function MessageBoxList({name}){
       <Wrapper>
         {data.map((item, index)=>(
           <div key={index}>
-            <MessageItem>
+            <MessageItem >
               <Box>
                 
                 <div onClick={() => handleItemCheck(item.senderId)} style={{ cursor: 'pointer' }}>
@@ -179,7 +182,7 @@ function MessageBoxList({name}){
                   onClick={() => toggleBookmark(item.senderId)}
                 />
 
-                <ItemContentBox>
+                <ItemContentBox onClick={() => handleButtonClick('detail')}>
                 <MessageItemTitle>{item.content}</MessageItemTitle>
                 <MessageItemSchedule>{item.createdAt}</MessageItemSchedule>
                 </ItemContentBox>
