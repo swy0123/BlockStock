@@ -22,6 +22,7 @@ import TacticBoardList from "./pages/TacticBoard/TacticBoardList";
 import TacticBoardDetail from "./pages/TacticBoard/TacticBoardDetail";
 import TacticBoardCreate from "./pages/TacticBoard/TacticBoardCreate";
 import ContestManagement from "./pages/Admin/ContestManagement";
+import MessageBox from "./pages/Message/MessageBox";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -120,6 +121,11 @@ const router = createBrowserRouter([
             {
                 path: "/contestmanagement",
                 element: <ContestManagement/>,
+                errorElement: <ErrorComponent/>,
+              },
+            {
+                path: "/message",
+                element: <MessageBox/>,
                 errorElement: <ErrorComponent/>,
               },
 
