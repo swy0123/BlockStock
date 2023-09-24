@@ -65,6 +65,10 @@ import {
 // </div>;
 
 
+const dateTimeFormat = "%d %b";
+const timeDisplayFormat = timeFormat(dateTimeFormat);
+
+
 const CandleChart = (props) => {
   const ScaleProvider = discontinuousTimeScaleProviderBuilder().inputDateAccessor(
     (d) =>
@@ -119,8 +123,8 @@ const CandleChart = (props) => {
   const yExtents = (data) => {
     return [data.high, data.low];
   };
-  const dateTimeFormat = "%d %b";
-  const timeDisplayFormat = timeFormat(dateTimeFormat);
+  // // const dateTimeFormat = "%d %b";
+  // const timeDisplayFormat = timeFormat(dateTimeFormat);
 
   const barChartExtents = (data) => {
     return data.volume;
@@ -248,6 +252,7 @@ const CandleChart = (props) => {
     return flag;
   }
 
+
   return (
     <ChartCanvas
       height={height}
@@ -320,11 +325,6 @@ const CandleChart = (props) => {
         
         <OHLCTooltip origin={[8, 16]} />
 
-        {/* <HoverTooltip
-          yAccessor={ema26.accessor()}
-          tooltip={content}
-          fontSize={15}
-        /> */}
       </Chart>
       {/* <Chart id={2} height={barChartHeight} origin={barChartOrigin} yExtents={barChartExtents}>
         <BarSeries fillStyle={volumeColor} yAccessor={volumeSeries} />
