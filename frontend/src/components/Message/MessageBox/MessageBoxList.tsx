@@ -25,50 +25,49 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 
 function MessageBoxList({name}){
   const [data, setData] = useState([])
-  const [receivedeleteList, setReceiveDeletList] = useState([])
-  const [senddeleteList, setSendDeletList] = useState([])
-  const [keepdeleteList, setKeepDeletList] = useState([])
+  const [checkAll, setCheckAll] = useState(false);
+  const [checkItems, setCheckItems] = useState([]);
 
   const r_data = 	[{ 
 		"content": "rrTTTT...",
-		"senderId": 12,
+		"senderId": 1,
 		"senderNickname" : "고다헤바보",
 		"keep": false,
 		"createdAt": "2021-08-09T05:06:07"
 	},
 	{ 
 		"content": "TTTT...",
-		"senderId": 12,
+		"senderId": 2,
 		"senderNickname" : "고다헤바보",
-		"keep": true,
+		"keep": false,
 		"createdAt": "2021-08-09T05:06:07"
 	}]
   const s_data = 	[{ 
 		"content": "ssTTTT...",
-		"senderId": 12,
+		"senderId": 1,
 		"senderNickname" : "고다헤바보",
-		"keep": true,
+		"keep": false,
 		"createdAt": "2021-08-09T05:06:07"
 	},
 	{ 
 		"content": "TTTT...",
-		"senderId": 12,
+		"senderId": 2,
 		"senderNickname" : "고다헤바보",
-		"keep": true,
+		"keep": false,
 		"createdAt": "2021-08-09T05:06:07"
 	}]
   const k_data = 	[{ 
 		"content": "kkTTTT...",
-		"senderId": 12,
+		"senderId": 1,
 		"senderNickname" : "고다헤바보",
-		"keep": true,
+		"keep": false,
 		"createdAt": "2021-08-09T05:06:07"
 	},
 	{ 
 		"content": "TTTT...",
-		"senderId": 12,
+		"senderId": 2,
 		"senderNickname" : "고다헤바보",
-		"keep": true,
+		"keep": false,
 		"createdAt": "2021-08-09T05:06:07"
 	}]
 
@@ -76,35 +75,110 @@ function MessageBoxList({name}){
   useEffect(() => {
     if (name === 'Receive') {
       setData(r_data);
+      setCheckAll(false)
+      setCheckItems([])
     } else if (name === 'Send') {
       setData(s_data);
+      setCheckAll(false)
+      setCheckItems([])
     } else if (name === 'Keep') {
       setData(k_data);
+      setCheckAll(false)
+      setCheckItems([])
     }
   }, [name]); 
+
+
+  useEffect(()=>{
+
+    // checkItems 업데이트 이후에 checkAll을 업데이트
+    if (data.length !== checkItems.length) {
+      setCheckAll(false);
+    } else {
+      setCheckAll(true);
+    }
+  },[checkItems])
+
+  const handleCheck = () => {
+    setCheckAll(!checkAll);
+    if (!checkAll) {
+      // 모든 아이템 선택
+      setCheckItems(data.map(item => item.senderId));
+    } else {
+      // 모든 아이템 선택 해제
+      setCheckItems([]);
+    }
+    console.log(checkItems)
+  };
+
+
+  const handleItemCheck = (itemId) => {
+    // 아이템 개별 선택 또는 해제
+    if (checkItems.includes(itemId)) {
+      setCheckItems(checkItems.filter(id => id !== itemId));
+    } else {
+      setCheckItems([...checkItems, itemId]);
+    }
+  
+  };
+  
+
+  const toggleBookmark = (itemId) => {
+    // 아이템의 keep 상태 토글
+    setData((prevData) => {
+      return prevData.map((item) => {
+        if (item.senderId === itemId) {
+          return {
+            ...item,
+            keep: !item.keep,
+          };
+        }
+        return item;
+      });
+    });
+  };
 
   return(
     <>
     <Container>
       <Header>
-        <CheckBoxOutlineBlankIcon style={{color:'#929292'}}/>
+        <div onClick={handleCheck} style={{ cursor: 'pointer' }}>
+          {checkAll ? (
+            <CheckBox style={{ color: 'black' }} />
+          ) : (
+            <CheckBoxOutlineBlankIcon style={{ color: '#929292' }} />
+          )}
+        </div>
         <div style={{margin:'0px 0px 0px 87%'}}>
           <ReplayIcon style={{color:'#929292', margin:'0px 15px 0px 0px'}}/>
           <img src="/icon/휴지통.png" style={{width:'24px'}} />
         </div>
       </Header>
       <Line/>
+      
       <Wrapper>
         {data.map((item, index)=>(
           <div key={index}>
             <MessageItem>
               <Box>
-                <CheckBoxOutlineBlankIcon style={{color:'#929292'}}/>
-                {item.keep ? (
-                <BookmarkBorderIcon style={{color:'black', margin:'0px 0px 0px 5px'}}/>
-                ) : (
-                <BookmarkBorderIcon style={{color:'#929292', margin:'0px 0px 0px 5px'}}/>
-                )}
+                
+                <div onClick={() => handleItemCheck(item.senderId)} style={{ cursor: 'pointer' }}>
+                  {checkItems.includes(item.senderId) ? (
+                    <CheckBox style={{ color: 'black' }} />
+                  ) : (
+                    <CheckBoxOutlineBlankIcon style={{ color: '#929292' }} />
+                  )}
+                </div>
+
+                <BookmarkBorderIcon
+                  style={{
+                    color: item.keep ? '#ffe651' : '#929292',
+                    margin: '0px 0px 0px 5px',
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => toggleBookmark(item.senderId)}
+                />
+
                 <ItemContentBox>
                 <MessageItemTitle>{item.content}</MessageItemTitle>
                 <MessageItemSchedule>{item.createdAt}</MessageItemSchedule>
