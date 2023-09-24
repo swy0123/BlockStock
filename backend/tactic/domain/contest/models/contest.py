@@ -73,7 +73,7 @@ class Participate(Base):
     contest_id = Column(Integer, ForeignKey("contest.id"), nullable=False)
     tactic_id = Column(Integer, ForeignKey("tactic.id"), nullable=False)
     member_id = Column(Integer, nullable=False)
-    result_money = Column(Integer, nullable=False)
+    result_money = Column(Float, nullable=False)
 
     contest = relationship("Contest", back_populates="participate")
     tactic = relationship("Tactic", back_populates="participate")
@@ -83,3 +83,4 @@ class Participate(Base):
         self.contest_id = info_create.contest_id
         self.tactic_id = info_create.tactic_id
         self.result_money = ticket * 10000000
+
