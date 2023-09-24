@@ -8,10 +8,17 @@ import {
   HistorySummary,
   HistorySummaryContents,
   HistorySummaryContentsItem,
+  HistorySummaryContentsItemLeft,
+  HistorySummaryContentsItemRight,
   HistorySummaryContentsResult,
-  HistorySummaryContentsTitle,
+  ItemList,
   LeftDiv,
   OptionHistoryItemList,
+  OptionHistoryItemPosCenter,
+  OptionHistoryItemPosDown,
+  OptionHistoryItemPosLeft,
+  OptionHistoryItemPosRight,
+  OptionHistoryItemPosUp,
   OptionHistoryItemTitle,
   RightDiv,
   TacticTitle,
@@ -55,7 +62,8 @@ const TacticResult = (props) => {
       term: props.term,
       repeatCnt: props.repeatCnt,
     };
-    const res = await tacticTest(tacticTestData);
+    // const res = await tacticTest(tacticTestData);
+    const res = dummyData;
     console.log("결과~~~~~~~~~~~~~");
     console.log(res);
     setOptionHistory(res.optionHistory);
@@ -84,7 +92,7 @@ const TacticResult = (props) => {
     const year = today.getFullYear();
     const month = (today.getMonth() + 1).toString().padStart(2, "0");
     const day = today.getDate().toString().padStart(2, "0");
-  
+
     const formattedDate = `${year}${month}${day}`;
     return formattedDate;
   };
@@ -104,93 +112,6 @@ const TacticResult = (props) => {
   //   console.log(svgUrl);
   // };
 
-  // const dummyData = {
-  //     "optionHistory": [
-  //         {
-  //             "type": "buy",
-  //             "turn": 2,    // 몇 번째 턴
-  //             "cost": 8000,   // 주식 가격
-  //             "tradeCnt": 350,   // 거래 수
-  //             "profitAndLoss": 12  // 실현손익 : (매도 평균 - 매수 평균) * 매도 수량
-  //         },
-  //         {
-  //             "type": "sell",
-  //             "turn": 4,
-  //             "cost": 7000,
-  //             "tradeCnt": 300,
-  //             "profitAndLoss": 12
-  //         },
-  //     ],
-  //     "chartInfos": [
-  //         // "opens": [],   // 시가
-  //         // "highs": [],   // 고가
-  //         // "lows": [],    // 저가
-  //         // "closes": [],  // 종가
-  //         // "vols": [],    // 거래량
-  //         // "dates": [],    // 일자
-  //         // "tiems": [],    // 시간
-  //         {
-  //             date: "20210202",
-  //             time: "1600",
-  //             open: 134.9307,
-  //             low: 134.9105,
-  //             high: 135.0215,
-  //             close: 135.0087,
-  //             volume: 73591581
-  //         },
-  //         {
-  //             date: "20210202",
-  //             time: "1545",
-  //             open: 134.9707,
-  //             low: 134.9307,
-  //             high: 134.9707,
-  //             close: 134.9307,
-  //             volume: 67639193
-  //         },
-  //         {
-  //             date: "20210202",
-  //             time: "1530",
-  //             open: 134.6608,
-  //             low: 134.6608,
-  //             high: 134.975,
-  //             close: 134.975,
-  //             volume: 64815258
-  //         },
-  //         {
-  //             date: "20210202",
-  //             time: "1515",
-  //             open: 134.8585,
-  //             low: 134.6237,
-  //             high: 134.9716,
-  //             close: 134.6608,
-  //             volume: 66869896
-  //         },
-  //         {
-  //             date: "20210202",
-  //             time: "1500",
-  //             open: 134.2585,
-  //             low: 134.1237,
-  //             high: 134.2716,
-  //             close: 134.1968,
-  //             volume: 82892896
-  //         },
-  //         {
-  //             date: "20210202",
-  //             time: "1445",
-  //             open: 134.8585,
-  //             low: 134.6237,
-  //             high: 134.9716,
-  //             close: 134.6608,
-  //             volume: 77892896
-  //         }
-
-  //     ],
-  //     "startAsset": 10000000,    // 초기 자산
-  //     "endAsset": 143001230,     // 최종 자산
-  //     "returnPercent": 1.7,    // 수익률
-  // }
-
-  // useEffect(() => {
   //   console.log(componentRef);
   // }, [componentRef]);
 
@@ -244,7 +165,7 @@ const TacticResult = (props) => {
   return (
     <TradingHistoryContainer>
       {/* 전략 이름 */}
-      <TacticTitle>{props.title}</TacticTitle>
+      <TradingHistoryTitle style={{fontSize:"22px"}}>{props.title}</TradingHistoryTitle>
       {/* {props.tacticImg ? <img src={props.tacticImg}/>:<></>} */}
 
       <TradingHistoryContents>
@@ -254,27 +175,25 @@ const TacticResult = (props) => {
             <TradingHistoryTitle>매매내역</TradingHistoryTitle>
             <OptionHistoryItemList>
               <OptionHistoryItemTitle>
-                <div style={{ position: "absolute", left: "5%" }}>유형</div>
-                <div
-                  style={{ position: "absolute", left: "35%", transform: "translate(-50%, 0%)" }}
-                >
-                  가격(수량)
-                  <br />
-                  수수료
-                </div>
-                <div style={{ position: "absolute", right: "10%" }}>
-                  체결금액
-                  <br />
-                  실현손익
-                </div>
+                <OptionHistoryItemPosLeft>유형</OptionHistoryItemPosLeft>
+                <OptionHistoryItemPosCenter>
+                  <OptionHistoryItemPosUp>가격(수량)</OptionHistoryItemPosUp>
+                  <OptionHistoryItemPosDown>수수료</OptionHistoryItemPosDown>
+                </OptionHistoryItemPosCenter>
+                <OptionHistoryItemPosRight>
+                  <OptionHistoryItemPosUp>체결금액</OptionHistoryItemPosUp>
+                  <OptionHistoryItemPosDown>실현손익</OptionHistoryItemPosDown>
+                </OptionHistoryItemPosRight>
               </OptionHistoryItemTitle>
-              {optionHistory.map((item, index) => (
-                <OptionHistoryItem
-                  item={item}
-                  repeatCnt={props.repeatCnt}
-                  key={index}
-                ></OptionHistoryItem>
-              ))}
+              <ItemList>
+                {optionHistory.map((item, index) => (
+                  <OptionHistoryItem
+                    item={item}
+                    repeatCnt={props.repeatCnt}
+                    key={index}
+                  ></OptionHistoryItem>
+                ))}
+              </ItemList>
             </OptionHistoryItemList>
           </TradingHistoryDiv>
         </LeftDiv>
@@ -310,41 +229,56 @@ const TacticResult = (props) => {
                 <div style={{ fontSize: "13px" }}>{pricesDisplayFormat(startAsset)}원</div>
                 <div>↓</div>
                 <div style={{ fontSize: "14px" }}>최종자산</div>
-                <div style={{ fontSize: "16px", color: "red" }}>
+                <div style={{ fontSize: "16px", color: "#F24822" }}>
                   {pricesDisplayFormat(startAsset * returnPercent)}원
                 </div>
               </HistorySummaryContentsResult>
-
               <HistorySummaryContentsItem>
-                <span>종목:</span>
-                <span>
+                <HistorySummaryContentsItemLeft>종목:</HistorySummaryContentsItemLeft>
+                <HistorySummaryContentsItemRight>
                   {props.optionName}({props.optionCode})
-                </span>
+                </HistorySummaryContentsItemRight>
               </HistorySummaryContentsItem>
               <HistorySummaryContentsItem>
-                주기/횟수:{props.term}/{props.repeatCnt}
+                <HistorySummaryContentsItemLeft>주기/횟수</HistorySummaryContentsItemLeft>
+                <HistorySummaryContentsItemRight>
+                  {props.term}/{props.repeatCnt}
+                </HistorySummaryContentsItemRight>
               </HistorySummaryContentsItem>
               <HistorySummaryContentsItem>
-                시작 일자:{props.startDate.toLocaleDateString()}
+                <HistorySummaryContentsItemLeft>시작 일자</HistorySummaryContentsItemLeft>
+                <HistorySummaryContentsItemRight>
+                  {props.startDate.toLocaleDateString()}
+                </HistorySummaryContentsItemRight>
               </HistorySummaryContentsItem>
-
               <HistorySummaryContentsItem>
-                수익률:{pricesDisplayFormat(returnPercent)}%
+                <HistorySummaryContentsItemLeft>수익률</HistorySummaryContentsItemLeft>
+                <HistorySummaryContentsItemRight style={{ color: "#F24822" }}>
+                  {pricesDisplayFormat(returnPercent)}%
+                </HistorySummaryContentsItemRight>
               </HistorySummaryContentsItem>
               <HistorySummaryContentsItem>
-                수익금:{pricesDisplayFormat(startAsset * returnPercent - startAsset)}
+                <HistorySummaryContentsItemLeft>수익금</HistorySummaryContentsItemLeft>
+                <HistorySummaryContentsItemRight>
+                  {pricesDisplayFormat(startAsset * returnPercent - startAsset)}
+                </HistorySummaryContentsItemRight>
               </HistorySummaryContentsItem>
-              <HistorySummaryContentsItem>수수료 및 세금:???</HistorySummaryContentsItem>
               <HistorySummaryContentsItem>
-                총 거래 횟수:{optionHistory.length}
+                <HistorySummaryContentsItemLeft>수수료 및 세금</HistorySummaryContentsItemLeft>
+                <HistorySummaryContentsItemRight>???</HistorySummaryContentsItemRight>
+              </HistorySummaryContentsItem>
+              <HistorySummaryContentsItem>
+                <HistorySummaryContentsItemLeft>총 거래 횟수</HistorySummaryContentsItemLeft>
+                <HistorySummaryContentsItemRight>
+                  {optionHistory.length}
+                </HistorySummaryContentsItemRight>
               </HistorySummaryContentsItem>
             </HistorySummaryContents>
 
             {/* 버튼 */}
             <HistorySaveButton onClick={saveTactic}>저장하기</HistorySaveButton>
             {/* <HistorySaveButton onClick={downloadImg}>이미지</HistorySaveButton> */}
-            {props.tacticImg?<img src={props.tacticImg}/>:<></>}
-            
+            {props.tacticImg ? <img src={props.tacticImg} /> : <></>}
           </HistorySummary>
         </RightDiv>
       </TradingHistoryContents>
@@ -353,3 +287,131 @@ const TacticResult = (props) => {
 };
 
 export default TacticResult;
+
+const dummyData = {
+  optionHistory: [
+    {
+      type: "buy",
+      turn: 2, // 몇 번째 턴
+      cost: 8000, // 주식 가격
+      tradeCnt: 350, // 거래 수
+      profitAndLoss: 12, // 실현손익 : (매도 평균 - 매수 평균) * 매도 수량
+    },
+    {
+      type: "sell",
+      turn: 4,
+      cost: 7000,
+      tradeCnt: 300,
+      profitAndLoss: 12,
+    },
+    {
+      type: "buy",
+      turn: 2, // 몇 번째 턴
+      cost: 8000, // 주식 가격
+      tradeCnt: 350, // 거래 수
+      profitAndLoss: 12, // 실현손익 : (매도 평균 - 매수 평균) * 매도 수량
+    },
+    {
+      type: "sell",
+      turn: 4,
+      cost: 7000,
+      tradeCnt: 300,
+      profitAndLoss: 12,
+    },
+    {
+      type: "buy",
+      turn: 2, // 몇 번째 턴
+      cost: 8000, // 주식 가격
+      tradeCnt: 350, // 거래 수
+      profitAndLoss: 12, // 실현손익 : (매도 평균 - 매수 평균) * 매도 수량
+    },
+    {
+      type: "sell",
+      turn: 4,
+      cost: 7000,
+      tradeCnt: 300,
+      profitAndLoss: 12,
+    },{
+      type: "buy",
+      turn: 2, // 몇 번째 턴
+      cost: 8000, // 주식 가격
+      tradeCnt: 350, // 거래 수
+      profitAndLoss: 12, // 실현손익 : (매도 평균 - 매수 평균) * 매도 수량
+    },
+    {
+      type: "sell",
+      turn: 4,
+      cost: 7000,
+      tradeCnt: 300,
+      profitAndLoss: 12,
+    },
+  ],
+  chartInfos: [
+    // "opens": [],   // 시가
+    // "highs": [],   // 고가
+    // "lows": [],    // 저가
+    // "closes": [],  // 종가
+    // "vols": [],    // 거래량
+    // "dates": [],    // 일자
+    // "tiems": [],    // 시간
+    {
+      date: "20210202",
+      time: "1600",
+      open: 134.9307,
+      low: 134.9105,
+      high: 135.0215,
+      close: 135.0087,
+      volume: 73591581,
+    },
+    {
+      date: "20210202",
+      time: "1545",
+      open: 134.9707,
+      low: 134.9307,
+      high: 134.9707,
+      close: 134.9307,
+      volume: 67639193,
+    },
+    {
+      date: "20210202",
+      time: "1530",
+      open: 134.6608,
+      low: 134.6608,
+      high: 134.975,
+      close: 134.975,
+      volume: 64815258,
+    },
+    {
+      date: "20210202",
+      time: "1515",
+      open: 134.8585,
+      low: 134.6237,
+      high: 134.9716,
+      close: 134.6608,
+      volume: 66869896,
+    },
+    {
+      date: "20210202",
+      time: "1500",
+      open: 134.2585,
+      low: 134.1237,
+      high: 134.2716,
+      close: 134.1968,
+      volume: 82892896,
+    },
+    {
+      date: "20210202",
+      time: "1445",
+      open: 134.8585,
+      low: 134.6237,
+      high: 134.9716,
+      close: 134.6608,
+      volume: 77892896,
+    },
+  ],
+  startAsset: 10000000, // 초기 자산
+  endAsset: 143001230, // 최종 자산
+  returnPercent: 1.7, // 수익률
+};
+
+// useEffect(() => {
