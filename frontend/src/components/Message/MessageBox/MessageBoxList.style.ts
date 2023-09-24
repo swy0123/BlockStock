@@ -24,10 +24,14 @@ height: 570px;
 export const MessageItem = styled.div`
 width: 100%;
 height: 40px;
+padding: 15px 0px 0px 0px;
+&:hover{
+  background-color: #F8F8F8;
+}
 `;
 export const Box = styled.div`
 display: flex;
-margin: 15px 0px 0px 10px;
+margin: 0px 0px 0px 10px;
 `;
 export const MessageItemTitle = styled.div`
 margin: 0px 0px 0px 30px;
