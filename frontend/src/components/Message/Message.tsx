@@ -20,8 +20,12 @@ import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from "@mui/material/Alert";
 
+// 쪽지 보내기 api 
+import {messageSend} from '../../api/Message/Message'
 
 function Message({state,onClose }){
+
+  const [content, setContent] = useState('')
 
   const [snackbarState, setSnackbarState] = useState({
     open: false,
@@ -30,7 +34,19 @@ function Message({state,onClose }){
   });
   const { vertical, horizontal, open } = snackbarState;
 
+  const data={
+    receiverId:state.id,
+    content:content
+  }
+
   const handleClick = (newState) => () => {
+    console.log(data)
+
+    // 쪽지 보내기 api ================
+    // messageSend(data)
+    // 쪽지 보내기 api ================
+
+
     setSnackbarState({ ...newState, open: true });
   };
 
@@ -59,11 +75,12 @@ function Message({state,onClose }){
             <NickName>{state.nickname}</NickName>
           </UserBox>
           <Line/>
-          <Content placeholder="내용을 입력하세요"/>
+          <Content onChange={(e)=>setContent(e.target.value)} value={content} placeholder="내용을 입력하세요"/>
         </Wrapper>
+
         <Button
           onClick={handleClick({ vertical: "bottom", horizontal: "left" })}
-          style={{width:'100%', margin:'0px 0px 0px 0px'}}
+          style={{width:'0px', margin:'0px 0px 10px 490px'}}
         >
           <Send>
             <div>
@@ -72,6 +89,7 @@ function Message({state,onClose }){
             <SendIcon style={{width:'13px', margin:'0px 0px 0px 3px'}}/>
             </Send>
         </Button>
+
         <Snackbar
           anchorOrigin={{ vertical, horizontal }}
           open={open}
