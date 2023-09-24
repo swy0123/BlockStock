@@ -1,10 +1,10 @@
 import styled from "styled-components";
+import { colors } from '@mui/material';
 
 export const TacticTitle = styled.div`
   /* background-color: rgba(0, 150, 0, 0.08); */
   display: flex;
   width: 100%;
-  height: 5%;
   padding: 10px 0 0 10px;
   font-weight: bolder;
 `;
@@ -21,6 +21,7 @@ export const TradingHistoryContents = styled.div`
   width: 100%;
   height: 95%;
   overflow: hidden;
+  padding-bottom: 50px;
 `;
 
 export const LeftDiv = styled.div`
@@ -29,12 +30,12 @@ export const LeftDiv = styled.div`
   flex-direction: column;
   position: relative;
   padding: 10px;
-  width: 22%;
+  width: 23%;
   height: 100%;
 `;
 
 export const CenterDiv = styled.div`
-  background-color: rgba(0, 0, 150, 0.08);
+  /* background-color: rgba(0, 0, 150, 0.08); */
   display: flex;
   flex-direction: column;
   position: relative;
@@ -44,11 +45,11 @@ export const CenterDiv = styled.div`
 `;
 
 export const RightDiv = styled.div`
-  background-color: rgba(0, 0, 150, 0.08);
+  /* background-color: rgba(0, 0, 150, 0.08); */
   display: flex;
   flex-direction: column;
   position: relative;
-  width: 22%;
+  width: 23%;
   padding: 10px;
   height: 100%;
 `;
@@ -57,19 +58,19 @@ export const TradingHistoryDiv = styled.div`
   background-color: white;
   box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
   border: 1px solid #d4d4d4;
-  margin-bottom: 50px;
   border-radius: 10px;
   width: 100%;
   height: 100%;
   display: flex;
-  flex-wrap: wrap;
   flex-direction: column;
+  /* justify-content: center; */
   align-items: center;
 `;
 
 export const TradingHistoryTitle = styled.div`
-  width: 90%;
-  height: 7%;
+  width: 100%;
+  margin-left: 30px;
+  /* height: 7%; */
   padding: 10px;
   display: flex;
   font-size: 18px;
@@ -78,8 +79,8 @@ export const TradingHistoryTitle = styled.div`
 
 export const OptionHistoryItemList = styled.div`
   width: 90%;
-  height: 85%;
-  margin-bottom: 2%;
+  height: 90%;
+  /* margin-bottom: 2%; */
   display: flex;
   border: 1px solid #d4d4d4;
   border-radius: 10px;
@@ -87,6 +88,17 @@ export const OptionHistoryItemList = styled.div`
   flex-direction: column;
   align-items: center;
 `;
+
+export const ItemList = styled.div`
+  width: 100%;
+  height: 90%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
 export const OptionHistoryItemTitle = styled.div`
   width: 100%;
   height: 7%;
@@ -94,26 +106,56 @@ export const OptionHistoryItemTitle = styled.div`
   margin-bottom: 1%;
   position: relative;
   display: flex;
-  flex-direction: row;
   text-align: center;
   align-items: center;
-  padding: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+`;
+
+export const OptionHistoryItemPosLeft = styled.div`
+  position: absolute;
+  left: 3%;
+  font-size: 15px;
+  text-align: start;
+`;
+export const OptionHistoryItemPosCenter = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  left: 40%;
+  font-size: 15px;
+  transform: translate(-50%, 0%);
+`;
+export const OptionHistoryItemPosRight = styled.div`
+  position: absolute;
+  font-size: 15px;
+  right: 10%;
+`;
+export const OptionHistoryItemPosUp = styled.div`
+  font-size: 15px;
+  right: 10%;
+`;
+export const OptionHistoryItemPosDown = styled.div`
+  display: flex;
+  font-size: 13px;
+  right: 10%;
+  justify-content: end;
+  color:#525252;
 `;
 
 export const HistoryChartDiv = styled.div`
   background-color: white;
   box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
   border: 1px solid #d4d4d4;
-  margin-bottom: 50px;
   border-radius: 10px;
-  height: 100%;
-  width: 100%;
+  height: 98%;
+  width: 98%;
+  padding: 1%;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 export const HistorySummary = styled.div`
-  margin-bottom: 50px;
   width: 100%;
   height: 100%;
   display: flex;
@@ -127,7 +169,8 @@ export const HistorySummaryContents = styled.div`
   border: 1px solid #d4d4d4;
   border-radius: 10px;
   width: 100%;
-  height: 85%;
+  height: 100%;
+
   margin-bottom: 5%;
   display: flex;
   flex-direction: column;
@@ -137,13 +180,14 @@ export const HistorySummaryContents = styled.div`
 export const HistorySummaryContentsResult = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: #B38FFF;
-  border-radius: 5px;
-  width: 70%;
+  background-color: #f7f3ff;
+  border-radius: 6px;
+  width: 75%;
   height: 26%;
   text-align: center;
   align-items: center;
-  padding: 10px;
+  margin-left: 12.5%;
+  margin-right: 12.5%;
 `;
 
 // export const HistorySummaryContentsTitle = styled.div`
@@ -157,16 +201,49 @@ export const HistorySummaryContentsResult = styled.div`
 // `;
 export const HistorySummaryContentsItem = styled.div`
   position: relative;
-  border-radius: 5px;
+  margin-top: 10px;
   width: 100%;
   height: 16%;
 `;
+export const HistorySummaryContentsItemLeft = styled.span`
+  position: absolute;
+  left: 12.5%;
+  color: #929292;
+  font-family: Noto Sans;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`;
+export const HistorySummaryContentsItemRight = styled.span`
+  position: absolute;
+  right: 12.5%;
+  color: #000;
+  text-align: right;
+  font-family: Noto Sans;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`;
 
-export const HistorySaveButton = styled.button`
+export const HistorySaveButton = styled.div`
+  cursor: pointer;
   display: flex;
-  position: relative;
-  width: 80%;
+  width: 100%;
   height: 10%;
-  justify-content: center;
+  background: #9155fd;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 16px;
   align-items: center;
+  text-align: center;
+  justify-content: center;
+  color: #ffffff;
+  &:hover {
+    background-color: #b992fc;
+    color: black;
+  }
+  /* padding: 8px 13px; */
+  /* margin: 10px 0px 0px 10px; */
 `;
