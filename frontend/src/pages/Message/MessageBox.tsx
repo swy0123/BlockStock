@@ -2,12 +2,20 @@ import React, {useState} from 'react'
 import styled from 'styled-components'
 import MessageBoxBtn from '../../components/Message/MessageBox/MessageBoxBtn'
 import MessageBoxList from '../../components/Message/MessageBox/MessageBoxList'
+import MessageDetail from '../../components/Message/MessageBox/MessageDetail'
+
 function MessageBox(){
   const [type, setType] = useState('Receive');
+  const [detail, setDetail] = useState(true);
 
   const handleButtonClick = (info) => {
     console.log('Received info from button click:', info);
     setType(info);
+  };
+
+  const handleDetailButtonClick = (info) => {
+    console.log('Detail', info);
+    setDetail(!info);
   };
 
   return(
@@ -15,7 +23,11 @@ function MessageBox(){
       <Container>
         <MessageBoxBtn onButtonClick={handleButtonClick}/>
         <Line/>
-        <MessageBoxList name={type} />
+        {detail ? (
+          <MessageBoxList name={type} onButtonClick={handleDetailButtonClick}/>
+        ) : (
+          <MessageDetail onButtonClick={handleDetailButtonClick}/>
+        )}
       </Container>
     </>
   )
