@@ -14,7 +14,8 @@ import {
   RankReturn,
 } from './RecentContestResults.style';
 
-// import {recentContestResults} from '../../../api/Contest/Main'
+// api 통신
+import {recentContestResults} from '../../../api/Contest/Main'
 
 function RecentContestResults() {
   const navigate = useNavigate();
