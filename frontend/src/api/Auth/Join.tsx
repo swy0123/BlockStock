@@ -19,19 +19,19 @@ interface enterEmail {
 
 // 이메일 인증(발송) api
 export const postmail = async (email: enterEmail) => {
-    console.log('email', email);
-    const data = {
-        "email" : email
+    try{
+    console.log('try email', email);
+    const response = await publicApi.post("/member/request-email", email);
+    console.log(response);
+    return response;
+    }catch(error){
+        console.log('err',error)
     }
-    const response = await publicApi.post("/auth/request-email", data);
-    console.log(response.data);
-    return response.data;
 };
-
 // 이메일 인증(확인) api
 export const checkmail = async (data: authMail) => {
     console.log('data', data);
-    const response = await publicApi.post("/auth/confirm-email", data);
+    const response = await publicApi.post("/member/confirm-email", data);
     console.log(response.data);
     return response.data;
 };
