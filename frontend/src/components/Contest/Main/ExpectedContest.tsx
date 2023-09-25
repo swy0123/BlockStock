@@ -22,7 +22,7 @@ import {
 } from './ExpectedContest.styled'
 
 // api 통신
-// import { expectedContest } from '../../../api/Contest/Main';
+import { expectedContest } from '../../../api/Contest/Main';
 
 function ExpectedContest(){
   const navigate = useNavigate();
@@ -158,7 +158,7 @@ function ExpectedContest(){
                 </ContestPeriod>
               </ContestBox>
               
-              <hr style={{color:'#D3D3D3', marginBottom:'0px'}}/>
+              <hr style={{color:'#D3D3D3', margin:'15px 0px 0px 0px'}}/>
 
               <ContentBox style={{ display: showContent[index] ? 'block' : 'none' }}>
                 <div style={{padding:'10px 0px 0px 37px'}}>
