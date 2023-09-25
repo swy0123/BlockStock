@@ -36,10 +36,16 @@ import {
     MaxCapacityInput
 } from './ContestCreate.style'
 
+// 다른 컴포넌트에서 로컬 데이터 불러오기
+import { useRecoilValue } from 'recoil';
+import { CurrentUserAtom } from '../../../recoil/Auth';
+
 // 대회생성 api
 import { contestCreate } from "../../../api/Admin/Admin";
 
 function ContestCreate({onClose, selectedContest}){
+
+    const currentUser = useRecoilValue(CurrentUserAtom);
 
     const navigate = useNavigate();
     const [title, setTitle] = useState('')
@@ -52,12 +58,15 @@ function ContestCreate({onClose, selectedContest}){
     const [maxCapacity, setmaxCapacity] = useState(0)
 
     useEffect(()=>{
+
         if(selectedContest){
             setTitle(selectedContest.title)
-            setStartDate(new Date(selectedContest.startAt))
-            setEndDate(new Date(selectedContest.endAt))
+            setStartDate(new Date(selectedContest.startTime))
+            setEndDate(new Date(selectedContest.endTime))
             setContent(selectedContest.content)
             setTicket(selectedContest.ticket)
+            setmaxCapacity(selectedContest.maxCapacity)
+            setStockName(selectedContest.optionCode)
         }
     },[])
 
@@ -119,7 +128,7 @@ function ContestCreate({onClose, selectedContest}){
         maxCapacity ${maxCapacity}
         `)
         const formData = {
-            memberId:1,
+            memberId:currentUser.userid,
             title: title,
             content: content,
             startTime:startformattedDate,
