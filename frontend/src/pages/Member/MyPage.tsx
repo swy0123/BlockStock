@@ -26,7 +26,8 @@ import { Container,
   EditBtn,
   BtnWrapper,
   MenuBtn,
-  ContentContainer
+  ContentContainer,
+  EditImg,
 } from "./Mypage.style";
 
 function MyPage() {
@@ -135,6 +136,7 @@ function MyPage() {
           <Box>
             <Img src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${currentUser.userid}`} alt="profile" />
             {/* <Img src="./icon/user4.png" /> */}
+            <EditImg src="./icon/pen.png"/>
             <Text>{data.nickname}</Text>
             <Text>{data.email}</Text>
           </Box>
