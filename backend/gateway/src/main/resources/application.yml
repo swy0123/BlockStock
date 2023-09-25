@@ -54,4 +54,4 @@ spring:
         - id: tactic-service
           uri: https://seal-striking-presumably.ngrok-free.app
           predicates:
-            - Path=/api/tactic/**, /api/contest/**
+            - Path=/api/tactic/**, /api/contest/**, /api/option/**
