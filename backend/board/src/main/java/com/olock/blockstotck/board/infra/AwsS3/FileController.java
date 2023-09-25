@@ -1,4 +1,4 @@
-package com.olock.blockstotck.board.global.AwsS3;
+package com.olock.blockstotck.board.infra.AwsS3;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package com.olock.blockstotck.board.global.AwsS3;
+package com.olock.blockstotck.board.infra.AwsS3;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -28,7 +28,6 @@ public class AwsS3Uploader {
     public String bucket;
 
     public String upload(MultipartFile multipartFile, String dirName) throws IOException {
-        // 파일 생성
         File uploadFile = convert(multipartFile)
                 .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File convert fail"));
 
@@ -37,12 +36,11 @@ public class AwsS3Uploader {
 
     private String upload(File uploadFile, String dirName) {
         String fileName = dirName + "/" + UUID.randomUUID() + uploadFile.getName();
-        String uploadImageUrl = putS3(uploadFile, fileName);    // s3로 업로드
+        String uploadImageUrl = putS3(uploadFile, fileName);
         removeNewFile(uploadFile);
         return uploadImageUrl;
     }
 
-    // 1. 로컬에 파일생성
     private Optional<File> convert(MultipartFile file) throws IOException {
         File convertFile = new File(file.getOriginalFilename());
         if (convertFile.createNewFile()) {
@@ -55,25 +53,20 @@ public class AwsS3Uploader {
         return Optional.empty();
     }
 
-    // 2. S3에 파일업로드
     private String putS3(File uploadFile, String fileName) {
         amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(
                 CannedAccessControlList.PublicRead));
-//        log.info("File Upload : " + fileName);
+        
         return amazonS3Client.getUrl(bucket, fileName).toString();
     }
 
-    // 3. 로컬에 생성된 파일삭제
     private void removeNewFile(File targetFile) {
         if (targetFile.delete()) {
-//            log.info("File delete success");
             return;
         }
-//        log.info("File delete fail");
     }
 
     public void delete(String fileName) {
-//        log.info("File Delete : " + fileName);
         amazonS3Client.deleteObject(bucket, fileName);
     }
 }
