@@ -50,7 +50,7 @@ function BlocklyComponent(props: any) {
   let primaryWorkspace = useRef();
 
   const generateCode = () => {
-    var code = '"""'+pythonGenerator.workspaceToCode(primaryWorkspace.current)+'"""';
+    var code = '"""' + pythonGenerator.workspaceToCode(primaryWorkspace.current) + '"""';
     console.log(code);
   };
 
@@ -60,7 +60,7 @@ function BlocklyComponent(props: any) {
     if (tmp === null || !/^[a-zA-Z]+$/.test(tmp) || tmp.length > 10) {
       alert("올바른 영어 입력이 아닙니다.");
       return;
-    } 
+    }
     // else {
     //   alert("올바른 영어 입력입니다.");
     // }
@@ -108,7 +108,7 @@ function BlocklyComponent(props: any) {
     pythonGenerator.forBlock[set] = function (block: any, generator: any) {
       // var field = block.getFieldValue(set);
       var number_value = generator.valueToCode(block, "Number", Order.NONE).toString();
-      var code = data + ' = ' + number_value+'\n';
+      var code = data + ' = ' + number_value + '\n';
       return code;
     };
 
@@ -208,30 +208,30 @@ function BlocklyComponent(props: any) {
    * @param {number} height Image height.
    * @param {!Function} callback Callback.
    */
-  const svgToPng_ = (data, width, height) => {
-    var canvas = document.createElement("canvas");
-    var context = canvas.getContext("2d");
-    var img = new Image();
+  // const svgToPng_ = (data, width, height) => {
+  //   var canvas = document.createElement("canvas");
+  //   var context = canvas.getContext("2d");
+  //   var img = new Image();
 
-    var pixelDensity = 10;
-    var dataUri;
-    canvas.width = width * pixelDensity;
-    canvas.height = height * pixelDensity;
-    img.onload = function () {
-      context.drawImage(img, 0, 0, width, height, 0, 0, canvas.width, canvas.height);
-      try {
-        dataUri = canvas.toDataURL("image/png");
-        // console.log("dataUri")
-        // console.log(dataUri)
-        // setest(dataUri)
-      } catch (err) {
-        console.warn("Error converting the workspace svg to a png");
-      }
-    };
-    img.src = data;
-    // setest(data)
-    return data;
-  };
+  //   var pixelDensity = 10;
+  //   var dataUri;
+  //   canvas.width = width * pixelDensity;
+  //   canvas.height = height * pixelDensity;
+  //   img.onload = function () {
+  //     context.drawImage(img, 0, 0, width, height, 0, 0, canvas.width, canvas.height);
+  //     try {
+  //       dataUri = canvas.toDataURL("image/png");
+  //       // console.log("dataUri")
+  //       // console.log(dataUri)
+  //       // setest(dataUri)
+  //     } catch (err) {
+  //       console.warn("Error converting the workspace svg to a png");
+  //     }
+  //   };
+  //   img.src = data;
+  //   // setest(data)
+  //   return data;
+  // };
 
   /**
    * Create an SVG of the blocks on the workspace.
@@ -264,9 +264,9 @@ function BlocklyComponent(props: any) {
     svg.setAttribute(
       "class",
       "blocklySvg " +
-        (workspace.options.renderer || "geras") +
-        "-renderer " +
-        (workspace.getTheme ? workspace.getTheme().name + "-theme" : "")
+      (workspace.options.renderer || "geras") +
+      "-renderer " +
+      (workspace.getTheme ? workspace.getTheme().name + "-theme" : "")
     );
     svg.setAttribute("width", width);
     svg.setAttribute("height", height);
@@ -288,8 +288,8 @@ function BlocklyComponent(props: any) {
     var svgAsXML = new XMLSerializer().serializeToString(svg);
     svgAsXML = svgAsXML.replace(/&nbsp/g, "&#160");
     var data = "data:image/svg+xml," + encodeURIComponent(svgAsXML);
-
-    return svgToPng_(data, width, height);
+    return data;
+    // return svgToPng_(data, width, height);
   };
 
   const exportImageAsPNG = () => {
@@ -336,7 +336,7 @@ function BlocklyComponent(props: any) {
     if (!props.codeCheck) {
       if (primaryWorkspace.current != undefined) {
         props.writeTacticJsonCode(Blockly.serialization.workspaces.save(primaryWorkspace.current));
-        props.writeTacticPythonCode('"""'+pythonGenerator.workspaceToCode(primaryWorkspace.current)+'"""');
+        props.writeTacticPythonCode('"""' + pythonGenerator.workspaceToCode(primaryWorkspace.current) + '"""');
         props.writeTacticImg(exportImageAsPNG);
       }
       props.setCodeCheckTrue();
