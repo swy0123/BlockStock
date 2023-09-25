@@ -7,9 +7,16 @@ height: 100%;
 
 export const Header = styled.div`
 width: 98%;
-height: 25px;
+height: 4%;
 display: flex;
 padding: 10px;
+`;
+
+export const IconBox = styled.div`
+margin: 0px 0px 0px 87%;
+@media (max-width: 1000px) {
+    margin-right: 5%; 
+  }
 `;
 
 export const Line = styled.div`

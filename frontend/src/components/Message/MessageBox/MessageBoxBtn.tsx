@@ -29,6 +29,7 @@ function MessageBoxBtn({onButtonClick}){
     <>
       <Container>
         <Wrapper>
+
           {/* 받은 쪽지 */}
           <ReceiveStyleBox
            onClick={() => handleButtonClick('RECEIVE')}
@@ -44,6 +45,7 @@ function MessageBoxBtn({onButtonClick}){
             <MailOutlineIcon style={{fontSize:'30px'}}/>
             <ReceiveTitle>받은 쪽지</ReceiveTitle>
           </ReceiveStyleBox>
+
           {/* 보낸 쪽지 */}
           <SendStyleBox
           onClick={() => handleButtonClick('SEND')}
@@ -59,6 +61,7 @@ function MessageBoxBtn({onButtonClick}){
             <SendIcon style={{fontSize:'26px', margin:'2px 0px 0px 0px'}}/>
             <SendTitle>보낸 쪽지</SendTitle>
           </SendStyleBox>
+          
           {/* 쪽지 보관함 */}
           <KeepStyleBox
           onClick={() => handleButtonClick('KEEP')}

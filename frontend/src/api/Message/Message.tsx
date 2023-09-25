@@ -5,7 +5,11 @@ export const messageList = async (type:type) => {
   console.log('쪽지 목록 api 진입')
   try{
     console.log(type)
-    const res = await privateApi.get(`/message/${type}`);
+    const res = await privateApi.get(`/message`,{
+      params:{
+        type
+      }
+    });
     console.log(res.data);
     return res.data
   }
@@ -20,7 +24,6 @@ export const messageDetail = async (messageId:messageId) => {
   try{
     console.log(messageId)
     const res = await privateApi.get(`/message/${messageId}`);
-    console.log(res.data);
     return res.data
   }
   catch(err){
@@ -35,6 +38,7 @@ export const messageSend = async (data:data) => {
     console.log(data)
     const res = await privateApi.post(`/message`,data);
     console.log(res.data);
+    console.log('보내기 성공', res.data);
     return res.data
   }
   catch(err){
