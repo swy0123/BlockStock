@@ -22,16 +22,30 @@ export const tacticTest = async (data: tacticTestProps) => {
   return res.data;
 };
 
-
+export interface saveTacticProps {
+  title: string;
+  optionCode: string;
+  tacticJsonCode: string;
+  tacticPythonCode: string;
+  imgPath: string;
+  testReturns: number;
+}
 
 // 전략 생성
-export const tacticCreate = async (data:FormData) => {
+export const tacticCreate = async (data:saveTacticProps) => {
   console.log(data)
-  const res = await privateApi.post(`/tactic`, data, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  const res = await privateApi.post(`/tactic`, data);
   console.log(res.data);
   return res.data;
 };
+
+// export const tacticCreate = async (data:FormData) => {
+//   console.log(data)
+//   const res = await privateApi.post(`/tactic`, data, {
+//     headers: {
+//       "Content-Type": "multipart/form-data",
+//     },
+//   });
+//   console.log(res.data);
+//   return res.data;
+// };
