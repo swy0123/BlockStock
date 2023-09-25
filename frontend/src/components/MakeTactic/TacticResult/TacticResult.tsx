@@ -29,7 +29,7 @@ import {
 } from "./TacticResult.style";
 import OptionHistoryItem from "./OptionHistoryItem";
 import { format } from "d3-format";
-import { tacticTest, tacticTestProps } from "../../../api/Tactic/TacticTest";
+import { tacticCreate, tacticTest, tacticTestProps } from "../../../api/Tactic/TacticTest";
 
 export interface saveTacticProps {
   title: string;
@@ -62,8 +62,8 @@ const TacticResult = (props) => {
       term: props.term,
       repeatCnt: props.repeatCnt,
     };
-    // const res = await tacticTest(tacticTestData);
-    const res = dummyData;
+    const res = await tacticTest(tacticTestData);
+    // const res = dummyData;
     console.log("결과~~~~~~~~~~~~~");
     console.log(res);
     setOptionHistory(res.optionHistory);
@@ -97,75 +97,62 @@ const TacticResult = (props) => {
     return formattedDate;
   };
 
-  // const downloadImg = () => {
-  //   const svgBlob = new Blob([props.tacticImg], { type: 'image/svg+xml' });
-  //   const svgUrl = URL.createObjectURL(svgBlob);
-
-  //   // 다운로드 링크를 생성하고 클릭합니다.
-  //   const a = document.createElement('a');
-  //   a.href = svgUrl;
-  //   a.download = "tmp.svg";
-  //   a.click();
-
-  //   // 사용이 끝난 URL 객체를 해제합니다.
-  //   URL.revokeObjectURL(svgUrl);
-  //   console.log(svgUrl);
-  // };
-
-  //   console.log(componentRef);
-  // }, [componentRef]);
 
   useEffect(() => {
     axiosGetData();
     console.log("res useEffect");
     console.log(chartInfos);
+    console.log("!!!!!!")
+    console.log(typeof(props.tacticImg))
   }, []);
 
+
+
+  const dummy = {
+    "title": "빠르게 가는 전략",
+    "optionCode": "005147",
+    "taticJsonCode": {},
+    "tacticPythonCode": "",
+    "testReturns": "1.5",
+  }
   // post tactic api
-  const uploadData = async (requestData) => {
+  const uploadData = async () => {
     const formData = new FormData();
-    formData.append("data", requestData);
-    // formData.append('title', postData.title);
-    // formData.append('optionCode', postData.optionCode);
-    // formData.append('taticJsonCode', postData.taticJsonCode);
-    // formData.append('tacticPythonCode', postData.tacticPythonCode);
-    // formData.append('testReturns', postData.testReturns);
+    formData.append('title', props.title);
+    formData.append('optionCode', props.optionCode);
+    formData.append('taticJsonCode', JSON.stringify(props.taticJsonCode));
+    formData.append('tacticPythonCode', props.tacticPythonCode);
+    formData.append('testReturns', props.testReturns);
+    formData.append('imgPath', props.tacticImg, "img.svg");
 
     console.log(formData);
-    // try {
-    //     const response = await axios.post('/upload', formData, {
-    //         headers: {
-    //             'Content-Type': 'multipart/form-data',
-    //         },
-    //     });
-
-    //     if (response.status === 200) {
-    //         console.log('이미지와 문자열 데이터가 성공적으로 업로드되었습니다.');
-    //     } else {
-    //         console.error('데이터 업로드 중 오류가 발생했습니다.');
-    //     }
-    // } catch (error) {
-    //     console.error('네트워크 오류:', error);
-    // }
+    const res = await tacticCreate(formData);
+    console.log(res)
+    console.log(formData.get('title'))
+    console.log(formData.get('optionCode'))
+    console.log(formData.get('taticJsonCode'))
+    console.log(formData.get('tacticPythonCode'))
+    console.log(formData.get('testReturns'))
+    console.log(formData.get('imgPath'))
   };
 
   const saveTactic = () => {
-    const requestProps = {
-      title: props.title,
-      optionCode: props.optionCode,
-      taticJsonCode: props.tacticJsonCode,
-      tacticPythonCode: props.tacticPythonCode,
-      testReturns: returnPercent.toString(),
-      tacticImg: props.tacticImg,
-    };
-    uploadData(requestProps);
-    console.log(requestProps);
+    // const requestProps = {
+    //   title: props.title,
+    //   optionCode: props.optionCode,
+    //   taticJsonCode: props.tacticJsonCode,
+    //   tacticPythonCode: props.tacticPythonCode,
+    //   testReturns: returnPercent.toString(),
+    //   tacticImg: props.tacticImg,
+    // };
+    uploadData();
+    // console.log(requestProps);
   };
 
   return (
     <TradingHistoryContainer>
       {/* 전략 이름 */}
-      <TradingHistoryTitle style={{fontSize:"22px"}}>{props.title}</TradingHistoryTitle>
+      <TradingHistoryTitle style={{ fontSize: "22px" }}>{props.title}</TradingHistoryTitle>
       {/* {props.tacticImg ? <img src={props.tacticImg}/>:<></>} */}
 
       <TradingHistoryContents>
@@ -206,9 +193,9 @@ const TacticResult = (props) => {
                     </div> */}
             {/* 차트 */}
             {size.width > 0 &&
-            size.height > 0 &&
-            chartInfos !== undefined &&
-            chartInfos.length > 0 ? (
+              size.height > 0 &&
+              chartInfos !== undefined &&
+              chartInfos.length > 0 ? (
               <CandleChart
                 curwidth={size.width - 10}
                 curheight={size.height - 10}
@@ -288,130 +275,130 @@ const TacticResult = (props) => {
 
 export default TacticResult;
 
-const dummyData = {
-  optionHistory: [
-    {
-      type: "buy",
-      turn: 2, // 몇 번째 턴
-      cost: 8000, // 주식 가격
-      tradeCnt: 350, // 거래 수
-      profitAndLoss: 12, // 실현손익 : (매도 평균 - 매수 평균) * 매도 수량
-    },
-    {
-      type: "sell",
-      turn: 4,
-      cost: 7000,
-      tradeCnt: 300,
-      profitAndLoss: 12,
-    },
-    {
-      type: "buy",
-      turn: 2, // 몇 번째 턴
-      cost: 8000, // 주식 가격
-      tradeCnt: 350, // 거래 수
-      profitAndLoss: 12, // 실현손익 : (매도 평균 - 매수 평균) * 매도 수량
-    },
-    {
-      type: "sell",
-      turn: 4,
-      cost: 7000,
-      tradeCnt: 300,
-      profitAndLoss: 12,
-    },
-    {
-      type: "buy",
-      turn: 2, // 몇 번째 턴
-      cost: 8000, // 주식 가격
-      tradeCnt: 350, // 거래 수
-      profitAndLoss: 12, // 실현손익 : (매도 평균 - 매수 평균) * 매도 수량
-    },
-    {
-      type: "sell",
-      turn: 4,
-      cost: 7000,
-      tradeCnt: 300,
-      profitAndLoss: 12,
-    },{
-      type: "buy",
-      turn: 2, // 몇 번째 턴
-      cost: 8000, // 주식 가격
-      tradeCnt: 350, // 거래 수
-      profitAndLoss: 12, // 실현손익 : (매도 평균 - 매수 평균) * 매도 수량
-    },
-    {
-      type: "sell",
-      turn: 4,
-      cost: 7000,
-      tradeCnt: 300,
-      profitAndLoss: 12,
-    },
-  ],
-  chartInfos: [
-    // "opens": [],   // 시가
-    // "highs": [],   // 고가
-    // "lows": [],    // 저가
-    // "closes": [],  // 종가
-    // "vols": [],    // 거래량
-    // "dates": [],    // 일자
-    // "tiems": [],    // 시간
-    {
-      date: "20210202",
-      time: "1600",
-      open: 134.9307,
-      low: 134.9105,
-      high: 135.0215,
-      close: 135.0087,
-      volume: 73591581,
-    },
-    {
-      date: "20210202",
-      time: "1545",
-      open: 134.9707,
-      low: 134.9307,
-      high: 134.9707,
-      close: 134.9307,
-      volume: 67639193,
-    },
-    {
-      date: "20210202",
-      time: "1530",
-      open: 134.6608,
-      low: 134.6608,
-      high: 134.975,
-      close: 134.975,
-      volume: 64815258,
-    },
-    {
-      date: "20210202",
-      time: "1515",
-      open: 134.8585,
-      low: 134.6237,
-      high: 134.9716,
-      close: 134.6608,
-      volume: 66869896,
-    },
-    {
-      date: "20210202",
-      time: "1500",
-      open: 134.2585,
-      low: 134.1237,
-      high: 134.2716,
-      close: 134.1968,
-      volume: 82892896,
-    },
-    {
-      date: "20210202",
-      time: "1445",
-      open: 134.8585,
-      low: 134.6237,
-      high: 134.9716,
-      close: 134.6608,
-      volume: 77892896,
-    },
-  ],
-  startAsset: 10000000, // 초기 자산
-  endAsset: 143001230, // 최종 자산
-  returnPercent: 1.7, // 수익률
-};
+// const dummyData = {
+//   optionHistory: [
+//     {
+//       type: "buy",
+//       turn: 2, // 몇 번째 턴
+//       cost: 8000, // 주식 가격
+//       tradeCnt: 350, // 거래 수
+//       profitAndLoss: 12, // 실현손익 : (매도 평균 - 매수 평균) * 매도 수량
+//     },
+//     {
+//       type: "sell",
+//       turn: 4,
+//       cost: 7000,
+//       tradeCnt: 300,
+//       profitAndLoss: 12,
+//     },
+//     {
+//       type: "buy",
+//       turn: 2, // 몇 번째 턴
+//       cost: 8000, // 주식 가격
+//       tradeCnt: 350, // 거래 수
+//       profitAndLoss: 12, // 실현손익 : (매도 평균 - 매수 평균) * 매도 수량
+//     },
+//     {
+//       type: "sell",
+//       turn: 4,
+//       cost: 7000,
+//       tradeCnt: 300,
+//       profitAndLoss: 12,
+//     },
+//     {
+//       type: "buy",
+//       turn: 2, // 몇 번째 턴
+//       cost: 8000, // 주식 가격
+//       tradeCnt: 350, // 거래 수
+//       profitAndLoss: 12, // 실현손익 : (매도 평균 - 매수 평균) * 매도 수량
+//     },
+//     {
+//       type: "sell",
+//       turn: 4,
+//       cost: 7000,
+//       tradeCnt: 300,
+//       profitAndLoss: 12,
+//     },{
+//       type: "buy",
+//       turn: 2, // 몇 번째 턴
+//       cost: 8000, // 주식 가격
+//       tradeCnt: 350, // 거래 수
+//       profitAndLoss: 12, // 실현손익 : (매도 평균 - 매수 평균) * 매도 수량
+//     },
+//     {
+//       type: "sell",
+//       turn: 4,
+//       cost: 7000,
+//       tradeCnt: 300,
+//       profitAndLoss: 12,
+//     },
+//   ],
+//   chartInfos: [
+//     // "opens": [],   // 시가
+//     // "highs": [],   // 고가
+//     // "lows": [],    // 저가
+//     // "closes": [],  // 종가
+//     // "vols": [],    // 거래량
+//     // "dates": [],    // 일자
+//     // "tiems": [],    // 시간
+//     {
+//       date: "20210202",
+//       time: "1600",
+//       open: 134.9307,
+//       low: 134.9105,
+//       high: 135.0215,
+//       close: 135.0087,
+//       volume: 73591581,
+//     },
+//     {
+//       date: "20210202",
+//       time: "1545",
+//       open: 134.9707,
+//       low: 134.9307,
+//       high: 134.9707,
+//       close: 134.9307,
+//       volume: 67639193,
+//     },
+//     {
+//       date: "20210202",
+//       time: "1530",
+//       open: 134.6608,
+//       low: 134.6608,
+//       high: 134.975,
+//       close: 134.975,
+//       volume: 64815258,
+//     },
+//     {
+//       date: "20210202",
+//       time: "1515",
+//       open: 134.8585,
+//       low: 134.6237,
+//       high: 134.9716,
+//       close: 134.6608,
+//       volume: 66869896,
+//     },
+//     {
+//       date: "20210202",
+//       time: "1500",
+//       open: 134.2585,
+//       low: 134.1237,
+//       high: 134.2716,
+//       close: 134.1968,
+//       volume: 82892896,
+//     },
+//     {
+//       date: "20210202",
+//       time: "1445",
+//       open: 134.8585,
+//       low: 134.6237,
+//       high: 134.9716,
+//       close: 134.6608,
+//       volume: 77892896,
+//     },
+//   ],
+//   startAsset: 10000000, // 초기 자산
+//   endAsset: 143001230, // 최종 자산
+//   returnPercent: 1.7, // 수익률
+// };
 
 // useEffect(() => {
