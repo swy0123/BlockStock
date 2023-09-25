@@ -17,12 +17,12 @@ public interface MessageRepository extends MongoRepository<Message, String> {
     Integer updateIsMarked(String id, boolean isMarked);
 
     @Query("{'senderId': ?0}")
-    List<MessageDetailResponse> findMessagesBySenderId(Long memberId);
+    List<Message> findMessagesBySenderId(Long memberId);
 
     @Query("{'receiverId': ?0}")
-    List<MessageDetailResponse> findMessagesByReceiverId(Long memberId);
+    List<Message> findMessagesByReceiverId(Long memberId);
 
     @Query("{'receiverId': ?0, 'isMarked': ?1}")
-    List<MessageDetailResponse> findMessagesByReceiverIdAndIsMarked(Long memberId, boolean isMarked);
+    List<Message> findMessagesByReceiverIdAndIsMarked(Long memberId, boolean isMarked);
 
 }
