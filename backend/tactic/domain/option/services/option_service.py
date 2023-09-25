@@ -17,15 +17,12 @@ if bConnect == 0:
     exit()
 
 def get_options():
-
-    # 한국 종목 가져오기
     stocks = pd.read_html('http://kind.krx.co.kr/corpgeneral/corpList.do?method=download',header=0)[0]
 
     # 랜덤 8개 추출하고, json으로 저장
     stocks = stocks[['종목코드', '회사명']].sample(8)
     stocks['종목코드'] = stocks['종목코드'].astype(str).str.zfill(6)
 
-    # print(stocks)
     token = get_token()
 
     URL = f'{os.environ["HT_BASE_URL"]}/{os.environ["HT_STOCK_PATH"]}'
@@ -35,6 +32,7 @@ def get_options():
         print(get_stock(row, token, URL))
 
     return ""
+
 
 def get_stock(row, token, URL):
     headers = {"Content-Type": "application/json",
@@ -51,6 +49,7 @@ def get_stock(row, token, URL):
     res = requests.get(URL, headers=headers, params=params)
     print(res.json())
     return ""
+
 
 def get_token():
     URL = f'{os.environ["HT_BASE_URL"]}/{os.environ["HT_TOKEN_PATH"]}'
@@ -104,3 +103,8 @@ def get_search_option(member_id, option):
     response.diffRate = round(diff_rate, 3)
 
     return response
+
+
+def get_keyword_search(member_id: int, keyword: str):
+    print("tmp")
+
