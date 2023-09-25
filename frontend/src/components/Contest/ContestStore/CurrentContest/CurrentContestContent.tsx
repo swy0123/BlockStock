@@ -155,8 +155,8 @@ function CurrentContestContent(){
           page={page}
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          rowsPerPageOptions={rowsPerPageOptions}
+          onRowsPerPageChange={() => {}}
+          rowsPerPageOptions={[]}
           style={{margin:'0px 50px 0px 0px'}}
         />
 

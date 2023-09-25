@@ -21,6 +21,7 @@ import ContestUpdate from "./ContestUpdate";
 import { useRecoilValue } from "recoil";
 import { completedContestListState } from "../../recoil/Contest/CompletedContest";
 import {contestDelete} from '../../api/Admin/Admin'
+
 function ContestList(){
 
   const contestResultList = useRecoilValue(completedContestListState);
@@ -71,16 +72,7 @@ function ContestList(){
     ) => {
       setPage(newPage);
   };
-  
-  // Handle rows per page change
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    ) => {
-      setRowsPerPage(parseInt(event.target.value, 10));
-      setPage(0);
-    };
-    
-  const rowsPerPageOptions = [5, 6, 7, 8];
+
     
   const startIndex = page * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
@@ -151,8 +143,8 @@ function ContestList(){
         page={page}
         onPageChange={handleChangePage}
         rowsPerPage={rowsPerPage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-        rowsPerPageOptions={rowsPerPageOptions}
+        onRowsPerPageChange={()=>{}}
+        rowsPerPageOptions={[]}
         style={{margin:'0px 50px 0px 0px'}}
         />
 
