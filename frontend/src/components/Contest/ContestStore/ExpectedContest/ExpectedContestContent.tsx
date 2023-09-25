@@ -43,9 +43,11 @@ import {expectedContestList} from '../../../../api/Contest/ContestStore'
 
 function ExpectedContestContent(){
 
-  // const [expectedContestList, setExpectedContestList] = useState([])
+  const [expectedContestItem, setExpectedContestItem] = useState([])
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(3);
+
+  const [ count, setCount] = useState(0)
 
   // 대회참가 모달 ==================================================================
   const [selectedContest, setSelectedContest] = useState(null);
@@ -83,10 +85,12 @@ function ExpectedContestContent(){
       status: 'expected',
       page: page,
       size: rowsPerPage,
-      keyWord: searchKeyword
+      key_word: searchKeyword
     };
     const contest = await expectedContestList(params)
     console.log(contest)
+    setExpectedContestItem(contest.contestList)
+    setCount(contest.count)
   }
   // api 통신 =============================================================
 
@@ -94,14 +98,14 @@ function ExpectedContestContent(){
 
   // 해당 대회만 내용을 보여준다 ==========================================================
   // filteredContestList 값은 api 통신 후 교체
-  const [showContent, setShowContent] = useState(Array(filteredContestList.length).fill(false));
+  const [showContent, setShowContent] = useState(Array(expectedContestItem.length).fill(false));
   const toggleContent = (index) => {
     const updatedShowContent = [...showContent];
     updatedShowContent[index] = !updatedShowContent[index];
     setShowContent(updatedShowContent);
     
     if (updatedShowContent[index]) {
-      setSelectedContest(filteredContestList[index]);
+      setSelectedContest(expectedContestItem[index]);
     } else {
       setSelectedContest(null);
     }
@@ -162,13 +166,13 @@ function ExpectedContestContent(){
     <Container>
 
       <Wrapper>
-        {filteredItems.map((contest, index) => (
+        {expectedContestItem.map((contest, index) => (
           <div key={contest.id} style={{margin:'0px 0px 30px 0px'}}>
             {/* <Line hide={index === 0} /> */}
             <ContestBox onClick={() => toggleContent(index)}>
               <div>
                 <Title> [경진대회] {contest.title}</Title>
-                <Schedule>대회 기간: {contest.startAt} ~ {contest.endAt}</Schedule>
+                <Schedule>대회 기간: {contest.startTime} ~ {contest.endTime}</Schedule>
               </div>
               {showContent[index] ? (
                 <KeyboardControlKeyIcon style={{ fontSize: '50px', marginLeft: 'auto', marginRight: '50px' }} />
@@ -200,12 +204,12 @@ function ExpectedContestContent(){
       </Wrapper>
         <TablePagination
           component="div"
-          count={filteredContestList.length}
+          count={count}
           page={page}
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          rowsPerPageOptions={rowsPerPageOptions}
+          onRowsPerPageChange={() => {}}
+          rowsPerPageOptions={[]}
           style={{margin:'0px 50px 0px 0px'}}
         />
 

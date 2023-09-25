@@ -1,9 +1,8 @@
 import { styled } from "styled-components";
 
 export const Container = styled.div`
-  height: 350px;
+  height: 300px;
   margin: 0px 0px 0px 0px;
-  width: 50%;
 `;
 
 export const ContestTitleWrapper = styled.div`
@@ -18,7 +17,7 @@ export const ContestTitle = styled.div`
 
 
 export const Wrappe = styled.div`
-  width: 400px;
+  width: 300px;
   height: 206px;
   border: 2px solid #D4D4D4;
   background: #FFFFFF;

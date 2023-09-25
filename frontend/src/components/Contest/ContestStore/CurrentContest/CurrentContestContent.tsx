@@ -18,6 +18,8 @@ import {
   Button,
 } from './CurrentContestContent.style'
 
+import { useNavigate } from "react-router-dom";
+
 import TablePagination from '@mui/material/TablePagination';
 
 // api 통신
@@ -40,6 +42,7 @@ import {currentContestList} from '../../../../api/Contest/ContestStore'
 
 function CurrentContestContent(){
 
+  const navigate = useNavigate();
   // 리코일에서 불러온 검색어
   const searchKeyword  = useRecoilValue(searchKeywordState);
   
@@ -77,11 +80,19 @@ function CurrentContestContent(){
 
 
   // 해당 페이지 내용 열기 ==============================================================
+  const [selectedContest, setSelectedContest] = useState(null);
   const [showContent, setShowContent] = useState(Array(filteredContestList.length).fill(false));
   const toggleContent = (index) => {
     const updatedShowContent = [...showContent];
     updatedShowContent[index] = !updatedShowContent[index];
     setShowContent(updatedShowContent);
+
+    if (updatedShowContent[index]) {
+      console.log(filteredContestList[index],'-----------------')
+      setSelectedContest(filteredContestList[index]);
+    } else {
+      setSelectedContest(null);
+    }
   };
   // 해당 페이지 내용 열기 ==============================================================
 
@@ -141,7 +152,7 @@ function CurrentContestContent(){
               <Term>전략 실행 주기  {contest.term}</Term>
               <div>내용</div>
               <Content>{contest.content}</Content>
-              <Button>진행 현황</Button>  
+              <Button onClick={()=>navigate('/contestprogress',{ state: { selectedContest } })}>진행 현황</Button>  
             </ContentBox>
             <hr style={{margin:'30px 0px 0px 0px'}}/>
 
@@ -155,8 +166,8 @@ function CurrentContestContent(){
           page={page}
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          rowsPerPageOptions={rowsPerPageOptions}
+          onRowsPerPageChange={() => {}}
+          rowsPerPageOptions={[]}
           style={{margin:'0px 50px 0px 0px'}}
         />
 
