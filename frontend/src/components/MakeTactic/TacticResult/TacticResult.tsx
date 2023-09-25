@@ -29,15 +29,7 @@ import {
 } from "./TacticResult.style";
 import OptionHistoryItem from "./OptionHistoryItem";
 import { format } from "d3-format";
-import { tacticCreate, tacticTest, tacticTestProps } from "../../../api/Tactic/TacticTest";
-
-export interface saveTacticProps {
-  title: string;
-  optionCode: string;
-  taticJsonCode: string;
-  tacticPythonCode: string;
-  testReturns: string;
-}
+import { saveTacticProps, tacticCreate, tacticTest, tacticTestProps } from "../../../api/Tactic/TacticTest";
 
 const TacticResult = (props) => {
   const [componentRef, size] = useComponentSize();
@@ -97,54 +89,63 @@ const TacticResult = (props) => {
     return formattedDate;
   };
 
-
   useEffect(() => {
     axiosGetData();
     console.log("res useEffect");
     console.log(chartInfos);
-    console.log("!!!!!!")
-    console.log(typeof(props.tacticImg))
+    console.log("!!!!!!");
+    console.log(typeof props.tacticImg);
   }, []);
 
-
-
   const dummy = {
-    "title": "빠르게 가는 전략",
-    "optionCode": "005147",
-    "taticJsonCode": {},
-    "tacticPythonCode": "",
-    "testReturns": "1.5",
-  }
+    title: "빠르게 가는 전략",
+    optionCode: "005147",
+    taticJsonCode: {},
+    tacticPythonCode: "",
+    testReturns: "1.5",
+  };
   // post tactic api
   const uploadData = async () => {
-    const formData = new FormData();
-    formData.append('title', props.title);
-    formData.append('optionCode', props.optionCode);
-    formData.append('taticJsonCode', JSON.stringify(props.taticJsonCode));
-    formData.append('tacticPythonCode', props.tacticPythonCode);
-    formData.append('testReturns', props.testReturns);
-    formData.append('imgPath', props.tacticImg, "img.svg");
+    //
+    // downloadFiles.post("/download", { imageId }).then(({ data }) => {
+    // const newFile = new File([data], url);
+    // });
 
-    console.log(formData);
-    const res = await tacticCreate(formData);
-    console.log(res)
-    console.log(formData.get('title'))
-    console.log(formData.get('optionCode'))
-    console.log(formData.get('taticJsonCode'))
-    console.log(formData.get('tacticPythonCode'))
-    console.log(formData.get('testReturns'))
-    console.log(formData.get('imgPath'))
+    // ----------------아래가 실제 코드 ------------------
+
+    // const formData = new FormData();
+    // formData.append("title", props.title);
+    // formData.append("optionCode", props.optionCode);
+    // formData.append("taticJsonCode", JSON.stringify(props.taticJsonCode));
+    // formData.append("tacticPythonCode", props.tacticPythonCode);
+    // formData.append("testReturns", returnPercent);
+    // formData.append("imgPath", "img.svg");
+    // // formData.append('imgPath', props.tacticImg, "img.svg");
+    // console.log(formData);
+    // console.log(formData.get("title"));
+    // console.log(formData.get("optionCode"));
+    // console.log(formData.get("taticJsonCode"));
+    // console.log(formData.get("tacticPythonCode"));
+    // console.log(formData.get("testReturns"));
+    // console.log(formData.get("imgPath"));
+    // const res = await tacticCreate(formData);
+
+    // -------------------이미지 없이 임시 코드------------------
+    const requestProps:saveTacticProps = {
+      title: props.title,
+      optionCode: props.optionCode,
+      tacticJsonCode: JSON.stringify(props.tacticJsonCode),
+      tacticPythonCode: props.tacticPythonCode,
+      imgPath: "props.tacticImg",
+      testReturns: returnPercent,
+    };
+    console.log(requestProps);
+    const res = await tacticCreate(requestProps);
+    console.log(res);
+    
   };
 
   const saveTactic = () => {
-    // const requestProps = {
-    //   title: props.title,
-    //   optionCode: props.optionCode,
-    //   taticJsonCode: props.tacticJsonCode,
-    //   tacticPythonCode: props.tacticPythonCode,
-    //   testReturns: returnPercent.toString(),
-    //   tacticImg: props.tacticImg,
-    // };
     uploadData();
     // console.log(requestProps);
   };
@@ -193,9 +194,9 @@ const TacticResult = (props) => {
                     </div> */}
             {/* 차트 */}
             {size.width > 0 &&
-              size.height > 0 &&
-              chartInfos !== undefined &&
-              chartInfos.length > 0 ? (
+            size.height > 0 &&
+            chartInfos !== undefined &&
+            chartInfos.length > 0 ? (
               <CandleChart
                 curwidth={size.width - 10}
                 curheight={size.height - 10}
