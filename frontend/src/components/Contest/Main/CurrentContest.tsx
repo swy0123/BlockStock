@@ -30,7 +30,7 @@ import {
  } from './CurrentContest.style'
 
  // api 통신 
-//  import {currentContest} from '../../../api/Contest/Main'
+ import {currentContest} from '../../../api/Contest/Main'
 
 function CurrentContest(){
 
@@ -64,6 +64,93 @@ function CurrentContest(){
         startAt: "2023-01-01 09:00:00",
         endAt: "2023-01-31 18:00:00",
         ranking: [
+          {
+            nickName: "User1",
+            profileImage: "profile1.jpg",
+            return: "+5%"
+          },
+          {
+            nickName: "User2",
+            profileImage: "profile2.jpg",
+            return: "-2%"
+          },
+          {
+            nickName: "User3",
+            profileImage: "profile3.jpg",
+            return: "+7%"
+          },
+          {
+            nickName: "User1",
+            profileImage: "profile1.jpg",
+            return: "+5%"
+          },
+          {
+            nickName: "User2",
+            profileImage: "profile2.jpg",
+            return: "-2%"
+          },
+          {
+            nickName: "User3",
+            profileImage: "profile3.jpg",
+            return: "+7%"
+          },
+          {
+            nickName: "User1",
+            profileImage: "profile1.jpg",
+            return: "+5%"
+          },
+          {
+            nickName: "User2",
+            profileImage: "profile2.jpg",
+            return: "-2%"
+          },
+          {
+            nickName: "User3",
+            profileImage: "profile3.jpg",
+            return: "+7%"
+          },
+        ]
+      },
+      {
+        id: "1",
+        content: "Contest 1 details",
+        code: "XYZ123",
+        title: "카카오 주식 매매",
+        startAsset: "10000",
+        term: "Monthly",
+        startAt: "2023-01-01 09:00:00",
+        endAt: "2023-01-31 18:00:00",
+        ranking: [
+          {
+            nickName: "User1",
+            profileImage: "profile1.jpg",
+            return: "+5%"
+          },
+          {
+            nickName: "User2",
+            profileImage: "profile2.jpg",
+            return: "-2%"
+          },
+          {
+            nickName: "User3",
+            profileImage: "profile3.jpg",
+            return: "+7%"
+          },
+          {
+            nickName: "User1",
+            profileImage: "profile1.jpg",
+            return: "+5%"
+          },
+          {
+            nickName: "User2",
+            profileImage: "profile2.jpg",
+            return: "-2%"
+          },
+          {
+            nickName: "User3",
+            profileImage: "profile3.jpg",
+            return: "+7%"
+          },
           {
             nickName: "User1",
             profileImage: "profile1.jpg",
