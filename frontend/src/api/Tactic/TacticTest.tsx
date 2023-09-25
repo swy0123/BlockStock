@@ -10,7 +10,7 @@ export interface tacticTestProps {
   repeatCnt: number;
 }
 
-// 자유게시판 게시글 생성
+// 전략 테스트
 export const tacticTest = async (data: tacticTestProps) => {
   console.log(
     "tacticTesttacticTesttacticTesttacticTesttacticTesttacticTesttacticTesttacticTesttacticTesttacticTest"
@@ -18,6 +18,20 @@ export const tacticTest = async (data: tacticTestProps) => {
   console.log(data);
   const res = await privateApi.post(`/tactic/test`, data);
   console.log("testresponse");
+  console.log(res.data);
+  return res.data;
+};
+
+
+
+// 전략 생성
+export const tacticCreate = async (data:FormData) => {
+  console.log(data)
+  const res = await privateApi.post(`/tactic`, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
   console.log(res.data);
   return res.data;
 };
