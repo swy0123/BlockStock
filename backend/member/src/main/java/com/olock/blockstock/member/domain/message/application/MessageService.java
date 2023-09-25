@@ -8,11 +8,11 @@ import java.util.List;
 public interface MessageService {
     void sendMessage(Long MemberId, MessageSendRequest messageSendRequest);
 
-    void markMessage(Long memberId, Long messageId);
+    void markMessage(Long memberId, String messageId);
 
     List<MessageDetailResponse> getMyMessages(Long memberId, String type);
 
-    MessageDetailResponse getMessage(Long messageId);
+    MessageDetailResponse getMessage(String messageId);
 
-    void deleteMessage(Long messageId);
+    void deleteMessage(String messageId);
 }

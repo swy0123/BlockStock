@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 @Getter
 public class MessageDetailResponse {
-    private Long id;
+    private String id;
     private Long senderId;
     private Long receiverId;
     private String  content;
