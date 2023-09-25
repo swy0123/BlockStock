@@ -19,7 +19,7 @@ export const expectedContest = async ( params:params ) => {
   try{
     console.log(params)
     const res = await privateApi.get(`/contest`, {
-      params: { params }
+      params
     });
     console.log(res.data);
     return res.data;
