@@ -41,7 +41,7 @@ async def options_handler(path):
 
 app.include_router(tactic.app)
 app.include_router(contest.router)
-app.include_router(option.router)
+app.include_router(option.app)
 
 your_rest_server_port = 8000
 
