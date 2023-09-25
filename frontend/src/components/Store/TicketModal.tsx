@@ -1,5 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { putTicket } from "../../api/store";
+import swal from "sweetalert";
 
 interface TicketModalProps {
     isOpen: boolean;
@@ -153,6 +155,15 @@ function TicketModal(props: TicketModalProps) {
     return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 //   const formattedMoney = formatKoreanCurrency(money); 
+  const handleSubmit = async() => {
+    const response = await putTicket(ticketQuantity)
+    console.log("결과가 머야", response)
+    if (response?.status == 200){
+      swal("티켓 교환 완료")
+    }else{
+      swal('교환 금액이 부족합니다')
+    }
+  }
 
   return (
     <ModalWrapper isOpen={isOpen}>
@@ -176,14 +187,14 @@ function TicketModal(props: TicketModalProps) {
             </TextBox>
             <TextBox>
                 <Text fontsize="18px" weight="500">티켓 금액</Text>
-                <Text fontsize="18px">{formatKoreanCurrency(ticketQuantity * 10000000)} 원</Text>
+                <Text fontsize="18px">{formatKoreanCurrency(ticketQuantity * 1000)} 원</Text>
             </TextBox>
             <Hr/>
             <TextBox>
                 <Text fontsize="18px" weight="500">교환 후 자산</Text>
-                <Text1>{formatKoreanCurrency(money-(ticketQuantity * 10000000))} 원</Text1>
+                <Text1>{formatKoreanCurrency(money-(ticketQuantity * 1000))} 원</Text1>
             </TextBox>
-            <SubmitBtn>교환하기</SubmitBtn>
+            <SubmitBtn onClick={handleSubmit}>교환하기</SubmitBtn>
             </TextWrapper>
         </Wrapper>
       </ModalContent>
