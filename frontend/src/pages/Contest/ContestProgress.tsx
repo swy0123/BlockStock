@@ -1,21 +1,18 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
+import { TacticContainer } from "../MakeTactic/MakeTactic.style";
+import ContestTacticResult from "../../components/Contest/ContestProgress/ContestTacticResult";
+import { useLocation } from "react-router-dom";
 
-function ContestProgress(){
-  return(
-    <>
-    <Container>
-      <h1>대회 진행 현황</h1>
-    </Container>
-    
-    </>
-  )
+function ContestProgress() {
+  // const { state } = useLocation();
+
+  return (
+    <TacticContainer>
+      {/* <ContestTacticResult state={state}></ContestTacticResult> */}
+      <ContestTacticResult></ContestTacticResult>
+    </TacticContainer>
+  );
 }
 
-export default ContestProgress
-
-const Container = styled.div`
-width: 1000px;
-height: 700px;
-border: 1px solid black;
-`;
+export default ContestProgress;
