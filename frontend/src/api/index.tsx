@@ -13,7 +13,8 @@ export const publicApi: AxiosInstance = axios.create({
   },
 });
 
-export const privateApi: AxiosInstance = axios.create({
+// export const privateApi: AxiosInstance = axios.create({
+export const privateApi= axios.create({
   baseURL: BASE_URL,
   headers: {
     "ngrok-skip-browser-warning": "69420", //파이썬 서버 통신 위한 추가 코드
