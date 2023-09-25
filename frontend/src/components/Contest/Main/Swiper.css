@@ -28,15 +28,11 @@
   height: 100%;
 }
 
-.swiper-slide {
-  width: 100%;
-}
-
 /* 카드 회전 */
 .carousel {
   position: absolute;
   top: 55%;
-  left:25%;
+  left:27.5%;
   width: 130px;
   height: 190px;
   margin: 0;
