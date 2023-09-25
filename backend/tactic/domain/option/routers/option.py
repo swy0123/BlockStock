@@ -1,10 +1,23 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
+
+from domain.option.schemas.search_option_request import SearchOptionRequest
 from domain.option.services import option_service
+from domain.option.services.option_service import get_search_option
 
-router = APIRouter()
+app = APIRouter(
+    prefix="/api/option"
+)
 
-@router.get("/api/stock/option")
+
+@app.get("/stock")
 async def option_list():
     option_service.get_options()
 
-    return {"message:" : "hello"}
+    return {"message:": "hello"}
+
+
+@app.get("/search")
+async def search_option(request: Request, option: str):
+    member_id = request.headers.get("Member-id")
+
+    return get_search_option(member_id, option)
