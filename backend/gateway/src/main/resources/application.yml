@@ -46,7 +46,7 @@ spring:
         - id: member-service
           uri: https://j9b210.p.ssafy.io:64412
           predicates:
-            - Path=/api/member/**
+            - Path=/api/member/**, /api/message/**, /api/notification/**
         - id: board-service
           uri: https://j9b210.p.ssafy.io:64413
           predicates:
