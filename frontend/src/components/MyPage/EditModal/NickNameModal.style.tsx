@@ -58,11 +58,11 @@ export const Input = styled.input`
   color: #5c5858;
 `;
 export const CloseIcon = styled.img`
-  width: 40px;
-  height: 40px;
+  width: 18px;
+  height: 18px;
   position: fixed;
-  top: 5%;
-  left: 88%;
+  top: 7%;
+  left: 91%;
   cursor: pointer;
   :hover&{
     opacity: 70%;

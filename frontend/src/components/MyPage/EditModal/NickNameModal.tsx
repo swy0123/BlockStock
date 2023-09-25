@@ -50,7 +50,7 @@ function NickNameModal(props: NameModalProps) {
   return (
     <ModalWrapper isOpen={isOpen}>
       <ModalContent>
-        <CloseIcon src="./icon/close1.png" onClick={handleCancel} />
+        <CloseIcon src="./icon/close.png" onClick={handleCancel} />
         <Title>닉네임 변경</Title>
         <InputTitle>Nickname</InputTitle>
         <Input 

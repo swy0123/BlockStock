@@ -39,12 +39,16 @@ const Title = styled.p`
   margin: 20px 0px;
   font-weight: 700;
 `
-const CloseIcon = styled.img`
-  width: 40px;
-  height: 40px;
+export const CloseIcon = styled.img`
+  width: 18px;
+  height: 18px;
   position: fixed;
   top: 7%;
-  left: 90%;
+  left: 91%;
+  cursor: pointer;
+  :hover&{
+    opacity: 70%;
+  }
 `
 const Text = styled.p`
   font-size: 15px;
@@ -109,7 +113,7 @@ function MoneyModal(props: MoneyModalProps) {
     <ModalWrapper isOpen={isOpen}>
       <ModalContent>
         <Title>자산 충전</Title>
-        <CloseIcon src="./icon/close1.png" onClick={onClose}/>
+        <CloseIcon src="./icon/close.png" onClick={onClose}/>
         <Text>충전 금액을 입력해주세요.</Text>
         <Img src="./icon/money.png"/>
         <Inputbox>

@@ -69,12 +69,12 @@ const Input = styled.input`
   font-size: 12px;
   color: #5c5858;
 `;
-const CloseIcon = styled.img`
-  width: 40px;
-  height: 40px;
+export const CloseIcon = styled.img`
+  width: 18px;
+  height: 18px;
   position: fixed;
-  top: 5%;
-  left: 88%;
+  top: 7%;
+  left: 91%;
   cursor: pointer;
   :hover&{
     opacity: 70%;
@@ -157,7 +157,7 @@ function PasswordModal(props: PasswordModalProps) {
   return (
     <ModalWrapper isOpen={isOpen}>
       <ModalContent>
-        <CloseIcon src="./icon/close1.png" onClick={handleCloseModal} />
+        <CloseIcon src="./icon/close.png" onClick={handleCloseModal} />
         <Title>비밀번호 변경</Title>
         <InputTitle>현재 비밀번호</InputTitle>
         <Input
