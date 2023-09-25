@@ -2,13 +2,12 @@
 import { styled } from "styled-components";
 
 export const Container = styled.div`
-min-width: 50%;
-height: 30%;
-margin: 0px 0px 0px 0px;
+width: 700px;
+margin: 0px 0px 500px 0px;
 `;
 
 export const ContestTitleWrapper = styled.div`
-min-width: 700px;
+min-width: 400px;
 display: flex;
 `;
 
@@ -24,17 +23,16 @@ margin: 10px;
 color: #A0A0A0;
 cursor: pointer;
 `;
-
 export const Wrappe = styled.div`
-width: 45%;
-height: 250px;
+width: 550px;
+height: 314.5px;
 border: 1px solid #D4D4D4;
 overflow: auto;
 box-sizing: border-box;
 position: absolute;
 background: #FFFFFF;
 box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
-border-radius: 10px; 
+border-radius: 10px;
 /* 스크롤바 트랙 (배경) 스타일링 */
 &::-webkit-scrollbar {
   width: 6px; /* 스크롤바의 너비 설정 */

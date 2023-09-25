@@ -1,7 +1,6 @@
 import { styled } from "styled-components";
 
 export const Container = styled.div`
-width: 100%;
 `;
 export const NotCurrentContest = styled.div`
 display: flex;
@@ -32,8 +31,8 @@ export const CurrentContestTitle = styled.div`
 `;
 
 export const CurrentContestBox = styled.div`
-  width: 80%;
-  height: 350px;
+  width: 1000px;
+  height: 300px;
   border: 1px solid #D4D4D4;
   margin-bottom: 50px;
   border-radius: 10px;
@@ -107,8 +106,8 @@ export const RankUserNickName = styled.div`
 `;
 
 export const Participant = styled.div`
-  width: 30%;
-  max-height: 250px;
+  width: 33%;
+  max-height: 170px;
   overflow-y: auto;
 
   /* 스크롤바 트랙 (배경) 스타일링 */
@@ -129,7 +128,7 @@ export const Participant = styled.div`
 `;
 
 export const Line = styled.div`
-height: 250px;
+height: 170px;
 border: 1px solid #D3D3D3;
 margin: 0px 30px 0px 30px;
 `;
