@@ -21,12 +21,12 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public void markMessage(Long memberId, String messageId) {
-        messageRepository.toggleIsMarkedById(messageId);
+        boolean nextMark = !messageRepository.findById(messageId).get().isMarked();
+        messageRepository.updateIsMarked(messageId, nextMark);
     }
 
     @Override
     public List<MessageDetailResponse> getMyMessages(Long memberId, String type) {
-        System.out.println("=====");
         return messageRepository.findMessagesBySenderId(memberId);
     }
 

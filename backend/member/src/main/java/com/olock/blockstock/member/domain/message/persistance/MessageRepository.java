@@ -4,6 +4,7 @@ import com.olock.blockstock.member.domain.message.dto.response.MessageDetailResp
 import com.olock.blockstock.member.domain.message.persistance.entity.Message;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
+import org.springframework.data.mongodb.repository.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,8 +13,9 @@ public interface MessageRepository extends MongoRepository<Message, String> {
     List<Message> findBySenderId(String senderId);
     List<Message> findByReceiverId(String receiverId);
 
-    @Query("{'_id': ?0}")
-    void toggleIsMarkedById(String id);
+    @Query("{'_id' : ?0}")
+    @Update("{'$set': {'isMarked': ?1}}")
+    Integer updateIsMarked(String id, boolean isMarked);
 
     @Query("{'senderId': ?0}")
     List<MessageDetailResponse> findMessagesBySenderId(Long memberId);
