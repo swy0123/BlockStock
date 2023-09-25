@@ -19,7 +19,7 @@ const styles = {
   header: {
     position: 'relative',
     width: '24px', // 아이콘 크기에 맞게 조정
-    height: '24px', // 아이콘 크기에 맞게 조정
+    height: '29px', // 아이콘 크기에 맞게 조정
   },
   checkBox: {
     position: 'absolute',

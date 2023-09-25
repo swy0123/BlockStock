@@ -10,16 +10,20 @@ import {
   MessageItemSchedule,
   MessageItemImg,
   MessageItemNickName,
-  ItemContentBox
+  ItemContentBox,
+  IconBox
 } from './MessageBoxList.style'
 // 체크박스
-import CheckBox from './checkBox';
+import CheckBox from './CheckBox';
 // 빈박스
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 // 새로고침
 import ReplayIcon from '@mui/icons-material/Replay';
 // 보관함 아이콘
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 
 
 function MessageBoxList({name, onButtonClick}){
@@ -98,6 +102,7 @@ function MessageBoxList({name, onButtonClick}){
     }
   },[checkItems])
 
+
   const handleCheck = () => {
     setCheckAll(!checkAll);
     if (!checkAll) {
@@ -137,10 +142,12 @@ function MessageBoxList({name, onButtonClick}){
     });
   };
 
+
   const handleButtonClick = (buttonType) => {
     onButtonClick(buttonType);
   };
 
+  
   return(
     <>
     <Container>
@@ -152,10 +159,19 @@ function MessageBoxList({name, onButtonClick}){
             <CheckBoxOutlineBlankIcon style={{ color: '#929292' }} />
           )}
         </div>
-        <div style={{margin:'0px 0px 0px 87%'}}>
-          <ReplayIcon style={{color:'#929292', margin:'0px 15px 0px 0px'}}/>
-          <img src="/icon/휴지통.png" style={{width:'24px'}} />
-        </div>
+        <IconBox>
+          <Tooltip title="Reload" style={{margin:'0px 25px 0px 0px'}}>
+            <IconButton>
+              <ReplayIcon style={{color:'#929292', cursor:'pointer',position:'absolute',top:'-5px'}}/>
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip title="Delete">
+            <IconButton>
+              <img src="/icon/휴지통.png" style={{width:'24px', cursor:'pointer',position:'absolute',top:'-5px'}} />
+            </IconButton>
+          </Tooltip>
+        </IconBox>
       </Header>
       <Line/>
       
@@ -164,23 +180,26 @@ function MessageBoxList({name, onButtonClick}){
           <div key={index}>
             <MessageItem >
               <Box>
-                
-                <div onClick={() => handleItemCheck(item.senderId)} style={{ cursor: 'pointer' }}>
-                  {checkItems.includes(item.senderId) ? (
-                    <CheckBox style={{ color: 'black' }} />
-                  ) : (
-                    <CheckBoxOutlineBlankIcon style={{ color: '#929292' }} />
-                  )}
-                </div>
-
-                <BookmarkBorderIcon
-                  style={{
-                    color: item.keep ? '#ffe651' : '#929292',
-                    margin: '0px 0px 0px 5px',
-                    cursor: 'pointer',
-                  }}
-                  onClick={() => toggleBookmark(item.senderId)}
-                />
+                <IconButton>    
+                  <div onClick={() => handleItemCheck(item.senderId)} style={{ cursor: 'pointer' }}>
+                    {checkItems.includes(item.senderId) ? (
+                      <CheckBox style={{ color: 'black' }} />
+                    ) : (
+                      <CheckBoxOutlineBlankIcon style={{ color: '#929292' }} />
+                    )}
+                  </div>
+                </IconButton>
+                <IconButton>
+                  <BookmarkBorderIcon
+                    style={{
+                      color: item.keep ? '#ffe651' : '#929292',
+                      margin: '-5px 0px 0px 5px',
+                      cursor: 'pointer',
+                      // fontSize:'24px'
+                    }}
+                    onClick={() => toggleBookmark(item.senderId)}
+                  />
+                </IconButton>
 
                 <ItemContentBox onClick={() => handleButtonClick(item.senderId)}>
                 <MessageItemTitle>{item.content}</MessageItemTitle>
