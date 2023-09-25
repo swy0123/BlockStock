@@ -43,5 +43,9 @@ async def modify_tactic(member_id: int, tactic_modify_request: TacticModifyReque
 
 
 async def delete_tactic(member_id: int, tactic_id: int):
-    print("yyy")
+    db_tactic = session.query(Tactic).filter(Tactic.id == tactic_id).first()
+
+    if db_tactic:
+        session.delete(db_tactic)
+        session.commit()
 
