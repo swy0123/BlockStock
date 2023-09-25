@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Request
 
-from domain.option.schemas.search_option_request import SearchOptionRequest
 from domain.option.services import option_service
 from domain.option.services.option_service import get_search_option
 
