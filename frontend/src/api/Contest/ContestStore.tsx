@@ -35,7 +35,7 @@ export const expectedContestList = async ( props:paramProps ) => {
       status: props.status,
       page: props.page,
       size: props.size,
-      keyWord: props.keyWord
+      key_word: props.key_word
     }});
     console.log(res);
     return res.data; 
