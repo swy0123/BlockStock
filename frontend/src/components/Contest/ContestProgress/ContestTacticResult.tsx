@@ -3,12 +3,14 @@ import CandleChart from "./CandleChart";
 import useComponentSize from "../../Util/ComponentSize";
 import {
   CenterDiv,
+  ContestRankinig,
+  ContestRankinigItem,
   HistoryChartDiv,
-  HistorySaveButton,
   HistorySummary,
   HistorySummaryContents,
   HistorySummaryContentsItem,
   HistorySummaryContentsItemLeft,
+  HistorySummaryContentsItemList,
   HistorySummaryContentsItemRight,
   HistorySummaryContentsResult,
   ItemList,
@@ -51,20 +53,18 @@ const TacticResult = () => {
   const [updateTime, setUpdateTime] = useState(dayjs().format("YYYY.MM.DD HH:mm:ss"));
   const [count, setCount] = useState(15); // 남은 시간 (단위: 초)
 
-  
-
   const pricesDisplayFormat = format(",");
 
-  const propsTmp:string = "contest_id";
+  const propsTmp: string = "contest_id";
 
   useEffect(() => {
     const id = setInterval(() => {
       // 타이머 숫자가 하나씩 줄어들도록
       setCount((count) => count - 1);
     }, 1000);
-    
+
     // 0이 되면 카운트가 멈춤
-    if(count === 1) {
+    if (count === 1) {
       setCount(15);
       axiosGetData();
       setUpdateTime(dayjs().format("YYYY.MM.DD HH:mm:ss"));
@@ -105,12 +105,13 @@ const TacticResult = () => {
     tacticPythonCode: "",
     testReturns: "1.5",
   };
-  
 
   return (
     <TradingHistoryContainer>
       {/* 전략 이름 */}
-      <TradingHistoryTitle style={{ fontSize: "22px" }}>대회 진행 현황   <span style={{fontSize:"10px"}}>{updateTime}</span></TradingHistoryTitle>
+      <TradingHistoryTitle style={{ fontSize: "22px" }}>
+        대회 진행 현황 <span style={{ fontSize: "10px" }}>{updateTime}</span>
+      </TradingHistoryTitle>
       {/* {props.tacticImg ? <img src={props.tacticImg}/>:<></>} */}
 
       <TradingHistoryContents>
@@ -132,10 +133,7 @@ const TacticResult = () => {
               </OptionHistoryItemTitle>
               <ItemList>
                 {optionHistory.map((item, index) => (
-                  <OptionHistoryItem
-                    item={item}
-                    key={index}
-                  ></OptionHistoryItem>
+                  <OptionHistoryItem item={item} key={index}></OptionHistoryItem>
                 ))}
               </ItemList>
             </OptionHistoryItemList>
@@ -143,7 +141,10 @@ const TacticResult = () => {
         </LeftDiv>
         <CenterDiv>
           <HistoryChartDiv ref={componentRef}>
-            <TradingHistoryTitle>매매내역 상세</TradingHistoryTitle>
+            <TradingHistoryTitle>
+              {optionName} 매매내역 상세
+              <span style={{ fontSize: "10px" }}>종목번호 {optionCode}</span>
+            </TradingHistoryTitle>
             {/* <div >
                         <p>가로너비: {size.width}px</p>
                         <p>세로너비: {size.height}px</p>
@@ -177,40 +178,49 @@ const TacticResult = () => {
                   {pricesDisplayFormat(startAsset * returnPercent)}원
                 </div>
               </HistorySummaryContentsResult>
-              <HistorySummaryContentsItem>
-                <HistorySummaryContentsItemLeft>종목:</HistorySummaryContentsItemLeft>
-                <HistorySummaryContentsItemRight>
-                  {optionName}({optionCode})
-                </HistorySummaryContentsItemRight>
-              </HistorySummaryContentsItem>
-              <HistorySummaryContentsItem>
-                <HistorySummaryContentsItemLeft>시작 일자</HistorySummaryContentsItemLeft>
-                <HistorySummaryContentsItemRight>{startDate}</HistorySummaryContentsItemRight>
-              </HistorySummaryContentsItem>
-              <HistorySummaryContentsItem>
-                <HistorySummaryContentsItemLeft>수익률</HistorySummaryContentsItemLeft>
-                <HistorySummaryContentsItemRight style={{ color: "#F24822" }}>
-                  {pricesDisplayFormat(returnPercent)}%
-                </HistorySummaryContentsItemRight>
-              </HistorySummaryContentsItem>
-              <HistorySummaryContentsItem>
-                <HistorySummaryContentsItemLeft>수익금</HistorySummaryContentsItemLeft>
-                <HistorySummaryContentsItemRight>
-                  {pricesDisplayFormat(startAsset * returnPercent - startAsset)}
-                </HistorySummaryContentsItemRight>
-              </HistorySummaryContentsItem>
-              <HistorySummaryContentsItem>
-                <HistorySummaryContentsItemLeft>수수료 및 세금</HistorySummaryContentsItemLeft>
-                <HistorySummaryContentsItemRight>???</HistorySummaryContentsItemRight>
-              </HistorySummaryContentsItem>
-              <HistorySummaryContentsItem>
-                <HistorySummaryContentsItemLeft>총 거래 횟수</HistorySummaryContentsItemLeft>
-                <HistorySummaryContentsItemRight>
-                  {optionHistory.length}
-                </HistorySummaryContentsItemRight>
-              </HistorySummaryContentsItem>
+              <HistorySummaryContentsItemList>
+                <HistorySummaryContentsItem>
+                  <HistorySummaryContentsItemLeft>종목:</HistorySummaryContentsItemLeft>
+                  <HistorySummaryContentsItemRight>
+                    {optionName}({optionCode})
+                  </HistorySummaryContentsItemRight>
+                </HistorySummaryContentsItem>
+                <HistorySummaryContentsItem>
+                  <HistorySummaryContentsItemLeft>시작 일자</HistorySummaryContentsItemLeft>
+                  <HistorySummaryContentsItemRight>{startDate}</HistorySummaryContentsItemRight>
+                </HistorySummaryContentsItem>
+                <HistorySummaryContentsItem>
+                  <HistorySummaryContentsItemLeft>시작 시간</HistorySummaryContentsItemLeft>
+                  <HistorySummaryContentsItemRight>{startTime}</HistorySummaryContentsItemRight>
+                </HistorySummaryContentsItem>
+                <HistorySummaryContentsItem>
+                  <HistorySummaryContentsItemLeft>수익률</HistorySummaryContentsItemLeft>
+                  <HistorySummaryContentsItemRight style={{ color: "#F24822" }}>
+                    {pricesDisplayFormat(returnPercent)}%
+                  </HistorySummaryContentsItemRight>
+                </HistorySummaryContentsItem>
+                <HistorySummaryContentsItem>
+                  <HistorySummaryContentsItemLeft>수익금</HistorySummaryContentsItemLeft>
+                  <HistorySummaryContentsItemRight>
+                    {pricesDisplayFormat(startAsset * returnPercent - startAsset)}
+                  </HistorySummaryContentsItemRight>
+                </HistorySummaryContentsItem>
+                <HistorySummaryContentsItem>
+                  <HistorySummaryContentsItemLeft>수수료</HistorySummaryContentsItemLeft>
+                  <HistorySummaryContentsItemRight>???</HistorySummaryContentsItemRight>
+                </HistorySummaryContentsItem>
+                <HistorySummaryContentsItem>
+                  <HistorySummaryContentsItemLeft>총 거래 횟수</HistorySummaryContentsItemLeft>
+                  <HistorySummaryContentsItemRight>
+                    {optionHistory.length}
+                  </HistorySummaryContentsItemRight>
+                </HistorySummaryContentsItem>
+              </HistorySummaryContentsItemList>
             </HistorySummaryContents>
           </HistorySummary>
+          <ContestRankinig>
+            <ContestRankinigItem></ContestRankinigItem>
+          </ContestRankinig>
         </RightDiv>
       </TradingHistoryContents>
     </TradingHistoryContainer>
