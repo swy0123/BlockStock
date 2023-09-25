@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import MoneyModal from "../Store/MoneyModal";
 import TicketModal from "../Store/TicketModal";
+import { useQuery } from "react-query";
+import { getmypage } from "../../api/MyPage/Mypage";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   width: 90%;
@@ -123,21 +126,23 @@ const MoneyIcon = styled.img`
   width: 40px;
 `;
 
-interface ProfileProps {
-  data: {
-    id: number;
-    nickname: string;
-    email: string;
-    followerCnt: number;
-    followingCnt: number;
-    award: string[];
-    money: number;
-    ticketCnt: number;
-  };
-}
+// interface ProfileProps {
+//   data: {
+//     id: number;
+//     nickname: string;
+//     email: string;
+//     followerCnt: number;
+//     followingCnt: number;
+//     award: string[];
+//     money: number;
+//     ticketCnt: number;
+//   };
+// }
 
-function Profile(props: ProfileProps) {
-  const { data } = props;
+function Profile() {
+  // const { data } = props;
+  const navigate = useNavigate();
+  const {data} = useQuery("mypage", getmypage);
   const [isMoneyModalOpen, setIsMoneyModalOpen] = useState(false);
   const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
   const openMoneyModal = () => {
@@ -145,6 +150,7 @@ function Profile(props: ProfileProps) {
   }
   const closeMoneyModal = () => {
     setIsMoneyModalOpen(false);
+    navigate("/mypage")
   }
   const openTicketModal = () => {
     setIsTicketModalOpen(true);
