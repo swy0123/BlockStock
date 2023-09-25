@@ -49,7 +49,9 @@ function CompletedContestContent() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(3);
 
-  
+  const [completedContestItem, seyCompletedContestItem] = useState([])
+  const [ count, setCount] = useState(0)
+
   // 더미데이터 api 통신 후 삭제 ================================================
   const contestResultList = useRecoilValue(completedContestListState);
   const filteredContestList = contestResultList.filter((contest) =>
@@ -74,6 +76,8 @@ function CompletedContestContent() {
   const completedcontest = async () => {
       const contest = await completedContestList(params)
       console.log(contest)
+      seyCompletedContestItem(contest.contestList)
+      setCount(contest.count)
     }
   // api 통신 =============================================================
 
@@ -159,14 +163,14 @@ function CompletedContestContent() {
     <>
       <Container>
         <Wrapper>
-          {filteredItems.map((contest, index) => (
+          {completedContestItem.map((contest, index) => (
             <div key={contest.id} style={{ margin: "0px 0px 30px 0px" }}>
               {/* <Line hide={index === 0} /> */}
               <ContestBox onClick={() => toggleContent(index)}>
                 <div>
                   <Title> [경진대회] {contest.title}</Title>
                   <Schedule>
-                    대회 기간: {contest.startAt} ~ {contest.endAt}
+                    대회 기간: {contest.startTime} ~ {contest.endTime}
                   </Schedule>
                 </div>
                 {showContent[index] ? (
@@ -207,13 +211,13 @@ function CompletedContestContent() {
 
         <TablePagination
           component="div"
-          count={filteredContestList.length}
+          count={count}
           page={page}
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          rowsPerPageOptions={rowsPerPageOptions}
-          style={{margin:'0px 50px 0px 0px'}}
+          onRowsPerPageChange={() => {}} 
+          rowsPerPageOptions={[]} 
+          style={{ margin: '0px 50px 0px 0px' }}
         />
       </Container>
 
