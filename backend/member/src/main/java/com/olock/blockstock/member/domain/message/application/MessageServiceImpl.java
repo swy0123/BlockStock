@@ -4,6 +4,7 @@ import com.olock.blockstock.member.domain.message.dto.request.MessageSendRequest
 import com.olock.blockstock.member.domain.message.dto.response.MessageDetailResponse;
 import com.olock.blockstock.member.domain.message.persistance.MessageRepository;
 import com.olock.blockstock.member.domain.message.persistance.entity.Message;
+import com.olock.blockstock.member.domain.message.persistance.entity.MessageType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,12 +28,14 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public List<MessageDetailResponse> getMyMessages(Long memberId, String type) {
-        return messageRepository.findMessagesBySenderId(memberId);
+        if (type.equals(MessageType.RECEIVE.getKey())) return messageRepository.findMessagesByReceiverId(memberId);
+        if (type.equals(MessageType.SEND.getKey())) return messageRepository.findMessagesBySenderId(memberId);
+        return messageRepository.findMessagesByReceiverIdAndIsMarked(memberId, true);
     }
 
     @Override
     public MessageDetailResponse getMessage(String messageId) {
-        return null;
+        return new MessageDetailResponse(messageRepository.findById(messageId).get());
     }
 
     @Override

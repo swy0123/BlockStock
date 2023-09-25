@@ -8,10 +8,9 @@ import org.springframework.data.mongodb.repository.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MessageRepository extends MongoRepository<Message, String> {
-    List<Message> findBySenderId(String senderId);
-    List<Message> findByReceiverId(String receiverId);
 
     @Query("{'_id' : ?0}")
     @Update("{'$set': {'isMarked': ?1}}")
@@ -23,8 +22,7 @@ public interface MessageRepository extends MongoRepository<Message, String> {
     @Query("{'receiverId': ?0}")
     List<MessageDetailResponse> findMessagesByReceiverId(Long memberId);
 
-
-    @Query("{'isMarked': ?0}")
-    List<MessageDetailResponse> findMessagesByReceiverIdAndIsMarked();
+    @Query("{'receiverId': ?0, 'isMarked': ?1}")
+    List<MessageDetailResponse> findMessagesByReceiverIdAndIsMarked(Long memberId, boolean isMarked);
 
 }
