@@ -39,7 +39,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public void deleteMessage(String messageId) {
-
+    public void deleteMessage(List<String> messageIds) {
+        messageRepository.deleteAllById(messageIds);
     }
 }

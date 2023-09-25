@@ -41,9 +41,9 @@ public class MessageController {
         return ResponseEntity.ok(messageService.getMessage(messageId));
     }
 
-    @DeleteMapping("/{messageId}")
-    public ResponseEntity<MessageDetailResponse> deleteMessage(@PathVariable("messageId") String messageId) {
-        messageService.deleteMessage(messageId);
+    @DeleteMapping
+    public ResponseEntity<MessageDetailResponse> deleteMessage(@RequestParam("id") List<String> messageIds) {
+        messageService.deleteMessage(messageIds);
         return ResponseEntity.ok().build();
     }
 }
