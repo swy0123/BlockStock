@@ -1,8 +1,11 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-width: 280px;
+min-width: 20%;
 height: 100%;
+@media (max-width: 1500px) {
+    min-width: 250px;
+  }
 `;
 
 export const Wrapper = styled.div`
@@ -19,7 +22,7 @@ export const ReceiveBox = styled.div`
 `;
 
 export const ReceiveStyleBox = styled.div`
-  width: 100%;
+  min-width: 200px;
   height: 40px;
   display: flex;
   &:hover {

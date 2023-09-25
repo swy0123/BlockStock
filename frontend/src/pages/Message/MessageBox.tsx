@@ -24,26 +24,28 @@ function MessageBox(){
 
 
   // 쪽지 목록 api ===============================
-  // useEffect(()=>{
-  //   messageListApi()
-  // },[type])
+  useEffect(()=>{
+    messageListApi()
+  },[type])
   
-  // const messageListApi = ()=>{
-    // console.log(type)
-  //   messageList(type)
-  // }
+  const messageListApi = async ()=>{
+    console.log(type)
+    const message = await messageList(type) 
+    console.log(message)
+  }
   // 쪽지 목록 api =============================== 
 
 
   // 쪽지 내용 api ===============================
-  // useEffect(()=>{
-  //   messageSendApi()
-  // },[messageId])
+  useEffect(()=>{
+    messageSendApi()
+  },[messageId])
   
-  // const messageSendApi = ()=>{
-  //   console.log(messageId)
-  //   messageDetail(messageId)
-  // }
+  const messageSendApi = async()=>{
+    console.log(messageId)
+    const messageD = await messageDetail(messageId)
+    console.log(messageD)
+  }
   // 요청 성공시 받은 쪽지의 데이터를 useState로 저장 후 MessageDetail에 값을 보내 준다
   // 쪽지 내용 api =============================== 
 
@@ -67,13 +69,12 @@ function MessageBox(){
 export default MessageBox
 
 const Container = styled.div`
-width: 1165px;
-height: 615px;
+width: 100%;
+height: 100%;
 background: #FFFFFF;
 box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
 border-radius: 8px;
 display: flex;
-margin: 50px 0px 0px 20px;
 `;
 
 const Line = styled.div`

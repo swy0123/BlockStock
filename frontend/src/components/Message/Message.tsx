@@ -35,25 +35,30 @@ function Message({state,onClose }){
   const { vertical, horizontal, open } = snackbarState;
 
   const data={
-    receiverId:state.id,
+    // receiverId:state.id,
+    receiverId:9,
     content:content
   }
 
-  const handleClick = (newState) => () => {
-    console.log(data)
-
-    // 쪽지 보내기 api ================
-    // messageSend(data)
-    // 쪽지 보내기 api ================
-
+  const handleClick = async (newState) => {
 
     setSnackbarState({ ...newState, open: true });
   };
+
 
   const handleClose = () => {
     setSnackbarState({ ...snackbarState, open: false });
   };
   
+  const handleMessage =async () => {
+    console.log(data)
+
+    // 쪽지 보내기 api ================
+    const message = await messageSend(data)
+    console.log(message)
+    // 쪽지 보내기 api ================
+  }
+
   // const handleClose = () => {
   //   onClose(); // 부모 컴포넌트에 메시지 창 닫기 요청
   // }
@@ -79,10 +84,10 @@ function Message({state,onClose }){
         </Wrapper>
 
         <Button
-          onClick={handleClick({ vertical: "bottom", horizontal: "left" })}
+          onClick={()=>handleClick({ vertical: "bottom", horizontal: "left" })}
           style={{width:'0px', margin:'0px 0px 10px 490px'}}
         >
-          <Send>
+          <Send onClick={handleMessage}>
             <div>
             보내기
             </div>
