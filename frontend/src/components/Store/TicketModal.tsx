@@ -43,12 +43,16 @@ const Title = styled.p`
   margin: 20px 0px;
   font-weight: 700;
 `
-const CloseIcon = styled.img`
-  width: 40px;
-  height: 40px;
+export const CloseIcon = styled.img`
+  width: 18px;
+  height: 18px;
   position: fixed;
   top: 7%;
-  left: 90%;
+  left: 91%;
+  cursor: pointer;
+  :hover&{
+    opacity: 70%;
+  }
 `
 const Box = styled.div`
     align-items: center;
@@ -143,20 +147,18 @@ function TicketModal(props: TicketModalProps) {
   };
 
   const increaseQuantity = () => {
-    // 여기에 최대 티켓 수량을 확인하는 로직을 추가할 수 있습니다.
     setTicketQuantity(ticketQuantity + 1);
   };
   function formatKoreanCurrency(amount: number): string {
     return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
-  
 //   const formattedMoney = formatKoreanCurrency(money); 
 
   return (
     <ModalWrapper isOpen={isOpen}>
       <ModalContent>
         <Title>티켓 교환</Title>
-        <CloseIcon src="./icon/close1.png" onClick={onClose}/>
+        <CloseIcon src="./icon/close.png" onClick={onClose}/>
         <Text>교환할 티켓 수를 입력해주세요.</Text>
         <Wrapper>
             <Box>
@@ -174,12 +176,12 @@ function TicketModal(props: TicketModalProps) {
             </TextBox>
             <TextBox>
                 <Text fontsize="18px" weight="500">티켓 금액</Text>
-                <Text fontsize="18px">{formatKoreanCurrency(ticketQuantity * 1000)} 원</Text>
+                <Text fontsize="18px">{formatKoreanCurrency(ticketQuantity * 10000000)} 원</Text>
             </TextBox>
             <Hr/>
             <TextBox>
                 <Text fontsize="18px" weight="500">교환 후 자산</Text>
-                <Text1>{formatKoreanCurrency(money-(ticketQuantity * 1000))} 원</Text1>
+                <Text1>{formatKoreanCurrency(money-(ticketQuantity * 10000000))} 원</Text1>
             </TextBox>
             <SubmitBtn>교환하기</SubmitBtn>
             </TextWrapper>
