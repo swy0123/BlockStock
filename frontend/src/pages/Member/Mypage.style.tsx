@@ -109,3 +109,11 @@ export const Btn = styled.button`
   box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.25);
   cursor: pointer;
 `
+
+export const EditImg = styled.img`
+  width: 22px;
+  height: 22px;
+  margin-right: 30px;
+  margin-left: -45px;
+  margin-top: 30px;
+`

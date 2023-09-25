@@ -50,16 +50,13 @@ function SignUp() {
     email: email,
     code: code,
   };
+  const enterEmail = {
+    email: email,
+  };
 
   const handleMailSend = async () => {
-    const enterEmail = email;
-    try {
-      console.log("try");
       const response = await postmail(enterEmail);
       console.log(response);
-    } catch (error) {
-      console.error("Sign-up error:", error);
-    }
   };
 
   const handleAuthMail = async () => {
@@ -72,15 +69,18 @@ function SignUp() {
       } catch (error) {
         console.error("인증번호 틀림", error);
         swal("잘못된 인증번호 입니다. ⚠️");
+        return;
       }
     } else {
       swal("인증번호를 입력해주세요. ⚠️");
+      return;
     }
   };
 
   const onSubmit = async () => {
-    if (!nickname) {
-      swal("닉네임을 입력해주세요");
+    if (!password) {
+      swal("", "비밀번호를 입력해주세요","info");
+      return;
     }
     try {
       // 회원가입 API 요청
@@ -90,7 +90,7 @@ function SignUp() {
       navigate("/login");
     } catch (error) {
       console.error("Sign-up error:", error);
-      swal("Error", "회원가입에 실패 \n 중복된 이메일 입니다.", "error");
+      swal("Error", "회원가입 실패 \n 중복된 이메일 입니다.", "error");
     }
   };
 

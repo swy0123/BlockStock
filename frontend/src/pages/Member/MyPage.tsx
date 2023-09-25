@@ -9,6 +9,8 @@ import PasswordModal from "../../components/MyPage/EditModal/ChangePasswordModal
 import SecessionModal from "../../components/MyPage/EditModal/SecessionModal";
 import FollowListModal from "../../components/MyPage/FollowModal/FollowListModal";
 import { useQuery } from "react-query";
+import { useRecoilValue } from "recoil";
+import { CurrentUserAtom } from "../../recoil/Auth";
 import { getmypage } from "../../api/MyPage/Mypage";
 import { Container,
   Wrapper,
@@ -24,13 +26,14 @@ import { Container,
   EditBtn,
   BtnWrapper,
   MenuBtn,
-  ContentContainer
+  ContentContainer,
+  EditImg,
 } from "./Mypage.style";
 
 function MyPage() {
   const [selectedMenu, setSelectedMenu] = useState("PROFILE"); // 기본 메뉴 선택
   const [isEditing, setIsEditing] = useState(false);
-
+  const currentUser = useRecoilValue(CurrentUserAtom);
   // useQuery data 받아오기
   const {data, isLoading, isError} = useQuery("mypage", getmypage);
   // console.log("data", data)
@@ -131,7 +134,9 @@ function MyPage() {
         />
         <InfoBox>
           <Box>
-            <Img src="./icon/user4.png" />
+            <Img src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${currentUser.userid}`} alt="profile" />
+            {/* <Img src="./icon/user4.png" /> */}
+            <EditImg src="./icon/pen.png"/>
             <Text>{data.nickname}</Text>
             <Text>{data.email}</Text>
           </Box>
