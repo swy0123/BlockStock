@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import KeyboardControlKeyIcon from "@mui/icons-material/KeyboardControlKey";
 import TablePagination from '@mui/material/TablePagination';
@@ -22,25 +22,31 @@ import { useRecoilValue } from "recoil";
 import { completedContestListState } from "../../recoil/Contest/CompletedContest";
 import {contestDelete} from '../../api/Admin/Admin'
 
-function ContestList(){
+
+
+function ContestList({onClickPage, data}){
 
   const contestResultList = useRecoilValue(completedContestListState);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(3);
 
+  const contest = data.contestList; // contestList를 data에서 가져옵니다.
+  const count = data.count; 
+
 
   // 클릭한 대회 내용 ==========================================================
   const [showContent, setShowContent] = useState(
-    Array(contestResultList.length).fill(false)
+    Array(contest.length).fill(false)
   );
 
   const toggleContent = (index) => {
     const updatedShowContent = [...showContent];
     updatedShowContent[index] = !updatedShowContent[index];
     setShowContent(updatedShowContent);
-
+    
     if (updatedShowContent[index]) {
-      setSelectedContest(contestResultList[index]);
+      console.log(contest[index])
+      setSelectedContest(contest[index]);
     } else {
       setSelectedContest(null);
     }
@@ -71,6 +77,7 @@ function ContestList(){
     newPage: number,
     ) => {
       setPage(newPage);
+      onClickPage(newPage)
   };
 
     
@@ -88,13 +95,13 @@ function ContestList(){
     <>
     <Container>
       <Wrapper>
-        {itemsToDisplay.map((contest, index)=>(
+        {contest.map((contest, index)=>(
           <div key={index} style={{ margin: "0px 0px 30px 0px" }}>
             <ContestBox onClick={() => toggleContent(index)}>
               <div>
                 <Title> [경진대회] {contest.title}</Title>
                 <Schedule>
-                  대회 기간: {contest.startAt} ~ {contest.endAt}
+                  대회 기간: {contest.startTime} ~ {contest.endTime}
                 </Schedule>
                 </div>
                 {showContent[index] ? (
@@ -139,7 +146,7 @@ function ContestList(){
 
       <TablePagination
         component="div"
-        count={contestResultList.length}
+        count={count}
         page={page}
         onPageChange={handleChangePage}
         rowsPerPage={rowsPerPage}

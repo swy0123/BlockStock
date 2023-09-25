@@ -26,7 +26,7 @@ import {
 
 function ExpectedContest(){
   const navigate = useNavigate();
-  // const [expectedContestList, setExpectedContestList] = useState([])
+  const [expectedContestItem, setExpectedContestItem] = useState([])
 
   const expectedContestList = [
     {
@@ -107,6 +107,7 @@ function ExpectedContest(){
   const expectedcontest = async () => {
     const contest = await expectedContest(params)
     console.log('예정 대회 결과 - 컴포넌트',contest)
+    setExpectedContestItem(contest.contestlist)
   }
   // api 통신 ==================================================
 
