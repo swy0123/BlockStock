@@ -48,6 +48,9 @@ spring:
       mail.smtp.auth: true
       mail.smtp.ssl.enable: true
       mail.smtp.ssl.trust: smtp.naver.com
+  data:
+    mongodb:
+      uri: ${MONGO_URL}
 
 eureka:
   client:
