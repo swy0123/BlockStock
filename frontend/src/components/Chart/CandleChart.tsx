@@ -210,7 +210,7 @@ const CandleChart = (props) => {
     // console.log(date + " " + time)
     let flag = false;
     props.optionHistory.forEach(element => {
-      if (data[element.turn].date === date && data[element.turn].time === time && element.type === type) {
+      if (data[element.turn+100].date === date && data[element.turn+100].time === time && element.type === type) {
         // console.log(element.date + " " + element.time)
         flag = true;
         return false;

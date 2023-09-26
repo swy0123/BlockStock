@@ -4,7 +4,7 @@ import { privateApi } from "../index";
 // 주식 검색
 export const tacticSearchOption = async (keyword: string) => {
   try {
-    const res = await privateApi.get(`/option`, {params:{keyword:keyword}});
+    const res = await privateApi.get(`/option`, {params:{keyword:keyword, like:false}});
     return res.data;
   } catch (err) {
     console.log(err);
