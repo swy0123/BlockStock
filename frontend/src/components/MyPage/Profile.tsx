@@ -3,7 +3,7 @@ import MoneyModal from "../Store/MoneyModal";
 import TicketModal from "../Store/TicketModal";
 import { useQuery } from "react-query";
 import { getmypage } from "../../api/MyPage/Mypage";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { 
   Container,
   AwardsWrapper,
@@ -27,7 +27,7 @@ import {
  
 function Profile() {
   // const { data } = props;
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const {data, isLoading, isError} = useQuery("mypage", getmypage);
   const [isMoneyModalOpen, setIsMoneyModalOpen] = useState(false);
   const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
@@ -100,9 +100,9 @@ function Profile() {
       </AssetWrapper>
       <MailWrapper>
         <Circle>
-          <MailImg src="./icon/plane_white.png" />
+          <MailImg src="./icon/plane_black.png" />
         </Circle>
-        <Mailbtn>쪽지함 → </Mailbtn>
+        <Mailbtn onClick={()=> navigate("/message")}>쪽지함 → </Mailbtn>
       </MailWrapper>
     </Container>
   );

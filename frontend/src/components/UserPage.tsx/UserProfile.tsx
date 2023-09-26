@@ -17,6 +17,7 @@ import {
     MailWrapper,
     Circle,
     MailImg,
+    StoreBtn,
     Mailbtn
 }from "../MyPage/Profile.style"
    
@@ -70,7 +71,7 @@ function UserProfile() {
       </AssetWrapper>
       <MailWrapper>
         <Circle>
-          <MailImg src="./icon/plane_white.png" />
+          <MailImg src="./icon/plane_black.png" />
         </Circle>
         <Mailbtn>쪽지보내기 → </Mailbtn>
       </MailWrapper>
