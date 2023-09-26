@@ -23,7 +23,8 @@ async def get_member_tactic(member_id: int):
     tactic_responses = []
 
     for tactic in tactics:
-        tactic_response = TacticInfoResponse(tactic)
+        option = session.query(Option).filter(Option.option_code == tactic.option_code).first()
+        tactic_response = TacticListResponse(tactic, option.option_name)
         tactic_responses.append(tactic_response)
 
     return tactic_responses
