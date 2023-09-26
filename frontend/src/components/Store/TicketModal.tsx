@@ -187,12 +187,12 @@ function TicketModal(props: TicketModalProps) {
             </TextBox>
             <TextBox>
                 <Text fontsize="18px" weight="500">티켓 금액</Text>
-                <Text fontsize="18px">{formatKoreanCurrency(ticketQuantity * 1000)} 원</Text>
+                <Text fontsize="18px">{formatKoreanCurrency(ticketQuantity * 10000000)} 원</Text>
             </TextBox>
             <Hr/>
             <TextBox>
                 <Text fontsize="18px" weight="500">교환 후 자산</Text>
-                <Text1>{formatKoreanCurrency(money-(ticketQuantity * 1000))} 원</Text1>
+                <Text1>{formatKoreanCurrency(money-(ticketQuantity * 10000000))} 원</Text1>
             </TextBox>
             <SubmitBtn onClick={handleSubmit}>교환하기</SubmitBtn>
             </TextWrapper>
