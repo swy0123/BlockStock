@@ -31,9 +31,9 @@ async def get_member_tactic(member_id: int):
 
 
 async def get_tactic_detail(tactic_id: int):
-    tactic = session.query(Tactic).filter(Tactic.id == tactic_id).all()
+    tactic = session.query(Tactic).filter(Tactic.id == tactic_id).first()
     option = session.query(Option).filter(Option.option_code == tactic.option_code).first()
-    return TacticListResponse(tactic, option.option_name)
+    return TacticInfoResponse(tactic, option.option_name)
 
 
 async def modify_tactic(member_id: int, tactic_modify_request: TacticModifyRequest):
