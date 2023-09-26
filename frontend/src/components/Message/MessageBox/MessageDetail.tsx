@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {
   Container,
   Header,
@@ -17,30 +17,39 @@ import {
   Content,
 } from './MessageDetail.style'
 
-import { useNavigate } from "react-router-dom";
-
-
 // 보관함 아이콘
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+
 // back icon
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+// 쪽지 api
+import {messageKeep, messageDelete} from '../../../api/Message/Message'
 
-function MessageDetail({onButtonClick}){
+function MessageDetail({onButtonClick, data}){
 
-  const navigate = useNavigate();
-
-  const data = 	{ 
-		"content": "rrTTTT...",
-		"senderId": 1,
-		"senderNickname" : "고다헤바보",
-		"keep": false,
-		"createdAt": "2021-08-09T05:06:07"
-	}
-
-  // const handleButtonClick = (buttonType) => {
-  //   onButtonClick(buttonType);
-  // };
+  const [check, setCheck] = useState(data.marked)
   
+    // 쪽지 보관 api
+    const messageKeepApi = async()=>{
+      const message = await messageKeep(data.id)
+      console.log(message)
+      if(message===200){
+        setCheck(!check)
+      }
+    }
+    
+  // 쪽지 삭제 api
+  const handleDetail = async()=>{
+    console.log(data.id)
+    const res = await messageDelete([{id:data.id}])
+    console.log(res)
+    if (res===200){
+      console.log('목록으로 가기')
+      onButtonClick('')
+    }
+  }
+
   return(
     <>
       <Container>
@@ -60,8 +69,17 @@ function MessageDetail({onButtonClick}){
                 <UseNickName>{data.senderNickname}</UseNickName>
               </UseBox>
               <Schedule>{data.createdAt}</Schedule>
-              <BookmarkBorderIcon style={{margin:'8px 0px 0px 10px', fontSize:'30px', color:'#A3A3A3'}}/>
-              <img src="/icon/휴지통.png" style={{width:'28px', height:'30px', margin:'8px 0px 0px 10px'}} />
+              <div onClick={messageKeepApi}>
+                {check ? (
+                  <BookmarkIcon 
+                  style={{margin:'8px 0px 0px 10px', fontSize:'30px', color:'#FFC700'}}
+                  />
+                ):(
+                  <BookmarkBorderIcon style={{margin:'8px 0px 0px 10px', fontSize:'30px', color:'#929292'}}/>
+                )}
+              </div>
+              
+              <img src="/icon/휴지통.png" style={{width:'28px', height:'30px', margin:'8px 0px 0px 10px'}} onClick={handleDetail}/>
             </TitleBox>
             <BoxLine/>
             <ContentBox>

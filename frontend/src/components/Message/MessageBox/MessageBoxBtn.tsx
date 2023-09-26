@@ -19,7 +19,7 @@ import SendIcon from '@mui/icons-material/Send';
 // 보관함 아이콘
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 function MessageBoxBtn({onButtonClick}){
-  const [btn, setBtn] = useState('RECEIVE');
+  const [btn, setBtn] = useState('receive');
 
   const handleButtonClick = (buttonType) => {
     setBtn(buttonType); 
@@ -32,14 +32,14 @@ function MessageBoxBtn({onButtonClick}){
 
           {/* 받은 쪽지 */}
           <ReceiveStyleBox
-           onClick={() => handleButtonClick('RECEIVE')}
+           onClick={() => handleButtonClick('receive')}
            style={{ 
-            color: btn === 'RECEIVE' ? '#9155FD' : 'initial'
+            color: btn === 'receive' ? '#9155FD' : 'initial'
            }}
           >
             <ReceiveBox
               style={{ 
-              backgroundColor: btn === 'RECEIVE' ? '#9155FD' : 'initial'
+              backgroundColor: btn === 'receive' ? '#9155FD' : 'initial'
               }}
             />
             <MailOutlineIcon style={{fontSize:'30px'}}/>
@@ -48,14 +48,14 @@ function MessageBoxBtn({onButtonClick}){
 
           {/* 보낸 쪽지 */}
           <SendStyleBox
-          onClick={() => handleButtonClick('SEND')}
+          onClick={() => handleButtonClick('send')}
           style={{ 
-            color: btn === 'SEND' ? '#9155FD' : 'initial'
+            color: btn === 'send' ? '#9155FD' : 'initial'
            }}
           >
             <SendBox
               style={{ 
-                backgroundColor: btn === 'SEND' ? '#9155FD' : 'initial'
+                backgroundColor: btn === 'send' ? '#9155FD' : 'initial'
                 }}
             />
             <SendIcon style={{fontSize:'26px', margin:'2px 0px 0px 0px'}}/>
@@ -64,14 +64,14 @@ function MessageBoxBtn({onButtonClick}){
           
           {/* 쪽지 보관함 */}
           <KeepStyleBox
-          onClick={() => handleButtonClick('KEEP')}
+          onClick={() => handleButtonClick('keep')}
           style={{ 
-            color: btn === 'KEEP' ? '#9155FD' : 'initial'
+            color: btn === 'keep' ? '#9155FD' : 'initial'
            }}
           >
             <KeepBox
               style={{ 
-                backgroundColor: btn === 'KEEP' ? '#9155FD' : 'initial'
+                backgroundColor: btn === 'keep' ? '#9155FD' : 'initial'
                 }}
             />
             <BookmarkBorderIcon style={{fontSize:'32px'}}/>
