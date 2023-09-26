@@ -224,6 +224,7 @@ const TacticResult = (props) => {
                 curheight={size.height - 10}
                 optionHistory={optionHistory}
                 chartInfos={chartInfos}
+                // 주기 데이터 추가하고 차트 x값 수정
               ></CandleChart>
             ) : (
               <></>
