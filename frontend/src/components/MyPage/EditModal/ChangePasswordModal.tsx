@@ -157,7 +157,7 @@ function PasswordModal(props: PasswordModalProps) {
   return (
     <ModalWrapper isOpen={isOpen}>
       <ModalContent>
-        <CloseIcon src="./icon/close.png" onClick={handleCloseModal} />
+        <CloseIcon src="/icon/close.png" onClick={handleCloseModal} />
         <Title>비밀번호 변경</Title>
         <InputTitle>현재 비밀번호</InputTitle>
         <Input

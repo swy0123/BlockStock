@@ -96,7 +96,7 @@ function Modal(props: ModalProps) {
   return (
     <ModalWrapper isOpen={isOpen}>
       <ModalContent>
-        <CloseIcon src="./icon/close.png" onClick={handleCloseModal} />
+        <CloseIcon src="/icon/close.png" onClick={handleCloseModal} />
         <Title>제목입력</Title>
         {/* 여기에 모달 내용 */}
         <ProfileBox>
