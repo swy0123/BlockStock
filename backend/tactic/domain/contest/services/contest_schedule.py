@@ -24,13 +24,15 @@ def contest_thread(participate: Participate):
     engine = engineconn()
     session_thread = engine.sessionmaker()
 
-    # 최신순으로 내림차순
-    real_data = (session_thread.query(ContestRealTime.open, ContestRealTime.high, ContestRealTime.low,
-                                      ContestRealTime.close, ContestRealTime.vol).
+    real_data = (session_thread.query(ContestRealTime.open,
+                                      ContestRealTime.high,
+                                      ContestRealTime.low,
+                                      ContestRealTime.close,
+                                      ContestRealTime.vol).
                  filter(ContestRealTime.contest_id == participate.contest_id).
                  order_by(desc(ContestRealTime.created_at)))
 
-    real_data = pd.DataFrame(real_data.all())
+    real_data = pd.DataFrame(real_data.all(), columns=['2', '3', '4', '5', '6'])
 
     def cal_now_stock_cnt():
         # 이제까지 매매한 내용 보면서 buy일 때는 trade_cnt 더해주기
@@ -59,15 +61,14 @@ def contest_thread(participate: Participate):
 
     def cur_data(data_type: int):
         # 마지막 시, 고, 저, 종
-        return real_data.iloc[-1][f'{data_type}']
-
+        return real_data.iloc[0][f'{data_type}']
 
     def get_recent_indicators(range_type: str, scope: int, data_type: int, criteria: str):
         recent_indicator_data = None
 
         range_type = "term"
 
-        recent_scope_data = real_data.iloc[-15 * scope:]
+        recent_scope_data = real_data.iloc[:scope]
 
         print(recent_scope_data)
 
@@ -85,15 +86,15 @@ def contest_thread(participate: Participate):
     def buy(param: int):
 
         # param 들어온 개수만큼 살 수 있는지 확인
-        if param * real_data.iloc[-1]['4'] < participate.result_money:
+        if param * real_data.iloc[0]['4'] < participate.result_money:
             db_trade = Trade(contest_id=participate.contest_id,
                              participate_id=participate.id,
-                             cost=real_data.iloc[-1]['4'],
+                             cost=real_data.iloc[0]['4'],
                              trade_type="buy",
                              trade_at=datetime.now(),
                              trade_cnt=param,
                              profit_and_loss=0,
-                             trade_cost=real_data.iloc[-1]['4'])
+                             trade_cost=real_data.iloc[0]['4'])
 
         if db_trade:
             participate.result_money -= (db_trade.cost * db_trade.trade_cnt)
@@ -113,7 +114,7 @@ def contest_thread(participate: Participate):
 
         # param 들어온 수만큼 팔 수 있는지 확인
         if now_stock_cnt != 0 and param <= now_stock_cnt:
-            now_asset += param * real_data.iloc[-1]['4']
+            now_asset += param * real_data.iloc[0]['4']
             sell_sum, buy_sum = cal_now_stock_cost()
             buy_avg = buy_sum / buy_cnt
             sell_avg = 0
@@ -123,12 +124,12 @@ def contest_thread(participate: Participate):
 
             db_trade = Trade(contest_id=participate.contest_id,
                              participate_id=participate.id,
-                             cost=real_data.iloc[-1]['4'],
+                             cost=real_data.iloc[0]['4'],
                              trade_type="sell",
                              trade_at=datetime.now(),
                              trade_cnt=-param,
                              profit_and_loss=(buy_avg - sell_avg) * param,
-                             trade_cost=real_data.iloc[-1]['4'])
+                             trade_cost=real_data.iloc[0]['4'])
 
         if db_trade:
             participate.result_money += (db_trade.cost * db_trade.trade_cnt)
@@ -142,7 +143,7 @@ def contest_thread(participate: Participate):
 
     def asset(percent):
         tmp_asset = math.ceil(participate.result_money / 100 * percent)
-        return math.ceil(tmp_asset / real_data.iloc[-1]['4'])
+        return math.ceil(tmp_asset / real_data.iloc[0]['4'])
 
     def reserve(percent):
         now_stock_cnt = cal_now_stock_cnt()
@@ -153,9 +154,8 @@ def contest_thread(participate: Participate):
                           filter(Participate.id == participate.id).
                           one())[0]
 
-    # exec(tactic_python_code)
-    # exec("print(get_recent_indicators(\"term\", 1, 5, \"max\"))")
-    exec("buy(10)")
+    exec(tactic_python_code)
+
 
 # 9시부터 15시까지 1분 마다 실행하는 것으로 바꾸기
 @sched.scheduled_job('interval', seconds=60, id='remove_inactive_image')
