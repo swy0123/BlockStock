@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class Application {
 
+	// test
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
