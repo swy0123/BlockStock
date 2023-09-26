@@ -171,22 +171,19 @@ export const HistorySummaryContents = styled.div`
   width: 100%;
   height: 90%;
   margin-bottom: 5%;
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
   align-items: center;
 `;
 export const HistorySummaryContentsItemList = styled.div`
+padding: 5px 0;
   width: 100%;
-  height: 90%;
-
+  height: 35%;
   overflow-y: scroll;
   overflow-x: hidden;
   &::-webkit-scrollbar {
     display: none;
   }
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 `;
 
 export const HistorySummaryContentsResult = styled.div`
@@ -195,9 +192,10 @@ export const HistorySummaryContentsResult = styled.div`
   background-color: #f7f3ff;
   border-radius: 6px;
   width: 75%;
-  height: 40%;
+  height: 45%;
   text-align: center;
   align-items: center;
+  justify-content: center;
   margin-left: 12.5%;
   margin-right: 12.5%;
 `;
@@ -215,7 +213,7 @@ export const HistorySummaryContentsItem = styled.div`
   position: relative;
   margin-top: 10px;
   width: 100%;
-  height: 25%;
+  height: 20%;
 `;
 export const HistorySummaryContentsItemLeft = styled.span`
   position: absolute;

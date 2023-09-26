@@ -153,56 +153,23 @@ const CandleChart = (props) => {
     return data.close > data.open ? "#26a69a" : "#ef5350";
   };
 
-  // function content(d) {
-  //   return ({ currentItem, xAccessor }: any) => {
-  //     return {
-  //       x: timeFormat(xAccessor(currentItem)),
-  //       y: [
-  //         { label: "open", value: currentItem.open && pricesDisplayFormat(currentItem.open) },
-  //         { label: "high", value: currentItem.high && pricesDisplayFormat(currentItem.high) },
-  //         { label: "low", value: currentItem.low && pricesDisplayFormat(currentItem.low) },
-  //         { label: "close", value: currentItem.close && pricesDisplayFormat(currentItem.close) },
-  //       ]
-  //         .filter((line) => line.value)
-  //     };
-  //   };
-  // }
-
 
   const returnNum = (d) => {
     // console.log(xAccessor)
-    let cur = d.datum.high
+    let cur = d.datum.open > d.datum.close ? d.datum.low : d.datum.high
     let curMax = d.yScale.domain()[1]
     let curMin = d.yScale.domain()[0]
-    // let plus = d.datum.open > d.datum.close ? (20) : (0)
-    const plus = 10
-    // console.log(tmp/chartHeight*(d.datum.open/(d.yScale.domain()[1]-d.yScale.domain()[0])))
-    return chartHeight - (chartHeight * ((cur - curMin) / (curMax - curMin))) - plus
+    let plus = d.datum.open > d.datum.close ? (24) : (-10)
+    return chartHeight - (chartHeight * ((cur - curMin) / (curMax - curMin))) + plus
   }
   const returnPos = (d) => {
-    let cur = d.datum.close
+    // console.log(xAccessor)
+    let cur = d.datum.open > d.datum.close ? d.datum.low : d.datum.high
     let curMax = d.yScale.domain()[1]
     let curMin = d.yScale.domain()[0]
-    // console.log(chartHeight * ((cur - curMin) / (curMax - curMin)))
     return chartHeight - (chartHeight * ((cur - curMin) / (curMax - curMin)))
   }
 
-  // const annotationBuyProps = (d) => {
-  //   // let ySize = 
-  //   console.log(d)
-  //   let annotationProps = {
-  //     fontFamily: "Glyphicons Halflings",
-  //     fontSize: 20,
-  //     fill: "#060f8f",
-  //     opacity: 0.8,
-  //     text: "buy",
-  //     y: chartHeight/2,
-  //     onClick: console.log.bind(console),
-  //     // tooltip: d => timeFormat("%b")((d.date + d.time).replace(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})/, "$1-$2-$3 $4:$5:00")),
-  //     // onMouseOver: console.log.bind(console),
-  //   }
-  //   return annotationProps
-  // };
   const annotationBuyProps = {
     fontFamily: "Glyphicons Halflings",
     fontSize: 20,
