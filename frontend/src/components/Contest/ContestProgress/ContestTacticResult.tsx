@@ -30,12 +30,6 @@ import {
 } from "./ContestTacticResult.style";
 import OptionHistoryItem from "./OptionHistoryItem";
 import { format } from "d3-format";
-import {
-  saveTacticProps,
-  tacticCreate,
-  tacticTest,
-  tacticTestProps,
-} from "../../../api/Tactic/TacticTest";
 import { contestChart, contestRanking, contestTrade } from "../../../api/Contest/ContestProgress";
 import dayjs from "dayjs";
 
@@ -63,7 +57,6 @@ const TacticResult = (id:any) => {
       setCount((count) => count - 1);
     }, 1000);
 
-    // 0이 되면 카운트가 멈춤
     if (count === 1) {
       setCount(15);
       axiosGetData();

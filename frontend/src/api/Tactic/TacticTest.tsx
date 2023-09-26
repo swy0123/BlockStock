@@ -1,5 +1,16 @@
 import { privateApi } from "../index";
 
+
+// 주식 검색
+export const tacticSearchOption = async (keyword: string) => {
+  try {
+    const res = await privateApi.get(`/option`, {params:{keyword:keyword}});
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export interface tacticTestProps {
   optionCode: string;
   tacticPythonCode: string | undefined;
@@ -66,6 +77,7 @@ export const tacticImport = async (params: number) => {
     console.log(err);
   }
 };
+
 
 export interface updateTacticProps {
   id: number;
