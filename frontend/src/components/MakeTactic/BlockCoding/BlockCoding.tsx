@@ -37,31 +37,14 @@ import {
 import { ThemeProvider, createTheme } from "@mui/system";
 import { ToggleButtonGroup, ToggleButton } from "@mui/material";
 import OptionLikeListItem from "./OptionLikeListItem";
-// import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { tacticTest, tacticTestProps } from "../../../api/Tactic/TacticTest";
+import { tacticImport, tacticSearchOption, tacticTest, tacticTestProps } from "../../../api/Tactic/TacticTest";
+import Swal from "sweetalert2";
 
 export interface OptionItemProps {
   optionCode: string;
   optionName: string;
-  todayClose: number;
-  diffRate: number;
-  isLike: boolean;
 }
-
-
-const TestDiv = styled.div`
-  background-color: rgba(255, 0, 0, 0.3);
-  padding: 1px;
-`;
-
-const theme = createTheme({
-  palette: {
-    success: {
-      dark: "#009688",
-    },
-  },
-});
 
 const BlockCoding = (props) => {
   const [isSearch, setSearch] = useState(true);
@@ -82,6 +65,41 @@ const BlockCoding = (props) => {
   const [tacticImg, setTacticImg] = useState(undefined);
   const [codeCheck, setCodeCheck] = useState(true);
 
+  useEffect(() => {
+    const timeoutExecute = setTimeout(() => searchOption(), 500);
+    return () => clearTimeout(timeoutExecute);
+  }, [keyword]);
+
+
+  //전략 조회일 경우
+  useEffect(() => {
+    if (props.tacticId != null) {
+      importData(props.tacticId)
+    }
+  }, [props])
+
+  const importData = async (id: number) => {
+    const res = await tacticImport(id);
+    setOptionCode(res.optionCode)
+    setOptionName(res.optionName)
+    setTitle(res.title)
+    setTacticPythonCode(res.tacticPythonCode)
+    setTacticJsonCode(res.tacticJsonCode)
+    setTacticImg(res.tacticImg)
+  }
+
+
+  // 검색
+  const searchOption = async () => {
+    console.log(keyword);
+    const res = await tacticSearchOption(keyword);
+    console.log(res);
+    setOptionLikeList(res)
+  }
+
+  // const filteredItems = dummydata.filter((item) => item.optionName.includes(searchKeyword1));
+
+
   const editSetTrue = () => {
     setEditable(true);
   };
@@ -94,15 +112,18 @@ const BlockCoding = (props) => {
     }
     setTitle(e.target.value);
   };
-
+  //제목 활성
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       setEditable(!editable);
     }
   };
+
+  //제목 비활성
   const handleClickOutside = (e: MouseEvent<HTMLElement>) => {
     if (editable == true && !ref.current.contains(e.target)) setEditable(false);
   };
+
   useEffect(() => {
     window.addEventListener("click", handleClickOutside, true);
     return () => {
@@ -189,12 +210,13 @@ const BlockCoding = (props) => {
   //종목 검색 버튼, axios 통신
   const searchKeyword = () => {
     // const req = (keyword);
+    searchOption();
     console.log("검색 : " + keyword);
   };
 
+  //종목 검색 결과
   const handleOptionLikeList = async (type: boolean) => {
     // const res = await getOptionLikeList();
-    setOptionLikeList(dummydata);
     // console.log(dummydata);
     // console.log(optionLikeList);
   };
@@ -207,7 +229,7 @@ const BlockCoding = (props) => {
   // };
 
   const setOption = (curOptionCode: string, curOptionName: string) => {
-    setOptionCode(curOptionCode);
+    setOptionCode((curOptionCode).replace(/\D/g, ''));
     setOptionName(curOptionName);
     console.log("setOption" + curOptionCode + curOptionName);
   };
@@ -234,7 +256,27 @@ const BlockCoding = (props) => {
       repeatCnt: repeatCnt,
     };
 
-    setCodeCheck(false);
+    Swal.fire({
+      title: '테스트 실행',
+      text: "테스트를 실행하시겠습니까?",
+      // icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '테스트 실행',
+      cancelButtonText: '취소'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          '실행중입니다.',
+          '잠시만 기다려주세요',
+          'success',
+          // '확인',
+        )
+        setCodeCheck(false);
+      }
+    })
+
     // const res = await tacticTest(tacticTestData);
     console.log(tacticTestData);
     // console.log(res);
@@ -269,20 +311,11 @@ const BlockCoding = (props) => {
       props.returnTacticJsonCode(tacticJsonCode);
       props.returnTacticImg(tacticImg);
       console.log("---------------------------------");
-      alert(tacticPythonCode);
 
       props.toggleFlag();
     }
   }, [codeCheck]);
 
-  useEffect(() => {
-    setOptionLikeList(dummydata);
-  }, []);
-
-  // 검색
-  const [searchKeyword1, setSearchKeyword1] = useState("");
-
-  const filteredItems = dummydata.filter((item) => item.optionName.includes(searchKeyword1));
 
   return (
     <BlockCodingContainer>
@@ -303,33 +336,23 @@ const BlockCoding = (props) => {
         </TitleDiv>
 
         <LeftDiv>
-          {/* <Input
-                type="text"
-                value={title}
-                onChange={handleTitleField}
-                placeholder="제목을 입력해주세요"
-              /> */}
           <IsSearchDiv>
             {/* 이름 */}
             <SearchTypeDiv>
               <SearchType onClick={setSearchTrue} $isChecked={isSearch}>
                 검색
-                {/* <SearchTypeUnderLine $isChecked={isSearch}></SearchTypeUnderLine> */}
               </SearchType>
               <SearchType onClick={setSearchFasle} $isChecked={!isSearch}>
                 관심종목
-                {/* <SearchTypeUnderLine $isChecked={!isSearch}></SearchTypeUnderLine> */}
               </SearchType>
             </SearchTypeDiv>
-
             {/* 검색 */}
             <SearchInputDiv>
               <SearchImg src={SearchImgSrc} onClick={searchKeyword} alt="검색" />
               <SearchInput
-                onChange={(e) => setSearchKeyword1(e.target.value)}
+                onChange={(e) => handleKeywordField(e)}
                 type="text"
-                value={searchKeyword1}
-                //  onChange={handleKeywordField}
+                value={keyword}
               />
             </SearchInputDiv>
 
@@ -337,13 +360,12 @@ const BlockCoding = (props) => {
               {isSearch ? (
                 <>
                   검색결과
-                  {filteredItems.map((item, index) => (
+                  {optionLikeList.map((item, index) => (
                     <OptionLikeListItem
                       key={index}
-                      isLike={item.isLike}
+                      // isLike={item.isLike}
                       item={item}
-                      index={index}
-                      list={filteredItems}
+                      // index={index}
                       setOption={setOption}
                     ></OptionLikeListItem>
                   ))}
@@ -351,10 +373,10 @@ const BlockCoding = (props) => {
               ) : (
                 <>
                   관심목록
-                  {filteredItems.map((item, index) => (
+                  {optionLikeList.map((item, index) => (
                     <OptionLikeListItem
                       key={index}
-                      isLike={item.isLike}
+                      // isLike={item.isLike}
                       item={item}
                       setOption={setOption}
                     ></OptionLikeListItem>
@@ -484,75 +506,3 @@ const BlockCoding = (props) => {
 
 export default BlockCoding;
 
-const dummydata = [
-  {
-    optionCode: "A003540",
-    optionName: "대신증권",
-    todayClose: 777,
-    diffRate: 3.82,
-    isLike: true,
-  },
-  {
-    optionCode: "122124",
-    optionName: "카카오",
-    todayClose: 10777,
-    diffRate: 3.82,
-    isLike: false,
-  },
-  {
-    optionCode: "124124",
-    optionName: "삼성전자",
-    todayClose: 777,
-    diffRate: 3.82,
-    isLike: true,
-  },
-  {
-    optionCode: "122124",
-    optionName: "카카오",
-    todayClose: 10777,
-    diffRate: 3.82,
-    isLike: false,
-  },
-  {
-    optionCode: "124124",
-    optionName: "삼성전자",
-    todayClose: 777,
-    diffRate: 3.82,
-    isLike: true,
-  },
-  {
-    optionCode: "122124",
-    optionName: "카카오",
-    todayClose: 10777,
-    diffRate: 3.82,
-    isLike: false,
-  },
-  {
-    optionCode: "124124",
-    optionName: "삼성전자",
-    todayClose: 777,
-    diffRate: 3.82,
-    isLike: true,
-  },
-  {
-    optionCode: "122124",
-    optionName: "카카오",
-    todayClose: 10777,
-    diffRate: 3.82,
-    isLike: false,
-  },
-  {
-    optionCode: "124124",
-    optionName: "삼성전자",
-    todayClose: 777,
-    diffRate: 3.82,
-    isLike: true,
-  },
-  {
-    optionCode: "122124",
-    optionName: "카카오",
-    todayClose: 10777,
-    diffRate: 3.82,
-    isLike: false,
-  },
-];

@@ -157,7 +157,7 @@ export const HistoryChartDiv = styled.div`
 `;
 export const HistorySummary = styled.div`
   width: 100%;
-  height: 100%;
+  height: 60%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -169,12 +169,21 @@ export const HistorySummaryContents = styled.div`
   border: 1px solid #d4d4d4;
   border-radius: 10px;
   width: 100%;
-  height: 100%;
-
+  height: 90%;
   margin-bottom: 5%;
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
   align-items: center;
+`;
+export const HistorySummaryContentsItemList = styled.div`
+padding: 5px 0;
+  width: 100%;
+  height: 35%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const HistorySummaryContentsResult = styled.div`
@@ -183,9 +192,10 @@ export const HistorySummaryContentsResult = styled.div`
   background-color: #f7f3ff;
   border-radius: 6px;
   width: 75%;
-  height: 26%;
+  height: 45%;
   text-align: center;
   align-items: center;
+  justify-content: center;
   margin-left: 12.5%;
   margin-right: 12.5%;
 `;
@@ -203,13 +213,12 @@ export const HistorySummaryContentsItem = styled.div`
   position: relative;
   margin-top: 10px;
   width: 100%;
-  height: 16%;
+  height: 20%;
 `;
 export const HistorySummaryContentsItemLeft = styled.span`
   position: absolute;
   left: 12.5%;
   color: #929292;
-  font-family: Noto Sans;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -220,30 +229,31 @@ export const HistorySummaryContentsItemRight = styled.span`
   right: 12.5%;
   color: #000;
   text-align: right;
-  font-family: Noto Sans;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
 `;
 
-export const HistorySaveButton = styled.div`
-  cursor: pointer;
-  display: flex;
+
+export const ContestRankinig = styled.div`
   width: 100%;
-  height: 10%;
-  background: #9155fd;
-  border-radius: 6px;
-  font-weight: 600;
-  font-size: 16px;
+  height: 40%;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  text-align: center;
-  justify-content: center;
-  color: #ffffff;
-  &:hover {
-    background-color: #b992fc;
-    color: black;
-  }
-  /* padding: 8px 13px; */
-  /* margin: 10px 0px 0px 10px; */
+`;
+
+export const ContestRankinigItem = styled.div`
+  background-color: white;
+  box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
+  border: 1px solid #d4d4d4;
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
