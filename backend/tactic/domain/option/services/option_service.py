@@ -8,7 +8,8 @@ from fastapi import HTTPException
 from sqlalchemy import or_
 
 from domain.option.error.option_exception import StatusCode, Message
-from domain.option.model.option import Option
+from domain.option.model.option import Option, OptionLike
+from domain.option.schemas.option_like_request import OptionLikeRequest
 from domain.option.schemas.search_option_response import SearchOptionResponse
 from common.conn import engineconn
 
@@ -124,3 +125,9 @@ def get_keyword_search(member_id: int, keyword: str):
         })
 
     return result
+
+
+def like_option(member_id: int, option_like_request: OptionLikeRequest):
+    db_option_like = OptionLike(member_id=member_id, option_code=option_like_request.optionCode)
+    session.add(db_option_like)
+    session.commit()
