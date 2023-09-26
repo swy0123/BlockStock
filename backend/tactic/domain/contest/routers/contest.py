@@ -41,13 +41,13 @@ def enroll_contest(contest_create: ContestRequest):
 
 
 @router.post("/participate")
-def participate_contest(info_create: InfoRequest, user_id: Optional[int] = Header(None)):
-    contest_service.participate_contest(user_id, info_create)
+def participate_contest(info_create: InfoRequest, member_id: Optional[int] = Header(None)):
+    contest_service.participate_contest(member_id, info_create)
 
 
 @router.delete("/participate/{contest_id}")
-def cancel_participate_contest(contest_id: int, user_id: Optional[int] = Header(None)):
-    contest_service.cancel_participate_contest(user_id, contest_id)
+def cancel_participate_contest(contest_id: int, member_id: Optional[int] = Header(None)):
+    contest_service.cancel_participate_contest(member_id, contest_id)
 
 
 @router.delete("/{contest_id}")
@@ -57,8 +57,8 @@ def delete_contest(contest_id: int):
 
 
 @router.get("/history")
-def get_contest_history(user_id: Optional[int] = Header(None)):
-    return contest_service.get_contest_history(user_id)
+def get_contest_history(member_id: Optional[int] = Header(None)):
+    return contest_service.get_contest_history(member_id)
 
 
 @router.get("/chart/{contest_id}")
@@ -69,3 +69,8 @@ def get_contest_chart(contest_id: int):
 @router.get("/result/{contest_id}")
 def get_real_contest_result(contest_id: int):
     return contest_service.get_real_contest_result(contest_id)
+
+
+@router.get("/trade/{contest_id}")
+def get_trade_contest(contest_id: int, member_id: Optional[int] = Header(None)):
+    return contest_service.get_trade_contest(contest_id, member_id)

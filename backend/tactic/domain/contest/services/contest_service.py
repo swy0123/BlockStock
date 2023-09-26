@@ -1,11 +1,14 @@
 from fastapi import HTTPException
 from sqlalchemy import desc, func
 
+from domain.contest.models.trade import Trade
 from domain.contest.schemas.contest_history_response import ContestHistoryResponse
 from domain.contest.schemas.contest_real_time_response import ContestRealTimeResponse
 from domain.contest.schemas.contest_result_response import ContestResultList
 from domain.contest.schemas.contest_list_resopnse import ContestListResponse
 from domain.contest.schemas.contest_request import ContestRequest
+from domain.contest.schemas.contest_trade_info_response import ContestTradeInfoResponse
+from domain.contest.schemas.contest_trade_response import ContestTradeResponse
 from domain.contest.schemas.info_request import InfoRequest
 from domain.contest.schemas.contest_response import ContestResponse
 from domain.contest.schemas.contest_ranking_response import ContestRankingResponse
@@ -15,10 +18,13 @@ from domain.contest.error.contest_exception import StatusCode, Message
 from common.conn import engineconn
 from datetime import datetime
 
+from domain.option.models.option import Option
+
 engine = engineconn()
 session = engine.sessionmaker()
 
 user_profile_service_url = "https://j9b210.p.ssafy.io:8443/api/member/profile"
+
 
 def get_contests(status: str,
                  key_word: str,
@@ -286,3 +292,18 @@ def get_real_contest_result(contest_id: int):
         result.append(ranking_response)
 
     return result
+
+
+def get_trade_contest(contest_id: int, member_id: int):
+    participate = session.query(Participate).filter(Participate.contest_id == contest_id, member_id == member_id).first()
+    contest = session.query(Contest).filter(Contest.id == contest_id).first()
+    trades = (session.query(Trade).outerjoin(Participate, Participate.id == Trade.participate_id).
+              filter(Participate.member_id == member_id).order_by(desc(Trade.trade_at)).all())
+
+    option_name = session.query(Option.option_name).filter(Option.option_code == contest.option_code).first()[0]
+
+    trade_response = []
+    for trade in trades:
+        trade_response.append(ContestTradeResponse(trade))
+
+    return ContestTradeInfoResponse(participate, contest, option_name, trade_response)
