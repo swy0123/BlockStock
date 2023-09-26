@@ -29,7 +29,7 @@ export const Btn0 = styled.button`
   }
 `;
 
-// 회색 계열 버튼 디자인(팔로우, 종목 선택)
+// 회색 계열 버튼 디자인(팔로우)
 export const Btn1 =styled.button`
     border: 0px;
     width: 60px;
@@ -49,11 +49,11 @@ export const Btn2 =styled.button`
     height: 30px;
     border-radius: 8px;
     background: #ffffff;
-    border: solid 1.5px;
+    border: solid 1.8px;
     color: gray;
     cursor: pointer;
     &:hover{
-        background: "#dfd1f8";
+        background-color: #faf8fe;
         transition: 0.5s;
         color: #9155FD;
         

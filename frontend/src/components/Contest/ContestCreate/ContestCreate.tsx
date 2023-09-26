@@ -156,7 +156,7 @@ function ContestCreate({onClose, selectedContest}){
             <Header>
                 <LibraryAddIcon style={{width:'22px', height: '22px', margin:'7px 10px 0px 0px'}}/>   
                 <CreateTitle>대회 생성</CreateTitle>
-                <CreateImage src='./icon/user_purple.png'/>
+                <CreateImage src='/icon/user_purple.png'/>
                 <CreateNickName>Admin</CreateNickName>
             </Header>
             <hr style={{width:'99.7%', background:'##D3D3D3'}}/>
