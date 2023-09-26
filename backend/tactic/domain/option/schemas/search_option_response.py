@@ -8,4 +8,3 @@ class SearchOptionResponse(BaseModel):
     optionName: Optional[str] = None
     todayClose: Optional[int] = None
     diffRate: Optional[float] = None
-    isLike: Optional[bool] = None
