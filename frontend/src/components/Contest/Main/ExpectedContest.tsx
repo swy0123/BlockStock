@@ -25,6 +25,7 @@ import {
 // api 통신
 import { expectedContest } from '../../../api/Contest/Main';
 
+
 function ExpectedContest(){
   const navigate = useNavigate();
   const [expectedContestItem, setExpectedContestItem] = useState([])
@@ -70,9 +71,9 @@ function ExpectedContest(){
         </ContestLink>
       </ContestTitleWrapper>
       <Wrappe style={{
-        display: expectedContestItem.length === 0 ? 'flex' : 'initial',
-        alignItems: expectedContestItem.length === 0 ? 'center' : 'initial',
-        justifyContent: expectedContestItem.length === 0 ? 'center' : 'initial',
+        display: expectedContestItem.length === 0 ? 'flex' : undefined,
+        alignItems: expectedContestItem.length === 0 ? 'center' : undefined,
+        justifyContent: expectedContestItem.length === 0 ? 'center' : undefined,
       }}>
         {expectedContestItem.length === 0 ? (
             <Notexist>대회가 아직 없습니다</Notexist>

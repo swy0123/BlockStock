@@ -1,13 +1,15 @@
 import React, { useState} from "react";
 import styled from "styled-components";
+import { useRecoilState } from 'recoil';
+import { type } from '../../recoil/Admin/AdminContest';
 
-function ContestBtn({ onButtonClick, name }) {
-  const [btn, setBtn] = useState('List');
+function ContestBtn({ onButtonClick }) {
+  
+  const [typeValue, setType] = useRecoilState(type);
 
   const handleButtonClick = (buttonType) => {
-    setBtn(buttonType); 
-    console.log('name', name); 
-    console.log('btn', btn); 
+    setType(buttonType); 
+    // setBtn(buttonType); 
     onButtonClick(buttonType);
   };
 
@@ -17,8 +19,8 @@ function ContestBtn({ onButtonClick, name }) {
         <ContestListBtn
           onClick={() => handleButtonClick('List')}
           style={{ 
-            background: btn === 'List' ? '#9155FD' : 'initial',
-            color: btn === 'List' ? 'white' : 'initial'
+            background: typeValue === 'List' ? '#9155FD' : 'initial',
+            color: typeValue === 'List' ? 'white' : 'initial'
            }}
         >
           <div style={{ padding: '3px 0px 0px 0px' }}>
@@ -28,8 +30,8 @@ function ContestBtn({ onButtonClick, name }) {
         <ContestCreateBtn
           onClick={() => handleButtonClick('create')}
           style={{ 
-            background: btn === 'create' ? '#9155FD' : 'initial',
-            color: btn === 'create' ? 'white' : 'initial'
+            background: typeValue === 'create' ? '#9155FD' : 'initial',
+            color: typeValue === 'create' ? 'white' : 'initial'
            }}
         >
           <div style={{ padding: '5px 0px 0px 0px' }}>

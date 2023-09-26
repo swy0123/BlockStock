@@ -8,6 +8,9 @@ import styled from "styled-components";
 // api 통신
 import {expectedContest} from '../../api/Contest/Main' 
 
+import { useRecoilState } from 'recoil';
+import { type } from '../../recoil/Admin/AdminContest';
+
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -16,15 +19,18 @@ const Container = styled.div`
 `;
 
 function ContestManagement() {
-  const [type, setType] = useState('List');
+
+  const [typeValue, setType] = useRecoilState(type);
   const [ contestList, setContestList] = useState([])
   const [ count, setCount ] = useState(0)
   const [currentPage, setCurrentPage] = useState(0);
 
   const handleButtonClick = (info) => {
     console.log('Received info from button click:', info);
+    contestListApi()
     setType(info);
   };
+
 
   const data = {
     status:'expected',
@@ -33,13 +39,14 @@ function ContestManagement() {
     key_word:''
   }
 
+
   // api =====================================================
   useEffect(()=>{
     console.log(currentPage)
-    if (type === 'List'){
+    if (typeValue === 'List'){
       contestListApi()
     }
-  },[type,currentPage])
+  },[typeValue,currentPage])
 
   const contestListApi = async ()=>{
     const contest = await expectedContest(data)
@@ -59,11 +66,12 @@ function ContestManagement() {
         </div>
         <div style={{ margin: '0px 0px 0px 50px' }}>
           <ContestBtn onButtonClick={handleButtonClick} name={type}/>
-          {type === 'List' && <ContestList 
+          {typeValue === 'List' && <ContestList 
           onClickPage={(page) => setCurrentPage(page)}
           data={{ contestList, count }}
+          onButtonClick={handleButtonClick}
           />}
-          {type === 'create' && <ContestCreate />}
+          {typeValue === 'create' && <ContestCreate />}
         </div>
       </Container>
     </>
