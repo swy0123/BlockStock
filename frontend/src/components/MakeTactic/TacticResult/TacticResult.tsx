@@ -56,6 +56,7 @@ const TacticResult = (props) => {
       term: props.term,
       repeatCnt: props.repeatCnt,
     };
+    console.log(tacticTestData)
     const res = await tacticTest(tacticTestData);
     // const res = dummyData;
     console.log("결과~~~~~~~~~~~~~");

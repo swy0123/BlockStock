@@ -89,7 +89,7 @@ export const Circle = styled.div`
   width: 100px;
   height: 100px;
   /* border: solid 3px #8cc5d2; */
-  background-color: #dcebf5;
+  background-color: #a876f7;
   /* border-radius: 8px; */
   border-radius: 50%;
   margin: 40px 0px;
@@ -99,7 +99,7 @@ export const MailImg = styled.img`
   width: 50px;
   height: 50px;
   margin: 25px 10px 0px 0px;
-  opacity: 60%;
+  /* opacity: 60%; */
 `;
 
 export const Mailbtn = styled.button`

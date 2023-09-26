@@ -13,7 +13,7 @@ min-height: 200px;
 function ExpectedContest(){
   return(
     <Container>
-      <ContestStoreBtn name="/expectedContest" />
+      <ContestStoreBtn name="예정" />
       <ExpectedContestContent/>
     </Container>
   )
