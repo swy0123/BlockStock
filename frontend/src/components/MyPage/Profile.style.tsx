@@ -23,7 +23,9 @@ export const common = `
   flex-shrink: 0;
   border-radius: 13px;
   background: #fff;
-  box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
+  box-shadow: 4px 4px 2px -1px rgba(0, 0, 0, 0.05);
+
+//   box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
 `;
 export const AwardsWrapper = styled.div`
   width: 450px;
@@ -86,8 +88,9 @@ export const MailWrapper = styled.div`
 export const Circle = styled.div`
   width: 100px;
   height: 100px;
-  background-color: #9155fd;
-  border: 0;
+  /* border: solid 3px #8cc5d2; */
+  background-color: #dcebf5;
+  /* border-radius: 8px; */
   border-radius: 50%;
   margin: 40px 0px;
 `;
@@ -96,15 +99,21 @@ export const MailImg = styled.img`
   width: 50px;
   height: 50px;
   margin: 25px 10px 0px 0px;
+  opacity: 60%;
 `;
 
 export const Mailbtn = styled.button`
   width: 130px;
-  height: 35px;
-  border-radius: 6px;
-  background: linear-gradient(0deg, #f2eaff 0%, #f2eaff 100%), #d9d9d9;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  height: 40px;
+  border-radius: 8px;
+  background: #f1f1f2;
   border: 0;
+  cursor: pointer;
+  &:hover {
+    background: #e6e5e7;
+    border: 0;
+    transition: 0.5s;
+  }
 `;
 export const MoneyIcon = styled.img`
   width: 40px;
@@ -114,10 +123,15 @@ export const StoreBtn = styled.button`
   width: 130px;
   height: 35px;
   flex-shrink: 0;
-  color: white;
+  color: #3d3d3d;
   border: 0;
   border-radius: 6px;
-  background: linear-gradient(0deg, #9155fd 0%, #9155fd 100%), #d9d9d9;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  background: #e8dff9;
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
   margin: 0px 20px;
+  &:hover {
+    background: #9155fd;
+    color: white;
+    transition: 0.5s;
+  }
 `;
