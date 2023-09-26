@@ -107,13 +107,11 @@ def get_tactic_test_response(tactic_test_request):
     now_data = get_now_data(tactic_test_request)
     now_data.reverse()
     now_data = now_data[0:tactic_test_request.repeatCnt]
-    print("now data : ", now_data)
 
     # set past_data
     global past_data
     past_data = get_past_data(tactic_test_request)
     past_data.reverse()
-
 
     # set past_day_data
     global past_day_data
@@ -178,9 +176,7 @@ def get_tactic_test_response(tactic_test_request):
     response.endAsset = now_asset
 
     # set return_percent
-    response.returnPercent = response.endAsset / response.startAsset
-    if response.startAsset > response.endAsset:
-        response.returnPercent *= -1
+    response.returnPercent = (response.endAsset - response.startAsset) / response.startAsset * 100
 
     return response
 
@@ -404,8 +400,6 @@ def get_recent_indicators(range_type, scope, data_type, criteria):
     elif range_type == "term":
         start_idx = 100 - scope + now_repeat_cnt
         end_idx = 99 + now_repeat_cnt
-        print(">>>>>>>>>>>all_data_size : ", len(all_data))
-        print(">>>>>>>>>>>start idx :", start_idx)
         now_idx = start_idx
 
         if criteria == "avg":
