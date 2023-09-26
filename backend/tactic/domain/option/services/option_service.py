@@ -71,29 +71,23 @@ def get_token():
     return res.json()["access_token"]
 
 
-def get_search_option(member_id, option):
+def get_option_detail(option_code: str):
     response = SearchOptionResponse()
 
     inst_cp_stock_code = win32com.client.Dispatch("CpUtil.CpStockCode")
 
-    name = inst_cp_stock_code.CodeToName(option)
-    code = inst_cp_stock_code.NameToCode(option)
+    name = inst_cp_stock_code.CodeToName(option_code)
+    option_code = inst_cp_stock_code.NameToCode(name)
 
-    if name == "" and code == "":
+    if name == "":
         raise HTTPException(status_code=StatusCode.OPTION_NOT_EXIST_ERROR,
                             detail=Message.OPTION_NOT_EXIST_ERROR)
 
-    # request.option이 name 이라면 name은 빈 값
-    if name == "":
-        name = option
-    else:
-        code = option
-
-    response.optionCode = code
+    response.optionCode = option_code
     response.optionName = name
 
     inst_stock_chart = win32com.client.Dispatch("CpSysDib.StockChart")
-    inst_stock_chart.SetInputValue(0, code)
+    inst_stock_chart.SetInputValue(0, option_code)
     inst_stock_chart.SetInputValue(1, ord('2'))
     inst_stock_chart.SetInputValue(4, 2)
     inst_stock_chart.SetInputValue(5, 5)
@@ -101,6 +95,7 @@ def get_search_option(member_id, option):
     inst_stock_chart.SetInputValue(9, ord('1'))
     inst_stock_chart.BlockRequest()
 
+    print(inst_stock_chart.GetDataValue(0, 1))
     yesterday_close = inst_stock_chart.GetDataValue(0, 0)
     today_close = inst_stock_chart.GetDataValue(0, 1)
 
@@ -110,10 +105,6 @@ def get_search_option(member_id, option):
     response.diffRate = round(diff_rate, 3)
 
     return response
-
-
-def get_option_detail(option_id):
-    return
 
 
 def get_keyword_search(member_id: int, keyword: str):
