@@ -130,7 +130,9 @@ margin: 50px 0px 0px 830px;
 `;
 
 
-
+export const Notexist = styled.div`
+color: #ABABAB;
+`;
 
 
 

@@ -123,7 +123,7 @@ function CurrentContest(){
                                   수익률 :
                                 </div>
                                 <ContestReturn style={{ color: contest.ranking[0].returns[0] === '-' ? 'blue' : 'red' }}>
-                                  {contest.ranking[0].returns}
+                                  {Math.round(contest.ranking[0].returns * 10) / 10}%
                                 </ContestReturn>
                               </div>
                           </>
@@ -147,7 +147,7 @@ function CurrentContest(){
                                   수익률 :
                                 </div>
                                 <ContestReturn style={{ color: contest.ranking[1].returns[0] === '-' ? 'blue' : 'red' }}>
-                                  {contest.ranking[1].returns}
+                                  {Math.round(contest.ranking[1].returns * 10) / 10}%
                                 </ContestReturn>
                               </div>
                           </>
@@ -172,7 +172,7 @@ function CurrentContest(){
                               수익률 :
                             </div>
                             <ContestReturn style={{ color: contest.ranking[2].returns[0] === '-' ? 'blue' : 'red' }}>
-                              {contest.ranking[2].returns}
+                              {Math.round(contest.ranking[2].returns * 10) / 10}%
                             </ContestReturn>
                           </div>
                         </>
