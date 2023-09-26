@@ -18,27 +18,11 @@ import {
   Stock,
   Term,
   Button,
+  Notexist
 } from './ExpectedContestContent.style'
 
 import TablePagination from '@mui/material/TablePagination';
 import {expectedContestList} from '../../../../api/Contest/ContestStore'
-
-
-// const Line = ({ hide }) => {
-//   console.log('hide prop:', hide); // hide prop을 로그에 출력
-//   return (
-//     <div
-//       style={{
-//         alignItems: 'center',
-//         margin: '0px 0px 0px 0px',
-//         border: '1px solid #D3D3D3',
-//         display: hide ? 'none' : 'block',
-//         marginBottom: '30px'
-//       }}
-//     >
-//     </div>
-//   );
-// };
 
 
 function ExpectedContestContent(){
@@ -165,53 +149,67 @@ function ExpectedContestContent(){
   return(
     <Container>
 
-      <Wrapper>
-        {expectedContestItem.map((contest, index) => (
-          <div key={contest.id} style={{margin:'0px 0px 30px 0px'}}>
-            {/* <Line hide={index === 0} /> */}
-            <ContestBox onClick={() => toggleContent(index)}>
-              <div>
-                <Title> [경진대회] {contest.title}</Title>
-                <Schedule>대회 기간: {contest.startTime} ~ {contest.endTime}</Schedule>
-              </div>
-              {showContent[index] ? (
-                <KeyboardControlKeyIcon style={{ fontSize: '50px', marginLeft: 'auto', marginRight: '50px' }} />
-              ) : (
-                <ExpandMoreIcon style={{ fontSize: '50px', marginLeft: 'auto', marginRight: '50px' }} />
-              )}
-            </ContestBox>
+      <Wrapper style={{
+          display: expectedContestItem.length === 0 ? 'flex' : undefined,
+          alignItems: expectedContestItem.length === 0 ? 'center' : undefined,
+          justifyContent: expectedContestItem.length === 0 ? 'center' : undefined,
+      }}>
+        {expectedContestItem.length === 0 ? (
+          <Notexist>아직 대회가 없습니다</Notexist>
+        ) : (
+          <>
+          {expectedContestItem.map((contest, index) => (
+            <div key={contest.id} style={{margin:'0px 0px 30px 0px'}}>
+              {/* <Line hide={index === 0} /> */}
+              <ContestBox onClick={() => toggleContent(index)}>
+                <div>
+                  <Title> [경진대회] {contest.title}</Title>
+                  <Schedule>대회 기간: {contest.startTime} ~ {contest.endTime}</Schedule>
+                </div>
+                {showContent[index] ? (
+                  <KeyboardControlKeyIcon style={{ fontSize: '50px', marginLeft: 'auto', marginRight: '50px' }} />
+                ) : (
+                  <ExpandMoreIcon style={{ fontSize: '50px', marginLeft: 'auto', marginRight: '50px' }} />
+                )}
+              </ContestBox>
 
-            <ContentBox style={{ display: showContent[index] ? 'block' : 'none' }}>
-              <Stock>현재 인원: {contest.joinPeople} / {contest.maxCapacity}</Stock>
-              <StartAsset>필요 티켓: {contest.ticket} 개</StartAsset>
-              <Term>전략 실행 주기 : {contest.term}</Term>
-              <div>내용</div>
-              <Content>{contest.content}</Content>
-              {contest.isRegisted ? (
-                <Button onClick={OpenCandelModal}>신청취소</Button>
-              ) : (
-                <Button onClick={OpenModal}>참가하기</Button>
-              )} 
-            </ContentBox>
-            <hr style={{margin:'30px 0px 0px 0px'}}/>
+              <ContentBox style={{ display: showContent[index] ? 'block' : 'none' }}>
+                <Stock>현재 인원: {contest.joinPeople} / {contest.maxCapacity}</Stock>
+                <StartAsset>필요 티켓: {contest.ticket} 개</StartAsset>
+                <Term>전략 실행 주기 : {contest.term}</Term>
+                <div>내용</div>
+                <Content>{contest.content}</Content>
+                {contest.isRegisted ? (
+                  <Button onClick={OpenCandelModal}>신청취소</Button>
+                ) : (
+                  <Button onClick={OpenModal}>참가하기</Button>
+                )} 
+              </ContentBox>
+              <hr style={{margin:'30px 0px 0px 0px'}}/>
 
-          </div>
-        ))}
+            </div>
+          ))}
 
+          </>
+        )}
 
          {isModalOpen ? <ContestTaticModal selectedContest={selectedContest} type={'contest'} onClose={CloseModal} /> : null}
          {isCancelModalOpen ? <ContestCancelModal selectedContest={selectedContest} onClose={CloseCandelModal}/> : null}
       </Wrapper>
-        <TablePagination
-          component="div"
-          count={count}
-          page={page}
-          onPageChange={handleChangePage}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={() => {}}
-          rowsPerPageOptions={[]}
-          style={{margin:'0px 50px 0px 0px'}}
-        />
+      {expectedContestItem.length > 0 && (
+          <>
+          <TablePagination
+            component="div"
+            count={count}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={() => {}}
+            rowsPerPageOptions={[]}
+            style={{margin:'0px 50px 0px 0px'}}
+          />
+          </>
+      )}
 
     </Container>
   )

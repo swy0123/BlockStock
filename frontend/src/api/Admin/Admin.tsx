@@ -18,9 +18,9 @@ export const contestDelete = async (contestId) => {
   console.log('대회 삭제 api 진입')
   try{
     console.log(contestId)
-    const res = await privateApi.delete(`/contest${contestId}`);
-    console.log(res.data);
-    return res.data;
+    const res = await privateApi.delete(`/contest/${contestId}`);
+    console.log(res);
+    return res.status;
   }
   catch(err){
     console.log('대회 삭제 api', err)

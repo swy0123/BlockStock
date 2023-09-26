@@ -1,12 +1,8 @@
 import { atom } from 'recoil';
 
-export const data = atom({
-  key: 'data',
-  default: {
-    status:'expected',
-    page:0,
-    size:0,
-    key_word:''
-  }
+// type에 따라 버튼, 생성 컴포넌트, 목록 컴포넌트 변경
+export const type = atom({
+  key: 'type',
+  default: 'List'
 })
     
