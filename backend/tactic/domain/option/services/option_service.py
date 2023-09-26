@@ -143,3 +143,12 @@ def like_option(member_id: int, option_like_request: OptionLikeRequest):
     db_option_like = OptionLike(member_id=member_id, option_code=option_like_request.optionCode)
     session.add(db_option_like)
     session.commit()
+
+
+def unlike_option(member_id: int, option_code: str):
+    db_option_like = session.query(OptionLike).filter(OptionLike.member_id == member_id, OptionLike.option_code == option_code).first()
+
+    if db_option_like:
+        session.delete(db_option_like)
+        session.commit()
+
