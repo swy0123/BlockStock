@@ -17,5 +17,4 @@ function CompletedContest(){
         </Container>
     )
 }
-
 export default CompletedContest
