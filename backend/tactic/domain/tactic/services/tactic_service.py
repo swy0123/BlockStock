@@ -26,8 +26,8 @@ async def get_member_tactic(member_id: int, code: str):
         tactics = session.query(Tactic).filter(Tactic.member_id == member_id).all()
     else:
         tactics = session.query(Tactic).filter(and_(Tactic.member_id == member_id, Tactic.option_code == code)).all()
-    tactic_responses = []
 
+    tactic_responses = []
     for tactic in tactics:
         option = session.query(Option).filter(Option.option_code == tactic.option_code).first()
         tactic_response = TacticListResponse(tactic, option.option_name)
