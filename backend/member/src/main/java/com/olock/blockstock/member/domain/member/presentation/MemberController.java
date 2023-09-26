@@ -34,6 +34,11 @@ public class MemberController {
         return ResponseEntity.ok(memberService.getInfo(memberId));
     }
 
+    @GetMapping("/{memberId}")
+    public ResponseEntity<MemberInfoResponse> userDetail(@PathVariable("memberId") Long memberId) {
+        return ResponseEntity.ok(memberService.getInfo(memberId));
+    }
+
     @PutMapping
     public ResponseEntity<Void> modifyNickname(@RequestHeader("Member-id") Long memberId, @RequestBody MemberModifyRequest memberModifyRequest) {
         memberService.modify(memberId, memberModifyRequest);
