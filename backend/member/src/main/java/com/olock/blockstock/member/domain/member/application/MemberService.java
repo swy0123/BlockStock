@@ -11,6 +11,7 @@ public interface MemberService {
     void join(MemberJoinRequest memberJoinRequest);
 
     MemberInfoResponse getInfo(Long memberId);
+    MemberInfoResponse getInfo(Long myId, Long memberId);
 
     void modify(Long memberId, MemberModifyRequest memberModifyRequest);
 

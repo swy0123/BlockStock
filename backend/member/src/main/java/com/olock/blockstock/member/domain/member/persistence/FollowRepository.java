@@ -26,4 +26,8 @@ public interface FollowRepository extends Neo4jRepository<Member, Long> {
 
     @Query("MATCH (follower:Member)-[r:FOLLOW]->(following:Member) WHERE follower.id = $targetId RETURN following.id AS id, following.nickname AS nickname, EXISTS { MATCH (me:Member)-[:FOLLOW]->(myFollowing:Member) WHERE me.id = 0 AND myFollowing.id = following.id } AS isFollowing")
     List<FollowMemberResponse> findAllFollowings(@Param("myId") Long myId, @Param("targetId") Long targetId);
+
+    @Query("MATCH (follower:Member)-[:FOLLOW]->(following:Member) WHERE follower.id = $myId AND following.id = $otherId RETURN COUNT(*) > 0")
+    boolean isFollowing(@Param("myId") Long myId, @Param("otherId") Long otherId);
+
 }
