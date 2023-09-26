@@ -48,19 +48,19 @@ function LoginHeader() {
   return (
     <Container>
       <HeaderWrapper>
-        <Logo src="./icon/logo.png" onClick={() => navigate("/")}></Logo>
+        <Logo src="/icon/logo.png" onClick={() => navigate("/")}></Logo>
         <Wrapper>
           <InputBox>
             <Input type="text" placeholder="검색어를 입력하세요 🔎" />
           </InputBox>
           <InputBox>
-            <AlertImg src="./icon/isalert.png"></AlertImg>
+            <AlertImg src="/icon/isalert.png"></AlertImg>
             <DropBoxWrapper
               onClick={enterDropBox}
             >
               {isDropBox ? (
                 <DropBox>
-                  <Img src="./icon/user_purple.png"></Img>
+                  <Img src="/icon/user_purple.png"></Img>
                   <ClickBox>
                     <Content>{currentUser.nickname}</Content>
                     <Hr/>
@@ -69,7 +69,7 @@ function LoginHeader() {
                   </ClickBox>
                 </DropBox>
               ) : (
-                <Img src="./icon/user_purple.png"></Img>
+                <Img src="/icon/user_purple.png"></Img>
               )}
             </DropBoxWrapper>
           </InputBox>

@@ -136,7 +136,7 @@ const router = createBrowserRouter([
                 errorElement: <ErrorComponent/>,
               },
             {
-              path: "/userpage",
+              path: "/userpage/:memberId",
               element: <UserPage/>,
               errorElement: <ErrorComponent/>,
               

@@ -23,7 +23,7 @@ function Header(){
     return( 
         <Container>
             <HeaderWrapper>
-                <Logo src="./icon/logo.png" onClick={()=> navigate("/")}></Logo>
+                <Logo src="/icon/logo.png" onClick={()=> navigate("/")}></Logo>
                 <Wrapper>
                 <InputBox>
                     <Input

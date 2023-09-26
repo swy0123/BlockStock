@@ -28,7 +28,7 @@ function Following() {
             {data.map((info: { id: number; nickname: string; following: boolean; }) => (
                 <UserBox key={info.id}>
                     <Box>
-                        <Img src="./icon/user_purple.png"></Img>
+                        <Img src="/icon/user_purple.png"></Img>
                         <Name>{info.nickname}</Name>
                         <Box>
                             {info.following ? (
