@@ -2,8 +2,10 @@ from common.conn import engineconn
 from datetime import datetime
 
 from domain.contest.models.contest import Tactic
+from domain.option.model.option import Option
 from domain.tactic.schemas.tactic_add_request import TacticAddRequest
 from domain.tactic.schemas.tactic_info_response import TacticInfoResponse
+from domain.tactic.schemas.tactic_list_response import TacticListResponse
 from domain.tactic.schemas.tactic_modify_request import TacticModifyRequest
 
 engine = engineconn()
@@ -11,7 +13,7 @@ session = engine.sessionmaker()
 
 
 async def create_tactic(member_id: int, tactic_add_request: TacticAddRequest):
-    db_tactic = Tactic(member_id, tactic_add_request)
+    db_tactic = Tactic(member_id=member_id, tactic_add_request=tactic_add_request)
     session.add(db_tactic)
     session.commit()
 
@@ -25,6 +27,12 @@ async def get_member_tactic(member_id: int):
         tactic_responses.append(tactic_response)
 
     return tactic_responses
+
+
+async def get_tactic_detail(tactic_id: int):
+    tactic = session.query(Tactic).filter(Tactic.id == tactic_id).all()
+    option = session.query(Option).filter(Option.option_code == tactic.option_code).first()
+    return TacticListResponse(tactic, option.option_name)
 
 
 async def modify_tactic(member_id: int, tactic_modify_request: TacticModifyRequest):
