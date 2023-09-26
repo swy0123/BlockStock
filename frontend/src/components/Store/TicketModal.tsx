@@ -169,11 +169,11 @@ function TicketModal(props: TicketModalProps) {
     <ModalWrapper isOpen={isOpen}>
       <ModalContent>
         <Title>티켓 교환</Title>
-        <CloseIcon src="./icon/close.png" onClick={onClose}/>
+        <CloseIcon src="/icon/close.png" onClick={onClose}/>
         <Text>교환할 티켓 수를 입력해주세요.</Text>
         <Wrapper>
             <Box>
-            <Img src="./icon/tickets.png"/>
+            <Img src="/icon/tickets.png"/>
             <QuantityControl>
                 <QuantityButton onClick={decreaseQuantity}>-</QuantityButton>
                 <QuantityDisplay>{ticketQuantity}</QuantityDisplay>

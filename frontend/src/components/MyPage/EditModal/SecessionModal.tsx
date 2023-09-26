@@ -115,7 +115,7 @@ function SecessionModal(props: SecessionModalProps) {
   return (
     <ModalWrapper isOpen={isOpen}>
       <ModalContent>
-        <CloseIcon src="./icon/close.png" onClick={onClose}/>
+        <CloseIcon src="/icon/close.png" onClick={onClose}/>
         <Title>회원 탈퇴</Title>
         <Text>정말 탈퇴하시겠어요?</Text>
         <Text>탈퇴 버튼 선택 시, 계정은 삭제되며 복구되지 않습니다.</Text>

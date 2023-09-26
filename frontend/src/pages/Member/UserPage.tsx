@@ -88,7 +88,7 @@ function UserPage() {
             />
             <Text>{data.nickname}</Text>
             <InfoBox>
-              <MailIcon src="./icon/mail.png" />
+              <MailIcon src="/icon/mail.png" />
               <Text>{data.email}</Text>
             </InfoBox>
           </Box>

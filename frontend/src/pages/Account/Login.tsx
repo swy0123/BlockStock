@@ -83,7 +83,7 @@ function Login() {
         <Box1>
           <form onSubmit={handleSubmit}>
             <LoginBox>
-              <LogoImg src="./icon/logo.png" onClick={()=> navigate("/")}/>
+              <LogoImg src="/icon/logo.png" onClick={()=> navigate("/")}/>
               <Title>Welcome to Block Stock!</Title>
               <Input
                 placeholder="E-mail"
