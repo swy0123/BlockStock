@@ -20,6 +20,7 @@ import {
   BtnWrapper,
   MenuBtn,
   ContentContainer,
+  MailIcon,
 } from "./Mypage.style";
 
 function UserPage() {
@@ -86,7 +87,10 @@ function UserPage() {
               alt="profile"
             />
             <Text>{data.nickname}</Text>
-            <Text>{data.email}</Text>
+            <InfoBox>
+              <MailIcon src="./icon/mail.png" />
+              <Text>{data.email}</Text>
+            </InfoBox>
           </Box>
           <FollowBtn following={data.following}>
             {data.following ? "✅팔로잉" : "팔로우"}

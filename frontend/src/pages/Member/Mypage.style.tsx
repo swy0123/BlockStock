@@ -64,7 +64,14 @@ export const MenuBtn = styled.button<{ isSelected: boolean }>`
 export const InfoBox = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `;
+export const MailIcon = styled.img`
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+  margin-top: 2px;
+`
 export const Box = styled.div`
   display: flex;
 `;
