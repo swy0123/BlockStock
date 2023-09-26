@@ -118,8 +118,9 @@ def get_keyword_search(member_id: int, keyword: str):
 
     for option in options:
         result.append({
-            'option_code': option.option_code,
-            'option_name': option.option_name
+            'optionCode': option.option_code,
+            'optionName': option.option_name,
+            'like': False
         })
 
     return result
