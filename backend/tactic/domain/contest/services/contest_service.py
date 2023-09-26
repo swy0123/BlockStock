@@ -4,7 +4,7 @@ from sqlalchemy import desc, func
 from domain.contest.schemas.contest_history_response import ContestHistoryResponse
 from domain.contest.schemas.contest_result_response import ContestResultList
 from domain.contest.schemas.contest_list_resopnse import ContestListResponse
-from domain.contest.schemas.contest_requeset import ContestRequest
+from domain.contest.schemas.contest_request import ContestRequest
 from domain.contest.schemas.info_request import InfoRequest
 from domain.contest.schemas.contest_response import ContestResponse
 from domain.contest.schemas.contest_prev_response import ContestPrevResponse
