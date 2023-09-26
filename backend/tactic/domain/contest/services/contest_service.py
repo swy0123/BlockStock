@@ -2,6 +2,7 @@ from fastapi import HTTPException
 from sqlalchemy import desc, func
 
 from domain.contest.schemas.contest_history_response import ContestHistoryResponse
+from domain.contest.schemas.contest_real_time_response import ContestRealTimeResponse
 from domain.contest.schemas.contest_result_response import ContestResultList
 from domain.contest.schemas.contest_list_resopnse import ContestListResponse
 from domain.contest.schemas.contest_request import ContestRequest
@@ -9,7 +10,7 @@ from domain.contest.schemas.info_request import InfoRequest
 from domain.contest.schemas.contest_response import ContestResponse
 from domain.contest.schemas.contest_prev_response import ContestPrevResponse
 from domain.contest.schemas.contest_type import ContestType
-from domain.contest.models.contest import Contest, Participate
+from domain.contest.models.contest import Contest, Participate, ContestRealTime
 from domain.contest.error.contest_exception import StatusCode, Message
 from common.conn import engineconn
 from datetime import datetime
@@ -221,7 +222,7 @@ def get_contest_history(user_id: int):
     return result
 
 
-def cancel_participate_contest(user_id, contest_id):
+def cancel_participate_contest(user_id: int, contest_id: int):
     # user 유효한지 확인
     # 이미 대회에 참여하지 않는다면 에러
     if not session.get(Contest, contest_id):
@@ -234,3 +235,28 @@ def cancel_participate_contest(user_id, contest_id):
 
     session.delete(participate)
     session.commit()
+
+
+def get_contest_chart(contest_id: int):
+    if not session.get(Contest, contest_id):
+        raise HTTPException(status_code=StatusCode.CONTEST_NOT_EXIST_ERROR_CODE)
+
+    contest_real_times = session.query(ContestRealTime).filter(ContestRealTime.contest_id == contest_id)
+
+    result = []
+    for contest_real_time in contest_real_times:
+        idx = contest_real_time.id
+
+        if idx == 0:
+            vol = contest_real_time.vol
+        else:
+            prev_data = session.query(ContestRealTime.vol).filter(ContestRealTime.id == idx - 1).first()
+
+            if prev_data is None:
+                vol = contest_real_time.vol
+            else:
+                vol = prev_data[0]
+
+        result.append(ContestRealTimeResponse(contest_real_time, contest_real_time.vol - vol))
+
+    return result
