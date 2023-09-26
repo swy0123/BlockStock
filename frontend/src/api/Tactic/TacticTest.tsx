@@ -12,14 +12,16 @@ export interface tacticTestProps {
 
 // 전략 테스트
 export const tacticTest = async (data: tacticTestProps) => {
-  console.log(
-    "tacticTesttacticTesttacticTesttacticTesttacticTesttacticTesttacticTesttacticTesttacticTesttacticTest"
-  );
+  console.log("전략 테스트");
   console.log(data);
-  const res = await privateApi.post(`/tactic/test`, data);
-  console.log("testresponse");
-  console.log(res.data);
-  return res.data;
+  try {
+    const res = await privateApi.post(`/tactic/test`, data);
+    console.log("testresponse");
+    console.log(res.data);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export interface saveTacticProps {
@@ -32,11 +34,15 @@ export interface saveTacticProps {
 }
 
 // 전략 생성
-export const tacticCreate = async (data:saveTacticProps) => {
+export const tacticCreate = async (data: saveTacticProps) => {
   console.log(data)
-  const res = await privateApi.post(`/tactic`, data);
-  console.log(res.data);
-  return res.data;
+  try {
+    const res = await privateApi.post(`/tactic`, data);
+    console.log(res.data);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 // export const tacticCreate = async (data:FormData) => {
@@ -49,3 +55,47 @@ export const tacticCreate = async (data:saveTacticProps) => {
 //   console.log(res.data);
 //   return res.data;
 // };
+
+// 전략 조회
+export const tacticImport = async (params: number) => {
+  console.log(params)
+  try {
+    const res = await privateApi.get(`/tactic`, {params});
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export interface updateTacticProps {
+  id: number;
+  title: string;
+  optionCode: string;
+  tacticJsonCode: string;
+  tacticPythonCode: string;
+  imgPath: string;
+  testReturns: number;
+}
+
+// 전략 수정
+export const tacticUpdate = async (data: updateTacticProps) => {
+  console.log(data)
+  try {
+    const res = await privateApi.put(`/tactic`, data);
+    console.log(res.data);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// 전략 삭제
+export const tacticDelete = async (params: number) => {
+  console.log(params)
+  try {
+    const res = await privateApi.delete(`/tactic`, {params});
+    return res;
+  } catch (err) {
+    console.log(err);
+  }
+};

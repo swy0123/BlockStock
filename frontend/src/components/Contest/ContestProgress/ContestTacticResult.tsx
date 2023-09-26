@@ -36,13 +36,14 @@ import {
   tacticTest,
   tacticTestProps,
 } from "../../../api/Tactic/TacticTest";
-import { contestChart, contestTrade } from "../../../api/Contest/ContestProgress";
+import { contestChart, contestRanking, contestTrade } from "../../../api/Contest/ContestProgress";
 import dayjs from "dayjs";
 
-const TacticResult = () => {
+const TacticResult = (id:any) => {
   const [componentRef, size] = useComponentSize();
   const [optionHistory, setOptionHistory] = useState<any>([]);
   const [chartInfos, setChartInfos] = useState<any[]>([]);
+  const [rankInfos, setRanktInfos] = useState<any[]>([]);
   const [startAsset, setStartAsset] = useState(0);
   const [endAsset, setEndAssets] = useState(0);
   const [returnPercent, setReturnPercent] = useState(0);
@@ -55,7 +56,6 @@ const TacticResult = () => {
 
   const pricesDisplayFormat = format(",");
 
-  const propsTmp: string = "contest_id";
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -73,14 +73,20 @@ const TacticResult = () => {
   }, [count]);
 
   const axiosGetData = async () => {
+
+    //테스트 데이터 id는 7
+    // const propsTmp: string = id;
+    const propsTmp = 7;
+
     const chartres = await contestChart(propsTmp);
     const traderes = await contestTrade(propsTmp);
-    // const res = dummyData;
+    const rankingres = await contestRanking(propsTmp);
     console.log("결과~~~~~~~~~~~~~");
     console.log(chartres);
     console.log(traderes);
     setOptionHistory(traderes.optionHistory);
     setChartInfos(chartres);
+    setRanktInfos(rankingres);
     setStartAsset(traderes.startAsset);
     setEndAssets(traderes.endAsset);
     setReturnPercent(traderes.returnPercent);
@@ -97,14 +103,6 @@ const TacticResult = () => {
     console.log("!!!!!!");
     // console.log(typeof props.tacticImg);
   }, []);
-
-  const dummy = {
-    title: "빠르게 가는 전략",
-    optionCode: "005147",
-    taticJsonCode: {},
-    tacticPythonCode: "",
-    testReturns: "1.5",
-  };
 
   return (
     <TradingHistoryContainer>
@@ -219,7 +217,11 @@ const TacticResult = () => {
             </HistorySummaryContents>
           </HistorySummary>
           <ContestRankinig>
-            <ContestRankinigItem></ContestRankinigItem>
+            <ContestRankinigItem>
+              {/* 
+              랭킹창
+              */}
+            </ContestRankinigItem>
           </ContestRankinig>
         </RightDiv>
       </TradingHistoryContents>
