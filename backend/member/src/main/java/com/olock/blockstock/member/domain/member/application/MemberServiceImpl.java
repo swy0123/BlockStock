@@ -64,7 +64,15 @@ public class MemberServiceImpl implements MemberService {
     public MemberInfoResponse getInfo(Long memberId) {
         memberValidator.existsMember(memberId);
         Member member = memberRepository.findByMemberId(memberId).get();
-        return new MemberInfoResponse(member, followRepository.findFollowerCnt(memberId), followRepository.findFollowingCnt(memberId));
+        return new MemberInfoResponse(member, false, followRepository.findFollowerCnt(memberId), followRepository.findFollowingCnt(memberId));
+    }
+
+    @Override
+    public MemberInfoResponse getInfo(Long myId, Long memberId) {
+        memberValidator.existsMember(memberId);
+        Member member = memberRepository.findByMemberId(memberId).get();
+        boolean isFollowing = followRepository.isFollowing(myId, memberId);
+        return new MemberInfoResponse(member, isFollowing, followRepository.findFollowerCnt(memberId), followRepository.findFollowingCnt(memberId));
     }
 
     @Override

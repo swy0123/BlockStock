@@ -35,8 +35,8 @@ public class MemberController {
     }
 
     @GetMapping("/{memberId}")
-    public ResponseEntity<MemberInfoResponse> userDetail(@PathVariable("memberId") Long memberId) {
-        return ResponseEntity.ok(memberService.getInfo(memberId));
+    public ResponseEntity<MemberInfoResponse> userDetail(@RequestHeader("Member-id") Long myId, @PathVariable("memberId") Long memberId) {
+        return ResponseEntity.ok(memberService.getInfo(myId, memberId));
     }
 
     @PutMapping
