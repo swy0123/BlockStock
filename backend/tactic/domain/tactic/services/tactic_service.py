@@ -1,3 +1,5 @@
+from sqlalchemy import and_
+
 from common.conn import engineconn
 from datetime import datetime
 
@@ -18,8 +20,12 @@ async def create_tactic(member_id: int, tactic_add_request: TacticAddRequest):
     session.commit()
 
 
-async def get_member_tactic(member_id: int):
-    tactics = session.query(Tactic).filter(Tactic.member_id == member_id).all()
+async def get_member_tactic(member_id: int, code: str):
+    tactics = []
+    if code == "":
+        tactics = session.query(Tactic).filter(Tactic.member_id == member_id).all()
+    else:
+        tactics = session.query(Tactic).filter(and_(Tactic.member_id == member_id, Tactic.option_code == code)).all()
     tactic_responses = []
 
     for tactic in tactics:
