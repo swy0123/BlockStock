@@ -20,6 +20,11 @@ async def keyword_search(request: Request, like: bool, keyword: Optional[str] = 
         return get_keyword_search(member_id, keyword, like)
 
 
+@app.get("/stock")
+async def get_stock_main():
+    return option_service.get_main_stock_info()
+
+
 @app.get("/{option_code}")
 async def keyword_search(option_code: str):
     return get_option_detail(option_code)

@@ -5,13 +5,15 @@ import json
 
 import win32com.client
 from fastapi import HTTPException
-from sqlalchemy import or_, exists, and_
+from sqlalchemy import or_, exists, and_, func
 
 from domain.option.error.option_exception import StatusCode, Message
 from domain.option.model.option import Option, OptionLike
 from domain.option.schemas.option_like_request import OptionLikeRequest
+from domain.option.schemas.option_response import OptionResponse
 from domain.option.schemas.search_option_response import SearchOptionResponse
 from common.conn import engineconn
+import common.config.kis_api as kis
 
 engine = engineconn()
 session = engine.sessionmaker()
@@ -19,57 +21,36 @@ session = engine.sessionmaker()
 # 연결 여부 체크
 objCpCybos = win32com.client.Dispatch("CpUtil.CpCybos")
 bConnect = objCpCybos.IsConnect
+
 if bConnect == 0:
     print("PLUS가 정상적으로 연결되지 않음. ")
     exit()
 
-
-def get_options():
-    stocks = pd.read_html('http://kind.krx.co.kr/corpgeneral/corpList.do?method=download', header=0)[0]
-
-    # 랜덤 8개 추출하고, json으로 저장
-    stocks = stocks[['종목코드', '회사명']].sample(8)
-    stocks['종목코드'] = stocks['종목코드'].astype(str).str.zfill(6)
-
-    token = get_token()
-
-    URL = f'{os.environ["HT_BASE_URL"]}/{os.environ["HT_STOCK_PATH"]}'
-    print(URL)
-
-    for idx, row in stocks.iterrows():
-        print(get_stock(row, token, URL))
-
-    return ""
+kis.auth()
 
 
-def get_stock(row, token, URL):
-    headers = {"Content-Type": "application/json",
-               "authorization": f"Bearer {token}",
-               "appKey": os.environ["HT_APP_KEY"],
-               "appSecret": os.environ["HT_APP_SECRET"],
-               "tr_id": "FHKST01010100"}
 
-    params = {
-        "fid_cond_mrkt_div_code": "J",
-        "fid_input_iscd": [row["종목코드"]]
-    }
+def get_main_stock_info():
 
-    res = requests.get(URL, headers=headers, params=params)
-    print(res.json())
-    return ""
+    stocks = (session.query(Option.option_code, Option.option_name).
+              order_by(func.random()).limit(5).all())
 
+    result = []
 
-def get_token():
-    URL = f'{os.environ["HT_BASE_URL"]}/{os.environ["HT_TOKEN_PATH"]}'
-    headers = {"content-type": "application/json"}
-    body = {"grant_type": "client_credentials",
-            "appkey": os.environ["HT_APP_KEY"],
-            "appsecret": os.environ["HT_APP_SECRET"]}
+    for stock in stocks:
 
-    res = requests.post(URL, headers=headers, data=json.dumps(body))
-    res.text
+        res = kis.get_current_price(stock[0])
 
-    return res.json()["access_token"]
+        priceChange = res["prdy_ctrt"]
+
+        option_response = OptionResponse(option_code=stock.option_code,
+                                         option_name=stock.option_name,
+                                         currentPrice=res["stck_prpr"],
+                                         comparePrevious=priceChange)
+
+        result.append(option_response)
+
+    return result
 
 
 def get_option_detail(option_code: str):
@@ -146,9 +127,9 @@ def like_option(member_id: int, option_like_request: OptionLikeRequest):
 
 
 def unlike_option(member_id: int, option_code: str):
-    db_option_like = session.query(OptionLike).filter(OptionLike.member_id == member_id, OptionLike.option_code == option_code).first()
+    db_option_like = session.query(OptionLike).filter(OptionLike.member_id == member_id,
+                                                      OptionLike.option_code == option_code).first()
 
     if db_option_like:
         session.delete(db_option_like)
         session.commit()
-
