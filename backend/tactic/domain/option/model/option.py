@@ -1,5 +1,4 @@
 from datetime import datetime as dt
-from domain.contest.schemas.contest_requeset import ContestRequest
 from domain.contest.schemas.info_request import InfoRequest
 from sqlalchemy import Column, Integer, String, DateTime, TEXT, ForeignKey, Float
 from sqlalchemy.orm import declarative_base, relationship

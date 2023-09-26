@@ -15,13 +15,6 @@ async def option_list():
     return {"message:": "hello"}
 
 
-@app.get("/search")
-async def search_option(request: Request, option: str):
-    member_id = request.headers.get("Member-id")
-
-    return get_search_option(member_id, option)
-
-
 @app.get("")
 async def keyword_search(request: Request, keyword: str):
     member_id = request.headers.get("Member-id")
