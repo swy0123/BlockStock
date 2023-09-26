@@ -8,7 +8,7 @@ from domain.contest.schemas.contest_list_resopnse import ContestListResponse
 from domain.contest.schemas.contest_request import ContestRequest
 from domain.contest.schemas.info_request import InfoRequest
 from domain.contest.schemas.contest_response import ContestResponse
-from domain.contest.schemas.contest_prev_response import ContestPrevResponse
+from domain.contest.schemas.contest_ranking_response import ContestRankingResponse
 from domain.contest.schemas.contest_type import ContestType
 from domain.contest.models.contest import Contest, Participate, ContestRealTime
 from domain.contest.error.contest_exception import StatusCode, Message
@@ -18,6 +18,7 @@ from datetime import datetime
 engine = engineconn()
 session = engine.sessionmaker()
 
+user_profile_service_url = "https://j9b210.p.ssafy.io:8443/api/member/profile"
 
 def get_contests(status: str,
                  key_word: str,
@@ -69,10 +70,12 @@ def get_proceed_contest_result():
             # rank.member_id를 통해 image_path 구하기
 
             profile_image = ""
-            ranking_response = ContestPrevResponse(member_id=rank.member_id,
-                                                   profile_image=profile_image,
-                                                   ticket=contest.ticket,
-                                                   result_money=rank.result_money)
+            nick_name = ""
+            ranking_response = ContestRankingResponse(member_id=rank.member_id,
+                                                      nick_name=nick_name,
+                                                      profile_image=profile_image,
+                                                      ticket=contest.ticket,
+                                                      result_money=rank.result_money)
 
             ranking_result.append(ranking_response)
             # ranking_result.append(ranking_result)
@@ -99,11 +102,12 @@ def get_contest_result(contest_id: int):
     for participate in participates:
         # 사용자 프로필 이미지 요청
         profile_image = ""
-
-        result.append(ContestPrevResponse(member_id=participate.member_id,
-                                          profile_image=profile_image,
-                                          ticket=contest_ticket,
-                                          result_money=participate.result_money))
+        nick_name = ""
+        result.append(ContestRankingResponse(member_id=participate.member_id,
+                                             nick_name=nick_name,
+                                             profile_image=profile_image,
+                                             ticket=contest_ticket,
+                                             result_money=participate.result_money))
 
     return result
 
@@ -120,10 +124,12 @@ def get_prev_contest_result():
     result = []
 
     for member in members:
-        result.append(ContestPrevResponse(member_id=member.member_id,
-                                          profile_image="",  # 이미지 받아오기
-                                          ticket=contest.ticket,
-                                          result_money=member.result_money))
+        nick_name = ""
+        result.append(ContestRankingResponse(member_id=member.member_id,
+                                             nick_name=nick_name,
+                                             profile_image="",  # 이미지 받아오기
+                                             ticket=contest.ticket,
+                                             result_money=member.result_money))
 
     return result
 
@@ -258,5 +264,25 @@ def get_contest_chart(contest_id: int):
                 vol = prev_data[0]
 
         result.append(ContestRealTimeResponse(contest_real_time, contest_real_time.vol - vol))
+
+    return result
+
+
+def get_real_contest_result(contest_id: int):
+    participate_results = (session.query(Participate).filter(Participate.contest_id == contest_id).
+                           order_by(desc(Participate.result_money)))
+
+    result = []
+
+    for participate_result in participate_results:
+        profile_image = ""
+        nick_name = ""
+        ranking_response = ContestRankingResponse(member_id=participate_result.member_id,
+                                                  nick_name=nick_name,
+                                                  profile_image=profile_image,
+                                                  ticket=participate_result.ticket,
+                                                  result_money=participate_result.result_money)
+
+        result.append(ranking_response)
 
     return result

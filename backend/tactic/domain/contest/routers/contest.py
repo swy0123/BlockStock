@@ -64,3 +64,8 @@ def get_contest_history(user_id: Optional[int] = Header(None)):
 @router.get("/chart/{contest_id}")
 def get_contest_chart(contest_id: int):
     return contest_service.get_contest_chart(contest_id)
+
+
+@router.get("/result/{contest_id}")
+def get_real_contest_result(contest_id: int):
+    return contest_service.get_real_contest_result(contest_id)
