@@ -197,7 +197,6 @@ function CurrentContest(){
                           <NoRankImage src={
                             // participant.profileImage ||
                             '/icon/user_purple.png'} />
-                            '/icon/user_purple.png'} />
                           <div style={{margin:'10px 15px 0px 0px', fontSize:'14px', fontWeight:'bold'}}>
                             {participant.nickName}
                           </div>
