@@ -26,3 +26,8 @@ async def search_option(request: Request, option: str):
 async def keyword_search(request: Request, keyword: str):
     member_id = request.headers.get("Member-id")
     return get_keyword_search(member_id, keyword)
+
+
+@app.get("/{option_id}")
+async def keyword_search(option_id: str):
+    return get_option_detail(option_id)

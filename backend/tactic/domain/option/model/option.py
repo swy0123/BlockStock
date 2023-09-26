@@ -10,8 +10,7 @@ Base = declarative_base()
 
 class Option(Base):
     __tablename__ = 'option'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    option_code = Column(String(10), nullable=False)
+    option_code = Column(String(10), primary_key=True, nullable=False)
     option_name = Column(String(50), nullable=False)
 
     def __init__(self, option_code: str, option_name: str):
