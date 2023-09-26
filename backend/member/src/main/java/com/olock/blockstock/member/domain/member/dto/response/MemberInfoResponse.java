@@ -13,6 +13,7 @@ public class MemberInfoResponse {
     private String email;
     private String nickname;
     private Integer ticketCnt;
+    private boolean isFollowing;
     private Long money;
     private int followerCnt;
     private int followingCnt;
