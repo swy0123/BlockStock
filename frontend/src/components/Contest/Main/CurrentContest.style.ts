@@ -8,20 +8,20 @@ position: absolute;
 width: 510px;
 height: 30px;
 left: 610px;
-top: 220px;
+top: 230px;
 color: rgba(0, 0, 0, 0.49);
 text-align: center;
 font-family: 'Alatsi';
 font-style: normal;
 font-weight: 400;
-font-size: 25px;
+font-size: 18px;
 line-height: 26px;
 color: #ABABAB;
 `;
 
 export const NotCurrentContestImage = styled.img`
-  width: 80px;
-  height: 80px;
+  width: 30px;
+  height: 30px;
 `;
 
 export const CurrentContestTitle = styled.div`
