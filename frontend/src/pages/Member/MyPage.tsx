@@ -41,7 +41,7 @@ function MyPage() {
   const renderContent = () => {
     switch (selectedMenu) {
       case "PROFILE":
-        return <Profile data={data} />;
+        return <Profile />;
       case "나의 게시글":
         return <MyBoard />;
       case "좋아요 목록":

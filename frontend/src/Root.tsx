@@ -26,7 +26,7 @@ const OutletBox =styled.div`
 
 function App() {
   const isLogIn = useRecoilValue(LoginState);
-  console.log('로그인 했니 안했니', isLogIn)
+  console.log('로그인 여부=', isLogIn)
 
   return (
     <Container>

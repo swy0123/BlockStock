@@ -117,3 +117,22 @@ export const EditImg = styled.img`
   margin-left: -45px;
   margin-top: 30px;
 `
+
+interface FollowBtnProps {
+  following?: boolean;
+}
+
+export const FollowBtn = styled.button<FollowBtnProps>`
+  margin-top: 10px;
+  width: 130px;
+  height: 40px;
+  border-radius: 10px;
+  color: ${(props) => (props.following? "white" : "#28272a" )};
+  background-color: ${(props) => (props.following ? "#9155fd" : "#f4f4f4" )};
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+  border: 0;
+  margin-right: 20px;
+  &:hover {
+    background-color: ${(props) => (props.following ? "#cfb8fb" : "#f9f9f9")};
+  }
+`
