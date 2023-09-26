@@ -1,3 +1,4 @@
+import json
 import math
 import datetime
 
@@ -501,3 +502,7 @@ def asset(percent):
 
 def reserve(percent):
     return math.ceil(now_stock_cnt / percent)
+
+
+def stay():
+    return 0
