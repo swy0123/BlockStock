@@ -38,6 +38,7 @@ function ContestTaticModal(props){
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const contestTaticList = useRecoilValue(contestTatic);
+  
   const [isStarred, setIsStarred] = useState(Array(contestTaticList.length).fill(false));
   const [selectedTacticIndex, setSelectedTacticIndex] = useState(-1);
   const [tacticId, setTacticId] = useState(0)
@@ -57,6 +58,7 @@ function ContestTaticModal(props){
 
   const handleCardClick = (e) => {
     console.log('tactic',tactic);
+    console.log('type',type);
     setTactic({
       ...tactic,
       tacticId: e.i,

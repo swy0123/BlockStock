@@ -43,9 +43,14 @@ import { CurrentUserAtom } from '../../../recoil/Auth';
 // 대회생성 api
 import { contestCreate } from "../../../api/Admin/Admin";
 
+import { useRecoilState } from 'recoil';
+import { type } from '../../../recoil/Admin/AdminContest';
+
 function ContestCreate({onClose, selectedContest}){
 
     const currentUser = useRecoilValue(CurrentUserAtom);
+
+    const [typeValue, setType] = useRecoilState(type);
 
     const navigate = useNavigate();
     const [title, setTitle] = useState('')
@@ -53,9 +58,9 @@ function ContestCreate({onClose, selectedContest}){
     const [ticket, setTicket] = useState('티켓 개수')
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
-    const [activeButton, setActiveButton] = useState('one');
     const [content, setContent] = useState('')
     const [maxCapacity, setmaxCapacity] = useState(0)
+
 
     useEffect(()=>{
 
@@ -69,42 +74,8 @@ function ContestCreate({onClose, selectedContest}){
             setStockName(selectedContest.optionCode)
         }
     },[])
-
-
-    const handleButtonClick = (key) => {
-        setActiveButton(key);
-    };
-
     
-    const buttons = [
-        <div className="btns">
-            <button
-                className={`btn ${activeButton === 'one' ? 'active' : ''}`}
-                onClick={() => handleButtonClick('one')}
-            >
-                15초
-            </button>
-            <button
-                className={`btn ${activeButton === 'two' ? 'active' : ''}`}
-                onClick={() => handleButtonClick('two')}
-            >
-                일단
-            </button>
-            <button
-                className={`btn ${activeButton === 'three' ? 'active' : ''}`}
-                onClick={() => handleButtonClick('three')}
-            >
-                15초로
-            </button>
-            <button
-                className={`btn ${activeButton === 'four' ? 'active' : ''}`}
-                onClick={() => handleButtonClick('four')}
-            >
-                ^^
-            </button>
-        </div>
-    ]
-    
+
     const handleChange =()=>{
         console.log(selectedContest)
         const startformattedDate = `${startDate.getFullYear()}-${(startDate.getMonth() + 1)
@@ -123,7 +94,6 @@ function ContestCreate({onClose, selectedContest}){
         ticket ${ticket} 
         startDate ${startformattedDate} 
         endDate ${endformattedDate}
-        activeButton ${activeButton}
         content ${content}
         maxCapacity ${maxCapacity}
         `)
@@ -142,6 +112,7 @@ function ContestCreate({onClose, selectedContest}){
 
         if(!selectedContest){
             contestCreate(formData)
+            setType('List')
         }
     }
 
@@ -214,21 +185,6 @@ function ContestCreate({onClose, selectedContest}){
                 }
                 style={{height:'20px', width:'50px', fontSize:'13px'}}
                 />
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        '& > *': {
-                        m: 1,
-                        },
-                        height:'40px'
-                    }}
-                    >
-                    <ButtonGroup color="secondary" aria-label="medium secondary button group">
-                        {buttons}
-                    </ButtonGroup>
-                </Box>
             </ContestEtc>
             
             <ContestContentBox>
