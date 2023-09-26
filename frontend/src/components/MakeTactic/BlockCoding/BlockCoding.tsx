@@ -95,7 +95,7 @@ const BlockCoding = (props) => {
   const searchOption = async () => {
     console.log(keyword);
     console.log(isSearch);
-    const res = await tacticSearchOption(keyword);
+    const res = await tacticSearchOption(keyword, isSearch);
     console.log(res);
     setOptionLikeList(res)
   }
