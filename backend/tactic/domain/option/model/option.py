@@ -19,7 +19,6 @@ class Option(Base):
         self.option_name = option_name
 
 
-
 class OptionLike(Base):
     __tablename__ = 'option_like'
     id = Column(Integer, primary_key=True, autoincrement=True)
