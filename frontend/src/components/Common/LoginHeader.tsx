@@ -4,7 +4,7 @@ import { useState } from "react";
 import swal from "sweetalert";
 import { useRecoilState } from "recoil";
 import { CurrentUserAtom, LoginState } from "../../recoil/Auth";
-useRecoilState
+useRecoilState;
 import {
   Container,
   HeaderWrapper,
@@ -18,16 +18,16 @@ import {
   DropBox,
   ClickBox,
   Content,
-  Hr
+  Hr,
+  Box,
+  Icon,
 } from "./Header.style";
-
 
 function LoginHeader() {
   const navigate = useNavigate();
   const [isDropBox, setIsDropBox] = useState(false);
   const [isLogin, setIsLogin] = useRecoilState(LoginState);
   const [currentUser, setCurrentUser] = useRecoilState(CurrentUserAtom);
-
 
   // 헤더 및 사이드바 조건부 렌더링
   if (window.location.pathname === "/login") return null;
@@ -36,15 +36,15 @@ function LoginHeader() {
 
   const enterDropBox = () => {
     setIsDropBox(!isDropBox);
-    };
+  };
   const handleLogout = () => {
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
     setIsLogin(false); // 로그인 여부 아톰에 저장
     setCurrentUser(""); // 유저 정보 아톰에 저장
-    swal('로그아웃 완료')
-    navigate("/")
-  }
+    swal("로그아웃 완료");
+    navigate("/");
+  };
   return (
     <Container>
       <HeaderWrapper>
@@ -55,17 +55,23 @@ function LoginHeader() {
           </InputBox>
           <InputBox>
             <AlertImg src="/icon/isalert.png"></AlertImg>
-            <DropBoxWrapper
-              onClick={enterDropBox}
-            >
+            <DropBoxWrapper onClick={enterDropBox}>
               {isDropBox ? (
                 <DropBox>
                   <Img src="/icon/user_purple.png"></Img>
                   <ClickBox>
                     <Content>{currentUser.nickname}</Content>
-                    <Hr/>
-                    <Content onClick={()=>navigate("/mypage")}>마이페이지</Content>
-                    <Content onClick={handleLogout}>로그아웃</Content>
+                    <Hr />
+                    <Box>
+                      <Icon src="/icon/mypage.png" />
+                      <Content onClick={() => navigate("/mypage")}>
+                        마이페이지
+                      </Content>
+                    </Box>
+                    <Box>
+                      <Icon src="/icon/out.png" />
+                      <Content onClick={handleLogout}>로그아웃</Content>
+                    </Box>
                   </ClickBox>
                 </DropBox>
               ) : (

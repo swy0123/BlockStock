@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import MoneyModal from "../Store/MoneyModal";
 import TicketModal from "../Store/TicketModal";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { getmypage } from "../../api/MyPage/Mypage";
 import { useNavigate } from "react-router-dom";
 import { 
@@ -31,18 +31,24 @@ function Profile() {
   const {data, isLoading, isError} = useQuery("mypage", getmypage);
   const [isMoneyModalOpen, setIsMoneyModalOpen] = useState(false);
   const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
+  const queryClient = useQueryClient();
+
+  const refetchMyPageData = async () => {
+    await queryClient.refetchQueries("mypage");
+  };
   const openMoneyModal = () => {
     setIsMoneyModalOpen(true);
   }
   const closeMoneyModal = () => {
     setIsMoneyModalOpen(false);
-    // navigate("/mypage")
+    refetchMyPageData();
   }
   const openTicketModal = () => {
     setIsTicketModalOpen(true);
   }
   const closeTicketModal = () => {
     setIsTicketModalOpen(false);
+    refetchMyPageData();
   }
 
   // 숫자 금액 형태로 변환

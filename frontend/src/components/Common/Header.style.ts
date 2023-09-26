@@ -92,24 +92,50 @@ export const DropBox = styled.div`
 `;
 
 export const ClickBox = styled.div`
-    width: 130px;
+    width: 140px;
     text-align: center;
-    background-color: #C1BAEE;
+    background-color: #F2EAFF;
     border: 0;
     border-radius: 0.7rem;
     position: absolute;
     top: 70px;
     right: 60px;
+    padding-bottom: 10px; 
+    /* padding-left: 5px; */
 `;
-
+// 483F55
 export const Content = styled.p`
-    font-size: 15px;
-    color: ivory;
+    font-size: 13px;
+    color: #676767;
     cursor: pointer;
+    /* margin-top: 10px; */
+    margin-bottom: 10px;
 `;
 
 export const Hr = styled.hr`
     width: 70%;
     border: dashed 0.5px;
+    margin-top: 10px;
     color: gray;
 `;
+export const Icon = styled.img`
+    width: 17px;
+    height: 17px;
+    opacity: 60%;
+    margin-right: 10px;
+`;
+export const Box = styled.div`
+    display: flex;
+    align-items: center;
+    /* justify-content: space-around; */
+    margin: 0px 10px 0px 10px;
+    text-align: start;
+    padding-left: 10px;
+&:hover{
+    background-color: #FBF8FF;
+    border-radius: 8px;
+    color: black;
+}
+`
+
+// E6DCF2 (연보라)

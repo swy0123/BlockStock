@@ -14,6 +14,7 @@ import {
   ProfileBox,
   CancleBtn
 } from "./NickNameModal.style";
+import { set } from "react-hook-form";
 
 interface NameModalProps {
   isOpen: boolean;
@@ -33,7 +34,7 @@ function NickNameModal(props: NameModalProps) {
     // console.log(nickname)
     const response = await putNickName(nickNameData); // Pass the nickname data to putNickName function
     if (response?.status == 200){
-      swal("", "닉네임 수정 완료", "success");
+      swal("닉네임 수정 완료!", `"${nickname}"로 수정되었습니다.`, "success");
       onClose();
       navigate("/mypage");  
     } else {
