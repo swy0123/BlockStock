@@ -41,7 +41,7 @@ const CandleChart = (props) => {
   const ScaleProvider = discontinuousTimeScaleProviderBuilder().inputDateAccessor(
     (d) =>
       new Date(
-        (d.date + d.time).replace(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})/, "$1-$2-$3 $4:$5:00")
+        (d.date + d.time).replace(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, "$1-$2-$3 $4:$5:$6")
       )
   );
   const height = props.curheight - 100 > 0 ? props.curheight - 100 : 0;
@@ -139,19 +139,19 @@ const CandleChart = (props) => {
 
   const returnNum = (d) => {
     // console.log(xAccessor)
-    let cur = d.datum.high
+    let cur = d.datum.open > d.datum.close ? d.datum.low : d.datum.high
     let curMax = d.yScale.domain()[1]
     let curMin = d.yScale.domain()[0]
-    // let plus = d.datum.open > d.datum.close ? (20) : (0)
-    const plus = 10
+    let plus = d.datum.open > d.datum.close ? (24) : (-10)
     // console.log(tmp/chartHeight*(d.datum.open/(d.yScale.domain()[1]-d.yScale.domain()[0])))
-    return chartHeight - (chartHeight * ((cur - curMin) / (curMax - curMin))) - plus
+    return chartHeight - (chartHeight * ((cur - curMin) / (curMax - curMin))) + plus
   }
   const returnPos = (d) => {
-    let cur = d.datum.close
+    // console.log(xAccessor)
+    let cur = d.datum.open > d.datum.close ? d.datum.low : d.datum.high
     let curMax = d.yScale.domain()[1]
     let curMin = d.yScale.domain()[0]
-    // console.log(chartHeight * ((cur - curMin) / (curMax - curMin)))
+    // let plus = d.datum.open > d.datum.close ? (48) : (-28)
     return chartHeight - (chartHeight * ((cur - curMin) / (curMax - curMin)))
   }
 

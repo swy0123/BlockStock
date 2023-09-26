@@ -33,9 +33,9 @@ const OptionHistoryItem = (props) => {
       </TermContainer>
       <OptionHistoryItemContent>
         {props.item.type == "buy" ? (
-          <OptionHistoryItemPosLeft style={{ color: "#EC4275" }}>매수</OptionHistoryItemPosLeft>
+          <OptionHistoryItemPosLeft style={{ color: "#097DF3" }}>매수</OptionHistoryItemPosLeft>
         ) : (
-          <OptionHistoryItemPosLeft style={{ color: "#097DF3" }}>매도</OptionHistoryItemPosLeft>
+          <OptionHistoryItemPosLeft style={{ color: "#EC4275" }}>매도</OptionHistoryItemPosLeft>
         )}
         <OptionHistoryItemPosCenter>
           <OptionHistoryItemPosUp>

@@ -7,20 +7,10 @@ import { useLocation } from "react-router-dom";
 function ContestProgress() {
   const location = useLocation();
   const selectedContest = location.state.selectedContest;
-  useEffect(()=>{
-    console.log(selectedContest)
-  },[])
-
+  
   return (
     <TacticContainer>
-      {/* <div>{selectedContest.code}</div>
-      <div>{selectedContest.content}</div>
-      <div>{selectedContest.id}</div>
-      <div>{selectedContest.startAsset}</div>
-      <div>{selectedContest.term}</div>
-      <div>{selectedContest.title}</div> */}
-      {/* <ContestTacticResult state={selectedContest.id}></ContestTacticResult> */}
-      <ContestTacticResult></ContestTacticResult>
+      <ContestTacticResult id={selectedContest.id}></ContestTacticResult>
     </TacticContainer>
   );
 }

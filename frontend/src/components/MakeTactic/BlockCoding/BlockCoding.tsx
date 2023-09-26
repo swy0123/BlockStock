@@ -37,31 +37,14 @@ import {
 import { ThemeProvider, createTheme } from "@mui/system";
 import { ToggleButtonGroup, ToggleButton } from "@mui/material";
 import OptionLikeListItem from "./OptionLikeListItem";
-// import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { tacticTest, tacticTestProps } from "../../../api/Tactic/TacticTest";
+import { tacticImport, tacticTest, tacticTestProps } from "../../../api/Tactic/TacticTest";
 
 export interface OptionItemProps {
   optionCode: string;
   optionName: string;
-  todayClose: number;
-  diffRate: number;
   isLike: boolean;
 }
-
-
-const TestDiv = styled.div`
-  background-color: rgba(255, 0, 0, 0.3);
-  padding: 1px;
-`;
-
-const theme = createTheme({
-  palette: {
-    success: {
-      dark: "#009688",
-    },
-  },
-});
 
 const BlockCoding = (props) => {
   const [isSearch, setSearch] = useState(true);
@@ -82,6 +65,23 @@ const BlockCoding = (props) => {
   const [tacticImg, setTacticImg] = useState(undefined);
   const [codeCheck, setCodeCheck] = useState(true);
 
+  //전략 조회일 경우
+  useEffect(() => {
+    if (props.tacticId != null) {
+      importData(props.tacticId)
+    }
+  }, [props])
+
+  const importData = async (id: number) => {
+    const res = await tacticImport(id);
+    setOptionCode(res.optionCode)
+    setOptionName(res.optionName)
+    setTitle(res.title)
+    setTacticPythonCode(res.tacticPythonCode)
+    setTacticJsonCode(res.tacticJsonCode)
+    setTacticImg(res.tacticImg)
+  }
+
   const editSetTrue = () => {
     setEditable(true);
   };
@@ -95,14 +95,18 @@ const BlockCoding = (props) => {
     setTitle(e.target.value);
   };
 
+  //제목 활성
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       setEditable(!editable);
     }
   };
+
+  //제목 비활성
   const handleClickOutside = (e: MouseEvent<HTMLElement>) => {
     if (editable == true && !ref.current.contains(e.target)) setEditable(false);
   };
+
   useEffect(() => {
     window.addEventListener("click", handleClickOutside, true);
     return () => {
@@ -192,6 +196,7 @@ const BlockCoding = (props) => {
     console.log("검색 : " + keyword);
   };
 
+  //종목 검색 결과
   const handleOptionLikeList = async (type: boolean) => {
     // const res = await getOptionLikeList();
     setOptionLikeList(dummydata);
@@ -303,25 +308,16 @@ const BlockCoding = (props) => {
         </TitleDiv>
 
         <LeftDiv>
-          {/* <Input
-                type="text"
-                value={title}
-                onChange={handleTitleField}
-                placeholder="제목을 입력해주세요"
-              /> */}
           <IsSearchDiv>
             {/* 이름 */}
             <SearchTypeDiv>
               <SearchType onClick={setSearchTrue} $isChecked={isSearch}>
                 검색
-                {/* <SearchTypeUnderLine $isChecked={isSearch}></SearchTypeUnderLine> */}
               </SearchType>
               <SearchType onClick={setSearchFasle} $isChecked={!isSearch}>
                 관심종목
-                {/* <SearchTypeUnderLine $isChecked={!isSearch}></SearchTypeUnderLine> */}
               </SearchType>
             </SearchTypeDiv>
-
             {/* 검색 */}
             <SearchInputDiv>
               <SearchImg src={SearchImgSrc} onClick={searchKeyword} alt="검색" />
@@ -329,7 +325,6 @@ const BlockCoding = (props) => {
                 onChange={(e) => setSearchKeyword1(e.target.value)}
                 type="text"
                 value={searchKeyword1}
-                //  onChange={handleKeywordField}
               />
             </SearchInputDiv>
 
@@ -488,71 +483,51 @@ const dummydata = [
   {
     optionCode: "A003540",
     optionName: "대신증권",
-    todayClose: 777,
-    diffRate: 3.82,
     isLike: true,
   },
   {
     optionCode: "122124",
     optionName: "카카오",
-    todayClose: 10777,
-    diffRate: 3.82,
     isLike: false,
   },
   {
     optionCode: "124124",
     optionName: "삼성전자",
-    todayClose: 777,
-    diffRate: 3.82,
     isLike: true,
   },
   {
     optionCode: "122124",
     optionName: "카카오",
-    todayClose: 10777,
-    diffRate: 3.82,
     isLike: false,
   },
   {
     optionCode: "124124",
     optionName: "삼성전자",
-    todayClose: 777,
-    diffRate: 3.82,
     isLike: true,
   },
   {
     optionCode: "122124",
     optionName: "카카오",
-    todayClose: 10777,
-    diffRate: 3.82,
     isLike: false,
   },
   {
     optionCode: "124124",
     optionName: "삼성전자",
-    todayClose: 777,
-    diffRate: 3.82,
     isLike: true,
   },
   {
     optionCode: "122124",
     optionName: "카카오",
-    todayClose: 10777,
-    diffRate: 3.82,
     isLike: false,
   },
   {
     optionCode: "124124",
     optionName: "삼성전자",
-    todayClose: 777,
-    diffRate: 3.82,
     isLike: true,
   },
   {
     optionCode: "122124",
     optionName: "카카오",
-    todayClose: 10777,
-    diffRate: 3.82,
     isLike: false,
   },
 ];
