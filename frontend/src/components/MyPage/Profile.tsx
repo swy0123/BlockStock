@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import MoneyModal from "../Store/MoneyModal";
 import TicketModal from "../Store/TicketModal";
+import { useQuery } from "react-query";
+import { getmypage } from "../../api/MyPage/Mypage";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   width: 90%;
@@ -123,21 +126,23 @@ const MoneyIcon = styled.img`
   width: 40px;
 `;
 
-interface ProfileProps {
-  data: {
-    id: number;
-    nickname: string;
-    email: string;
-    followerCnt: number;
-    followingCnt: number;
-    award: string[];
-    money: number;
-    ticketCnt: number;
-  };
-}
+// interface ProfileProps {
+//   data: {
+//     id: number;
+//     nickname: string;
+//     email: string;
+//     followerCnt: number;
+//     followingCnt: number;
+//     award: string[];
+//     money: number;
+//     ticketCnt: number;
+//   };
+// }
 
-function Profile(props: ProfileProps) {
-  const { data } = props;
+function Profile() {
+  // const { data } = props;
+  const navigate = useNavigate();
+  const {data, isLoading, isError} = useQuery("mypage", getmypage);
   const [isMoneyModalOpen, setIsMoneyModalOpen] = useState(false);
   const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
   const openMoneyModal = () => {
@@ -145,6 +150,7 @@ function Profile(props: ProfileProps) {
   }
   const closeMoneyModal = () => {
     setIsMoneyModalOpen(false);
+    // navigate("/mypage")
   }
   const openTicketModal = () => {
     setIsTicketModalOpen(true);
@@ -159,7 +165,13 @@ function Profile(props: ProfileProps) {
   }
   
   const formattedMoney = formatKoreanCurrency(data.money); // "10,000"으로 변환됨
-
+  if (isLoading) {
+    return <div>Loading...</div>; // 데이터가 로드 중일 때 표시할 내용
+  }
+  
+  if (isError) {
+    return <div>Error loading data.</div>; // 데이터 로드 중 오류가 발생한 경우 처리
+  }
   return (
     <Container>
       <AwardsWrapper>
@@ -168,10 +180,10 @@ function Profile(props: ProfileProps) {
           <Title>Awards</Title>
         </TitleBox>
         <Wrapper0>
-          {data.award.map((award) => (
+          {data.award.map((item) => (
             <Box>
               <Icon src="./icon/medal3.png" />
-              <Text>{award}</Text>
+              <Text>{item}</Text>
             </Box>
           ))}
         </Wrapper0>

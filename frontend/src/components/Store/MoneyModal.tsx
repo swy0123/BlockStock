@@ -1,6 +1,8 @@
 import { useState } from "react";
 import styled from "styled-components";
 import swal from "sweetalert";
+import { putMoney } from "../../api/store";
+import { useNavigate } from "react-router-dom";
 
 interface MoneyModalProps {
   isOpen: boolean;
@@ -39,12 +41,16 @@ const Title = styled.p`
   margin: 20px 0px;
   font-weight: 700;
 `
-const CloseIcon = styled.img`
-  width: 40px;
-  height: 40px;
+export const CloseIcon = styled.img`
+  width: 18px;
+  height: 18px;
   position: fixed;
   top: 7%;
-  left: 90%;
+  left: 91%;
+  cursor: pointer;
+  :hover&{
+    opacity: 70%;
+  }
 `
 const Text = styled.p`
   font-size: 15px;
@@ -78,9 +84,12 @@ const Message = styled.p`
   font-size: 14px;
   color: gray;
 `
+
 function MoneyModal(props: MoneyModalProps) {
+  const navigate = useNavigate();
   const { isOpen, onClose } = props;
   const [inputValue, setInputValue] = useState(""); // 입력된 값의 상태를 관리
+  // const [isChargeComplete, setIsChargeComplete] = useState(false); 
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // 입력값이 숫자인지 확인
@@ -89,13 +98,32 @@ function MoneyModal(props: MoneyModalProps) {
       setInputValue(value);
     }
   };
+
+  const handleCancel = () => {
+    // input 초기화 
+    setInputValue("");
+    onClose();
+    navigate("/mypage")
+  }
   
-  const handleChargeClick = () => {
+  const handleChargeClick = async() => {
     if (inputValue !== "") {
       const amount = parseInt(inputValue);
       if (!isNaN(amount)) {
         if (amount <= 2000) {
           console.log("충전 금액:", amount);
+          const moneyData = {
+            money: amount
+          };
+          const response = await putMoney(moneyData);
+          if (response?.status == 200){
+            swal("",`${amount}원 충전 완료`, "success")
+            handleCancel()
+            navigate("/mypage")
+            // setIsChargeComplete(true);
+          } else{
+            swal("충전 실패")
+          }
         } else {
           swal(" ","충전 금액은 2000 point로 제한됩니다.","error");
         }
@@ -104,12 +132,15 @@ function MoneyModal(props: MoneyModalProps) {
       }
     }
   };
+  // if (isChargeComplete) {
+  //   navigate("/mypage");
+  // }
 
   return (
     <ModalWrapper isOpen={isOpen}>
       <ModalContent>
         <Title>자산 충전</Title>
-        <CloseIcon src="./icon/close1.png" onClick={onClose}/>
+        <CloseIcon src="./icon/close.png" onClick={handleCancel}/>
         <Text>충전 금액을 입력해주세요.</Text>
         <Img src="./icon/money.png"/>
         <Inputbox>

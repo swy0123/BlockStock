@@ -1,5 +1,6 @@
 // 회원가입 관련 API
-import { publicApi } from "..";
+import { privateApi, publicApi } from "..";
+import swal from "sweetalert";
 
 interface userData {
     email: string,
@@ -39,11 +40,23 @@ export const checkmail = async (data: authMail) => {
 // 회원가입 api
 export const postJoin = async (user: userData) => {
     try{
-        console.log("userData", user);
+        console.log("try??", user);
         const response = await publicApi.post("/member", user);
-        console.log(response.data);
-        return response.data;    
+        console.log("???", response);
+        return response;    
     }catch(error){
-        console.log("err",error)
+            swal("Error", "회원가입 실패 \n 중복된 이메일 입니다.", "error");
     }
 };
+
+
+// 회원 탈퇴
+export const deleteAuth = async () => {
+    try{
+    const response = await privateApi.delete("/member");
+    console.log('탈퇴 결과', response)
+    return response
+    }catch(error){
+        console.log("err", error)
+    } 
+}
