@@ -130,10 +130,11 @@ def get_tactic_test_response(tactic_test_request):
     for data in all_data:
         info = ChartInfo()
         info.date = str(data[0])
-        if data[1] == 0:
-            info.time = "0000"
-        else:
-            info.time = data[1]
+        time = str(data[1])
+        if len(time) != 4:
+            for i in range(4-len(time)):
+                time = "0" + time
+        info.time = time
         info.open = data[2]
         info.high = data[3]
         info.low = data[4]
