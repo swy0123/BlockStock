@@ -131,6 +131,7 @@ const SubmitBtn = styled.button`
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   margin-left: 120px;
   margin-top: 10px;
+  cursor: pointer;
   &:hover {
     color: #ffffff;
     background-color: #9155fd;
@@ -160,6 +161,7 @@ function TicketModal(props: TicketModalProps) {
     console.log("결과가 머야", response)
     if (response?.status == 200){
       swal("티켓 교환 완료")
+      onClose()
     }else{
       swal('교환 금액이 부족합니다')
     }

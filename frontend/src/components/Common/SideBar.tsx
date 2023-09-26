@@ -124,7 +124,6 @@ function SideBar(){
 								<ClickBox>
 										<Menu>전략 목록</Menu>
                 </ClickBox>
-                <Menu onClick={()=> navigate("userpage")}>유저 페이지</Menu>
             </SideWrapper>
         </Container>
     );
