@@ -32,6 +32,7 @@ import OptionHistoryItem from "./OptionHistoryItem";
 import { format } from "d3-format";
 import { contestChart, contestRanking, contestTrade } from "../../../api/Contest/ContestProgress";
 import dayjs from "dayjs";
+import ContestRankBox from "../ContestRankBox/ContestRankBox";
 
 const TacticResult = (id:any) => {
   const [componentRef, size] = useComponentSize();
@@ -77,7 +78,7 @@ const TacticResult = (id:any) => {
     console.log("결과~~~~~~~~~~~~~");
     console.log(chartres);
     console.log(traderes);
-    setOptionHistory(traderes.optionHistory);
+    setOptionHistory(traderes.contestTradeHistory);
     setChartInfos(chartres);
     setRanktInfos(rankingres);
     setStartAsset(traderes.startAsset);
@@ -214,6 +215,7 @@ const TacticResult = (id:any) => {
               {/* 
               랭킹창
               */}
+              <ContestRankBox></ContestRankBox>
             </ContestRankinigItem>
           </ContestRankinig>
         </RightDiv>
