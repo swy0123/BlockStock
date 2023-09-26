@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { 
-  ItemContainer, 
+import {
+  ItemContainer,
   LikeImg,
   Choice,
   OptionName
- } from "./OptionLikeListItem.style";
+} from "./OptionLikeListItem.style";
 import FillStarImgSrc from "../../../assets/img/MakeTactic/fillstar.png";
 import EmpthyStarImgSrc from "../../../assets/img/MakeTactic/emptystar.png";
 
@@ -12,7 +12,7 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
 //     {item.cost}
 const OptionLikeListItem = (props) => {
-  
+
 
   const clickEvent = () => {
     console.log(props)
@@ -29,43 +29,43 @@ const OptionLikeListItem = (props) => {
     console.log("EmpthyStarImgSrc")
   };
 
-  const number = props.item.todayClose
-  const formattedNumber = number.toLocaleString();
+  // const number = props.item.todayClose
+  // const formattedNumber = number.toLocaleString();
   return (
     <ItemContainer>
-        {props.item.isLike ? 
-        <LikeImg src={FillStarImgSrc} onClick={setLikeTrue} alt="좋아요"/>: 
-        <LikeImg src={EmpthyStarImgSrc} onClick={setLikeFalse} alt="싫어요"/>}
-          
-          <div style={{width:'65px', margin:'0px 0px 0px 10px'}}>
-            
-            <OptionName>
-            {props.item.optionName}
-            </OptionName>
+      {
+        props.item.isLike !== undefined ? props.item.isLike ?
+          <LikeImg src={FillStarImgSrc} onClick={setLikeTrue} alt="좋아요" /> :
+          <LikeImg src={EmpthyStarImgSrc} onClick={setLikeFalse} alt="싫어요" /> :
+          <></>
+      }
 
-            <div style={{color:'#9A9A9A', fontSize:'1px'}}>
-              {props.item.optionCode}
-            </div>
+      <div style={{ width: '65px', margin: '0px 0px 0px 10px' }}>
+        <OptionName>
+          {props.item.optionName}
+        </OptionName>
+        <div style={{ color: '#9A9A9A', fontSize: '1px' }}>
+          {props.item.optionCode}
+        </div>
+      </div>
 
-          </div>
-
-          <div style={{ width: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3px',margin:'0px 10px 0px 0px' }}>
-            <div>
-              {props.item.diffRate}%
-            </div>
-            <ArrowDropUpIcon />
-          </div>
+      <div style={{ width: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3px', margin: '0px 10px 0px 0px' }}>
+        <div>
+          {/* {props.item.diffRate}% */}
+        </div>
+        {/* <ArrowDropUpIcon /> */}
+      </div>
 
 
-          <div style={{ width: '40px', fontSize: '3px', fontWeight: '600', margin: '7px 10px 0px 0px', textAlign: 'right' }}>
-            {formattedNumber}
-          </div>
-          <Choice
-            onClick={clickEvent}
-            // style={isLiked ? { backgroundColor: '#9256FD', color: 'white' } : {}}
-          >
-            선택
-          </Choice>   
+      <div style={{ width: '40px', fontSize: '3px', fontWeight: '600', margin: '7px 10px 0px 0px', textAlign: 'right' }}>
+        {/* {formattedNumber} */}
+      </div>
+      <Choice
+        onClick={clickEvent}
+      // style={isLiked ? { backgroundColor: '#9256FD', color: 'white' } : {}}
+      >
+        선택
+      </Choice>
     </ItemContainer>
   );
 };
