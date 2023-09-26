@@ -5,7 +5,7 @@ import json
 
 import win32com.client
 from fastapi import HTTPException
-from sqlalchemy import or_
+from sqlalchemy import or_, exists, and_
 
 from domain.option.error.option_exception import StatusCode, Message
 from domain.option.model.option import Option, OptionLike
@@ -108,22 +108,34 @@ def get_option_detail(option_code: str):
     return response
 
 
-def get_keyword_search(member_id: int, keyword: str):
+def get_keyword_search(member_id: int, keyword: str, like: bool):
     result = []
 
-    if keyword == "":
-        return result
+    if like:
+        favorite_options = session.query(Option).join(OptionLike, OptionLike.option_code == Option.option_code).filter(
+            OptionLike.member_id == member_id).all()
 
-    options = session.query(Option).filter(
-        or_(Option.option_name.like(f'%{keyword}%'), Option.option_code.like(f'%{keyword}%'))).all()
+        result = []
+        for option in favorite_options:
+            result.append({
+                'optionCode': option.option_code,
+                'optionName': option.option_name,
+                'like': True
+            })
+    elif keyword != "":
+        options = session.query(Option).filter(
+            or_(Option.option_name.like(f'%{keyword}%'), Option.option_code.like(f'%{keyword}%'))
+        ).all()
 
-    for option in options:
-        result.append({
-            'optionCode': option.option_code,
-            'optionName': option.option_name,
-            'like': False
-        })
+        for option in options:
+            liked = session.query(exists().where(
+                and_(OptionLike.member_id == member_id, OptionLike.option_code == option.option_code))).scalar()
 
+            result.append({
+                'optionCode': option.option_code,
+                'optionName': option.option_name,
+                'like': liked
+            })
     return result
 
 

@@ -1,3 +1,5 @@
+from typing import Optional
+
 from fastapi import APIRouter, Request
 
 from domain.option.schemas.option_like_request import OptionLikeRequest
@@ -10,9 +12,12 @@ app = APIRouter(
 
 
 @app.get("")
-async def keyword_search(request: Request, keyword: str):
+async def keyword_search(request: Request, like: bool, keyword: Optional[str] = None):
     member_id = request.headers.get("Member-id")
-    return get_keyword_search(member_id, keyword)
+    if keyword is None:
+        return get_keyword_search(member_id, "", like)
+    else:
+        return get_keyword_search(member_id, keyword, like)
 
 
 @app.get("/{option_id}")
