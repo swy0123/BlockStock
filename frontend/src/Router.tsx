@@ -24,6 +24,7 @@ import TacticBoardCreate from "./pages/TacticBoard/TacticBoardCreate";
 import ContestManagement from "./pages/Admin/ContestManagement";
 import MessageBox from "./pages/Message/MessageBox";
 import ContestProgress from "./pages/Contest/ContestProgress";
+import UserPage from "./pages/Member/UserPage";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -134,6 +135,12 @@ const router = createBrowserRouter([
                 element: <ContestProgress/>,
                 errorElement: <ErrorComponent/>,
               },
+            {
+              path: "/userpage",
+              element: <UserPage/>,
+              errorElement: <ErrorComponent/>,
+              
+            },
 
         ],
         errorElement: <NotFound />
