@@ -12,9 +12,12 @@ class Option(Base):
     option_code = Column(String(10), primary_key=True, nullable=False)
     option_name = Column(String(50), nullable=False)
 
+    option_like = relationship("OptionLike", back_populates="option")
+
     def __init__(self, option_code: str, option_name: str):
         self.option_code = option_code
         self.option_name = option_name
+
 
 
 class OptionLike(Base):
