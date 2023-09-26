@@ -6,6 +6,7 @@ import RecentContestResults from '../../components/Contest/Main/RecentContestRes
 import ContestCreateBtn from '../../components/Contest/ContestCreate/ContestCreateBtn';
 import ContestCreate from '../../components/Contest/ContestCreate/ContestCreate';
 
+import ContestRankBox from '../../components/Contest/ContestRankBox/ContestRankBox';
 
   // 스타일드 컴포넌트를 함수 내부에 정의
   const ContestBox = styled.div`
@@ -33,6 +34,7 @@ function Contest() {
           </div>
         </ContestContent>
       </ContestBox>
+      <ContestRankBox/>
     </>
   );
 }
