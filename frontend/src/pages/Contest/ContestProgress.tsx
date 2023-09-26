@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { TacticContainer } from "../MakeTactic/MakeTactic.style";
 import ContestTacticResult from "../../components/Contest/ContestProgress/ContestTacticResult";
-import { useLocation, useEffect } from "react-router-dom";
+// import { useLocation, useEffect } from "react-router-dom";
 
 function ContestProgress() {
   const location = useLocation();

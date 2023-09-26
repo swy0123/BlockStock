@@ -18,8 +18,8 @@ interface FollowModalProps {
   }
 
 function FollowListModal(props: FollowModalProps){
-    const {isOpen, onClose, text} = props;
-    const propstext = text
+    const {isOpen, onClose} = props;
+    // const propstext = text
     const [selectBtn, setSelectBtn] = useState("follower");
 
     const Component = () => {
