@@ -15,6 +15,13 @@ const TestDiv = styled.div`
 `;
 
 function MakeTactic() {
+    // const location = useLocation();
+    // const selectedContest = location.state.selectedContest;
+    // useEffect(()=>{
+    //   console.log(selectedContest)
+    // },[])
+
+
     const [flag, setFlag] = useState(true);
 
     const [title, setTitle] = useState("");
@@ -27,16 +34,31 @@ function MakeTactic() {
     const [tacticPythonCode, setTacticPythonCode] = useState(undefined);
     const [tacticJsonCode, setTacticJsonCode] = useState(undefined);
     const [tacticImg, setTacticImg] = useState(undefined);
+    const [tacticId, setTacticId] = useState(null);
 
-    //차트에서 사이드바로 전략테스트로 이동
+
     let location = useLocation();
+    //차트에서 사이드바로 전략테스트로 이동
     const [currentPath, setCurrentPath] = useState("");
     useEffect(() => {
-      if(currentPath === location.pathname){
-        setFlag(true);
-      }
-      console.log(location.pathname)
-      setCurrentPath(location.pathname);
+        if (currentPath === location.pathname) {
+            setFlag(true);
+        }
+        console.log(location.pathname)
+        setCurrentPath(location.pathname);
+    }, [location]);
+
+    //마이페이지에서 전략 조회를 통해 이동
+    useEffect(() => {
+        if (currentPath === location.pathname) {
+            setFlag(true);
+        }
+        if (location.state != null && location.state.selectedTacticId != null) {
+            console.log(location.state)
+            setTacticId(location.state.selectedTacticId)
+        }
+        console.log(location.pathname)
+        setCurrentPath(location.pathname);
     }, [location]);
 
     const toggleFlag = () => {
@@ -79,6 +101,7 @@ function MakeTactic() {
             {
                 flag ?
                     <BlockCoding
+                        tacticId={tacticId}
                         toggleFlag={toggleFlag}
                         returnTitle={(ret) => { returnTitle(ret) }}
                         returnOptionCode={(ret) => { returnOptionCode(ret) }}
@@ -93,6 +116,7 @@ function MakeTactic() {
                     ></BlockCoding>
                     :
                     <TacticResult
+                        tacticId={tacticId}
                         title={title}
                         startAsset={startAsset}
                         optionCode={optionCode}

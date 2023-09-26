@@ -29,7 +29,7 @@ import {
 } from "./TacticResult.style";
 import OptionHistoryItem from "./OptionHistoryItem";
 import { format } from "d3-format";
-import { saveTacticProps, tacticCreate, tacticTest, tacticTestProps } from "../../../api/Tactic/TacticTest";
+import { saveTacticProps, tacticCreate, tacticTest, tacticTestProps, tacticUpdate, updateTacticProps } from "../../../api/Tactic/TacticTest";
 
 const TacticResult = (props) => {
   const [componentRef, size] = useComponentSize();
@@ -38,12 +38,14 @@ const TacticResult = (props) => {
   const [startAsset, setStartAsset] = useState(0);
   const [endAsset, setEndAssets] = useState(0);
   const [returnPercent, setReturnPercent] = useState(0);
+  const [tacticId, setTacticId] = useState(null);
   // const [title, setTitle] = useState("");
   // const [optionCode, setOptionCode] = useState("");
   // const [startDate, setStartDate] = useState(new Date());
   // const [term, setTerm] = useState("");
   // const [round, setRound] = useState("");
   const pricesDisplayFormat = format(",");
+
   const axiosGetData = async () => {
     const tacticTestData: tacticTestProps = {
       optionCode: props.optionCode,
@@ -89,6 +91,7 @@ const TacticResult = (props) => {
     return formattedDate;
   };
 
+  
   useEffect(() => {
     axiosGetData();
     console.log("res useEffect");
@@ -97,13 +100,6 @@ const TacticResult = (props) => {
     console.log(typeof props.tacticImg);
   }, []);
 
-  const dummy = {
-    title: "빠르게 가는 전략",
-    optionCode: "005147",
-    taticJsonCode: {},
-    tacticPythonCode: "",
-    testReturns: "1.5",
-  };
   // post tactic api
   const uploadData = async () => {
     //
@@ -131,17 +127,34 @@ const TacticResult = (props) => {
     // const res = await tacticCreate(formData);
 
     // -------------------이미지 없이 임시 코드------------------
-    const requestProps:saveTacticProps = {
-      title: props.title,
-      optionCode: props.optionCode,
-      tacticJsonCode: JSON.stringify(props.tacticJsonCode),
-      tacticPythonCode: props.tacticPythonCode,
-      imgPath: "props.tacticImg",
-      testReturns: returnPercent,
-    };
-    console.log(requestProps);
-    const res = await tacticCreate(requestProps);
-    console.log(res);
+    if(tacticId!=null){
+      const requestProps:updateTacticProps = {
+        id: tacticId,
+        title: props.title,
+        optionCode: props.optionCode,
+        tacticJsonCode: JSON.stringify(props.tacticJsonCode),
+        tacticPythonCode: props.tacticPythonCode,
+        imgPath: "props.tacticImg",
+        testReturns: returnPercent,
+      };
+      console.log(requestProps);
+      const res = await tacticUpdate(requestProps);
+      console.log(res);
+    }
+    else{
+      const requestProps:saveTacticProps = {
+        title: props.title,
+        optionCode: props.optionCode,
+        tacticJsonCode: JSON.stringify(props.tacticJsonCode),
+        tacticPythonCode: props.tacticPythonCode,
+        imgPath: "props.tacticImg",
+        testReturns: returnPercent,
+      };
+      console.log(requestProps);
+      const res = await tacticCreate(requestProps);
+      console.log(res);
+      
+    }
     
   };
 
@@ -149,6 +162,14 @@ const TacticResult = (props) => {
     uploadData();
     // console.log(requestProps);
   };
+
+  
+  //전략 조회일 경우
+  useEffect(() => {
+    if (props.tacticId != null) {
+      setTacticId(props.tacticId)
+    }
+  }, [props])
 
   return (
     <TradingHistoryContainer>

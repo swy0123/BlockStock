@@ -14,28 +14,19 @@ import {
   OptionHistoryItemPosRight,
   OptionHistoryItemPosUp,
 } from "./ContestTacticResult.style";
-import { colors } from "@mui/material";
-//     {item.optioncode}
-//     {item.optionname}
-//     {item.currate}
-//     {item.cost}
 const OptionHistoryItem = (props) => {
-  //   const [optioncode, setOptioncode] = useState(props.optioncode);
-  //   const [optionname, setOtionname] = useState(props.optionname);
-  //   const [currate, setCurrate] = useState(props.currate);
-  //   const [cost, setCost] = useState(props.cost);
   const numberDisplayFormat = format(",");
   return (
     <ItemContainer>
       <TermContainer>
         <TermImg src={TermImgSrc} />
-        {(props.item.date).replace(/^(\d{4})(\d{2})(\d{2})$/, '$2/$3')} {(props.item.time).replace(/^(\d{2})(\d{2})$/, '$1:$2')}
+        {(props.item.date).replace(/^(\d{4})(\d{2})(\d{2})$/, '$1/$2/$3')} {(props.item.time).replace(/^(\d{2})(\d{2})(\d{2})$/, '$1:$2:$3')}
       </TermContainer>
       <OptionHistoryItemContent>
         {props.item.type == "buy" ? (
-          <OptionHistoryItemPosLeft style={{ color: "#EC4275" }}>매수</OptionHistoryItemPosLeft>
+          <OptionHistoryItemPosLeft style={{ color: "#097DF3" }}>매수</OptionHistoryItemPosLeft>
         ) : (
-          <OptionHistoryItemPosLeft style={{ color: "#097DF3" }}>매도</OptionHistoryItemPosLeft>
+          <OptionHistoryItemPosLeft style={{ color: "#EC4275" }}>매도</OptionHistoryItemPosLeft>
         )}
         <OptionHistoryItemPosCenter>
           <OptionHistoryItemPosUp>
