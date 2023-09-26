@@ -13,7 +13,7 @@ function CurrentContest(){
 
   return(
     <Container>
-      <ContestStoreBtn name='/currentcontest'/>
+      <ContestStoreBtn name='진행'/>
       <CurrentContestContent/>
     </Container>
   )
