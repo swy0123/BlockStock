@@ -20,11 +20,13 @@ import {
 import ContestUpdate from "./ContestUpdate";
 import { useRecoilValue } from "recoil";
 import { completedContestListState } from "../../recoil/Contest/CompletedContest";
+// 삭제 api
 import {contestDelete} from '../../api/Admin/Admin'
+// 대회 불러오기 api
+import {expectedContest} from '../../api/Contest/Main'
 
 
-
-function ContestList({onClickPage, data}){
+function ContestList({onClickPage, data, onButtonClick}){
 
   const contestResultList = useRecoilValue(completedContestListState);
   const [page, setPage] = React.useState(0);
@@ -33,6 +35,8 @@ function ContestList({onClickPage, data}){
   const contest = data.contestList; // contestList를 data에서 가져옵니다.
   const count = data.count; 
 
+  // const [ contestListItem, setContestListItem ] = useState([])
+  // const [count, setcount ] = useState(data.count)
 
   // 클릭한 대회 내용 ==========================================================
   const [showContent, setShowContent] = useState(
@@ -52,6 +56,39 @@ function ContestList({onClickPage, data}){
     }
   };
   // 클릭한 대회 내용 ==========================================================
+
+  // 삭제 api
+  const handleDelete =(id)=>{
+    contestDeleteApi(id)
+  }
+
+  const contestDeleteApi = async(id)=>{
+    const res = await contestDelete(id)
+    console.log(res)
+    if (res===200){
+      onButtonClick('List')
+      setShowContent(Array(contest.length).fill(false))
+    }
+  }
+ // ===============================================================================
+
+ const params = {
+  status: 'expected',
+  page: page,
+  size: rowsPerPage,
+  keyWord: ''
+};
+
+
+  // 대회 불러오기 api ============================================================
+  // const conteatApi = async()=>{
+  //   const res = await expectedContest(params)
+  //   console.log(res)
+  //   if(res === undefined){
+
+  //   }
+  // }
+  // 대회 불러오기 api ============================================================
 
 
 
@@ -133,7 +170,7 @@ function ContestList({onClickPage, data}){
               <Content>{contest.content}</Content>
               <BtnBox>
                 <UpdateBtn onClick={()=>OpenModal()}>수정하기</UpdateBtn>
-                <DeleteBtn onClick={()=>contestDelete(contest.id)}>삭제하기</DeleteBtn>
+                <DeleteBtn onClick={()=>handleDelete(contest.id)}>삭제하기</DeleteBtn>
               </BtnBox>
             </ContentBox>
 

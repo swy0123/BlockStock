@@ -16,6 +16,7 @@ import {
   Stock,
   Term,
   Button,
+  Notexist
 } from './CurrentContestContent.style'
 
 import { useNavigate } from "react-router-dom";
@@ -25,20 +26,6 @@ import TablePagination from '@mui/material/TablePagination';
 // api 통신
 import {currentContestList} from '../../../../api/Contest/ContestStore'
 
-// const Line = ({ hide }) => {
-//   return (
-//     <div
-//       style={{
-//         alignItems: 'center',
-//         margin: '0px 0px 0px 0px',
-//         border: '1px solid #D3D3D3',
-//         display: hide ? 'none' : 'block',
-//         marginBottom: '20px'
-//       }}
-//     >
-//     </div>
-//   );
-// };
 
 function CurrentContestContent(){
 
@@ -48,16 +35,18 @@ function CurrentContestContent(){
   
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(3);
+  const [ currentContestListItem, setCurrentContestListItem] = useState([])
+  const [count, setCount] = useState(0)
+
 
   // api 통신 이후 삭제 =======================================================================
   // 리코일에서 불러온 더미 데이터
   const contestResultList = useRecoilValue(currentContestListState);
   // 검색어로 title 일치하는 것만 다시 리스트로 배열을 만들어 준다
-  const filteredContestList = contestResultList.filter((contest) =>
+  const filteredContestList = currentContestListItem.filter((contest) =>
   contest.title.includes(searchKeyword)
   );
   // api 통신 이후 삭제 =======================================================================
-
 
 
   // api 통신 =============================================================
@@ -74,6 +63,12 @@ function CurrentContestContent(){
   const currentcontest = async () => {
       const contest = await currentContestList(params)
       console.log('진행중 대회 페이지', contest)
+      if (contest === undefined){
+        setCurrentContestListItem([])
+      } else {
+        setCurrentContestListItem(contest.contestList)
+        setCount(contest.count)
+      }
     }
   // api 통신 =============================================================
 
@@ -81,15 +76,15 @@ function CurrentContestContent(){
 
   // 해당 페이지 내용 열기 ==============================================================
   const [selectedContest, setSelectedContest] = useState(null);
-  const [showContent, setShowContent] = useState(Array(filteredContestList.length).fill(false));
+  const [showContent, setShowContent] = useState(Array(currentContestListItem.length).fill(false));
   const toggleContent = (index) => {
     const updatedShowContent = [...showContent];
     updatedShowContent[index] = !updatedShowContent[index];
     setShowContent(updatedShowContent);
 
     if (updatedShowContent[index]) {
-      console.log(filteredContestList[index],'-----------------')
-      setSelectedContest(filteredContestList[index]);
+      console.log(currentContestListItem[index],'-----------------')
+      setSelectedContest(currentContestListItem[index]);
     } else {
       setSelectedContest(null);
     }
@@ -126,50 +121,62 @@ function CurrentContestContent(){
   // 페이지 네이션=====================================================================
   
 
-
   return(
     <Container>
 
-      <Wrapper>
-        {filteredItems.map((contest, index) => (
-          <div key={index} style={{margin:'0px 0px 30px 0px'}}>
-            {/* <Line hide={index === 0} /> */}
-            <ContestBox onClick={() => toggleContent(index)}>
-              <div>
-                <Title> [경진대회] {contest.title}</Title>
-                <Schedule>대회 기간  {contest.startAt} ~ {contest.endAt}</Schedule>
-              </div>
-              {showContent[index] ? (
-                <KeyboardControlKeyIcon style={{ fontSize: '50px', marginLeft: 'auto', marginRight: '50px' }} />
-              ) : (
-                <ExpandMoreIcon style={{ fontSize: '50px', marginLeft: 'auto', marginRight: '50px' }} />
-              )}
-            </ContestBox>
+        <Wrapper style={{
+          display: currentContestListItem.length === 0 ? 'flex' : undefined,
+          alignItems: currentContestListItem.length === 0 ? 'center' : undefined,
+          justifyContent: currentContestListItem.length === 0 ? 'center' : undefined,
+        }}>
+        {currentContestListItem.length === 0 ? (
+          <Notexist>아직 대회가 없습니다.</Notexist>
+        ) : (
+          <>
+          {currentContestListItem.map((contest, index) => (
+            <div key={index} style={{margin:'0px 0px 30px 0px'}}>
+              {/* <Line hide={index === 0} /> */}
+              <ContestBox onClick={() => toggleContent(index)}>
+                <div>
+                  <Title> [경진대회] {contest.title}</Title>
+                  <Schedule>대회 기간  {contest.startTime} ~ {contest.endTime}</Schedule>
+                </div>
+                {showContent[index] ? (
+                  <KeyboardControlKeyIcon style={{ fontSize: '50px', marginLeft: 'auto', marginRight: '50px' }} />
+                ) : (
+                  <ExpandMoreIcon style={{ fontSize: '50px', marginLeft: 'auto', marginRight: '50px' }} />
+                )}
+              </ContestBox>
 
-            <ContentBox style={{ display: showContent[index] ? 'block' : 'none' }}>
-              <Stock>종목 {contest.code}</Stock>
-              <StartAsset>시작 자산 {contest.startAsset}</StartAsset>
-              <Term>전략 실행 주기  {contest.term}</Term>
-              <div>내용</div>
-              <Content>{contest.content}</Content>
-              <Button onClick={()=>navigate('/contestprogress',{ state: { selectedContest } })}>진행 현황</Button>  
-            </ContentBox>
-            <hr style={{margin:'30px 0px 0px 0px'}}/>
+              <ContentBox style={{ display: showContent[index] ? 'block' : 'none' }}>
+                <Stock>종목 {contest.code}</Stock>
+                <StartAsset>시작 자산 {contest.startAsset}</StartAsset>
+                <Term>전략 실행 주기  {contest.term}</Term>
+                <div>내용</div>
+                <Content>{contest.content}</Content>
+                <Button onClick={()=>navigate('/contestprogress',{ state: { selectedContest } })}>진행 현황</Button>  
+              </ContentBox>
+              <hr style={{margin:'30px 0px 0px 0px'}}/>
 
-          </div>
-        ))}
+            </div>
+          ))}
+          </>
+        )}
       </Wrapper>
-
-        <TablePagination
-          component="div"
-          count={filteredContestList.length}
-          page={page}
-          onPageChange={handleChangePage}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={() => {}}
-          rowsPerPageOptions={[]}
-          style={{margin:'0px 50px 0px 0px'}}
-        />
+        {currentContestListItem.length > 0 && (
+          <>
+          <TablePagination
+            component="div"
+            count={count}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={() => {}}
+            rowsPerPageOptions={[]}
+            style={{margin:'0px 50px 0px 0px'}}
+          />
+          </>
+        )}
 
     </Container>
   )
