@@ -99,7 +99,7 @@ function SignUp() {
       <Wrapper>
         <LoginBox>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <LogoImg src="./icon/logo.png" onClick={()=> navigate("/")} />
+            <LogoImg src="/icon/logo.png" onClick={()=> navigate("/")} />
             <Title>With Block Stock :)</Title>
             <Input
               placeholder="NickName"

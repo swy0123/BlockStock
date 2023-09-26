@@ -100,29 +100,29 @@ function RightHome(){
   return(
     <Container>
       <Circle>
-        <PersonImg src="./icon/person.png"/>
+        <PersonImg src="/icon/person.png"/>
         <MenuBtn transform="rotate(2.807deg)" top="25px" left="260px">
-          <Img src="./icon/contest.png"/>
+          <Img src="/icon/contest.png"/>
           <Text>Contest</Text>
         </MenuBtn>
         <MenuBtn transform="rotate(2.199deg)" top="40px" left="-110px">
-          <Img src="./icon/block.png"/>
+          <Img src="/icon/block.png"/>
           <Text>Block Strategy</Text>
         </MenuBtn>
         <MenuBtn transform="rotate(-5.861deg)" top="80px" left="310px">
           <Text>Free Board</Text>
-          <Img src="./icon/free.png"/>
+          <Img src="/icon/free.png"/>
         </MenuBtn>
         <MenuBtn transform="rotate(-5.949deg)" top="120px" left="-80px">
           <Text>Strategy Board</Text>
-          <Img src="./icon/strategy.png"/>
+          <Img src="/icon/strategy.png"/>
         </MenuBtn>
         <MenuBtn transform="rotate(3.686deg)" top="100px" left="260px" >
-          <Img src="./icon/info.png"/>
+          <Img src="/icon/info.png"/>
           <Text>Information</Text>
         </MenuBtn>
-        <Coin src="./icon/coin2.png"></Coin>
-        <CoinImg src="./icon/coins.png"/>
+        <Coin src="/icon/coin2.png"></Coin>
+        <CoinImg src="/icon/coins.png"/>
       </Circle>
     </Container>
   );

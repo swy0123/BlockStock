@@ -50,7 +50,7 @@ function LeftHome(){
       <Br/>
       <InputBox>
         <Input placeholder="search"></Input>
-        <Img src="./icon/loupe.png" />
+        <Img src="/icon/loupe.png" />
       </InputBox>
     </Container>
   );

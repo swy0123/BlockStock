@@ -62,13 +62,13 @@ function Profile() {
     <Container>
       <AwardsWrapper>
         <TitleBox>
-          <Icon src="./icon/keep.png" />
+          <Icon src="/icon/keep.png" />
           <Title>Awards</Title>
         </TitleBox>
         <Wrapper0>
           {data.award.map((item: string) => (
             <Box>
-              <Icon src="./icon/medal3.png" />
+              <Icon src="/icon/medal3.png" />
               <Text>{item}</Text>
             </Box>
           ))}
@@ -76,18 +76,18 @@ function Profile() {
       </AwardsWrapper>
       <AssetWrapper>
         <TitleBox>
-          <Icon src="./icon/keep.png" />
+          <Icon src="/icon/keep.png" />
           <Title>Asset</Title>
         </TitleBox>
         <Wrapper>
           <Box>
-            <MoneyIcon src="./icon/coin.png" />
+            <MoneyIcon src="/icon/coin.png" />
             <Money>{formattedMoney}</Money>
             <Text1>원</Text1>
           </Box>
           <Box>
             <Text1>보유 티켓</Text1>
-            <Icon src="./icon/ticket.png" />
+            <Icon src="/icon/ticket.png" />
             <Text>x {data.ticketCnt}</Text>
           </Box>
           <Box>
@@ -100,7 +100,7 @@ function Profile() {
       </AssetWrapper>
       <MailWrapper>
         <Circle>
-          <MailImg src="./icon/plane_black.png" />
+          <MailImg src="/icon/plane_white.png" />
         </Circle>
         <Mailbtn onClick={()=> navigate("/message")}>쪽지함 → </Mailbtn>
       </MailWrapper>

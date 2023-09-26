@@ -62,7 +62,7 @@ function RecentContestResults() {
           <div key={index}>
             <RankBox>
               <Rank>{index + 1} 등</Rank>
-              <RankImage src="./icon/user_purple.png" />
+              <RankImage src="/icon/user_purple.png" />
               <RankContent>
                 <RankNickName>{item.nickName}</RankNickName>
                 <RankReturn>

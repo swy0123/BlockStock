@@ -135,15 +135,17 @@ interface FollowBtnProps {
 
 export const FollowBtn = styled.button<FollowBtnProps>`
   margin-top: 10px;
-  width: 130px;
+  width: 140px;
   height: 40px;
   border-radius: 10px;
   color: ${(props) => (props.following? "white" : "#28272a" )};
   background-color: ${(props) => (props.following ? "#9155fd" : "#f4f4f4" )};
-  box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.25);
   border: 0;
   margin-right: 20px;
   &:hover {
-    background-color: ${(props) => (props.following ? "#cfb8fb" : "#f9f9f9")};
+    transition: 0.5s;
+    box-shadow: 0;
+    background-color: ${(props) => (props.following ? "#cfb8fb" : "#e5e5e6")};
   }
 `

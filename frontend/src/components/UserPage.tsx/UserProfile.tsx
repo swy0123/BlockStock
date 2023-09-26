@@ -43,13 +43,13 @@ function UserProfile() {
     <Container>
       <AwardsWrapper>
         <TitleBox>
-          <Icon src="./icon/keep.png" />
+          <Icon src="/icon/keep.png" />
           <Title>Awards</Title>
         </TitleBox>
         <Wrapper0>
           {data.award.map((item: string) => (
             <Box>
-              <Icon src="./icon/medal3.png" />
+              <Icon src="/icon/medal3.png" />
               <Text>{item}</Text>
             </Box>
           ))}
@@ -57,13 +57,13 @@ function UserProfile() {
       </AwardsWrapper>
       <AssetWrapper>
         <TitleBox>
-          <Icon src="./icon/keep.png" />
+          <Icon src="/icon/keep.png" />
           <Title>Asset</Title>
         </TitleBox>
         <Wrapper>
             <br/>
           <Box>
-            <MoneyIcon src="./icon/coin.png" />
+            <MoneyIcon src="/icon/coin.png" />
             <Money> {formattedMoney} </Money>
             <Text1>원</Text1>
           </Box>
@@ -71,7 +71,7 @@ function UserProfile() {
       </AssetWrapper>
       <MailWrapper>
         <Circle>
-          <MailImg src="./icon/plane_black.png" />
+          <MailImg src="/icon/plane_white.png" />
         </Circle>
         <Mailbtn>쪽지보내기 → </Mailbtn>
       </MailWrapper>
