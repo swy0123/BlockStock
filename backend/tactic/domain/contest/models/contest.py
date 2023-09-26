@@ -6,7 +6,6 @@ from sqlalchemy import Column, Integer, String, DateTime, TEXT, ForeignKey, Floa
 from sqlalchemy.orm import declarative_base, relationship
 
 from domain.tactic.schemas.tactic_add_request import TacticAddRequest
-from domain.tactic.schemas.tactic_modify_request import TacticModifyRequest
 
 Base = declarative_base()
 
@@ -26,7 +25,6 @@ class Contest(Base):
     created_at = Column(DateTime, nullable=False)
 
     participate = relationship("Participate", back_populates="contest", uselist=False)
-    # contest_info = relationship("ContestInfo", back_populates="contest", uselist=False)
     def __init__(self, contest_request: ContestRequest):
         self.member_id = contest_request.member_id
         self.title = contest_request.title
