@@ -70,8 +70,6 @@ def contest_thread(participate: Participate):
 
         recent_scope_data = real_data.iloc[:scope]
 
-        print(recent_scope_data)
-
         if criteria == 'avg':
             recent_indicator_data = recent_scope_data[f'{data_type}'].mean()
 
@@ -114,7 +112,7 @@ def contest_thread(participate: Participate):
 
         # param 들어온 수만큼 팔 수 있는지 확인
         if now_stock_cnt != 0 and param <= now_stock_cnt:
-            now_asset += param * real_data.iloc[0]['4']
+            now_asset += param * real_data.iloc[-1]['4']
             sell_sum, buy_sum = cal_now_stock_cost()
             buy_avg = buy_sum / buy_cnt
             sell_avg = 0
