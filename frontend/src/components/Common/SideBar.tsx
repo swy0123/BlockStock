@@ -72,15 +72,15 @@ function SideBar(){
         <Container>
             <SideWrapper>
                 <ClickBox1 onClick={()=> navigate("/")}>
-                    <Img src="./icon/home.png"/>
+                    <Img src="/icon/home.png"/>
                     <Text>Home</Text>
 								</ClickBox1>
 								<ClickBox onClick={()=> navigate("/maketactic")}>
-                    <Img src="./icon/circle.png"/>
+                    <Img src="/icon/circle.png"/>
 										<Text>Tactic</Text>
                 </ClickBox>
 								<ClickBox>
-                    <Img src="./icon/circle.png"/>
+                    <Img src="/icon/circle.png"/>
 										<Text>Contest</Text>
                 </ClickBox>
 								<ClickBox onClick={() => navigate("/contest")}>
@@ -96,7 +96,7 @@ function SideBar(){
 										<Menu>종료 대회</Menu>
                 </ClickBox>
 								<ClickBox>
-                    <Img src="./icon/circle.png"/>
+                    <Img src="/icon/circle.png"/>
 										<Text>Board</Text>
                 </ClickBox>
 								<ClickBox onClick={()=>navigate("/freeboard")}>
@@ -106,7 +106,7 @@ function SideBar(){
 										<Menu>전략 게시판</Menu>
                 </ClickBox>
 								<ClickBox>
-                    <Img src="./icon/user_black.png"/>
+                    <Img src="/icon/user_black.png"/>
 										<Text>User</Text>
                 </ClickBox>
 								<ClickBox onClick={()=> navigate("/mypage")}>

@@ -140,11 +140,11 @@ function MyPage() {
               src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${currentUser.userid}`}
               alt="profile"
             />
-            {/* <Img src="./icon/user4.png" /> */}
-            <EditImg src="./icon/pen.png" />
+            {/* <Img src="/icon/user4.png" /> */}
+            <EditImg src="/icon/pen.png" />
             <Text>{data.nickname}</Text>
             <InfoBox>
-              <MailIcon src="./icon/mail.png" />
+              <MailIcon src="/icon/mail.png" />
               <Text>{data.email}</Text>
             </InfoBox>
           </Box>

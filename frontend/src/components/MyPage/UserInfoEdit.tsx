@@ -163,7 +163,7 @@ function UserInfoEdit() {
       <Wrapper>
         <Title>회원 정보 수정</Title>
         <ProfileBox>
-          <Img src={imageURL ? imageURL : "./icon/user4.png"} />
+          <Img src={imageURL ? imageURL : "/icon/user4.png"} />
           <Box>
             <UploadBtn onClick={handleImageUpload}>Upload</UploadBtn>
             <input
