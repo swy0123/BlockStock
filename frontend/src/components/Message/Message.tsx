@@ -50,12 +50,17 @@ function Message({state,onClose }){
     setSnackbarState({ ...snackbarState, open: false });
   };
   
+
   const handleMessage =async () => {
     console.log(data)
 
     // 쪽지 보내기 api ================
     const message = await messageSend(data)
     console.log(message)
+    if(message === 200){
+      console.log('모달 닫기')
+      onClose
+    }
     // 쪽지 보내기 api ================
   }
 
