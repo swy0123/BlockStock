@@ -46,8 +46,7 @@ export const MenuBtn = styled.button<{ isSelected: boolean }>`
       isSelected
         ? "#9155FD"
         : "#ffffff"};
-  box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
-  border-radius: 6px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.08);
   cursor: pointer;
   color: ${({ isSelected }) => (isSelected ? "white" : "initial")};
   transition: 0.5s;
@@ -56,7 +55,8 @@ export const MenuBtn = styled.button<{ isSelected: boolean }>`
       isSelected
         ? "#9155FD"
         : "#dfd1f8"};
-    box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
+    /* box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.08); */
+    border: 0;
     color: #535155;
     transition: 0.5s;
   }
@@ -111,10 +111,14 @@ export const Btn = styled.button`
   border: 0;
   border-radius: 10rem;
   font-size: 10px;
-  margin: 10px 5px;
+  margin: 10px 10px 10px 0px;
   background-color: white;
-  box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.25);
   cursor: pointer;
+  &:hover {
+    background: #ededed;
+    transition: 0.5s;
+  }
 `
 
 export const EditImg = styled.img`
@@ -136,7 +140,7 @@ export const FollowBtn = styled.button<FollowBtnProps>`
   border-radius: 10px;
   color: ${(props) => (props.following? "white" : "#28272a" )};
   background-color: ${(props) => (props.following ? "#9155fd" : "#f4f4f4" )};
-  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.25);
   border: 0;
   margin-right: 20px;
   &:hover {
