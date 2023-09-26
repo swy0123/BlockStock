@@ -28,7 +28,7 @@ def get_contest_result(contest_id: int):
     return contest_service.get_contest_result(contest_id)
 
 
-@router.get("/result/prev")
+@router.get("/result/prev/rank")
 def get_prev_contest_result():
     return contest_service.get_prev_contest_result()
 
