@@ -4,6 +4,8 @@ import math
 import os
 import time
 from datetime import datetime, timedelta
+
+import pandas as pd
 import schedule
 from apscheduler.schedulers.background import BackgroundScheduler
 import requests
@@ -22,10 +24,15 @@ def contest_thread(participate: Participate):
     engine = engineconn()
     session_thread = engine.sessionmaker()
 
-    # 최신순으로 내림차순
-    real_data = (session_thread.query(ContestRealTime).
+    real_data = (session_thread.query(ContestRealTime.open,
+                                      ContestRealTime.high,
+                                      ContestRealTime.low,
+                                      ContestRealTime.close,
+                                      ContestRealTime.vol).
                  filter(ContestRealTime.contest_id == participate.contest_id).
                  order_by(desc(ContestRealTime.created_at)))
+
+    real_data = pd.DataFrame(real_data.all(), columns=['2', '3', '4', '5', '6'])
 
     def cal_now_stock_cnt():
         # 이제까지 매매한 내용 보면서 buy일 때는 trade_cnt 더해주기
@@ -53,25 +60,15 @@ def contest_thread(participate: Participate):
         return sell_sum, buy_sum
 
     def cur_data(data_type: int):
-        current_data = real_data[0]
-        # 2: 시, 3: 고, 4: 저, 5: 중
-        if data_type == 2:
-            result = current_data.open
-        elif data_type == 3:
-            result = current_data.high
-        elif data_type == 4:
-            result = current_data.low
-        elif data_type == 5:
-            result = current_data.close
-
-        return result
+        # 마지막 시, 고, 저, 종
+        return real_data.iloc[0][f'{data_type}']
 
     def get_recent_indicators(range_type: str, scope: int, data_type: int, criteria: str):
         recent_indicator_data = None
 
         range_type = "term"
 
-        recent_scope_data = real_data[-1 * scope:]
+        recent_scope_data = real_data.iloc[:scope]
 
         if criteria == 'avg':
             recent_indicator_data = recent_scope_data[f'{data_type}'].mean()
@@ -87,15 +84,15 @@ def contest_thread(participate: Participate):
     def buy(param: int):
 
         # param 들어온 개수만큼 살 수 있는지 확인
-        if param * real_data.iloc[-1]['4'] < participate.result_money:
+        if param * real_data.iloc[0]['4'] < participate.result_money:
             db_trade = Trade(contest_id=participate.contest_id,
                              participate_id=participate.id,
-                             cost=real_data.iloc[-1]['4'],
+                             cost=real_data.iloc[0]['4'],
                              trade_type="buy",
                              trade_at=datetime.now(),
                              trade_cnt=param,
                              profit_and_loss=0,
-                             trade_cost=real_data.iloc[-1]['4'])
+                             trade_cost=real_data.iloc[0]['4'])
 
         if db_trade:
             participate.result_money -= (db_trade.cost * db_trade.trade_cnt)
@@ -125,12 +122,12 @@ def contest_thread(participate: Participate):
 
             db_trade = Trade(contest_id=participate.contest_id,
                              participate_id=participate.id,
-                             cost=real_data.iloc[-1]['4'],
+                             cost=real_data.iloc[0]['4'],
                              trade_type="sell",
                              trade_at=datetime.now(),
                              trade_cnt=-param,
                              profit_and_loss=(buy_avg - sell_avg) * param,
-                             trade_cost=real_data.iloc[-1]['4'])
+                             trade_cost=real_data.iloc[0]['4'])
 
         if db_trade:
             participate.result_money += (db_trade.cost * db_trade.trade_cnt)
@@ -144,7 +141,7 @@ def contest_thread(participate: Participate):
 
     def asset(percent):
         tmp_asset = math.ceil(participate.result_money / 100 * percent)
-        return math.ceil(tmp_asset / real_data.iloc[-1]['4'])
+        return math.ceil(tmp_asset / real_data.iloc[0]['4'])
 
     def reserve(percent):
         now_stock_cnt = cal_now_stock_cnt()
