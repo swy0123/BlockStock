@@ -5,7 +5,8 @@ from domain.tactic.schemas.tactic_modify_request import TacticModifyRequest
 from domain.tactic.schemas.tactic_test_request import TacticTestRequest
 from domain.tactic.schemas.tactic_test_response import TacticTestResponse
 from domain.tactic.services.tactic_test_service import get_tactic_test_response
-from domain.tactic.services.tactic_service import create_tactic, get_member_tactic, modify_tactic, delete_tactic
+from domain.tactic.services.tactic_service import create_tactic, get_member_tactic, modify_tactic, delete_tactic, get_tactic_detail
+from typing import Optional
 
 app = APIRouter(
     prefix="/api/tactic"
@@ -26,9 +27,16 @@ async def create(request: Request, tactic_add_request: TacticAddRequest):
 
 
 @app.get("")
-async def detail(request: Request):
+async def member_tactic(request: Request, code: Optional[str] = None):
     member_id = request.headers.get("Member-id")
-    return await get_member_tactic(member_id)
+    if code is None:
+        code = ""
+    return await get_member_tactic(member_id, code)
+
+
+@app.get("/{tactic_id}")
+async def tactic_detail(tactic_id: int):
+    return await get_tactic_detail(tactic_id)
 
 
 @app.put("")
