@@ -41,7 +41,7 @@ function CompletedContestModal({onClose, selectedContest}){
                         <div className="carousel-item" style={{width: '170px', height: '220px'}}>
                             <RankImage src={
                                 // contest.ranking[0].profileImage ||
-                                './icon/user_purple.png'} />
+                                '/icon/user_purple.png'} />
                                 <h2 style={{textAlign: 'center', margin: '5px 0px 0px 0px' , fontSize:'22px'}}>1등</h2>
                                 <RankUserNickName>
                                     {rankList[0].nickName}
@@ -58,7 +58,7 @@ function CompletedContestModal({onClose, selectedContest}){
                         <div className="carousel-item" style={{width: '170px', height: '220px'}}>
                             <RankImage src={
                                 // contest.ranking[1].profileImage ||
-                                './icon/user_purple.png'} />
+                                '/icon/user_purple.png'} />
                                 <h2 style={{textAlign: 'center', margin: '5px 0px 0px 0px', fontSize:'22px'}}>2등</h2>
                                 <RankUserNickName>
                                     {rankList[1].nickName}
@@ -77,7 +77,7 @@ function CompletedContestModal({onClose, selectedContest}){
                         <div className="carousel-item" style={{width: '170px', height: '220px'}}>
                             <RankImage src={
                                 // contest.ranking[2].profileImage ||
-                                './icon/user_purple.png'} />
+                                '/icon/user_purple.png'} />
                                 <h2 style={{textAlign: 'center', margin: '5px 0px 0px 0px', fontSize:'22px' }}>3등</h2>
                                 <RankUserNickName>
                                     {rankList[2].nickName}
@@ -106,7 +106,7 @@ function CompletedContestModal({onClose, selectedContest}){
                           </div>
                           <NoRankImage src={
                             // participant.profileImage ||
-                            './icon/user_purple.png'} />
+                            '/icon/user_purple.png'} />
                           <div style={{margin:'10px 15px 0px 0px', fontSize:'12px', fontWeight:'bold', width:'50px'}}>
                             {participant.nickName}
                           </div>

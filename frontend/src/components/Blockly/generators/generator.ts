@@ -7,6 +7,7 @@
 import Blockly from 'blockly/core';
 import { Order } from "blockly/javascript";
 import {pythonGenerator} from 'blockly/python';
+import { atom } from 'recoil';
 
 //  //함수 호출
 //  pythonGenerator.forBlock['call_function'] = function(block:any, generator:any) {
@@ -68,21 +69,21 @@ import {pythonGenerator} from 'blockly/python';
 
 pythonGenerator.forBlock['sell'] = function(block:any, generator:any) {
   var value_name = generator.valueToCode(block, 'NAME', Order.ATOMIC);
-  var code = 'sell('+value_name+')';
+  var code = 'sell('+value_name+')\n';
   return code;
 };
 
 
 pythonGenerator.forBlock['buy'] = function(block:any, generator:any) {
   var value_name = generator.valueToCode(block, 'NAME', Order.ATOMIC);
-  var code = 'buy('+value_name+')';
+  var code = 'buy('+value_name+')\n';
   return code;
 };
 
 
 pythonGenerator.forBlock['stay'] = function(block:any, generator:any) {
   var field_name = block.getFieldValue('NAME');
-  var code = 'stay()';
+  var code = 'stay()\n';
   return code;
 };
 
@@ -91,13 +92,13 @@ pythonGenerator.forBlock['minmaxavg_select'] = function(block:any, generator:any
   var field_name = block.getFieldValue('FIELDNAME');
   // var value_name = generator.valueToCode(block, 'FIELDNAME', Order.NONE);
   var code = field_name;
-  return [code, Order.NONE];
+  return [code, Order.ATOMIC];
 };
 pythonGenerator.forBlock['ochlv_value'] = function(block:any, generator:any) {
   var field_name = block.getFieldValue('FIELDNAME');
   // var value_name = generator.valueToCode(block, 'FIELDNAME', Order.NONE);
   var code = field_name;
-  return [code, Order.NONE];
+  return [code, Order.ATOMIC];
 };
 
 pythonGenerator.forBlock['calculate_scope_data'] = function(block:any, generator:any) {
@@ -109,7 +110,7 @@ pythonGenerator.forBlock['calculate_scope_data'] = function(block:any, generator
   var value_hla = generator.valueToCode(block, 'HLA', Order.NONE).toString();
   // TODO: Assemble python into code variable.
   var code = 'get_recent_indicators('+value_scope+', '+value_ochl+', '+value_hla+')';
-  return [code, Order.NONE];
+  return [code, Order.ATOMIC];
 };
 
 

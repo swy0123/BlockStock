@@ -36,7 +36,7 @@ function FollowListModal(props: FollowModalProps){
     return(
         <ModalWrapper isOpen={isOpen}>
             <ModalContent>
-                <CloseIcon src="./icon/close.png" onClick={onClose}/>
+                <CloseIcon src="/icon/close.png" onClick={onClose}/>
                 <BtnWrapper>
                     <MenuBtn 
                     onClick={()=>setSelectBtn("follower")}

@@ -48,9 +48,9 @@ function BlocklyComponent(props: any) {
   const blocklyDiv = useRef();
   const toolbox = useRef();
   let primaryWorkspace = useRef();
-
   const generateCode = () => {
-    var code = '"""' + pythonGenerator.workspaceToCode(primaryWorkspace.current) + '"""';
+    var code = pythonGenerator.workspaceToCode(primaryWorkspace.current);
+    // var code = JSON.stringify(pythonGenerator.workspaceToCode(primaryWorkspace.current)).replace(/^"(.*)"$/, '$1');
     console.log(code);
   };
 
@@ -336,7 +336,8 @@ function BlocklyComponent(props: any) {
     if (!props.codeCheck) {
       if (primaryWorkspace.current != undefined) {
         props.writeTacticJsonCode(Blockly.serialization.workspaces.save(primaryWorkspace.current));
-        props.writeTacticPythonCode('"""' + pythonGenerator.workspaceToCode(primaryWorkspace.current) + '"""');
+        // .replace(/\s/g, '\\u0020').replace(/\n/g, '\\n')
+        props.writeTacticPythonCode(pythonGenerator.workspaceToCode(primaryWorkspace.current));
         props.writeTacticImg(exportImageAsPNG);
       }
       props.setCodeCheckTrue();

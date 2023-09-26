@@ -12,10 +12,9 @@ height: 800px;
 function CompletedContest(){
     return(
         <Container>
-            <ContestStoreBtn name='/completedcontest'/>
+            <ContestStoreBtn name='완료'/>
             <CompletedContestContent/>
         </Container>
     )
 }
-
 export default CompletedContest

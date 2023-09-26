@@ -140,9 +140,9 @@ function MoneyModal(props: MoneyModalProps) {
     <ModalWrapper isOpen={isOpen}>
       <ModalContent>
         <Title>자산 충전</Title>
-        <CloseIcon src="./icon/close.png" onClick={handleCancel}/>
+        <CloseIcon src="/icon/close.png" onClick={handleCancel}/>
         <Text>충전 금액을 입력해주세요.</Text>
-        <Img src="./icon/money.png"/>
+        <Img src="/icon/money.png"/>
         <Inputbox>
           <Input
           value={inputValue}
