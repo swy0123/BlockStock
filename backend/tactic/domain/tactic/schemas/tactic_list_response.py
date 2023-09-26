@@ -1,7 +1,7 @@
 from datetime import datetime
 
 
-class TacticInfoResponse:
+class TacticListResponse:
     id: int
     title: str
     optionName: str

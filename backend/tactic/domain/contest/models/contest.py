@@ -67,17 +67,6 @@ class Tactic(Base):
         self.created_at = datetime.datetime.now()
         self.updated_at = datetime.datetime.now()
 
-    def __init__(self, member_id: int, tactic_modify_request: TacticModifyRequest):
-        self.id = tactic_modify_request.id
-        self.member_id = member_id
-        self.title = tactic_modify_request.title
-        self.option_code = tactic_modify_request.option_code
-        self.tactic_json_code = tactic_modify_request.tactic_json_code
-        self.tactic_python_code = tactic_modify_request.tactic_python_code
-        self.test_returns = tactic_modify_request.test_returns
-        self.img_path = tactic_modify_request.img_path
-        self.updated_at = datetime.datetime.now()
-
 
 class Participate(Base):
     __tablename__ = 'participate'
