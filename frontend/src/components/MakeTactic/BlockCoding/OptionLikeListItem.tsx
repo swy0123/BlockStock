@@ -14,6 +14,10 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 const OptionLikeListItem = (props) => {
 
 
+  const clickViewDetail = () => {
+    console.log(props)
+    props.setViewOption(props.item.optionCode)
+  };
   const clickEvent = () => {
     console.log(props)
     props.setOption(props.item.optionCode, props.item.optionName);
@@ -29,8 +33,6 @@ const OptionLikeListItem = (props) => {
     console.log("EmpthyStarImgSrc")
   };
 
-  // const number = props.item.todayClose
-  // const formattedNumber = number.toLocaleString();
   return (
     <ItemContainer>
       {
@@ -39,7 +41,6 @@ const OptionLikeListItem = (props) => {
           <LikeImg src={EmpthyStarImgSrc} onClick={setLikeFalse} alt="싫어요" /> :
           <></>
       }
-
       <div style={{ width: '65px', margin: '0px 0px 0px 10px' }}>
         <OptionName>
           {props.item.optionName}
@@ -51,7 +52,12 @@ const OptionLikeListItem = (props) => {
 
       <div style={{ width: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3px', margin: '0px 10px 0px 0px' }}>
         <div>
-          {/* {props.item.diffRate}% */}
+          <Choice
+            onClick={clickViewDetail}
+          // style={isLiked ? { backgroundColor: '#9256FD', color: 'white' } : {}}
+          >
+            보기
+          </Choice>
         </div>
         {/* <ArrowDropUpIcon /> */}
       </div>
