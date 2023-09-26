@@ -45,7 +45,7 @@ async def modify(request: Request, tactic_modify_request: TacticModifyRequest):
     await modify_tactic(member_id, tactic_modify_request)
 
 
-@app.delete("/{tactic_id}")
+@app.delete("/")
 async def delete(request: Request, tactic_id: int):
     member_id = request.headers.get("Member-id")
     await delete_tactic(member_id, tactic_id)
