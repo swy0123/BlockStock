@@ -122,5 +122,8 @@ export const ContestContent = styled.div`
 margin: 0px 0px 30px 0px;
 `;
 
+export const Notexist = styled.div`
+color: #ABABAB;
+`;
 
 
