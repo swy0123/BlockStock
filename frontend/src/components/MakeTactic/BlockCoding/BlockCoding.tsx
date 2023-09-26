@@ -47,23 +47,25 @@ export interface OptionItemProps {
 }
 
 const BlockCoding = (props) => {
-  const [isSearch, setSearch] = useState(true);
+  const [isSearch, setSearch] = useState(true); //검색 타입
+  const [viewOptionCode, setViewOptionCode] = useState("");
 
   const ref = useRef(null);
-  const [title, setTitle] = useState("");
-  const [editable, setEditable] = useState(false);
-  const [keyword, setKeyword] = useState("");
-  const [optionLikeList, setOptionLikeList] = useState<OptionItemProps[]>([]);
-  const [optionCode, setOptionCode] = useState("");
-  const [optionName, setOptionName] = useState("");
-  const [startAsset, setStartAsset] = useState(10000000);
-  const [startDate, setStartDate] = useState(new Date());
-  const [term, setTerm] = useState("1m");
-  const [repeatCnt, setRepeatCnt] = useState(50);
-  const [tacticPythonCode, setTacticPythonCode] = useState(undefined);
-  const [tacticJsonCode, setTacticJsonCode] = useState(undefined);
-  const [tacticImg, setTacticImg] = useState(undefined);
-  const [codeCheck, setCodeCheck] = useState(true);
+  const [title, setTitle] = useState(""); //제목
+  const [editable, setEditable] = useState(false);  //제목 수정가능여부
+  const [keyword, setKeyword] = useState(""); //검색 키워드
+  const [optionLikeList, setOptionLikeList] = useState<OptionItemProps[]>([]);  //종목검색결과
+  const [optionCode, setOptionCode] = useState(""); //종목코드
+  const [optionName, setOptionName] = useState(""); //종목이름
+  const [startAsset, setStartAsset] = useState(10000000); //초기자본
+  const [startDate, setStartDate] = useState(new Date()); //시작시간
+  const [term, setTerm] = useState("1m"); //주기
+  const [repeatCnt, setRepeatCnt] = useState(50); //반복횟수 (scope)
+  const [tacticPythonCode, setTacticPythonCode] = useState(undefined); //"""code"""
+  const [tacticJsonCode, setTacticJsonCode] = useState(undefined); //json 객체 (직렬화해서 저장)
+  const [tacticImg, setTacticImg] = useState(undefined); //svg
+  //코드 검사 제대로 하기
+  const [codeCheck, setCodeCheck] = useState(true); // 코드 검사 후 결과창으로 이동
 
   useEffect(() => {
     const timeoutExecute = setTimeout(() => searchOption(), 500);
@@ -84,7 +86,7 @@ const BlockCoding = (props) => {
     setOptionName(res.optionName)
     setTitle(res.title)
     setTacticPythonCode(res.tacticPythonCode)
-    setTacticJsonCode(res.tacticJsonCode)
+    setTacticJsonCode(JSON.parse(res.tacticJsonCode))
     setTacticImg(res.tacticImg)
   }
 
@@ -96,9 +98,6 @@ const BlockCoding = (props) => {
     console.log(res);
     setOptionLikeList(res)
   }
-
-  // const filteredItems = dummydata.filter((item) => item.optionName.includes(searchKeyword1));
-
 
   const editSetTrue = () => {
     setEditable(true);
@@ -221,17 +220,18 @@ const BlockCoding = (props) => {
     // console.log(optionLikeList);
   };
 
-  // const handleOptionCodeField = (e: ChangeEvent<HTMLInputElement>) => {
-  //   // if (e.target.value.length > MAX_LENGTH) {
-  //   //     e.target.value = e.target.value.slice(0, MAX_LENGTH);
-  //   // }
-  //   setOptionCode(parseInt(e.target.value));
-  // };
-
   const setOption = (curOptionCode: string, curOptionName: string) => {
     setOptionCode((curOptionCode).replace(/\D/g, ''));
     setOptionName(curOptionName);
     console.log("setOption" + curOptionCode + curOptionName);
+  };
+
+  const setViewOption = (curOptionCode: string) => {
+    setViewOptionCode((curOptionCode).replace(/\D/g, ''));
+    console.log("setOption" + curOptionCode);
+  };
+  const clearViewOption = () => {
+    setViewOptionCode("");
   };
 
   // 버튼 asiox 통신용 데이터 테스트, 버튼 눌린 상태 체크 -> 블록코딩 컴포넌트 통신
@@ -277,13 +277,10 @@ const BlockCoding = (props) => {
       }
     })
 
-    // const res = await tacticTest(tacticTestData);
-    console.log(tacticTestData);
-    // console.log(res);
-    // props.toggleFlag();
+    // console.log(tacticTestData);
   };
 
-  // 버튼 asiox 통신optionCodetacticTest용 데이터 테스트
+  // 테스트 버튼 누르면 상위 컴포넌트로 값 전달 후 컴포넌트 교체
   useEffect(() => {
     if (
       tacticPythonCode !== "undefined" &&
@@ -336,58 +333,68 @@ const BlockCoding = (props) => {
         </TitleDiv>
 
         <LeftDiv>
-          <IsSearchDiv>
-            {/* 이름 */}
-            <SearchTypeDiv>
-              <SearchType onClick={setSearchTrue} $isChecked={isSearch}>
-                검색
-              </SearchType>
-              <SearchType onClick={setSearchFasle} $isChecked={!isSearch}>
-                관심종목
-              </SearchType>
-            </SearchTypeDiv>
-            {/* 검색 */}
-            <SearchInputDiv>
-              <SearchImg src={SearchImgSrc} onClick={searchKeyword} alt="검색" />
-              <SearchInput
-                onChange={(e) => handleKeywordField(e)}
-                type="text"
-                value={keyword}
-              />
-            </SearchInputDiv>
+          <IsSearchDiv>{
+            viewOptionCode == "" ?
+              <>
+                {/* 이름 */}
+                <SearchTypeDiv>
+                  <SearchType onClick={setSearchTrue} $isChecked={isSearch}>
+                    검색
+                  </SearchType>
+                  <SearchType onClick={setSearchFasle} $isChecked={!isSearch}>
+                    관심종목
+                  </SearchType>
+                </SearchTypeDiv>
+                {/* 검색 */}
+                <SearchInputDiv>
+                  <SearchImg src={SearchImgSrc} onClick={searchKeyword} alt="검색" />
+                  <SearchInput
+                    onChange={(e) => handleKeywordField(e)}
+                    type="text"
+                    value={keyword}
+                  />
+                </SearchInputDiv>
 
-            <SearchItemList>
-              {isSearch ? (
-                <>
-                  검색결과
-                  {optionLikeList.map((item, index) => (
-                    <OptionLikeListItem
-                      key={index}
-                      // isLike={item.isLike}
-                      item={item}
-                      // index={index}
-                      setOption={setOption}
-                    ></OptionLikeListItem>
-                  ))}
-                </>
-              ) : (
-                <>
-                  관심목록
-                  {optionLikeList.map((item, index) => (
-                    <OptionLikeListItem
-                      key={index}
-                      // isLike={item.isLike}
-                      item={item}
-                      setOption={setOption}
-                    ></OptionLikeListItem>
-                  ))}
-                </>
-              )}
-            </SearchItemList>
+                <SearchItemList>
+                  {isSearch ? (
+                    <>
+                      검색결과
+                      {optionLikeList.map((item, index) => (
+                        <OptionLikeListItem
+                          key={index}
+                          // isLike={item.isLike}
+                          item={item}
+                          // index={index}
+                          setOption={setOption}
+                          setViewOption={setViewOption}
+                        ></OptionLikeListItem>
+                      ))}
+                    </>
+                  ) : (
+                    <>
+                      관심목록
+                      {optionLikeList.map((item, index) => (
+                        <OptionLikeListItem
+                          key={index}
+                          // isLike={item.isLike}
+                          item={item}
+                          setOption={setOption}
+                          setViewOption={setViewOption}
+                        ></OptionLikeListItem>
+                      ))}
+                    </>
+                  )}
+                </SearchItemList>
 
-            {/* 미니 차트 */}
-            {/* <MiniChart></MiniChart> */}
+              </> :
+              <>
+                {/* 종목상세보기 */}
+                <button onClick={clearViewOption}> 돌아가기 </button>
+              </>
+          }
           </IsSearchDiv>
+
+
         </LeftDiv>
       </div>
 
