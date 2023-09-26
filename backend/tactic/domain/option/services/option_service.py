@@ -5,9 +5,15 @@ import json
 
 import win32com.client
 from fastapi import HTTPException
+from sqlalchemy import or_
 
 from domain.option.error.option_exception import StatusCode, Message
+from domain.option.model.option import Option
 from domain.option.schemas.search_option_response import SearchOptionResponse
+from common.conn import engineconn
+
+engine = engineconn()
+session = engine.sessionmaker()
 
 # 연결 여부 체크
 objCpCybos = win32com.client.Dispatch("CpUtil.CpCybos")
@@ -16,8 +22,9 @@ if bConnect == 0:
     print("PLUS가 정상적으로 연결되지 않음. ")
     exit()
 
+
 def get_options():
-    stocks = pd.read_html('http://kind.krx.co.kr/corpgeneral/corpList.do?method=download',header=0)[0]
+    stocks = pd.read_html('http://kind.krx.co.kr/corpgeneral/corpList.do?method=download', header=0)[0]
 
     # 랜덤 8개 추출하고, json으로 저장
     stocks = stocks[['종목코드', '회사명']].sample(8)
@@ -105,6 +112,23 @@ def get_search_option(member_id, option):
     return response
 
 
-def get_keyword_search(member_id: int, keyword: str):
-    print("tmp")
+def get_option_detail(option_id):
+    return
 
+
+def get_keyword_search(member_id: int, keyword: str):
+    result = []
+
+    if keyword == "":
+        return result
+
+    options = session.query(Option).filter(
+        or_(Option.option_name.like(f'%{keyword}%'), Option.option_code.like(f'%{keyword}%'))).all()
+
+    for option in options:
+        result.append({
+            'option_code': option.option_code,
+            'option_name': option.option_name
+        })
+
+    return result
