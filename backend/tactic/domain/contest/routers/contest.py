@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Query, Header
 from typing import Optional
-from domain.contest.schemas.contest_requeset import ContestRequest
+from domain.contest.schemas.contest_request import ContestRequest
 from domain.contest.schemas.info_request import InfoRequest
 from domain.contest.services import contest_service
 from common.config import redis_config

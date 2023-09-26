@@ -1,6 +1,6 @@
 import datetime
 from datetime import datetime as dt
-from domain.contest.schemas.contest_requeset import ContestRequest
+from domain.contest.schemas.contest_request import ContestRequest
 from domain.contest.schemas.info_request import InfoRequest
 from sqlalchemy import Column, Integer, String, DateTime, TEXT, ForeignKey, Float
 from sqlalchemy.orm import declarative_base, relationship
@@ -26,7 +26,7 @@ class Contest(Base):
     created_at = Column(DateTime, nullable=False)
 
     participate = relationship("Participate", back_populates="contest", uselist=False)
-
+    # contest_info = relationship("ContestInfo", back_populates="contest", uselist=False)
     def __init__(self, contest_request: ContestRequest):
         self.member_id = contest_request.member_id
         self.title = contest_request.title
@@ -96,3 +96,31 @@ class Participate(Base):
         self.tactic_id = info_create.tactic_id
         self.result_money = ticket * 10000000
 
+
+class ContestRealTime(Base):
+    __tablename__ = 'contest_real_time'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    contest_id = Column(Integer, ForeignKey("contest.id"), nullable=False)
+    created_at = Column(DateTime, nullable=False)
+    open = Column(Integer, nullable=False)
+    high = Column(Integer, nullable=False)
+    low = Column(Integer, nullable=False)
+    close = Column(Integer, nullable=False)
+    vol = Column(Integer, nullable=False)
+
+    def __init__(self,
+                 contest_id: int,
+                 open: int,
+                 high: int,
+                 low: int,
+                 close: int,
+                 vol: int):
+
+        self.contest_id = contest_id
+        self.created_at = dt.now()
+        self.open = open
+        self.high = high
+        self.low = low
+        self.close = close
+        self.vol = vol
+    # contest = relationship("Contest", back_populates="contest_info")
