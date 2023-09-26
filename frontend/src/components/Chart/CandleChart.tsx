@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { format } from "d3-format";
 import { timeFormat } from "d3-time-format";
@@ -65,8 +65,8 @@ import {
 // </div>;
 
 
-const dateTimeFormat = "%d %b";
-const timeDisplayFormat = timeFormat(dateTimeFormat);
+// const dateTimeFormat = "%d %b";
+// const timeDisplayFormat = timeFormat(dateTimeFormat);
 
 
 const CandleChart = (props) => {
@@ -79,7 +79,15 @@ const CandleChart = (props) => {
   const height = props.curheight - 100 > 0 ? props.curheight - 100 : 0;
   const width = props.curwidth > 0 ? props.curwidth : 0;
   const margin = { left: 0, right: 100, top: 0, bottom: 24 };
-  
+
+  // 차트 x값 수정
+  // const [dateTimeFormat, setDateTimeFormat] = useState("%d %b");
+  // const [timeDisplayFormat, setTimeDisplayFormat] = useState(undefined);
+  // useEffect(()=>{
+
+  // }, [props.])
+  const dateTimeFormat = "%d %b";
+  const timeDisplayFormat = timeFormat(dateTimeFormat);
   useEffect(()=>{
     console.log("props.chartInfos")
     console.log(props.chartInfos)
@@ -105,7 +113,7 @@ const CandleChart = (props) => {
 
   const calculatedData = elder(ema26(ema12(props.chartInfos)));
   const { data, xScale, xAccessor, displayXAccessor } = ScaleProvider(props.chartInfos);
-  const pricesDisplayFormat = format(",");
+  const pricesDisplayFormat = format(",.0f");
   const max = xAccessor(data[data.length - 1]);
   const min = xAccessor(data[Math.max(0, data.length - 100)]);
   const xExtents = [min, max + 5];
@@ -123,8 +131,7 @@ const CandleChart = (props) => {
   const yExtents = (data) => {
     return [data.high, data.low];
   };
-  // // const dateTimeFormat = "%d %b";
-  // const timeDisplayFormat = timeFormat(dateTimeFormat);
+  
 
   const barChartExtents = (data) => {
     return data.volume;

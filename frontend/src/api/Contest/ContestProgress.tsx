@@ -183,67 +183,67 @@ export const contestChart = async (id: number) => {
 // 대회 내역 불러오기
 export const contestTrade = async (id: number) => {
   console.log(id);
-  // try {
-  //   const res = await privateApi.get(`/contest/trade/`+id);
-  //   console.log(res.data);
-  //   return res.data;
-  // } catch (error) {
-  //   console.log('err', error);
-  // }
+  try {
+    const res = await privateApi.get(`/contest/trade/`+id);
+    console.log(res.data);
+    return res.data;
+  } catch (error) {
+    console.log('err', error);
+  }
 
-  const res = {
-    optionHistory: [
-      {
-        type: "buy",
-        date: "20211108",
-        time: "000015",
-        cost: 8000, // 주식 가격
-        tradeCnt: 350, // 거래 수 ( 몇개 샀는지 )
-        profitAndLoss: 0, // 실현손익
-      },
-      {
-        type: "sell",
-        date: "20211108",
-        time: "000145",
-        cost: 6000,
-        tradeCnt: 100,
-        profitAndLoss: 0, // 실현 손익 : (매도 평균 - 매수 평균) * 매도 수량
-      },
-      {
-        type: "sell",
-        date: "20211108",
-        time: "000215",
-        cost: 5500,
-        tradeCnt: 300,
-        profitAndLoss: 0, // 실현 손익 : (매도 평균 - 매수 평균) * 매도 수량
-      },
-      {
-        type: "sell",
-        date: "20211108",
-        time: "000230",
-        cost: 6000,
-        tradeCnt: 300,
-        profitAndLoss: 0, // 실현 손익 : (매도 평균 - 매수 평균) * 매도 수량
-      },
-      {
-        type: "buy",
-        date: "20211108",
-        time: "000315",
-        cost: 6300,
-        tradeCnt: 200,
-        profitAndLoss: 0, // 실현 손익 : (매도 평균 - 매수 평균) * 매도 수량
-      },
-    ],
-    optionName: "카카오",
-    optionCode: "586854",
-    startDate: "2020-08-07",
-    startTime: "19:20",
-    startAsset: 10000000, // 초기 자산
-    endAsset: 143001230, // 최종 자산
-    returnPercent: 1.4, // 수익률
-    returns: 100, // 수익금
-  };
-  return res;
+  // const res = {
+  //   optionHistory: [
+  //     {
+  //       type: "buy",
+  //       date: "20211108",
+  //       time: "000015",
+  //       cost: 8000, // 주식 가격
+  //       tradeCnt: 350, // 거래 수 ( 몇개 샀는지 )
+  //       profitAndLoss: 0, // 실현손익
+  //     },
+  //     {
+  //       type: "sell",
+  //       date: "20211108",
+  //       time: "000145",
+  //       cost: 6000,
+  //       tradeCnt: 100,
+  //       profitAndLoss: 0, // 실현 손익 : (매도 평균 - 매수 평균) * 매도 수량
+  //     },
+  //     {
+  //       type: "sell",
+  //       date: "20211108",
+  //       time: "000215",
+  //       cost: 5500,
+  //       tradeCnt: 300,
+  //       profitAndLoss: 0, // 실현 손익 : (매도 평균 - 매수 평균) * 매도 수량
+  //     },
+  //     {
+  //       type: "sell",
+  //       date: "20211108",
+  //       time: "000230",
+  //       cost: 6000,
+  //       tradeCnt: 300,
+  //       profitAndLoss: 0, // 실현 손익 : (매도 평균 - 매수 평균) * 매도 수량
+  //     },
+  //     {
+  //       type: "buy",
+  //       date: "20211108",
+  //       time: "000315",
+  //       cost: 6300,
+  //       tradeCnt: 200,
+  //       profitAndLoss: 0, // 실현 손익 : (매도 평균 - 매수 평균) * 매도 수량
+  //     },
+  //   ],
+  //   optionName: "카카오",
+  //   optionCode: "586854",
+  //   startDate: "2020-08-07",
+  //   startTime: "19:20",
+  //   startAsset: 10000000, // 초기 자산
+  //   endAsset: 143001230, // 최종 자산
+  //   returnPercent: 1.4, // 수익률
+  //   returns: 100, // 수익금
+  // };
+  // return res;
 };
 
 //대회 순위
