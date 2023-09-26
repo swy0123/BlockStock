@@ -35,11 +35,19 @@ export const putPassword = async(pw : pwData) => {
 // 닉네임 수정
 export const putNickName = async(name: nickName) => {
     try{
-        // console.log('-----------------', name)
         const response = await privateApi.put("/member", name);
-        // console.log('결과', response.request)
         return response
+    }catch(error){
+        console.log('err', error)
+    }
+}
 
+// 기록 조회
+export const getRecodeList =async() => {
+    try{
+        console.log('try history')
+        const response = await privateApi.get("/contest/history");
+        console.log('기록조회', response)
     }catch(error){
         console.log('err', error)
     }
