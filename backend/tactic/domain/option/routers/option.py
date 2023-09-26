@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request
 
 from domain.option.services import option_service
-from domain.option.services.option_service import get_search_option, get_keyword_search
+from domain.option.services.option_service import get_keyword_search, get_option_detail
 
 app = APIRouter(
     prefix="/api/option"
