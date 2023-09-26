@@ -10,7 +10,7 @@ import {
 
 function ContestStoreBtn(props){
   const navigate = useNavigate();
-  const [selectedButton, setSelectedButton] = useState<string>("/currentcontest"); // 초기 선택값 설정
+  const [selectedButton, setSelectedButton] = useState<string>("진행"); // 초기 선택값 설정
 
   useEffect(()=>{
     console.log(props.name)
@@ -27,17 +27,17 @@ function ContestStoreBtn(props){
         <CurrentContestBtn
           onClick={() => handleButtonClick("/currentcontest")}
           style={{
-            backgroundColor: selectedButton === "/currentcontest" ? "#E2CCED" : "initial", 
-            color: selectedButton === "/currentcontest" ? "white" : "initial", 
+            backgroundColor: selectedButton === "진행" ? "#E2CCED" : "initial", 
+            color: selectedButton === "진행" ? "white" : "initial", 
           }}
         >
           진행중
         </CurrentContestBtn>
         <ExpectedContestBtn
-          onClick={() => handleButtonClick("/expectedContest")}
+          onClick={() => handleButtonClick("/expectedcontest")}
           style={{
-            backgroundColor: selectedButton === "/expectedContest" ? "#E2CCED" : "initial",
-            color: selectedButton === "/expectedContest" ? "white" : "initial",
+            backgroundColor: selectedButton === "예정" ? "#E2CCED" : "initial",
+            color: selectedButton === "예정" ? "white" : "initial",
           }}
         >
           예정
@@ -45,8 +45,8 @@ function ContestStoreBtn(props){
         <PastContestBtn
           onClick={() => handleButtonClick("/completedcontest")}
           style={{
-            backgroundColor: selectedButton === "/completedcontest" ? "#E2CCED" : "initial",
-            color: selectedButton === "/completedcontest" ? "white" : "initial",
+            backgroundColor: selectedButton === "완료" ? "#E2CCED" : "initial",
+            color: selectedButton === "완료" ? "white" : "initial",
           }}
         >
           완료
