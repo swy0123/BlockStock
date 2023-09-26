@@ -18,11 +18,10 @@ export const putMoney = async(data: amount) => {
 }
 
 // 교환
-export const putTicket = async(count) => {
+export const putTicket = async(count: number) => {
     try{
-        console.log("몇개", count)
+        console.log("티켓수", count)
         const response = await privateApi.put(`/member/ticket?count=${count}`,)
-        console.log("========잉", response);
         return response
     }catch(error){
         console.log('err',error)
