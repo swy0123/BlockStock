@@ -44,7 +44,7 @@ def get_contests(status: str,
     elif status == ContestType.EXPECTED:
         result = (session.query(Contest).where(datetime.now() < Contest.start_time).
                   filter(Contest.title.like(f'%%{key_word}%%')).
-                  order_by(desc(Contest.created_at)).offset(offset).limit(size).all())
+                                          order_by(desc(Contest.created_at)).offset(offset).limit(size).all())
 
     elif status == ContestType.FINISH:
         result = (session.query(Contest).where(Contest.end_time < datetime.now()).
