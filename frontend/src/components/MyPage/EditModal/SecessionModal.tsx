@@ -1,6 +1,11 @@
 import { useState } from "react";
 import styled from "styled-components";
 import swal from "sweetalert";
+import { deleteAuth } from "../../../api/Auth/Join";
+import { useNavigate } from "react-router-dom";
+import { CurrentUserAtom } from "../../../recoil/Auth";
+import { useRecoilState } from "recoil";
+import { LoginState } from "../../../recoil/Auth";
 
 interface SecessionModalProps {
   isOpen: boolean;
@@ -43,12 +48,12 @@ const Text = styled.p`
     font-size: 15px;
 `;
     
-const CloseIcon = styled.img`
-  width: 40px;
-  height: 40px;
+export const CloseIcon = styled.img`
+  width: 18px;
+  height: 18px;
   position: fixed;
-  top: 5%;
-  left: 88%;
+  top: 7%;
+  left: 91%;
   cursor: pointer;
   :hover&{
     opacity: 70%;
@@ -86,17 +91,36 @@ const CancleBtn = styled.button`
 `;
 
 function SecessionModal(props: SecessionModalProps) {
+  const navigate = useNavigate();
+  const [isLogin, setIsLogin] = useRecoilState(LoginState);
+  const [currentUser, setCurrentUser] = useRecoilState(CurrentUserAtom);
+
   const { isOpen, onClose } = props;
+
+  const handleDeleteAuth = async () => {
+    const response = await deleteAuth();
+    console.log("탈퇴 api 결과", response)
+    if(response?.status == 200){
+      swal("", "계정이 삭제되었습니다. \n 로그아웃이 진행됩니다.")
+      setIsLogin(false);
+      setCurrentUser("");
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
+      navigate("/")
+    } else{
+      swal("회원탈퇴 실패🚫")
+    }
+  }
 
   return (
     <ModalWrapper isOpen={isOpen}>
       <ModalContent>
-        <CloseIcon src="./icon/close1.png" onClick={onClose}/>
+        <CloseIcon src="./icon/close.png" onClick={onClose}/>
         <Title>회원 탈퇴</Title>
         <Text>정말 탈퇴하시겠어요?</Text>
         <Text>탈퇴 버튼 선택 시, 계정은 삭제되며 복구되지 않습니다.</Text>
         <ProfileBox>
-          <SubmitBtn>↪ 탈퇴</SubmitBtn>
+          <SubmitBtn onClick={handleDeleteAuth}>↪ 탈퇴</SubmitBtn>
           <CancleBtn onClick={onClose}>취소</CancleBtn>
         </ProfileBox>
       </ModalContent>

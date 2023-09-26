@@ -82,17 +82,17 @@ function SignUp() {
       swal("", "비밀번호를 입력해주세요","info");
       return;
     }
-    try {
       // 회원가입 API 요청
       const signUpResult = await postJoin(userData);
-      console.log("Sign-up success:", signUpResult);
+      console.log("Sign-up:", signUpResult);
+      if (signUpResult?.status == 200){
       swal("Success", "회원가입 성공 ✔️ \n 로그인 페이지로 이동합니다.", "success");
       navigate("/login");
-    } catch (error) {
-      console.error("Sign-up error:", error);
+      } else {
+      console.log("Sign-up error");
       swal("Error", "회원가입 실패 \n 중복된 이메일 입니다.", "error");
-    }
-  };
+      }
+    };
 
   return (
     <Container>

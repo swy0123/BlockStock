@@ -30,16 +30,16 @@ export const ModalContent = styled.div`
     /* z-index: 1001; */
 `;
 export const CloseIcon = styled.img`
-    width: 40px;
-    height: 40px;
-    position: fixed;
-    top: 5%;
-    left: 88%;
-    cursor: pointer;
-    :hover&{
+  width: 18px;
+  height: 18px;
+  position: fixed;
+  top: 7%;
+  left: 91%;
+  cursor: pointer;
+  :hover&{
     opacity: 70%;
-    }
-`;
+  }
+`
 export const Content = styled.div`
     height: 200px;
     width: 78%;
