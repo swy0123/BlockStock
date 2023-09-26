@@ -45,3 +45,18 @@ export const messageSend = async (data:data) => {
     console.log('쪽지 보내기 api', err)
   }
 };
+
+// 쪽지 보관
+export const messageKeep = async (messageId:messageId) => {
+  console.log('쪽지 보관 api 진입')
+  try{
+    console.log(messageId)
+    const res = await privateApi.post(`/message/${messageId}`);
+    console.log(res.data);
+    console.log('보관 성공', res.data);
+    return res.data
+  }
+  catch(err){
+    console.log('쪽지 보내기 api', err)
+  }
+};

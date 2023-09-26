@@ -38,7 +38,10 @@ function MessageBox(){
 
   // 쪽지 내용 api ===============================
   useEffect(()=>{
-    messageSendApi()
+    console.log(messageId)
+    if (messageId){
+      messageSendApi()
+    }
   },[messageId])
   
   const messageSendApi = async()=>{
