@@ -66,3 +66,7 @@ export const RankReturn = styled.div`
 display: flex;
 font-size: 12px;
 `;
+
+export const Notexist = styled.div`
+color: #ABABAB;
+`;
