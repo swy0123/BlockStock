@@ -2,9 +2,33 @@ import { privateApi } from "../index";
 
 
 // 주식 검색
-export const tacticSearchOption = async (keyword: string) => {
+export const tacticSearchOption = async (keyword: string, isSearch:boolean) => {
   try {
-    const res = await privateApi.get(`/option`, {params:{keyword:keyword, like:false}});
+    const res = await privateApi.get(`/option`, {params:{keyword:keyword, like:!isSearch}});
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// 관심 종목 추가
+export const addLikedOption = async (code: string) => {
+  console.log(code)
+  try {
+    const res = await privateApi.post(`/option/like`, code);
+    console.log(res.data);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// 관심 종목 삭제
+export const deleteLikedOption = async (code: string) => {
+  console.log(code)
+  try {
+    const res = await privateApi.delete(`/option/like/`+code);
+    console.log(res.data);
     return res.data;
   } catch (err) {
     console.log(err);
