@@ -4,11 +4,11 @@ import { privateApi } from "..";
 export const contestChart = async (id: number) => {
   console.log(id);
   try {
-    const res = await privateApi.get(`/contest/chart/`+id);
+    const res = await privateApi.get(`/contest/chart/` + id);
     console.log(res.data);
     return res.data;
   } catch (error) {
-    console.log('err', error);
+    console.log("err", error);
   }
 
   // const chartInfos = [
@@ -246,7 +246,7 @@ export const contestTrade = async (id: number) => {
   return res;
 };
 
-//대회 순위 
+//대회 순위
 export const contestRanking = async (id: number) => {
   console.log(id);
   // try {
@@ -259,20 +259,20 @@ export const contestRanking = async (id: number) => {
 
   const res = [
     {
-      "nickName": "first",
-      "profileImage": "+61.97",
-      "returns": "" // 수익률 +, - 붙여서 받는다
+      nickName: "first",
+      profileImage: "+61.97",
+      returns: "", // 수익률 +, - 붙여서 받는다
     },
     {
-      "nickName": "second",
-      "profileImage": "+21.55",
-      "returns": "" // 수익률 +, - 붙여서 받는다
+      nickName: "second",
+      profileImage: "+21.55",
+      returns: "", // 수익률 +, - 붙여서 받는다
     },
     {
-      "nickName": "third",
-      "profileImage": "",
-      "returns": "+12.57" // 수익률 +, - 붙여서 받는다
-    }
-  ]
+      nickName: "third",
+      profileImage: "",
+      returns: "+12.57", // 수익률 +, - 붙여서 받는다
+    },
+  ];
   return res;
-}
+};
