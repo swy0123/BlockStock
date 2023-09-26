@@ -37,10 +37,7 @@ def get_prev_contest_result():
 def enroll_contest(contest_create: ContestRequest):
     # 관리자인지 확인하는 과정 추가해야됨
     # header에 Id가 들어가는데 Admin이면 할 수 있는 걸로
-
     contest_service.create_contest(contest_create=contest_create)
-
-    return {"message": "대회 등록"}
 
 
 @router.post("/participate")
@@ -57,8 +54,6 @@ def cancel_participate_contest(contest_id: int, user_id: Optional[int] = Header(
 def delete_contest(contest_id: int):
     # 관리자인지 확인하는 과정 추가
     contest_service.delete_contest(contest_id)
-
-    return {"message": "대회 삭제"}
 
 
 @router.get("/history")
