@@ -25,6 +25,8 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 
+// api 통신
+import {messageKeep} from '../../../api/Message/Message'
 
 function MessageBoxList({name, onButtonClick}){
   const [data, setData] = useState([])
@@ -93,7 +95,6 @@ function MessageBoxList({name, onButtonClick}){
 
 
   useEffect(()=>{
-
     // checkItems 업데이트 이후에 checkAll을 업데이트
     if (data.length !== checkItems.length) {
       setCheckAll(false);
@@ -126,8 +127,9 @@ function MessageBoxList({name, onButtonClick}){
   
   };
   
-
+  // 클릭시 성공하면 쪽지 리스트를 다시 한번 재요청 
   const toggleBookmark = (itemId) => {
+    messageKeepBtn(itemId)
     // 아이템의 keep 상태 토글
     setData((prevData) => {
       return prevData.map((item) => {
@@ -142,6 +144,11 @@ function MessageBoxList({name, onButtonClick}){
     });
   };
 
+
+  // const messageKeepBtn = async(itemId)=>[
+  //   const message = await messageKeep(itemId)
+  //   console.log(message)
+  // ]
 
   const handleButtonClick = (buttonType) => {
     onButtonClick(buttonType);
@@ -180,7 +187,7 @@ function MessageBoxList({name, onButtonClick}){
           <div key={index}>
             <MessageItem >
               <Box>
-                <IconButton>    
+              
                   <div onClick={() => handleItemCheck(item.senderId)} style={{ cursor: 'pointer' }}>
                     {checkItems.includes(item.senderId) ? (
                       <CheckBox style={{ color: 'black' }} />
@@ -188,18 +195,15 @@ function MessageBoxList({name, onButtonClick}){
                       <CheckBoxOutlineBlankIcon style={{ color: '#929292' }} />
                     )}
                   </div>
-                </IconButton>
-                <IconButton>
                   <BookmarkBorderIcon
                     style={{
                       color: item.keep ? '#ffe651' : '#929292',
-                      margin: '-5px 0px 0px 5px',
+                      margin: '0px 0px 0px 5px',
                       cursor: 'pointer',
                       // fontSize:'24px'
                     }}
                     onClick={() => toggleBookmark(item.senderId)}
                   />
-                </IconButton>
 
                 <ItemContentBox onClick={() => handleButtonClick(item.senderId)}>
                 <MessageItemTitle>{item.content}</MessageItemTitle>
