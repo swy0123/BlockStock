@@ -89,8 +89,8 @@ function CompletedContestContent() {
 
   const OpenModal = (id) => {
     console.log(id)
-    result(id)
     setIsModalOpen(!isModalOpen);
+    resultApi(id)
   };
 
   const CloseModal = () => {
@@ -101,9 +101,6 @@ function CompletedContestContent() {
 
 
   // 상세 조회api ================================================================
-  const result = (id)=>{
-    resultApi(id)
-  };
 
   const resultApi = async (id)=>{
     const res =  await contestResult(id)
@@ -114,6 +111,7 @@ function CompletedContestContent() {
       setUserRank(res)
     }
   }
+
   // api ================================================================
   
 
@@ -191,7 +189,6 @@ function CompletedContestContent() {
                     <Stock>현재 인원: {contest.joinPeople} / {contest.maxCapacity}</Stock>
                     <StartAsset>필요 티켓: {contest.ticket} 개</StartAsset>
                     <Term>전략 실행 주기 : {contest.term}</Term>
-                    <div>내용</div>
                     <Content>{contest.content}</Content>
                     <Button onClick={()=>OpenModal(contest.id)}>결과보기</Button>
                   </ContentBox>
