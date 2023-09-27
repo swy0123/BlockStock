@@ -9,6 +9,7 @@ axios.defaults.withCredentials = true;
 export const publicApi: AxiosInstance = axios.create({
   baseURL: BASE_URL,
   headers: {
+    "ngrok-skip-browser-warning": "69420",
     "Content-Type": "application/json",
   },
 });

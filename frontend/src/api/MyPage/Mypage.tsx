@@ -47,7 +47,8 @@ export const getRecodeList =async() => {
     try{
         console.log('try history')
         const response = await privateApi.get("/contest/history");
-        console.log('기록조회', response)
+        console.log('기록조회', response.data)
+        return response
     }catch(error){
         console.log('err', error)
     }
