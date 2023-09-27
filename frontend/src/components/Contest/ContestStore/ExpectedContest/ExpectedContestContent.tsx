@@ -24,39 +24,43 @@ import {
 import TablePagination from '@mui/material/TablePagination';
 import {expectedContestList} from '../../../../api/Contest/ContestStore'
 
+// 리코일로 userid
+import { CurrentUserAtom } from '../../../../recoil/Auth'
+// contestid
+import { useRecoilState } from 'recoil';
+import { ContestId } from '../../../../recoil/Contest/ExpectedContest'
+// 전략 불러오기 api
+import { tacticList } from '../../../../api/Contest/ContestStore'
 
 function ExpectedContestContent(){
+
+  // 리코일로 유저 아이디
+  const currentUser = useRecoilValue(CurrentUserAtom);
+  const { userid } = currentUser;
 
   const [expectedContestItem, setExpectedContestItem] = useState([])
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(3);
 
   const [ count, setCount] = useState(0)
+  const [ tacticListItem, setTacticListItem ] = useState([])
 
-  // 대회참가 모달 ==================================================================
-  const [selectedContest, setSelectedContest] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
-  // 대회참가 모달 ==================================================================
+  // 종목 ========================================
+  const [optionCode, setOptionCode] = useState('')
 
-
+  // 리코일 대회 id 전략 id
+  const [contestId, setContestId] = useRecoilState(ContestId);
 
   // 리코일로 검색어를 불러온다 ======================================================
   const searchKeyword  = useRecoilValue(searchKeywordState);
 
 
 
-  // api 통신 이 후 삭제 ===============================================================
-  // 리코일로 더미데이터 가져오기 
-  const contestResultList = useRecoilValue(expectedContestListState);
-  // 더미데이터를 검색어를 통해 다시 리스트를 만듬
-  const filteredContestList = contestResultList.filter((contest) =>
-  contest.title.includes(searchKeyword)
-  );
-  // api 통신 이 후 삭제 ===============================================================
-
-
-
+  // 대회참가 모달 ==================================================================
+  const [selectedContest, setSelectedContest] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
+  // 대회참가 모달 ==================================================================
 
   // api 통신 =============================================================
   
@@ -89,7 +93,12 @@ function ExpectedContestContent(){
     setShowContent(updatedShowContent);
     
     if (updatedShowContent[index]) {
+      console.log(expectedContestItem[index],'expectedContestItem[index]')
       setSelectedContest(expectedContestItem[index]);
+      setOptionCode(expectedContestItem[index].optionCode)
+      const newContestId = { ...contestId, contestId: expectedContestItem[index].id };
+      // Recoil 상태 업데이트
+      setContestId(newContestId);
     } else {
       setSelectedContest(null);
     }
@@ -118,7 +127,7 @@ function ExpectedContestContent(){
     
   const startIndex = page * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
-  const itemsToDisplay = filteredContestList.slice(startIndex, endIndex);
+  const itemsToDisplay = expectedContestItem.slice(startIndex, endIndex);
   const filteredItems = itemsToDisplay.filter((item) =>
   item.title.includes(searchKeyword)
   );
@@ -129,6 +138,7 @@ function ExpectedContestContent(){
   // 모달 열고 닫는 이벤트 ====================================================
   const OpenModal = () => {
     setIsModalOpen(!isModalOpen);
+    tacticApi()
   };
   
   const CloseModal = () => {
@@ -144,6 +154,19 @@ function ExpectedContestContent(){
   };
   // 모달 열고 닫는 이벤트 ====================================================
   
+
+    // api 전략불러오기 ============================================================
+    const data = {
+      member_id:userid,
+      option_code:optionCode
+    }
+  
+    const tacticApi = async()=>{
+      const res = await tacticList(data)
+      console.log(res, '전략 불러옴')
+      setTacticListItem(res)
+    }
+    // api 전략불러오기 ============================================================
 
 
   return(
@@ -177,9 +200,8 @@ function ExpectedContestContent(){
                 <Stock>현재 인원: {contest.joinPeople} / {contest.maxCapacity}</Stock>
                 <StartAsset>필요 티켓: {contest.ticket} 개</StartAsset>
                 <Term>전략 실행 주기 : {contest.term}</Term>
-                <div>내용</div>
                 <Content>{contest.content}</Content>
-                {contest.isRegisted ? (
+                {!contest.isRegisted ? (
                   <Button onClick={OpenCandelModal}>신청취소</Button>
                 ) : (
                   <Button onClick={OpenModal}>참가하기</Button>
@@ -193,7 +215,7 @@ function ExpectedContestContent(){
           </>
         )}
 
-         {isModalOpen ? <ContestTaticModal selectedContest={selectedContest} type={'contest'} onClose={CloseModal} /> : null}
+         {isModalOpen ? <ContestTaticModal selectedContest={tacticListItem} type={'contest'} onClose={CloseModal} /> : null}
          {isCancelModalOpen ? <ContestCancelModal selectedContest={selectedContest} onClose={CloseCandelModal}/> : null}
       </Wrapper>
       {expectedContestItem.length > 0 && (

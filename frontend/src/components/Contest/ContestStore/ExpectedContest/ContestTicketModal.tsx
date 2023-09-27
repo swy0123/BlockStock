@@ -17,11 +17,16 @@ import {
 // 대회 참가 api
 import {contestParticipant} from '../../../../api/Contest/Participant'
 
+// contestid
+import { useRecoilState } from 'recoil';
+import { ContestId } from '../../../../recoil/Contest/ExpectedContest'
 
 function ContestTicketModal({tacticid ,selectedContest, onClose}){
-
-
   
+
+  // 리코일 대회 id 전략 id
+  const [contestId, setContestId] = useRecoilState(ContestId);
+
   // 대회 참가 api ==========================================================
   const info = {
     contestId:selectedContest.id,
@@ -34,7 +39,7 @@ function ContestTicketModal({tacticid ,selectedContest, onClose}){
   }
   
   const participant = async () => {
-    const contest = await contestParticipant(info)
+    const contest = await contestParticipant(contestId)
     console.log('참가 완료 모달', contest)
   }
   // 대회 참가 api ==========================================================

@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import CloseIcon from '@mui/icons-material/Close';
 import { useRecoilValue } from "recoil";
 import style from './Carousel.module.css'
@@ -22,9 +22,11 @@ import {
 
 function CompletedContestModal({onClose, selectedContest, rank}){
 
+  const [userRank, setUserRank] = useState([])
     useEffect(()=>{
       console.log(rank,'랭킹 모달')
-    },[])
+      setUserRank(rank)
+    },[rank])
 
     return(
         <Container>
@@ -35,7 +37,7 @@ function CompletedContestModal({onClose, selectedContest, rank}){
                 </Header>
                 <Schedule>대회 기간: {selectedContest.startTime} ~ {selectedContest.endTime}</Schedule>
                 <Personnel>참가 인원 수 {selectedContest.joinPeople} / {selectedContest.maxCapacity} </Personnel>
-                {rank.length === 0 ? (
+                {userRank.length === 0 ? (
                   <div>유저가 없습니다</div>
                 ) : (
                 <Wrapper>
@@ -43,86 +45,82 @@ function CompletedContestModal({onClose, selectedContest, rank}){
                     <div className={style.carousel}>
                         <div className={style.carousel_content}>
                         <div className="carousel-item" style={{width: '170px', height: '220px'}}>
-                            {rank[0] ? (
-                              <div>유저가 없습니다</div>
-                            ) : (
-                              <>
-                              <RankImage src={
-                                  // contest.ranking[0].profileImage ||
-                                  '/icon/user_purple.png'} />
-                                  <h2 style={{textAlign: 'center', margin: '5px 0px 0px 0px' , fontSize:'22px'}}>1등</h2>
+                          {userRank[0] ? (
+                                <>
+                                  <RankImage src={'/icon/user_purple.png'} />
+                                  <h2 style={{textAlign: 'center', margin: '5px 0px 0px 0px', fontSize:'22px'}}>1등</h2>
                                   <RankUserNickName>
-                                    {/* {rank[0]?.nickName ? (
-                                      <>{rank[0].id}</>
+                                    {userRank[0]?.nickName ? (
+                                      <>{userRank[0].nickName}</>
                                     ) : (
                                       <>NickName이 없습니다.</>
-                                    )} */}
+                                    )}
                                   </RankUserNickName>
                                   <div style={{textAlign: 'center', display:'flex'}}>
                                     <div style={{color:'#8A8A8A', margin:'8px 5px 0px 50px', fontSize:'12px'}}>
-                                        수익률 :
+                                      수익률 :
                                     </div>
-                                  <ContestReturn style={{ color: rank[0].returns === '-' ? 'blue' : 'red' }}>
-                                      {rank[0].returns}
-                                  </ContestReturn>
+                                    <ContestReturn style={{ color: userRank[0].returns === '-' ? 'blue' : 'red' }}>
+                                      {Math.round(userRank[0].returns * 10) / 10}%
+                                    </ContestReturn>
                                   </div>
-                              </>
-                            )}
+                                </>
+                              ) : (
+                                <div>유저가 없습니다</div>
+                              )}
                             </div>
 
                         <div className="carousel-item" style={{width: '170px', height: '220px'}}>
-                              {rank[1] ? (
-                                <div>유저가 없습니다</div>
-                              ) : (
-                                <>
-                                <RankImage src={
+                              {userRank[1] ? (
+                                  <>
+                                    <RankImage src={
                                     // contest.ranking[1].profileImage ||
                                     '/icon/user_purple.png'} />
                                     <h2 style={{textAlign: 'center', margin: '5px 0px 0px 0px', fontSize:'22px'}}>2등</h2>
                                     <RankUserNickName>
-                                    {/* {rank[1].nickName ? (
+                                    {rank[1].nickName ? (
                                       <>{rank[1].nickName}</>
                                     ) : (
                                       <>NickName이 없습니다.</>
-                                    )} */}
+                                    )}
                                   </RankUserNickName>
                                     <div style={{textAlign: 'center', display:'flex'}}>
                                       <div style={{color:'#8A8A8A', margin:'8px 5px 0px 50px', fontSize:'12px'}}>
                                           수익률 :
                                       </div>
-                                      <ContestReturn style={{ color: rank[1].returns === '-' ? 'blue' : 'red' }}>
-                                          {rank[1].returns}
-                                      </ContestReturn>
+                                      <ContestReturn style={{ color: userRank[1].returns === '-' ? 'blue' : 'red' }}>
+                                      {Math.round(userRank[1].returns * 10) / 10}%                                      </ContestReturn>
                                     </div>
                                 </>
+                                ) : (
+                                  <div>유저가 없습니다</div>
                               )}
                                 
                         </div>
                         <div className="carousel-item" style={{width: '170px', height: '220px'}}>
-                          {rank[2] ? (
-                            <div>유저가 없습니다</div>
-                          ) : (
+                          {userRank[2] ? (
                             <>
                               <RankImage src={
                                   // contest.ranking[2].profileImage ||
                                   '/icon/user_purple.png'} />
                                   <h2 style={{textAlign: 'center', margin: '5px 0px 0px 0px', fontSize:'22px' }}>3등</h2>
                                   <RankUserNickName>
-                                    {/* {rank[2]?.nickName ? (
+                                    {rank[2]?.nickName ? (
                                       <>{rank[2].nickName}</>
                                     ) : (
                                       <>NickName이 없습니다.</>
-                                    )} */}
+                                    )}
                                   </RankUserNickName>
                                   <div style={{textAlign: 'center', display:'flex'}}>
                                     <div style={{color:'#8A8A8A', margin:'8px 5px 0px 50px', fontSize:'12px'}}>
                                         수익률 :
                                     </div>
-                                    <ContestReturn style={{ color: rank[2].returns === '-' ? 'blue' : 'red' }}>
-                                        {rank[2].returns}
-                                    </ContestReturn>
+                                    <ContestReturn style={{ color: userRank[2].returns === '-' ? 'blue' : 'red' }}>
+                                      {Math.round(userRank[2].returns * 10) / 10}%                                    </ContestReturn>
                                   </div>
                                 </>
+                            ) : (
+                            <div>유저가 없습니다</div>
                               )}
 
                           </div>
@@ -133,11 +131,11 @@ function CompletedContestModal({onClose, selectedContest, rank}){
                     <Line/>
 
                   <Participant>
-                    {rank.length < 4 ? (
+                    {userRank.length < 4 ? (
                       <></>
                     ) : (
                       <>
-                      {rank.slice(3).map((participant, participantIndex) => (
+                      {userRank.slice(3).map((participant, participantIndex) => (
                         <div key={participantIndex}>
                           <div style={{margin:'0px 0px 0px 10px', display:'flex'}}>
                             <div style={{width:'40px', margin:'10px 0px 5px 15px', color:'#8A8A8A', fontSize:'15px'}}>
@@ -158,7 +156,7 @@ function CompletedContestModal({onClose, selectedContest, rank}){
                                 수익률 : 
                               </div>
                               <div style={{ color: participant.returns === '-' ? 'blue' : 'red', fontWeight:'bold', fontSize: '12px' }}>
-                                {participant.returns}
+                                {Math.round(participant.returns * 10) / 10}%
                               </div>
                             </div>
                           </div>

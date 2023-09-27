@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Swal from 'sweetalert2';
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import KeyboardControlKeyIcon from "@mui/icons-material/KeyboardControlKey";
 import TablePagination from '@mui/material/TablePagination';
@@ -25,6 +26,7 @@ import {contestDelete} from '../../api/Admin/Admin'
 // 대회 불러오기 api
 import {expectedContest} from '../../api/Contest/Main'
 
+import './style.css'
 
 function ContestList({onClickPage, data, onButtonClick}){
 
@@ -37,6 +39,7 @@ function ContestList({onClickPage, data, onButtonClick}){
 
   // const [ contestListItem, setContestListItem ] = useState([])
   // const [count, setcount ] = useState(data.count)
+
 
   // 클릭한 대회 내용 ==========================================================
   const [showContent, setShowContent] = useState(
@@ -59,7 +62,45 @@ function ContestList({onClickPage, data, onButtonClick}){
 
   // 삭제 api
   const handleDelete =(id)=>{
-    contestDeleteApi(id)
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+    
+    swalWithBootstrapButtons.fire({
+      // title: '삭제?',
+      // text: "You won't be able to revert this!",
+      text: '정말 삭제하시겠습니까?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: `<span>삭제</span>`,
+      cancelButtonText: '<span>취소</span>',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        contestDeleteApi(id)
+        swalWithBootstrapButtons.fire({
+          title: '삭제되었습니다',
+          icon:'success',
+          timer: 1000, // 2초 후에 자동으로 사라집니다 (밀리초 단위)
+          showConfirmButton: false, // 확인 버튼을 표시하지 않음
+          showCancelButton: false, // 취소 버튼을 표시하지 않음
+        })
+      } else if (
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire({
+          title: '취소되었습니다',
+          icon:'error',
+          timer: 1000, // 2초 후에 자동으로 사라집니다 (밀리초 단위)
+          showConfirmButton: false, // 확인 버튼을 표시하지 않음
+          showCancelButton: false, // 취소 버튼을 표시하지 않음
+        })
+        }
+      })
   }
 
   const contestDeleteApi = async(id)=>{
@@ -72,12 +113,12 @@ function ContestList({onClickPage, data, onButtonClick}){
   }
  // ===============================================================================
 
- const params = {
-  status: 'expected',
-  page: page,
-  size: rowsPerPage,
-  keyWord: ''
-};
+//  const params = {
+//   status: 'expected',
+//   page: page,
+//   size: rowsPerPage,
+//   keyWord: ''
+// };
 
 
   // 대회 불러오기 api ============================================================
@@ -166,7 +207,6 @@ function ContestList({onClickPage, data, onButtonClick}){
               <Stock>현재 인원: {contest.joinPeople} / {contest.maxCapacity}</Stock>
               <StartAsset>필요 티켓: {contest.ticket} 개</StartAsset>
               <Term>전략 실행 주기 : {contest.term}</Term>
-              <div>내용</div>
               <Content>{contest.content}</Content>
               <BtnBox>
                 <UpdateBtn onClick={()=>OpenModal()}>수정하기</UpdateBtn>
