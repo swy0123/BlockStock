@@ -113,11 +113,11 @@ function MoneyModal(props: MoneyModalProps) {
         if (amount <= 2000) {
           console.log("충전 금액:", amount);
           const moneyData = {
-            money: amount
+            money: amount*10000
           };
           const response = await putMoney(moneyData);
           if (response?.status == 200){
-            swal("",`${amount}원 충전 완료`, "success")
+            swal("충전 완료",`${moneyData.money}원이 충전되었습니다.`, "success")
             handleCancel()
             navigate("/mypage")
             // setIsChargeComplete(true);

@@ -128,6 +128,7 @@ export const StoreBtn = styled.button`
   border-radius: 6px;
   background: #e8dff9;
   box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
   margin: 0px 20px;
   &:hover {
     background: #9155fd;

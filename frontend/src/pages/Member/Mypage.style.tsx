@@ -100,6 +100,7 @@ export const EditBtn = styled.button`
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   border: 0;
   margin-right: 20px;
+  cursor: pointer;
 `;
 export const ContentContainer = styled.div`
   margin-top: 30px;
@@ -127,6 +128,7 @@ export const EditImg = styled.img`
   margin-right: 30px;
   margin-left: -45px;
   margin-top: 30px;
+  cursor: pointer;
 `
 
 interface FollowBtnProps {
@@ -143,6 +145,7 @@ export const FollowBtn = styled.button<FollowBtnProps>`
   box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.25);
   border: 0;
   margin-right: 20px;
+  cursor: pointer;
   &:hover {
     transition: 0.5s;
     box-shadow: 0;
