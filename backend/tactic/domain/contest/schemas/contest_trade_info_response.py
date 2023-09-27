@@ -3,6 +3,7 @@ from domain.contest.models.contest import Contest, Participate
 
 class ContestTradeInfoResponse:
     contestTradeHistory: list
+    title: str
     optionName: str
     optionCode: str
     startDate: str
@@ -14,6 +15,7 @@ class ContestTradeInfoResponse:
 
     def __init__(self, participate: Participate, contest: Contest, option_name: str, trade: list):
         self.contestTradeHistory = trade.copy()
+        self.title = contest.title
         self.optionName = option_name
         self.optionCode = contest.option_code
         self.startDate = contest.start_time.strftime('%Y%m%d')
