@@ -11,19 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@RestController
-@RequiredArgsConstructor
 public class Application {
-
-	private final MemberService memberService;
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
-	}
-
-	@GetMapping("/api/board/tmp")
-	public String info(@Value("${server.port}") String port) {
-		System.out.println(memberService.getMember(10L).getNickname());
-		return "gggggggggggg";
 	}
 
 }

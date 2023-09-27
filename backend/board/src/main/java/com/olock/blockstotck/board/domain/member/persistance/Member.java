@@ -1,9 +1,7 @@
 package com.olock.blockstotck.board.domain.member.persistance;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import com.olock.blockstotck.board.domain.member.dto.MemberTopicMessage;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
@@ -13,6 +11,16 @@ import org.springframework.data.redis.core.RedisHash;
 @ToString
 public class Member {
     @Id
-    Long id;
-    String nickname;
+    private Long id;
+    private String nickname;
+
+    public Member(Long id, String nickname) {
+        this.id = id;
+        this.nickname = nickname;
+    }
+
+    public Member(MemberTopicMessage memberTopicMessage) {
+        this.id = memberTopicMessage.getId();
+        this.nickname = memberTopicMessage.getNickname();
+    }
 }
