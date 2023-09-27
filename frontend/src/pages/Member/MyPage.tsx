@@ -8,7 +8,7 @@ import NickNameModal from "../../components/MyPage/EditModal/NickNameModal";
 import PasswordModal from "../../components/MyPage/EditModal/ChangePasswordModal";
 import SecessionModal from "../../components/MyPage/EditModal/SecessionModal";
 import FollowListModal from "../../components/MyPage/FollowModal/FollowListModal";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient  } from "react-query";
 import { useRecoilValue } from "recoil";
 import { CurrentUserAtom } from "../../recoil/Auth";
 import { getmypage } from "../../api/MyPage/Mypage";
@@ -38,7 +38,12 @@ function MyPage() {
   const currentUser = useRecoilValue(CurrentUserAtom);
   // useQuery data 받아오기
   const { data, isLoading, isError } = useQuery("mypage", getmypage);
-  // console.log("data", data)
+  const queryClient = useQueryClient();
+
+  const refetchMyPageData = async () => {
+    // 데이터 다시 불러오기
+    await queryClient.refetchQueries("mypage");
+  };
 
   const renderContent = () => {
     switch (selectedMenu) {
@@ -65,6 +70,7 @@ function MyPage() {
   };
   const closeModal = () => {
     setIsEditing(false);
+    refetchMyPageData();
   };
   const [isNameModalOpen, setIsNameModalOpen] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
@@ -98,6 +104,7 @@ function MyPage() {
   const closeNameModal = () => {
     setIsNameModalOpen(false);
     setIsEditing(false);
+    refetchMyPageData();
   };
   const closePasswordModal = () => {
     setIsPasswordModalOpen(false);
