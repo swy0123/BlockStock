@@ -3,6 +3,7 @@ import { format } from "d3-format";
 import {
   ItemContainer,
   OptionHistoryItemContent,
+  ProfitAndLoss,
   TermContainer,
   TermImg,
 } from "./OptionHistoryItem.style";
@@ -24,7 +25,8 @@ const OptionHistoryItem = (props) => {
   //   const [optionname, setOtionname] = useState(props.optionname);
   //   const [currate, setCurrate] = useState(props.currate);
   //   const [cost, setCost] = useState(props.cost);
-  const numberDisplayFormat = format(",");
+  const numberDisplayFormat = format(",.0f");
+  // const floatDisplayFormat = format(",.0f");
   return (
     <ItemContainer>
       <TermContainer>
@@ -46,13 +48,13 @@ const OptionHistoryItem = (props) => {
           </OptionHistoryItemPosDown>
         </OptionHistoryItemPosCenter>
         <OptionHistoryItemPosRight>
-          <OptionHistoryItemPosUp>{props.item.tradeCnt * props.item.cost}</OptionHistoryItemPosUp>
+          <OptionHistoryItemPosUp>{numberDisplayFormat(props.item.tradeCnt * props.item.cost)}</OptionHistoryItemPosUp>
           <OptionHistoryItemPosDown>
             {props.item.type === "sell" ? (
               props.item.profitAndLoss > 0 ? (
-                <span style={{ color: "#EC4275" }}>+{props.item.profitAndLoss}</span>
+                <ProfitAndLoss style={{ color: "#EC4275" }}>+{numberDisplayFormat(props.item.profitAndLoss)}</ProfitAndLoss>
               ) : (
-                <span style={{ color: "#097DF3" }}>{props.item.profitAndLoss}</span>
+                <ProfitAndLoss style={{ color: "#097DF3" }}>{numberDisplayFormat(props.item.profitAndLoss)}</ProfitAndLoss>
               )
             ) : (
               <>&nbsp;</>

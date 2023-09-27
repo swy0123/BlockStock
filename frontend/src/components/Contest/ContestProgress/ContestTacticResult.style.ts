@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { colors } from '@mui/material';
+import { colors } from "@mui/material";
 
 export const TacticTitle = styled.div`
   /* background-color: rgba(0, 150, 0, 0.08); */
@@ -73,6 +73,7 @@ export const TradingHistoryTitle = styled.div`
   /* height: 7%; */
   padding: 10px;
   display: flex;
+  align-items: center;
   font-size: 18px;
   font-weight: bold;
 `;
@@ -95,7 +96,13 @@ export const ItemList = styled.div`
   overflow-y: scroll;
   overflow-x: hidden;
   &::-webkit-scrollbar {
-    display: none;
+    width: 3px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.4);
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
   }
 `;
 
@@ -140,7 +147,7 @@ export const OptionHistoryItemPosDown = styled.div`
   font-size: 13px;
   right: 10%;
   justify-content: end;
-  color:#525252;
+  color: #525252;
 `;
 
 export const HistoryChartDiv = styled.div`
@@ -171,18 +178,24 @@ export const HistorySummaryContents = styled.div`
   width: 100%;
   height: 90%;
   margin-bottom: 5%;
-  /* display: flex; */
+  display: flex;
   flex-direction: column;
   align-items: center;
 `;
 export const HistorySummaryContentsItemList = styled.div`
-padding: 5px 0;
-  width: 100%;
+  padding: 5px 0;
+  width: 75%;
   height: 35%;
   overflow-y: scroll;
   overflow-x: hidden;
   &::-webkit-scrollbar {
-    display: none;
+    width: 3px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.4);
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
   }
 `;
 
@@ -224,6 +237,7 @@ export const HistorySummaryContentsItemLeft = styled.span`
   font-weight: 400;
   line-height: normal;
 `;
+
 export const HistorySummaryContentsItemRight = styled.span`
   position: absolute;
   right: 12.5%;
@@ -234,7 +248,6 @@ export const HistorySummaryContentsItemRight = styled.span`
   font-weight: 400;
   line-height: normal;
 `;
-
 
 export const ContestRankinig = styled.div`
   width: 100%;
@@ -251,7 +264,6 @@ export const ContestRankinigItem = styled.div`
   border-radius: 10px;
   width: 100%;
   height: 100%;
-  
 
   display: flex;
   flex-direction: column;
