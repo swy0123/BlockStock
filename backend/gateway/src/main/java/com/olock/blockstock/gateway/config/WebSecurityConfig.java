@@ -30,6 +30,7 @@ public class WebSecurityConfig {
     private final AuthenticationManager authenticationManager;
     private final AuthenticationProvider authenticationProvider;
 
+
     @Bean
     public SecurityWebFilterChain filterChain(ServerHttpSecurity http) throws Exception {
         return http
@@ -44,6 +45,7 @@ public class WebSecurityConfig {
                                 .pathMatchers(HttpMethod.PUT, "/api/member/request-email").permitAll()
                                 .pathMatchers(HttpMethod.POST, "/api/member/request-email").permitAll()
                                 .pathMatchers(HttpMethod.POST, "/api/member/confirm-email").permitAll()
+                                .pathMatchers(HttpMethod.GET, "/api/option/stock").permitAll()
                                 .pathMatchers("/api/auth/login").permitAll()
                                 .anyExchange()
                                 .authenticated()
