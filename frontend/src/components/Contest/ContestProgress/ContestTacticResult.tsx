@@ -32,12 +32,14 @@ import OptionHistoryItem from "./OptionHistoryItem";
 import { format } from "d3-format";
 import { contestChart, contestRanking, contestTrade } from "../../../api/Contest/ContestProgress";
 import dayjs from "dayjs";
+import ContestRankBox from "./ContestRankBox";
 
-const TacticResult = (id:any) => {
+const TacticResult = (props: { contestId: number }) => {
   const [componentRef, size] = useComponentSize();
   const [optionHistory, setOptionHistory] = useState<any>([]);
   const [chartInfos, setChartInfos] = useState<any[]>([]);
   const [rankInfos, setRanktInfos] = useState<any[]>([]);
+  const [title, setTitle] = useState("");
   const [startAsset, setStartAsset] = useState(0);
   const [endAsset, setEndAssets] = useState(0);
   const [returnPercent, setReturnPercent] = useState(0);
@@ -48,38 +50,40 @@ const TacticResult = (id:any) => {
   const [updateTime, setUpdateTime] = useState(dayjs().format("YYYY.MM.DD HH:mm:ss"));
   const [count, setCount] = useState(15); // 남은 시간 (단위: 초)
 
-  const pricesDisplayFormat = format(",");
+  const pricesDisplayFormat = format(",.0f");
+  const floatDisplayFormat = format(",.3f");
 
 
   useEffect(() => {
-    const id = setInterval(() => {
+    const cnt = setInterval(() => {
       // 타이머 숫자가 하나씩 줄어들도록
       setCount((count) => count - 1);
     }, 1000);
 
     if (count === 1) {
       setCount(15);
-      axiosGetData();
+      // axiosGetData();
       setUpdateTime(dayjs().format("YYYY.MM.DD HH:mm:ss"));
     }
-    return () => clearInterval(id);
+    return () => clearInterval(cnt);
   }, [count]);
 
   const axiosGetData = async () => {
 
     //테스트 데이터 id는 7
-    // const propsTmp: string = id;
+    // const propsTmp = props.contestId;
     const propsTmp = 7;
 
     const chartres = await contestChart(propsTmp);
     const traderes = await contestTrade(propsTmp);
-    const rankingres = await contestRanking(propsTmp);
+
     console.log("결과~~~~~~~~~~~~~");
     console.log(chartres);
-    console.log(traderes);
-    setOptionHistory(traderes.optionHistory);
     setChartInfos(chartres);
-    setRanktInfos(rankingres);
+    console.log(traderes);
+    setOptionHistory(traderes.contestTradeHistory);
+
+    setTitle(traderes.title);
     setStartAsset(traderes.startAsset);
     setEndAssets(traderes.endAsset);
     setReturnPercent(traderes.returnPercent);
@@ -101,7 +105,7 @@ const TacticResult = (id:any) => {
     <TradingHistoryContainer>
       {/* 전략 이름 */}
       <TradingHistoryTitle style={{ fontSize: "22px" }}>
-        대회 진행 현황 <span style={{ fontSize: "10px" }}>{updateTime}</span>
+        "{title}" 대회 진행 현황
       </TradingHistoryTitle>
       {/* {props.tacticImg ? <img src={props.tacticImg}/>:<></>} */}
 
@@ -133,8 +137,10 @@ const TacticResult = (id:any) => {
         <CenterDiv>
           <HistoryChartDiv ref={componentRef}>
             <TradingHistoryTitle>
-              {optionName} 매매내역 상세
-              <span style={{ fontSize: "10px" }}>종목번호 {optionCode}</span>
+              {/* {optionName}<span style={{ fontSize: "10px" }}> ({optionCode})</span> */}
+              매매내역 상세
+
+              <div style={{ fontSize: "10px", position:"absolute", right:"5%" }}> 마지막 업데이트 시간 : {updateTime}</div>
             </TradingHistoryTitle>
             {/* <div >
                         <p>가로너비: {size.width}px</p>
@@ -142,9 +148,9 @@ const TacticResult = (id:any) => {
                     </div> */}
             {/* 차트 */}
             {size.width > 0 &&
-            size.height > 0 &&
-            chartInfos !== undefined &&
-            chartInfos.length > 0 ? (
+              size.height > 0 &&
+              chartInfos !== undefined &&
+              chartInfos.length > 0 ? (
               <CandleChart
                 curwidth={size.width - 10}
                 curheight={size.height - 10}
@@ -187,7 +193,7 @@ const TacticResult = (id:any) => {
                 <HistorySummaryContentsItem>
                   <HistorySummaryContentsItemLeft>수익률</HistorySummaryContentsItemLeft>
                   <HistorySummaryContentsItemRight style={{ color: "#F24822" }}>
-                    {pricesDisplayFormat(returnPercent)}%
+                    {floatDisplayFormat(returnPercent)}%
                   </HistorySummaryContentsItemRight>
                 </HistorySummaryContentsItem>
                 <HistorySummaryContentsItem>
@@ -203,10 +209,11 @@ const TacticResult = (id:any) => {
                 <HistorySummaryContentsItem>
                   <HistorySummaryContentsItemLeft>총 거래 횟수</HistorySummaryContentsItemLeft>
                   <HistorySummaryContentsItemRight>
-                    {optionHistory.length}
+                    {pricesDisplayFormat(optionHistory.length)}
                   </HistorySummaryContentsItemRight>
                 </HistorySummaryContentsItem>
               </HistorySummaryContentsItemList>
+              <span style={{ fontSize: "10px" }}>마지막 업데이트 시간 : {updateTime}</span>
             </HistorySummaryContents>
           </HistorySummary>
           <ContestRankinig>
@@ -214,6 +221,7 @@ const TacticResult = (id:any) => {
               {/* 
               랭킹창
               */}
+              <ContestRankBox contestId={props.contestId}></ContestRankBox>
             </ContestRankinigItem>
           </ContestRankinig>
         </RightDiv>
