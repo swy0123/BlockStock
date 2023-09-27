@@ -1,5 +1,6 @@
 package com.olock.blockstotck.board.domain.member.application;
 
+import com.olock.blockstotck.board.domain.member.dto.MemberTopicMessage;
 import com.olock.blockstotck.board.domain.member.exception.MemberRequestException;
 import com.olock.blockstotck.board.domain.member.persistance.Member;
 import com.olock.blockstotck.board.domain.member.persistance.MemberRepository;
@@ -15,17 +16,22 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Member getMember(Long memberId) {
-        return requestMember(memberId);
+        if(!memberRepository.existsById(memberId.toString())) {
+            memberRepository.save(requestMember(memberId));
+        }
+
+        return memberRepository.findById(memberId.toString()).get();
     }
 
     @Override
-    public void addMember(Long memberId) {
-
+    public void saveMember(Long memberId) {
+        memberRepository.save(requestMember(memberId));
     }
 
     @Override
-    public void updateMember(Member member) {
-
+    public void updateMember(MemberTopicMessage memberTopicMessage) {
+        if(!memberRepository.existsById(memberTopicMessage.getId().toString())) return;
+        memberRepository.save(new Member(memberTopicMessage));
     }
 
     private Member requestMember(Long memberId) {
