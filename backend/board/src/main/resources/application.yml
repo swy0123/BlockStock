@@ -9,6 +9,13 @@ server:
 
 
 spring:
+  cache:
+    type: redis
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+    password: ${REDIS_PASSWORD}
+    database: 7
   kafka:
     bootstrap-servers: ${KAFKA_SERVER}
     consumer:
