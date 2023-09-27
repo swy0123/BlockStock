@@ -26,10 +26,11 @@ border: 1px solid #DFDFDF;
 export const Wrapper = styled.div`
 width: 100%;
 height: 570px;
+overflow: auto;
 `;
 
 export const MessageItem = styled.div`
-width: 100%;
+width: 98%;
 height: 40px;
 padding: 15px 0px 0px 0px;
 &:hover{

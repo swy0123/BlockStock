@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import KeyboardControlKeyIcon from "@mui/icons-material/KeyboardControlKey";
 import { useRecoilValue } from "recoil";
-import { completedContestListState } from "../../../../recoil/Contest/CompletedContest";
 import { searchKeywordState } from "../../../../recoil/Contest/CurrentContest";
 import CompletedContestModal from "./CompletedContestModal";
 import {
@@ -34,18 +33,9 @@ function CompletedContestContent() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(3);
 
-  const [completedContestItem, seyCompletedContestItem] = useState([])
+  const [completedContestItem, setCompletedContestItem] = useState([])
   const [ count, setCount] = useState(0)
-  const [ contestResultItem, setContestResultItem] = useState([])
-
-  // 더미데이터 api 통신 후 삭제 ================================================
-  const contestResultList = useRecoilValue(completedContestListState);
-  const filteredContestList = contestResultList.filter((contest) =>
-  contest.title.includes(searchKeyword)
-  );
-  // 더미데이터 api 통신 후 삭제 ================================================
-
-  
+  const [ userRank, setUserRank] = useState([])
   
 
   // api 통신 =============================================================
@@ -62,17 +52,19 @@ function CompletedContestContent() {
   const completedcontest = async () => {
       const contest = await completedContestList(params)
       console.log(contest)
-      seyCompletedContestItem(contest.contestList)
+      setCompletedContestItem(contest.contestList)
       setCount(contest.count)
     }
   // api 통신 =============================================================
 
-
+  useEffect(()=>{
+    console.log(userRank, 'userRank')
+  },[userRank])
 
 
   // 클릭한 대회 내용 ==========================================================
   const [showContent, setShowContent] = useState(
-    Array(filteredContestList.length).fill(false)
+    Array(completedContestItem.length).fill(false)
   );
 
   const toggleContent = (index) => {
@@ -81,7 +73,7 @@ function CompletedContestContent() {
     setShowContent(updatedShowContent);
 
     if (updatedShowContent[index]) {
-      setSelectedContest(filteredContestList[index]);
+      setSelectedContest(completedContestItem[index]);
     } else {
       setSelectedContest(null);
     }
@@ -115,7 +107,12 @@ function CompletedContestContent() {
 
   const resultApi = async (id)=>{
     const res =  await contestResult(id)
-    console.log(res)
+    console.log(res, 'res')
+    if (res === undefined){
+      setUserRank([])
+    }else{
+      setUserRank(res)
+    }
   }
   // api ================================================================
   
@@ -204,7 +201,7 @@ function CompletedContestContent() {
             </>
           )}
 
-          {isModalOpen ? <CompletedContestModal selectedContest={selectedContest} onClose={CloseModal}/> : null}
+          {isModalOpen ? <CompletedContestModal selectedContest={selectedContest} onClose={CloseModal} rank={userRank}/> : null}
         </Wrapper>
         {completedContestItem.length > 0 && (
           <>
