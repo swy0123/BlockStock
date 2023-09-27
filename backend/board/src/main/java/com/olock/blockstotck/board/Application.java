@@ -1,5 +1,7 @@
 package com.olock.blockstotck.board;
 
+import com.olock.blockstotck.board.domain.member.application.MemberService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,16 +12,18 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @EnableDiscoveryClient
 @RestController
+@RequiredArgsConstructor
 public class Application {
 
-	// test
+	private final MemberService memberService;
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
 
-	@GetMapping("/board/info")
+	@GetMapping("/api/board/tmp")
 	public String info(@Value("${server.port}") String port) {
-		return "Board 서비스의 기본 동작 Port: {" + port + "}";
+		System.out.println(memberService.getMember(10L).getNickname());
+		return "gggggggggggg";
 	}
 
 }
