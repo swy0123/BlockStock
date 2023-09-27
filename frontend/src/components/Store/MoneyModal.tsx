@@ -1,89 +1,24 @@
 import { useState } from "react";
-import styled from "styled-components";
 import swal from "sweetalert";
 import { putMoney } from "../../api/store";
 import { useNavigate } from "react-router-dom";
+import { 
+  ModalWrapper,
+  ModalContent,
+  Title,
+  CloseIcon,
+  Text,
+  Img,
+  Inputbox,
+  Input,
+  SubmitBtn,
+  Message
+ } from "./MoneyModal.style";
 
 interface MoneyModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
-
-const ModalWrapper = styled.div<{ isOpen: boolean }>`
-  display: ${(props: { isOpen: boolean }) => (props.isOpen ? "block" : "none")};
-  background: rgba(0, 0, 0, 0.5);
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1000;
-`;
-
-const ModalContent = styled.div`
-  align-items: center;
-  text-align: center;
-  background: #fff;
-  width: 80%;
-  max-width: 600px;
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  /* z-index: 1001; */
-`;
-
-const Title = styled.p`
-  font-size: 30px;
-  margin: 20px 0px;
-  font-weight: 700;
-`
-export const CloseIcon = styled.img`
-  width: 18px;
-  height: 18px;
-  position: fixed;
-  top: 7%;
-  left: 91%;
-  cursor: pointer;
-  :hover&{
-    opacity: 70%;
-  }
-`
-const Text = styled.p`
-  font-size: 15px;
-`
-const Img = styled.img`
-  width: 150px;
-`
-const Inputbox = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-`;
-
-const Input = styled.input`
-  width: 264px;
-  height: 44px;
-  border-radius: 10px 0px 0px 10px;
-  border: 1px solid #d3d3d3;
-  padding-left: 20px;
-  font-size: 15px;
-`
-const SubmitBtn = styled.button`
-  width: 62px;
-  height: 48px;
-  border-radius: 0px 10px 10px 0px;
-  border: 1px solid #D9D9D9;
-  background: rgba(145, 85, 253, 0.20);
-  font-size: 15px;
-`
-const Message = styled.p`
-  font-size: 14px;
-  color: gray;
-`
 
 function MoneyModal(props: MoneyModalProps) {
   const navigate = useNavigate();
@@ -100,7 +35,6 @@ function MoneyModal(props: MoneyModalProps) {
   };
 
   const handleCancel = () => {
-    // input 초기화 
     setInputValue("");
     onClose();
     navigate("/mypage")
@@ -114,13 +48,12 @@ function MoneyModal(props: MoneyModalProps) {
           console.log("충전 금액:", amount);
           const moneyData = {
             money: amount*10000
-          };
+          }; // 카카오페이 연결할 때 밑에 코드는 주석처리하고 안써도 되는 부분!
           const response = await putMoney(moneyData);
           if (response?.status == 200){
             swal("충전 완료",`${moneyData.money}원이 충전되었습니다.`, "success")
             handleCancel()
             navigate("/mypage")
-            // setIsChargeComplete(true);
           } else{
             swal("충전 실패")
           }
@@ -132,9 +65,6 @@ function MoneyModal(props: MoneyModalProps) {
       }
     }
   };
-  // if (isChargeComplete) {
-  //   navigate("/mypage");
-  // }
 
   return (
     <ModalWrapper isOpen={isOpen}>
