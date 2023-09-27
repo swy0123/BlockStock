@@ -152,7 +152,6 @@ function CurrentContestContent(){
                 <Stock>종목 {contest.code}</Stock>
                 <StartAsset>시작 자산 {contest.startAsset}</StartAsset>
                 <Term>전략 실행 주기  {contest.term}</Term>
-                <div>내용</div>
                 <Content>{contest.content}</Content>
                 <Button onClick={()=>navigate('/contestprogress',{ state: { selectedContest } })}>진행 현황</Button>  
               </ContentBox>
