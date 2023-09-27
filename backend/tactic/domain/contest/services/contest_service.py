@@ -3,6 +3,7 @@ from sqlalchemy import desc, func
 
 from domain.contest.models.trade import Trade
 from domain.contest.schemas.contest_history_response import ContestHistoryResponse
+from domain.contest.schemas.contest_outline_response import ContestOutlineResponse
 from domain.contest.schemas.contest_real_time_response import ContestRealTimeResponse
 from domain.contest.schemas.contest_result_response import ContestResultList
 from domain.contest.schemas.contest_list_resopnse import ContestListResponse
@@ -45,7 +46,7 @@ def get_contests(status: str,
     elif status == ContestType.EXPECTED:
         result = (session.query(Contest).where(datetime.now() < Contest.start_time).
                   filter(Contest.title.like(f'%%{key_word}%%')).
-                                          order_by(desc(Contest.created_at)).offset(offset).limit(size).all())
+                  order_by(desc(Contest.created_at)).offset(offset).limit(size).all())
 
     elif status == ContestType.FINISH:
         result = (session.query(Contest).where(Contest.end_time < datetime.now()).
@@ -334,3 +335,71 @@ def get_trade_contest(contest_id: int, member_id: int):
         trade_response.append(ContestTradeResponse(trade))
     session.close()
     return ContestTradeInfoResponse(participate, contest, option_name, trade_response)
+
+
+def get_contest_outine(member_id: int):
+    engine = engineconn()
+    session = engine.sessionmaker()
+    contests = (session.query(Contest).filter(Contest.start_time <= datetime.now(), datetime.now() < Contest.end_time).
+                order_by(Contest.start_time.asc()).all())
+
+    contest_result = []
+
+    for contest in contests:
+        rankings = session.query(Participate).filter(Participate.contest_id == contest.id).order_by(
+            Participate.result_money.desc()).all()
+
+        ranking_result = []
+        for rank in rankings:
+            nick_name = ""
+            ranking_response = ContestRankingResponse(member_id=rank.member_id,
+                                                      nick_name=nick_name,
+                                                      ticket=contest.ticket,
+                                                      result_money=rank.result_money)
+
+            ranking_result.append(ranking_response)
+
+        contest_result.append(ContestResultList(contest, ranking_result))
+
+    nextContestList = []
+    prevContestResult = []
+
+    expected_contests = (session.query(Contest).where(datetime.now() < Contest.start_time).
+                         order_by(desc(Contest.created_at)).all())
+
+    # ==================== 예졍대회 =============================
+    for contest in expected_contests:
+        # 참가한건지 안한건지 확인하는 변수 추가
+        # 참여 인원 수 추가
+        if (session.query(Participate).outerjoin(Contest, Contest.id == Participate.contest_id).
+                         filter(Participate.member_id == member_id)):
+            is_registed = False
+        else:
+            is_registed = True
+
+        join_people = (session.query(Participate).outerjoin(Contest, Contest.id == Participate.contest_id).
+                       where(Contest.id == Participate.contest_id).count())
+
+        nextContestList.append(ContestResponse(contest=contest,
+                                               is_registed=is_registed,
+                                               join_people=join_people))
+
+    last_contest = (session.query(Contest).filter(Contest.end_time < datetime.now()).
+                    order_by(Contest.end_time.desc()).first())
+
+    # ======================= member =====================
+    members = (session.query(Participate.member_id, Participate.result_money).
+               outerjoin(Contest, Contest.id == Participate.contest_id).
+               filter(Contest.id == last_contest.id).
+               limit(3).all())
+
+    for member in members:
+        nick_name = ""
+        prevContestResult.append(ContestRankingResponse(member_id=member.member_id,
+                                                        nick_name=nick_name,
+                                                        ticket=contest.ticket,
+                                                        result_money=member.result_money))
+    session.close()
+    return ContestOutlineResponse(currentContestResultList=contest_result,
+                                  nextContestList=nextContestList,
+                                  prevContestResult=prevContestResult)

@@ -7,6 +7,7 @@ class ContestResultList:
     id: int
     content: str
     code: str
+    title: str
     startAsset: int
     term: int
     startAt: datetime
@@ -17,6 +18,8 @@ class ContestResultList:
         self.id = contest.id
         self.content = contest.content
         self.code = contest.option_code
+        self.title = contest.title
+        self.term = contest.term
         self.startAsset = contest.ticket * 10000000
         self.startAt = contest.start_time
         self.endAt = contest.end_time

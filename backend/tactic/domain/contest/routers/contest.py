@@ -21,6 +21,11 @@ def get_proceed_contest_result():
     return contest_service.get_proceed_contest_result()
 
 
+@router.get("/outline")
+def get_contest_outline(request: Request):
+    member_id = request.headers.get("Member-id")
+    return contest_service.get_contest_outine(member_id)
+
 @router.get("/result/{contest_id}")
 def get_contest_result(contest_id: int):
     return contest_service.get_contest_result(contest_id)
