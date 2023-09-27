@@ -42,7 +42,7 @@ function MessageBoxBtn({onButtonClick}){
               backgroundColor: btn === 'receive' ? '#9155FD' : 'initial'
               }}
             />
-            <MailOutlineIcon style={{fontSize:'30px'}}/>
+            <MailOutlineIcon style={{fontSize:'26px'}}/>
             <ReceiveTitle>받은 쪽지</ReceiveTitle>
           </ReceiveStyleBox>
 
@@ -58,7 +58,7 @@ function MessageBoxBtn({onButtonClick}){
                 backgroundColor: btn === 'send' ? '#9155FD' : 'initial'
                 }}
             />
-            <SendIcon style={{fontSize:'26px', margin:'2px 0px 0px 0px'}}/>
+            <SendIcon style={{fontSize:'22px', margin:'2px 0px 0px 0px'}}/>
             <SendTitle>보낸 쪽지</SendTitle>
           </SendStyleBox>
           
@@ -74,7 +74,7 @@ function MessageBoxBtn({onButtonClick}){
                 backgroundColor: btn === 'keep' ? '#9155FD' : 'initial'
                 }}
             />
-            <BookmarkBorderIcon style={{fontSize:'32px'}}/>
+            <BookmarkBorderIcon style={{fontSize:'28px'}}/>
             <KeepTitle>쪽지 보관함</KeepTitle>
           </KeepStyleBox>
         </Wrapper>

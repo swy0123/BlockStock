@@ -68,25 +68,32 @@ function MessageDetail({onButtonClick, data}){
                 <UseImg src='/icon/user_purple.png'/>
                 <UseNickName>{data.senderNickname}</UseNickName>
               </UseBox>
-              <Schedule>{data.createdAt}</Schedule>
+              <Schedule>
+                {(() => {
+                  // data.createdAt를 Date 객체로 변환
+                  const date = new Date(data.createdAt);
+                  // 날짜와 시간을 원하는 형식으로 포맷
+                  const formattedDate = `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+                  return formattedDate;
+                })()}
+              </Schedule>
               <div onClick={messageKeepApi}>
                 {check ? (
                   <BookmarkIcon 
-                  style={{margin:'8px 0px 0px 10px', fontSize:'30px', color:'#FFC700'}}
+                    style={{ margin: '8px 0px 0px 10px', fontSize: '30px', color: '#FFC700' }}
                   />
-                ):(
-                  <BookmarkBorderIcon style={{margin:'8px 0px 0px 10px', fontSize:'30px', color:'#929292'}}/>
+                ) : (
+                  <BookmarkBorderIcon style={{ margin: '8px 0px 0px 10px', fontSize: '30px', color: '#929292' }} />
                 )}
               </div>
               
-              <img src="/icon/휴지통.png" style={{width:'28px', height:'30px', margin:'8px 0px 0px 10px'}} onClick={handleDetail}/>
+              <img src="/icon/휴지통.png" style={{ width: '28px', height: '30px', margin: '8px 0px 0px 10px' }} onClick={handleDetail}/>
             </TitleBox>
             <BoxLine/>
             <ContentBox>
               <Content>
                 {data.content}
               </Content>
-
             </ContentBox>
           </Box>
         </Wrapper>

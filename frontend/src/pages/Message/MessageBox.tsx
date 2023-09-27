@@ -63,15 +63,15 @@ function MessageBox(){
 
   return(
     <>
-      <Container>
-        <MessageBoxBtn onButtonClick={handleButtonClick}/>
-        <Line/>
-        {detail ? (
-          <MessageBoxList name={type} onButtonClick={handleDetailButtonClick} message={messageListItem}/>
-        ) : (
-          <MessageDetail onButtonClick={handleDetailButtonClick} data={messageItem} />
-        )}
-      </Container>
+        <Container>
+          <MessageBoxBtn onButtonClick={handleButtonClick}/>
+          <Line/>
+          {detail ? (
+            <MessageBoxList name={type} onButtonClick={handleDetailButtonClick} message={messageListItem}/>
+          ) : (
+            <MessageDetail onButtonClick={handleDetailButtonClick} data={messageItem} />
+          )}
+        </Container>
     </>
   )
 }
@@ -79,12 +79,16 @@ function MessageBox(){
 export default MessageBox
 
 const Container = styled.div`
-width: 100%;
+width: 90%;
 height: 100%;
 background: #FFFFFF;
 box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
 border-radius: 8px;
 display: flex;
+margin: 0px auto 0px auto;
+@media (max-width: 1300px) {
+    width: 1000px;
+  }
 `;
 
 const Line = styled.div`

@@ -23,6 +23,7 @@ import MuiAlert from "@mui/material/Alert";
 // 쪽지 보내기 api 
 import {messageSend} from '../../api/Message/Message'
 
+
 function Message({state,onClose }){
 
   const [content, setContent] = useState('')
