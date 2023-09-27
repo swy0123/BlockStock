@@ -8,7 +8,7 @@ function ContestProgress() {
   
   return (
     <TacticContainer>
-      <ContestTacticResult id={selectedContest.id}></ContestTacticResult>
+      <ContestTacticResult contestId={Number(selectedContest.id)}></ContestTacticResult>
     </TacticContainer>
   );
 }

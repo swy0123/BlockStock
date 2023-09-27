@@ -53,25 +53,24 @@ const CandleChart = (props) => {
     console.log(props.chartInfos)
   }, [])
 
-  const ema12 = ema()
-    .id(1)
-    .options({ windowSize: 12 })
-    .merge((d, c) => {
-      d.ema12 = c;
-    })
-    .accessor((d) => d.ema12);
+  // const ema12 = ema()
+  //   .id(1)
+  //   .options({ windowSize: 12 })
+  //   .merge((d, c) => {
+  //     d.ema12 = c;
+  //   })
+  //   .accessor((d) => d.ema12);
 
-  const ema26 = ema()
-    .id(2)
-    .options({ windowSize: 26 })
-    .merge((d, c) => {
-      d.ema26 = c;
-    })
-    .accessor((d) => d.ema26);
-  const elder = elderRay();
+  // const ema26 = ema()
+  //   .id(2)
+  //   .options({ windowSize: 26 })
+  //   .merge((d, c) => {
+  //     d.ema26 = c;
+  //   })
+  //   .accessor((d) => d.ema26);
+  // const elder = elderRay();
   
 
-  const calculatedData = elder(ema26(ema12(props.chartInfos)));
   const { data, xScale, xAccessor, displayXAccessor } = ScaleProvider(props.chartInfos);
   const pricesDisplayFormat = format(",");
   const max = xAccessor(data[data.length - 1]);
@@ -244,10 +243,10 @@ const CandleChart = (props) => {
         <MouseCoordinateY rectWidth={margin.right} displayFormat={pricesDisplayFormat} />
         <YAxis showGridLines tickFormat={pricesDisplayFormat} />
         <CandlestickSeries />
-        <LineSeries yAccessor={ema26.accessor()} strokeStyle={ema26.stroke()} />
+        {/* <LineSeries yAccessor={ema26.accessor()} strokeStyle={ema26.stroke()} />
         <CurrentCoordinate yAccessor={ema26.accessor()} fillStyle={ema26.stroke()} />
         <LineSeries yAccessor={ema12.accessor()} strokeStyle={ema12.stroke()} />
-        <CurrentCoordinate yAccessor={ema12.accessor()} fillStyle={ema12.stroke()} />
+        <CurrentCoordinate yAccessor={ema12.accessor()} fillStyle={ema12.stroke()} /> */}
         {/* <MouseCoordinateY rectWidth={margin.right} displayFormat={pricesDisplayFormat} /> */}
         <EdgeIndicator
           itemType="last"
@@ -289,14 +288,14 @@ const CandleChart = (props) => {
             },
           ]}
         /> */}
-        {/* <ZoomButtons /> */}
         
         <OHLCTooltip origin={[8, 16]} />
-
       </Chart>
+
       {/* <Chart id={2} height={barChartHeight} origin={barChartOrigin} yExtents={barChartExtents}>
         <BarSeries fillStyle={volumeColor} yAccessor={volumeSeries} />
       </Chart> */}
+
       <Chart
         id={4}
         height={barChartHeight}
