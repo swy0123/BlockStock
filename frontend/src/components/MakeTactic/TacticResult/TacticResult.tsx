@@ -30,6 +30,7 @@ import {
 import OptionHistoryItem from "./OptionHistoryItem";
 import { format } from "d3-format";
 import { saveTacticProps, tacticCreate, tacticTest, tacticTestProps, tacticUpdate, updateTacticProps } from "../../../api/Tactic/TacticTest";
+import { useNavigate } from "react-router-dom";
 
 const TacticResult = (props) => {
   const [componentRef, size] = useComponentSize();
@@ -39,6 +40,8 @@ const TacticResult = (props) => {
   const [endAsset, setEndAssets] = useState(0);
   const [returnPercent, setReturnPercent] = useState(0);
   const [tacticId, setTacticId] = useState(null);
+
+  const navigate = useNavigate();
   // const [title, setTitle] = useState("");
   // const [optionCode, setOptionCode] = useState("");
   // const [startDate, setStartDate] = useState(new Date());
@@ -92,7 +95,7 @@ const TacticResult = (props) => {
     return formattedDate;
   };
 
-  
+
   useEffect(() => {
     axiosGetData();
     console.log("res useEffect");
@@ -128,8 +131,8 @@ const TacticResult = (props) => {
     // const res = await tacticCreate(formData);
 
     // -------------------이미지 없이 임시 코드------------------
-    if(tacticId!=null){
-      const requestProps:updateTacticProps = {
+    if (tacticId != null) {
+      const requestProps: updateTacticProps = {
         id: tacticId,
         title: props.title,
         optionCode: props.optionCode,
@@ -142,8 +145,8 @@ const TacticResult = (props) => {
       const res = await tacticUpdate(requestProps);
       console.log(res);
     }
-    else{
-      const requestProps:saveTacticProps = {
+    else {
+      const requestProps: saveTacticProps = {
         title: props.title,
         optionCode: props.optionCode,
         tacticJsonCode: JSON.stringify(props.tacticJsonCode),
@@ -154,17 +157,18 @@ const TacticResult = (props) => {
       console.log(requestProps);
       const res = await tacticCreate(requestProps);
       console.log(res);
-      
+
     }
-    
+
   };
 
-  const saveTactic = () => {
-    uploadData();
+  const saveTactic = async () => {
+    await uploadData();
+    navigate('/maketactic')
     // console.log(requestProps);
   };
 
-  
+
   //전략 조회일 경우
   useEffect(() => {
     if (props.tacticId != null) {
@@ -216,15 +220,15 @@ const TacticResult = (props) => {
                     </div> */}
             {/* 차트 */}
             {size.width > 0 &&
-            size.height > 0 &&
-            chartInfos !== undefined &&
-            chartInfos.length > 0 ? (
+              size.height > 0 &&
+              chartInfos !== undefined &&
+              chartInfos.length > 0 ? (
               <CandleChart
                 curwidth={size.width - 10}
                 curheight={size.height - 10}
                 optionHistory={optionHistory}
                 chartInfos={chartInfos}
-                // 주기 데이터 추가하고 차트 x값 수정
+              // 주기 데이터 추가하고 차트 x값 수정
               ></CandleChart>
             ) : (
               <></>
@@ -240,9 +244,16 @@ const TacticResult = (props) => {
                 <div style={{ fontSize: "13px" }}>{pricesDisplayFormat(startAsset)}원</div>
                 <div>↓</div>
                 <div style={{ fontSize: "14px" }}>최종자산</div>
-                <div style={{ fontSize: "16px", color: "#F24822" }}>
-                  {pricesDisplayFormat(startAsset * returnPercent)}원
-                </div>
+                {
+                  returnPercent > 0 ?
+                    <div style={{ fontSize: "16px", color: "#F24822" }}>
+                      {pricesDisplayFormat(startAsset + startAsset * returnPercent/100)}원
+                    </div> :
+                    <div style={{ fontSize: "16px", color: "#097DF3" }}>
+                      {pricesDisplayFormat(startAsset + startAsset * returnPercent/100)}원
+                    </div>
+                }
+
               </HistorySummaryContentsResult>
               <HistorySummaryContentsItem>
                 <HistorySummaryContentsItemLeft>종목:</HistorySummaryContentsItemLeft>
@@ -271,11 +282,11 @@ const TacticResult = (props) => {
               <HistorySummaryContentsItem>
                 <HistorySummaryContentsItemLeft>수익금</HistorySummaryContentsItemLeft>
                 <HistorySummaryContentsItemRight>
-                  {pricesDisplayFormat(startAsset * returnPercent - startAsset)}
+                  {pricesDisplayFormat(startAsset * returnPercent/100)}
                 </HistorySummaryContentsItemRight>
               </HistorySummaryContentsItem>
               <HistorySummaryContentsItem>
-                <HistorySummaryContentsItemLeft>수수료 및 세금</HistorySummaryContentsItemLeft>
+                <HistorySummaryContentsItemLeft>수수료</HistorySummaryContentsItemLeft>
                 <HistorySummaryContentsItemRight>???</HistorySummaryContentsItemRight>
               </HistorySummaryContentsItem>
               <HistorySummaryContentsItem>
@@ -289,7 +300,7 @@ const TacticResult = (props) => {
             {/* 버튼 */}
             <HistorySaveButton onClick={saveTactic}>저장하기</HistorySaveButton>
             {/* <HistorySaveButton onClick={downloadImg}>이미지</HistorySaveButton> */}
-            {props.tacticImg ? <img src={props.tacticImg} /> : <></>}
+            {/* {props.tacticImg ? <img src={props.tacticImg} /> : <></>} */}
           </HistorySummary>
         </RightDiv>
       </TradingHistoryContents>
