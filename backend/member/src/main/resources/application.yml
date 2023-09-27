@@ -58,3 +58,6 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: https://j9b210.p.ssafy.io:8761/eureka
+
+kakao:
+  key: ${KAKAO_KEY}
