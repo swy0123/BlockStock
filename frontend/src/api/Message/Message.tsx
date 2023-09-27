@@ -39,7 +39,7 @@ export const messageSend = async (data:data) => {
     const res = await privateApi.post(`/message`,data);
     console.log(res.status);
     console.log('보내기 성공', res.status);
-    return res.data
+    return res.status
   }
   catch(err){
     console.log('쪽지 보내기 api', err)
