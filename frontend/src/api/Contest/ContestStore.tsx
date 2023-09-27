@@ -74,3 +74,18 @@ export const contestResult = async ( contestId: contestId ) => {
     console.log('완료 대회 결과 상세조회 api api',err)
   }
 };
+
+// 전략 조회
+export const tacticList = async ( data: data ) => {
+  console.log('전략 조회 api 진입')
+  try{
+    console.log(data)
+    const res = await privateApi.get(`/tactic`, data);
+    console.log(res.data);
+    return res.data;
+  }
+  catch(err){
+    console.log('완료 대회 결과 상세조회 api api',err)
+  }
+};
+

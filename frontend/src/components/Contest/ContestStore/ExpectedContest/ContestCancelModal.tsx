@@ -13,18 +13,25 @@ import {
   Personnel,
 } from './ContestCancelModal.style'
 
-import {contestCancel} from '../../../../api/Contest/ContestCancel'
+import {contestCancel} from '../../../../api/Contest/Participant'
+
+import { useRecoilState  } from "recoil";
+// // contestid 리코일
+import { ContestId } from '../../../../recoil/Contest/ExpectedContest'
 
 function ContestCancelModal( {selectedContest, onClose}){
 
 
+  // 리코일 대회 id 전략 id
+  const [contestId, setContestId] = useRecoilState(ContestId);
+  
   const handleCancel = () =>{
     console.log('대회 번호', selectedContest.id)
     cancel()
   }
 
   const cancel = async () => {
-        const contest = await contestCancel(selectedContest.id)
+        const contest = await contestCancel(contestId.contestId)
         console.log(contest)
       }
 

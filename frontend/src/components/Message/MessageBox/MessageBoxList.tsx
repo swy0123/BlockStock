@@ -25,6 +25,8 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 
+// 경고창 
+import Swal from 'sweetalert2';
 // api 통신
 import {messageKeep, messageList, messageDelete} from '../../../api/Message/Message'
 
@@ -88,17 +90,17 @@ function MessageBoxList({name, onButtonClick, message}){
   const toggleBookmark = (itemId) => {
     messageKeepApi(itemId)
     // 아이템의 keep 상태 토글
-    setData((prevData) => {
-      return prevData.map((item) => {
-        if (item.id === itemId) {
-          return {
-            ...item,
-            marked: !item.marked,
-          };
-        }
-        return item;
-      });
-    });
+    // setData((prevData) => {
+    //   return prevData.map((item) => {
+    //     if (item.id === itemId) {
+    //       return {
+    //         ...item,
+    //         marked: !item.marked,
+    //       };
+    //     }
+    //     return item;
+    //   });
+    // });
   };
 
 
@@ -124,16 +126,58 @@ function MessageBoxList({name, onButtonClick, message}){
   };
 
   // 쪽지 삭제 api
-  const handleDetail = async()=>{
-    console.log(checkItems)
-    const idArray = checkItems.map((checkItems) => ({ id: checkItems }));
-    const res = await messageDelete(idArray)
-    console.log(res)
-    if (res===200){
-      console.log('목록 다시 불러오기')
-      messageListApi(name)
-    }
+  const handleDetail = ()=>{
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+    
+    swalWithBootstrapButtons.fire({
+      // title: '삭제?',
+      // text: "You won't be able to revert this!",
+      text: '정말 삭제하시겠습니까?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: `<span>삭제</span>`,
+      cancelButtonText: '<span>취소</span>',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteMessages()
+        swalWithBootstrapButtons.fire({
+          title: '삭제되었습니다',
+          icon:'success',
+          timer: 1000, // 2초 후에 자동으로 사라집니다 (밀리초 단위)
+          showConfirmButton: false, // 확인 버튼을 표시하지 않음
+          showCancelButton: false, // 취소 버튼을 표시하지 않음
+        })
+      } else if (
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire({
+          title: '취소되었습니다',
+          icon:'error',
+          timer: 1000, // 2초 후에 자동으로 사라집니다 (밀리초 단위)
+          showConfirmButton: false, // 확인 버튼을 표시하지 않음
+          showCancelButton: false, // 취소 버튼을 표시하지 않음
+        })
+        }
+      })
   }
+
+  const deleteMessages = async () => {
+    console.log(checkItems);
+    const idArray = checkItems.map((checkItem) => ({ id: checkItem }));
+    const res = await messageDelete(idArray);
+    console.log(res);
+    if (res === 200) {
+      console.log('목록 다시 불러오기');
+      messageListApi(name);
+    }
+  };
 
   return(
     <>
@@ -154,7 +198,7 @@ function MessageBoxList({name, onButtonClick, message}){
           </Tooltip>
 
           <Tooltip title="Delete">
-            <IconButton onClick={handleDetail}>
+            <IconButton onClick={()=>handleDetail()}>
               <img src="/icon/휴지통.png" style={{width:'24px', cursor:'pointer',position:'absolute',top:'-5px'}} />
             </IconButton>
           </Tooltip>
@@ -163,11 +207,17 @@ function MessageBoxList({name, onButtonClick, message}){
       <Line/>
       
       <Wrapper>
-        {data.map((item, index)=>(
-          <div key={index}>
-            <MessageItem >
-              <Box>
-              
+        {data.map((item, index) => {
+          const formatDateTime = (dateTimeString) => {
+            const date = new Date(dateTimeString);
+            const formattedDate = `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}시${date.getMinutes().toString().padStart(2, '0')}분`;
+            return formattedDate;
+          };
+
+          return (
+            <div key={index}>
+              <MessageItem>
+                <Box>
                   {/* 쪽지 삭제 체크박스 */}
                   <div onClick={() => handleItemCheck(item.id)} style={{ cursor: 'pointer' }}>
                     {checkItems.includes(item.id) ? (
@@ -177,28 +227,29 @@ function MessageBoxList({name, onButtonClick, message}){
                     )}
                   </div>
                   {/* 쪽지 보관 */}
-                  <div  onClick={() => toggleBookmark(item.id)}>
+                  <div onClick={() => toggleBookmark(item.id)}>
                     {item.marked ? (
-                    <BookmarkIcon 
-                    style={{margin: '0px 0px 0px 5px',cursor: 'pointer', color: '#FFC700'}}
-                    />
-                  ):(
-                    <BookmarkBorderIcon style={{margin: '0px 0px 0px 5px',cursor: 'pointer', color:'#929292'}}/>
-                  )}
+                      <BookmarkIcon
+                        style={{ margin: '0px 0px 0px 5px', cursor: 'pointer', color: '#FFC700' }}
+                      />
+                    ) : (
+                      <BookmarkBorderIcon style={{ margin: '0px 0px 0px 5px', cursor: 'pointer', color: '#929292' }} />
+                    )}
                   </div>
 
-                <ItemContentBox onClick={() => handleButtonClick(item.id)}>
-                <MessageItemTitle>{item.content}</MessageItemTitle>
-                <MessageItemSchedule>{item.createdAt}</MessageItemSchedule>
-                </ItemContentBox>
+                  <ItemContentBox onClick={() => handleButtonClick(item.id)}>
+                    <MessageItemTitle>{item.content}</MessageItemTitle>
+                    <MessageItemSchedule>{formatDateTime(item.createdAt)}</MessageItemSchedule>
+                  </ItemContentBox>
 
-                <MessageItemImg src='/icon/user_purple.png'/>
-                <MessageItemNickName>{item.senderNickname}</MessageItemNickName>
-              </Box>
-            </MessageItem>
-            <Line />
-          </div>
-        ))}
+                  <MessageItemImg src='/icon/user_purple.png' />
+                  <MessageItemNickName>{item.senderNickname}</MessageItemNickName>
+                </Box>
+              </MessageItem>
+              <Line />
+            </div>
+          );
+        })}
       </Wrapper>
 
     </Container>
