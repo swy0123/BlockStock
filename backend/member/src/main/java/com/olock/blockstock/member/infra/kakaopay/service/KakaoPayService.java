@@ -1,13 +1,12 @@
 package com.olock.blockstock.member.infra.kakaopay.service;
 
+import com.olock.blockstock.member.infra.kakaopay.dto.KakaoApproveRequest;
+import com.olock.blockstock.member.infra.kakaopay.dto.KakaoApproveResponse;
 import com.olock.blockstock.member.infra.kakaopay.dto.KakaoReadyRequest;
 import com.olock.blockstock.member.infra.kakaopay.dto.KakaoReadyResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 @RequiredArgsConstructor
@@ -16,12 +15,23 @@ public class KakaoPayService {
     private final KakaoClientUtil kakaoClientUtil;
 
     static final String cid = "BLOCKSTOCK";
+    private KakaoReadyResponse kakaoReady;
 
     public KakaoReadyResponse kakaoPayReady() {
-        return kakaoClientUtil.post(
+        kakaoReady = kakaoClientUtil.post(
                 "https://kapi.kakao.com/v1/payment/ready",
                 getReadyRequest(),
                 KakaoReadyResponse.class);
+        return kakaoReady;
+    }
+
+    public KakaoApproveResponse ApproveResponse(String pgToken) {
+        KakaoApproveResponse approveResponse = kakaoClientUtil.post(
+                "https://kapi.kakao.com/v1/payment/approve",
+                getApproveRequest(pgToken),
+                KakaoApproveResponse.class);
+
+        return approveResponse;
     }
 
     private KakaoReadyRequest getReadyRequest() {
@@ -41,6 +51,13 @@ public class KakaoPayService {
         return request;
     }
 
-
-
+    private KakaoApproveRequest getApproveRequest(String pgToken) {
+        KakaoApproveRequest request = new KakaoApproveRequest();
+        request.setCid(cid);
+        request.setTid(kakaoReady.getTid());
+        request.setPartner_order_id("가맹점 주문 번호");
+        request.setPartner_user_id("가맹점 회원 ID");
+        request.setPg_token(pgToken);
+        return request;
+    }
 }
