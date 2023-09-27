@@ -15,7 +15,8 @@ import {
   OptionHistoryItemPosUp,
 } from "./ContestTacticResult.style";
 const OptionHistoryItem = (props) => {
-  const numberDisplayFormat = format(",");
+  const numberDisplayFormat = format(",.0f");
+  const floatDisplayFormat = format(",.4f");
   return (
     <ItemContainer>
       <TermContainer>
@@ -37,13 +38,13 @@ const OptionHistoryItem = (props) => {
           </OptionHistoryItemPosDown>
         </OptionHistoryItemPosCenter>
         <OptionHistoryItemPosRight>
-          <OptionHistoryItemPosUp>{props.item.tradeCnt * props.item.cost}</OptionHistoryItemPosUp>
+          <OptionHistoryItemPosUp>{numberDisplayFormat(props.item.tradeCnt * props.item.cost)}</OptionHistoryItemPosUp>
           <OptionHistoryItemPosDown>
             {props.item.type === "sell" ? (
               props.item.profitAndLoss > 0 ? (
-                <span style={{ color: "#EC4275" }}>+{props.item.profitAndLoss}</span>
+                <span style={{ color: "#EC4275" }}>+{numberDisplayFormat(props.item.profitAndLoss)}</span>
               ) : (
-                <span style={{ color: "#097DF3" }}>{props.item.profitAndLoss}</span>
+                <span style={{ color: "#097DF3" }}>{numberDisplayFormat(props.item.profitAndLoss)}</span>
               )
             ) : (
               <>&nbsp;</>

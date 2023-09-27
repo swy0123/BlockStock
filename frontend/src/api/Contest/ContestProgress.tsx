@@ -184,7 +184,7 @@ export const contestChart = async (id: number) => {
 export const contestTrade = async (id: number) => {
   console.log(id);
   try {
-    const res = await privateApi.get(`/contest/trade/`+id);
+    const res = await privateApi.get(`/contest/trade/` + id);
     console.log(res.data);
     return res.data;
   } catch (error) {
@@ -246,18 +246,24 @@ export const contestTrade = async (id: number) => {
   // return res;
 };
 
+export interface rankingBoxItem {
+  nickName: string;
+  profileImage: string;
+  returns: string;
+}
+
 //대회 순위
 export const contestRanking = async (id: number) => {
   console.log(id);
   // try {
-  //   const res = await privateApi.get(`/contest/trade/`+id);
+  //   const res = await privateApi.get(`/contest/result/`+id);
   //   console.log(res.data);
   //   return res.data;
   // } catch (error) {
   //   console.log('err', error);
   // }
 
-  const res = [
+  const res:rankingBoxItem[] = [
     {
       nickName: "first",
       profileImage: "+61.97",

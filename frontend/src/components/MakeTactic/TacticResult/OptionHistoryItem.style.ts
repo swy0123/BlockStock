@@ -31,7 +31,6 @@ export const TermContainer = styled.div`
   border-style: solid;
   border-width: 1px;
   color: #9c9c9c;
-  
 `;
 
 export const OptionHistoryItemContent = styled.div`
@@ -42,4 +41,15 @@ export const OptionHistoryItemContent = styled.div`
   display: flex;
   text-align: center;
   align-items: center;
+`;
+
+
+export const ProfitAndLoss = styled.span`
+  display: flex;
+  justify-content: end;
+  /* align-items: center;
+  margin-left: 10px;
+  height: 20px;
+  width: 60px;
+  color: #9c9c9c; */
 `;
