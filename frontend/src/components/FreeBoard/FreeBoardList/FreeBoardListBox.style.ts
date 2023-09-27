@@ -33,6 +33,7 @@ export const Search = styled.input`
   height: 30px;
   border: solid 1px lightgrey;
   width: 250px;
+  padding-left: 20px;
 `;
 export const CreateBtn = styled.button`
   width: 110px;
