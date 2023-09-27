@@ -26,6 +26,7 @@ import {messageSend} from '../../api/Message/Message'
 function Message({state,onClose }){
 
   const [content, setContent] = useState('')
+  const [ check, setCheck] = useState(false)
 
   const [snackbarState, setSnackbarState] = useState({
     open: false,
@@ -41,14 +42,14 @@ function Message({state,onClose }){
   }
 
   const handleClick = async (newState) => {
-
+    console.log(newState,'메시지 보냄')
     setSnackbarState({ ...newState, open: true });
   };
 
 
-  const handleClose = () => {
-    setSnackbarState({ ...snackbarState, open: false });
-  };
+  // const handleClose = () => {
+  //   setSnackbarState({ ...snackbarState, open: false });
+  // };
   
 
   const handleMessage =async () => {
@@ -59,14 +60,13 @@ function Message({state,onClose }){
     console.log(message)
     if(message === 200){
       console.log('모달 닫기')
-      onClose
     }
     // 쪽지 보내기 api ================
   }
 
-  // const handleClose = () => {
-  //   onClose(); // 부모 컴포넌트에 메시지 창 닫기 요청
-  // }
+  const handleClose = () => {
+    onClose(); // 부모 컴포넌트에 메시지 창 닫기 요청
+  }
 
   return(
     <div className={`slide-in`}>
@@ -103,7 +103,7 @@ function Message({state,onClose }){
         <Snackbar
           anchorOrigin={{ vertical, horizontal }}
           open={open}
-          autoHideDuration={6000}
+          autoHideDuration={1300}
           onClose={handleClose}
         >
           <MuiAlert
