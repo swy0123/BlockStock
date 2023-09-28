@@ -34,7 +34,7 @@ box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
 border-radius: 10px;
 /* 스크롤바 트랙 (배경) 스타일링 */
 &::-webkit-scrollbar {
-  width: 6px; /* 스크롤바의 너비 설정 */
+  width: 0px; /* 스크롤바의 너비 설정 */
 }
 
 /* 스크롤바 색상 설정 */
@@ -57,7 +57,7 @@ padding: 5px 0px 0px 5px;
 
 export const ConfirmationBtn1 = styled.div`
 margin: 2px 0px 0px 10px;
-width: 60px;
+min-width: 60px;
 height: 20px;
 font-weight: 600;
 font-size: 8px;
@@ -71,7 +71,7 @@ justify-content: center;
 
 export const ConfirmationBtn2 = styled.div`
 margin: 2px 0px 0px 10px;
-width: 60px;
+min-width: 60px;
 height: 20px;
 font-weight: 600;
 font-size: 8px;
@@ -88,6 +88,7 @@ export const Title = styled.div`
 font-size:16px;
 margin: 0px 0px 0px 0px;
 font-weight: 600;
+min-width: 250px;
 `;
 
 export const ContestPeriod = styled.div`
@@ -107,7 +108,6 @@ export const Box = styled.div`
 
 export const ContentBox = styled.div`
 font-size: 12px;
-display: none;
 `;
 
 export const Participants = styled.div`
