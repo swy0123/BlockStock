@@ -4,6 +4,9 @@ import styled from "styled-components";
 import { useRecoilState } from 'recoil';
 import { searchKeywordState } from '../../../recoil/Contest/CurrentContest';
 
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+
 const StoreSearch = styled.input`
     width: 150px;
     height: 28px;
@@ -30,12 +33,29 @@ function ContestStoreSearch(){
 
   return(
     <div>
-      <StoreSearch
+      {/* <StoreSearch
         type="text"
         placeholder="  검색"
         value={searchKeyword}
         onChange={handleInputChange}
-       />
+       /> */}
+       <Box
+        component="form"
+        sx={{
+          '& > :not(style)': { m: '0px 0px 15px 0px', width: '25ch' },
+        }}
+        noValidate
+        autoComplete="off"
+      >
+        <TextField 
+          type="text"
+          id="standard-basic" 
+          label="대회을 입력하세요" 
+          variant="standard" 
+          value={searchKeyword}
+          onChange={handleInputChange}
+        />
+      </Box>
     </div>
   )
 }

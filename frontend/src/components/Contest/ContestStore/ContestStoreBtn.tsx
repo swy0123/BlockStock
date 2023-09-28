@@ -22,7 +22,7 @@ function ContestStoreBtn(props){
   };
 
   return(
-    <div style={{display:'flex', justifyContent: 'space-between',alignItems: 'center'}}>
+    <div style={{display:'flex',alignItems: 'center'}}>
       <StoreBox>
         <CurrentContestBtn
           onClick={() => handleButtonClick("/currentcontest")}
