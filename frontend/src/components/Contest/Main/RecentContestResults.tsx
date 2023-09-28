@@ -15,7 +15,7 @@ import {
   Notexist
 } from './RecentContestResults.style';
 
-import {recentContestResults} from '../../../api/Contest/Main'
+// import {recentContestResults} from '../../../api/Contest/Main'
 
 function RecentContestResults() {
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ function RecentContestResults() {
     }
   }
   // api 통신 ==================================================
-
+  
   return (
     <Container>
       <ContestTitleWrapper>
@@ -58,7 +58,11 @@ function RecentContestResults() {
             <div key={index}>
               <RankBox>
                 <Rank>{index + 1} 등</Rank>
-                <RankImage src="./icon/user_purple.png" />
+                {item.profileImage ? (
+                  <RankImage src={item.profileImage} />
+                  ) : (
+                    <RankImage src={"./icon/user_purple.png"} />
+                )}
                 <RankContent>
                   {item.nickName === '' ? (
                     <RankNickName>admin</RankNickName>
@@ -68,7 +72,7 @@ function RecentContestResults() {
                   <RankReturn>
                     수익률 :{' '}
                     <div style={{ color: item.returns[0] === '-' ? 'blue' : 'red' }}>
-                      {item.returns}%
+                      {item.returns}
                     </div>
                   </RankReturn>
                 </RankContent>
