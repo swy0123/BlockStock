@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const StoreBox = styled.div`
+min-width: 250px;
 `;
 
 export const CurrentContestBtn = styled.button`
