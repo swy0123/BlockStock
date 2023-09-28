@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import StockList from "./StockLIst";
 // import Box from '@mui/material/Box';
 // import TextField from '@mui/material/TextField';
 
@@ -8,14 +9,14 @@ export const Container = styled.div`
   margin-right: 250px;
 `;
 export const InputBox = styled.div`
-  display: flex ;
+  display: flex;
   text-align: center;
   align-items: center;
-`
+`;
 export const Title = styled.span`
   font-size: 40px;
   font-weight: 700;
-  color: ${(props)=> props.color || "black"};
+  color: ${(props) => props.color || "black"};
 `;
 export const Input = styled.input`
   padding-left: 20px;
@@ -26,35 +27,33 @@ export const Input = styled.input`
   /* flex-shrink: 0; */
   border: 0;
   border-radius: 13px;
-  background: #FFF;
+  background: #fff;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  cursor: pointer; 
-`
-
-export const Br = styled.br`
-  
-`
+  cursor: pointer;
+`;
+export const Br = styled.br``;
 export const Img = styled.img`
   width: 20px;
   height: 20px;
   margin-left: -40px;
-`
+`;
 
-function LeftHome(){
-  return(
+
+function LeftHome() {
+  return (
     <Container>
-      <Title>Get The</Title> 
+      <Title>Get The</Title>
       <Title color="#9556C7"> Block Stock</Title>
-      <Br/>
+      <Br />
       <Title>You Deserve</Title>
-      <Br/>
+      <Br />
       <InputBox>
         <Input placeholder="search"></Input>
         <Img src="/icon/loupe.png" />
       </InputBox>
+      <StockList/>
     </Container>
   );
 }
-
 
 export default LeftHome;
