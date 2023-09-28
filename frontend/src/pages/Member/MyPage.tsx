@@ -8,7 +8,7 @@ import NickNameModal from "../../components/MyPage/EditModal/NickNameModal";
 import PasswordModal from "../../components/MyPage/EditModal/ChangePasswordModal";
 import SecessionModal from "../../components/MyPage/EditModal/SecessionModal";
 import FollowListModal from "../../components/MyPage/FollowModal/FollowListModal";
-import { useQuery, useQueryClient  } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { useRecoilValue } from "recoil";
 import { CurrentUserAtom } from "../../recoil/Auth";
 import { getmypage } from "../../api/MyPage/Mypage";
