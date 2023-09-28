@@ -2,12 +2,11 @@
 import { styled } from "styled-components";
 
 export const Container = styled.div`
-width: 700px;
-margin: 0px 0px 500px 0px;
+max-width: 700px;
 `;
 
 export const ContestTitleWrapper = styled.div`
-min-width: 400px;
+width: 500px;
 display: flex;
 `;
 
@@ -24,8 +23,8 @@ color: #A0A0A0;
 cursor: pointer;
 `;
 export const Wrappe = styled.div`
-width: 550px;
-height: 314.5px;
+width: 40%;
+height: 250px;
 border: 1px solid #D4D4D4;
 overflow: auto;
 box-sizing: border-box;
@@ -92,13 +91,18 @@ font-weight: 600;
 `;
 
 export const ContestPeriod = styled.div`
-margin: 0px 0px 10px 10px;
+margin: 0px 0px 0px 10px;
 font-size:12px;
 color: #B6ABBB;
 `;
 
 export const ContestBox = styled.div`
-padding: 10px 0px 0px 30px;
+padding: 10px 0px 10px 30px;
+`;
+export const Box = styled.div`
+:hover {
+  background-color: #f5f5f5;
+}
 `;
 
 export const ContentBox = styled.div`
@@ -120,6 +124,7 @@ margin: 3px 0px 20px 0px
 `;
 export const ContestContent = styled.div`
 margin: 0px 0px 30px 0px;
+max-width: 500px;
 `;
 
 export const Notexist = styled.div`
