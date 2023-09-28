@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react'
 import { useNavigate } from "react-router-dom";
-
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -16,6 +15,7 @@ import {
   ContestTitle,
   Contestperiod,
   CurrentContestList,
+  CurrentContestLinkBox,
   CurrentContestLink,
   CurrentContestRankBox,
   RankUser,
@@ -29,14 +29,14 @@ import {
   ContestReturn,
  } from './CurrentContest.style'
 
+ // 날짜 변환
+ import dayjs from "dayjs";
  // api 통신 
- import {currentContest} from '../../../api/Contest/Main'
+//  import {currentContest} from '../../../api/Contest/Main'
 
 function CurrentContest(){
 
   const navigate = useNavigate();
-  // const [title, setTitle] = useState<string>('title')
-  // const [period, setPeriod] = useState<string>('2023-09-11 ~ 2023-09-12')
   const [currentContestList, setCurrentContestList] = useState([]);
 
 
@@ -51,11 +51,11 @@ function CurrentContest(){
       setCurrentContestList([])
     } else {
       setCurrentContestList(contest)
-
     }
-
   }
   // api 통신 ====================================================
+
+  // style 잡기 위한 더미 데이터 ====================================
 
   
 
@@ -66,7 +66,9 @@ function CurrentContest(){
       </CurrentContestTitle>
 
       
-      <CurrentContestBox>
+      <CurrentContestBox
+      style={{width: currentContestList.length === 0 ? '100%' : '80%'}}
+      >
         {currentContestList.length === 0 ? (
           <NotCurrentContest>
             <div style={{marginTop:'30px'}}>
@@ -90,25 +92,29 @@ function CurrentContest(){
               className="mySwiper"
             >
               {currentContestList.map((contest) => (
-                <SwiperSlide style={{margin:'0px 0px 0px 40px'}}>
+                <SwiperSlide style={{ margin: '0px' }}>
                   <div key={contest.id}>
 
                   <ContestHeader>
-                    {/* <ContestTitle>{contest.title}</ContestTitle> */}
-                    <Contestperiod>대회 기간 : {contest.startAt} ~ {contest.endAt}</Contestperiod> 
+                    <ContestTitle>
+                    {contest.title.length > 15 ? `${contest.title.slice(0, 15)}...` : contest.title}
+                    </ContestTitle>
+                    <Contestperiod>
+                      {dayjs(contest.startAt).format('MM/DD HH:mm')} 부터 ~ {dayjs(contest.endAt).format('MM/DD HH:mm')} 까지
+                    </Contestperiod>
                   </ContestHeader>
 
-                  <CurrentContestLink>
+                  <CurrentContestLinkBox>
                     <div>현재 대회 정보</div>
-                    <div style={{ marginLeft: '20px' }} onClick={()=>navigate('/')}>현재 현황 조회</div>
-                  </CurrentContestLink>
+                    <CurrentContestLink onClick={()=>navigate('/currentcontest')}>현재 현황 조회</CurrentContestLink>
+                  </CurrentContestLinkBox>
 
                   <CurrentContestRankBox>
 
                   <RankUser>
                   <div className="carousel" style={{margin:'20px 0px 0px 0px'}}>
                     <div className="carousel-content">
-                      <div className="carousel-item" style={{width:'140px', height:'170px'}}>
+                      <div className="carousel-item" style={{width:'150px', height:'190px'}}>
                         {contest.ranking[0] ? (
                           <>
                           <RankImage src={
@@ -131,7 +137,7 @@ function CurrentContest(){
                           <div>유저가 없습니다.</div>
                         )}
                         </div>
-                      <div className="carousel-item" style={{width:'140px', height:'170px'}}>
+                      <div className="carousel-item" style={{width:'150px', height:'190px'}}>
                         {contest.ranking[1] ? (
                           <>
                           <RankImage src={
@@ -157,7 +163,7 @@ function CurrentContest(){
                             
                       </div>
                         {/*  유저가 없을 시 없다는 표시를 해줘야 오류가 나지 않음 1위 2위 3위 동일하게 작성 */}
-                      <div className="carousel-item" style={{width:'140px', height:'170px'}}>
+                      <div className="carousel-item" style={{width:'150px', height:'190px'}}>
                       {contest.ranking[2] ? (
                         <>
                           <RankImage src={
@@ -190,22 +196,22 @@ function CurrentContest(){
                   <Participant>
                     {contest.ranking.slice(3).map((participant, participantIndex) => (
                       <div key={participantIndex}>
-                        <div style={{margin:'10px 0px 10px 10px', display:'flex'}}>
-                          <div style={{width:'30px', margin:'10px 0px 5px 10px', color:'#8A8A8A', fontSize:'14px'}}>
+                        <div style={{margin:'5px 0px 5px 10px', display:'flex'}}>
+                          <div style={{width:'30px', margin:'10px 0px 5px 10px', color:'#8A8A8A', fontSize:'12px'}}>
                             {participantIndex+4}등
                           </div>
                           <NoRankImage src={
                             // participant.profileImage ||
                             '/icon/user_purple.png'} />
-                          <div style={{margin:'10px 15px 0px 0px', fontSize:'14px', fontWeight:'bold'}}>
+                          <div style={{margin:'10px 15px 0px 0px', fontSize:'12px', fontWeight:'bold'}}>
                             {participant.nickName}
                           </div>
-                          <div style={{display:'flex', marginTop:'9px'}}>
+                          <div style={{display:'flex', marginTop:'9px', fontSize: '12px'}}>
                             <div style={{color:'#8A8A8A', marginRight:'5px'}}>
                               수익률
                             </div>
-                            <div style={{ color: participant.returns[0] === '-' ? 'blue' : 'red', fontWeight:'bold', fontSize: '16px' }}>
-                              {participant.returns}
+                            <div style={{ color: participant.returns[0] === '-' ? 'blue' : 'red', fontWeight:'bold' }}>
+                              {Math.round(participant.returns * 10) / 10}%
                             </div>
                           </div>
                         </div>

@@ -7,6 +7,7 @@ export const Container = styled.div`
 
 export const ContestTitleWrapper = styled.div`
   display: flex;
+  width: 300px;
 `;
 
 export const ContestTitle = styled.div`
@@ -17,11 +18,10 @@ export const ContestTitle = styled.div`
 
 
 export const Wrappe = styled.div`
-  width: 300px;
-  height: 206px;
+  width: 100%;
+  height: 248px;
   border: 2px solid #D4D4D4;
   background: #FFFFFF;
-  border: 2px solid #D4D4D4;
   box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
   border-radius: 10px;
 `;
@@ -36,25 +36,25 @@ font-size: 12px;
 export const RankBox = styled.div`
   display: flex;
   max-height: 60px;
-  margin: 15px 0px 15px 70px;
+  margin: 18px 0px 18px 28%;
 `;
 
 export const Rank = styled.div`
-font-size: 14px;
+font-size: 18px;
 margin: 10px 0px 0px 0px;
 color: #8A8A8A;
 `;
 
 export const RankImage = styled.img`
-width: 30px;
-height: 30px;
-margin: 4px 0px 0px 15px;
+width: 40px;
+height: 40px;
+margin: 3px 0px 0px 25px;
 border-radius: 50px;
 `;
 
 export const RankContent = styled.div`
-margin-left: 10px;
-margin-top: 5px;
+margin-left: 20px;
+margin-top: 6px;
 `;
 
 export const RankNickName = styled.div`
