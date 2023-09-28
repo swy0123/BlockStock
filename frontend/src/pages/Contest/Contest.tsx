@@ -6,7 +6,8 @@ import RecentContestResults from '../../components/Contest/Main/RecentContestRes
 
   // 스타일드 컴포넌트를 함수 내부에 정의
   const ContestBox = styled.div`
-    margin: 10px 0px 0px 30px ;
+    max-width: 100%;
+    overflow: hidden;
   `;
 
   const ContestContent = styled.div`
@@ -22,10 +23,10 @@ function Contest() {
       <ContestBox>
         <CurrentContest />
         <ContestContent>
-          <div>
+          <div style={{width:'50%', margin:'0px 15% 0px 0px' }}>
           <ExpectedContest/>
           </div>
-          <div>
+          <div style={{width:'34%'}}>
             <RecentContestResults />
           </div>
         </ContestContent>

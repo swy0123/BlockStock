@@ -2,6 +2,28 @@
 .swiper-button-prev,
 .swiper-button-next {
   color: #E1E1E1; /* 내비게이션 버튼의 색상 변경 */
+  color: white;
+  &:hover{
+    color: black;
+  }
+}
+.swiper-button-prev:after {
+  font-size: 25px;
+  font-weight: bold;
+}
+.swiper-button-next:after {
+  font-size: 25px;
+  font-weight: bold;
+}
+.swiper-button-next{
+  margin: 0px 80px 0px 0px;
+  position: absolute;
+  top:150px
+}
+.swiper-button-prev{
+  position: absolute;
+  left: 0px;
+  top:180px;
 }
 
 /* 활성화된 이전 버튼 스타일 변경 */
@@ -22,16 +44,22 @@
 .swiper-pagination-bullet-active {
   background-color: #E1E1E1; /* 활성화된 점의 배경 색상 변경 */
 }
-
+.swiper-slide{
+ margin: 0px;
+}
 .swiper {
-  width: 100%;
+  width: 90%;
   height: 100%;
 }
+.mySwiper{
+  width: 95%;
+}
+
 
 /* 카드 회전 */
 .carousel {
   position: absolute;
-  top: 55%;
+  top: 50%;
   left:27.5%;
   width: 130px;
   height: 190px;
