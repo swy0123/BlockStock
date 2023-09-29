@@ -1,9 +1,6 @@
 package com.olock.blockstotck.board.domain.tacticboard.persistance.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
@@ -12,6 +9,8 @@ public class TacticPostLike {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long memberId;
-    private Long tacticPoistId;
+    @ManyToOne
+    @JoinColumn(name = "tactic_id")
+    private TacticPost tacticPost;
     private LocalDateTime createdAt;
 }
