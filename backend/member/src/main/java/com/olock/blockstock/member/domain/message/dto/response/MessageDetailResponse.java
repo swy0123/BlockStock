@@ -23,7 +23,7 @@ public class MessageDetailResponse {
         this.senderId = message.getSenderId();
         this.receiverId = message.getReceiverId();
         this.content = message.getContent();
-        this.isMarked = message.isSenderMarked();
+        this.isMarked = isSender? message.isSenderMarked() : message.isReceiverMarked();
         this.createdAt = message.getCreatedAt();
     }
 }

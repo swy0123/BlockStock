@@ -37,8 +37,8 @@ public class MessageController {
     }
 
     @GetMapping("/{messageId}")
-    public ResponseEntity<MessageDetailResponse> getMessages(@PathVariable("messageId") String messageId) {
-        return ResponseEntity.ok(messageService.getMessage(messageId));
+    public ResponseEntity<MessageDetailResponse> getMessages(@RequestHeader("Member-id") Long memberId, @PathVariable("messageId") String messageId) {
+        return ResponseEntity.ok(messageService.getMessage(memberId, messageId));
     }
 
     @DeleteMapping
