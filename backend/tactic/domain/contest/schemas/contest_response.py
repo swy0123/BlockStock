@@ -1,6 +1,7 @@
 from datetime import datetime
 from domain.contest.models.contest import Contest
 
+
 class ContestResponse:
     id: int
     title: str
