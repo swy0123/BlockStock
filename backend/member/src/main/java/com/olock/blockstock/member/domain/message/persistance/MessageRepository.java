@@ -13,16 +13,20 @@ import java.util.Optional;
 public interface MessageRepository extends MongoRepository<Message, String> {
 
     @Query("{'_id' : ?0}")
-    @Update("{'$set': {'isMarked': ?1}}")
-    Integer updateIsMarked(String id, boolean isMarked);
+    @Update("{'$set': {'isSenderMarked': ?1}}")
+    Integer updateIsSenderMarked(String id, boolean isSenderMarked);
 
-    @Query("{'senderId': ?0}")
-    List<Message> findMessagesBySenderId(Long memberId);
+    @Query("{'_id' : ?0}")
+    @Update("{'$set': {'isReceiverMarked': ?1}}")
+    Integer updateIsReceiverMarked(String id, boolean isReceiverMarked);
 
-    @Query("{'receiverId': ?0}")
-    List<Message> findMessagesByReceiverId(Long memberId);
+//    @Query("{'senderId': ?0, 'isSenderDeleted': false}")
+    List<Message> findBySenderIdAndIsSenderDeletedFalse(Long memberId);
+
+//    @Query("{'receiverId': ?0, 'isReceiverDeleted': false}")
+    List<Message> findByReceiverIdAndIsReceiverDeletedFalse(Long memberId);
 
     @Query("{'receiverId': ?0, 'isMarked': ?1}")
-    List<Message> findMessagesByReceiverIdAndIsMarked(Long memberId, boolean isMarked);
+    List<Message> findMessagesByIsMarked(Long memberId);
 
 }
