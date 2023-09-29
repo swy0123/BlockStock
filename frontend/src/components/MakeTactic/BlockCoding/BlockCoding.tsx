@@ -4,6 +4,8 @@ import "../../Blockly/blocks/customblocks";
 import "../../Blockly/generators/generator";
 import styled from "styled-components";
 import SearchImgSrc from "../../../assets/img/MakeTactic/search.png";
+import RightArrowSrc from "../.././../assets/img/MakeTactic/rightarrow.png";
+import LeftArrowSrc from "../.././../assets/img/MakeTactic/leftarrow.png";
 import {
   BlockCodingContainer,
   BlockCodingDiv,
@@ -21,7 +23,6 @@ import {
   SearchType,
   SearchTypeDiv,
   StyledDatePicker,
-  Test,
   Title,
   TitleDiv,
   TitleInput,
@@ -34,6 +35,10 @@ import {
   StocksInput,
   TestButton,
   RightDiv,
+  BlocklyDiv,
+  BottomDiv,
+  SearchDivOpenButton,
+  SearchDivOpenImg,
 } from "./BlockCoding.style";
 import { ThemeProvider, createTheme } from "@mui/system";
 import { ToggleButtonGroup, ToggleButton } from "@mui/material";
@@ -54,6 +59,9 @@ export interface OptionItemProps {
 
 const BlockCoding = (props) => {
   const [isSearch, setSearch] = useState(true); //검색 타입
+  
+  const [isLeftOpen, setIsLeftOpen] = useState(true); //왼쪽 창 활성화 여부
+
   const [viewOptionCode, setViewOptionCode] = useState("");
 
   const ref = useRef(null);
@@ -396,7 +404,7 @@ const BlockCoding = (props) => {
         <RightDiv>
           <BlockCodingDiv>
             {/* 블록코딩 */}
-            <Test>
+            <BlocklyDiv>
               <BlocklyComponent
                 readOnly={false}
                 trashcan={true}
@@ -418,89 +426,95 @@ const BlockCoding = (props) => {
                 codeCheck={codeCheck}
                 setCodeCheckTrue={setCodeCheckTrue}
               ></BlocklyComponent>
-            </Test>
+            </BlocklyDiv>
 
-            {/* 세부 입력 */}
-            <ChoiceBox>
-              <ChoiceTitleBox>
-                <InputDetailTitle>초기자산</InputDetailTitle>
-                <InputDetailTitle style={{ margin: "0px 0px 0px 30px" }}>시작시간</InputDetailTitle>
-                <InputDetailTitle style={{ margin: "0px 0px 0px 50px" }}>주기</InputDetailTitle>
-                <InputDetailTitle style={{ margin: "0px 0px 0px 20px" }}>반복횟수</InputDetailTitle>
-              </ChoiceTitleBox>
+            <BottomDiv>
+              {/* 세부 입력 */}
+              <ChoiceBox>
+                <ChoiceTitleBox>
+                  <InputDetailTitle>초기자산</InputDetailTitle>
+                  <InputDetailTitle>시작시간</InputDetailTitle>
+                  <InputDetailTitle>주기</InputDetailTitle>
+                  <InputDetailTitle>반복횟수</InputDetailTitle>
+                  <InputDetailTitle>종목명</InputDetailTitle>
+                </ChoiceTitleBox>
 
-              <InputDetailDiv>
-                <MoneyBox>
-                  <InputDetailValue style={{ margin: "0px 0px 0px 0px" }}>
-                    <Input
-                      type="text"
-                      onChange={handleStartAsset}
-                      value={addComma(startAsset) || ""}
-                    />
-                    원
-                  </InputDetailValue>
-                </MoneyBox>
+                <InputDetailDiv>
+                  <MoneyBox>
+                    <InputDetailValue>
+                      <Input
+                        type="text"
+                        onChange={handleStartAsset}
+                        value={addComma(startAsset) || ""}
+                      />
+                      원
+                    </InputDetailValue>
+                  </MoneyBox>
 
-                <ScheduleBox>
-                  <InputDetailValue style={{ margin: "0px 0px 0px 15px" }}>
-                    <StyledDatePicker
-                      dateFormat="yyyy-MM-dd"
-                      selected={startDate}
-                      onChange={(date) => setStartDate(date)}
-                    />
-                  </InputDetailValue>
-                </ScheduleBox>
+                  <ScheduleBox>
+                    <InputDetailValue>
+                      <StyledDatePicker
+                        dateFormat="yyyy-MM-dd"
+                        selected={startDate}
+                        onChange={(date) => setStartDate(date)}
+                      />
+                    </InputDetailValue>
+                  </ScheduleBox>
 
-                <PeriodBox>
-                  <ToggleButtonGroup
-                    style={{ maxHeight: "30px" }}
-                    size="small"
-                    {...controlTerm}
-                    aria-label="Small sizes"
-                  >
-                    <ToggleButton value="1m" key="min">
-                      <div style={{ fontSize: "10px" }}>&nbsp;1분</div>
-                    </ToggleButton>
-                    <ToggleButton value="10m" key="10min">
-                      <div style={{ fontSize: "10px" }}>10분</div>
-                    </ToggleButton>
-                    <ToggleButton value="1d" key="day">
-                      <div style={{ fontSize: "10px" }}>&nbsp;1일</div>
-                    </ToggleButton>
-                    <ToggleButton value="1w" key="week">
-                      <div style={{ fontSize: "10px" }}>&nbsp;1주</div>
-                    </ToggleButton>
-                  </ToggleButtonGroup>
-                </PeriodBox>
+                  <PeriodBox>
+                    <ToggleButtonGroup
+                      style={{ maxHeight: "30px" }}
+                      size="small"
+                      {...controlTerm}
+                      aria-label="Small sizes"
+                    >
+                      <ToggleButton value="1m" key="min">
+                        <div>&nbsp;1분</div>
+                      </ToggleButton>
+                      <ToggleButton value="10m" key="10min">
+                        <div>10분</div>
+                      </ToggleButton>
+                      <ToggleButton value="1d" key="day">
+                        <div>&nbsp;1일</div>
+                      </ToggleButton>
+                      <ToggleButton value="1w" key="week">
+                        <div>&nbsp;1주</div>
+                      </ToggleButton>
+                    </ToggleButtonGroup>
+                  </PeriodBox>
 
-                <PeriodBox>
-                  <ToggleButtonGroup
-                    style={{ maxHeight: "30px" }}
-                    size="small"
-                    {...controlRepeatCnt}
-                    aria-label="Small sizes"
-                  >
-                    <ToggleButton value={50} key="fifty">
-                      50번
-                    </ToggleButton>
-                    <ToggleButton value={70} key="seventy">
-                      70번
-                    </ToggleButton>
-                    <ToggleButton value={100} key="hundred">
-                      100번
-                    </ToggleButton>
-                  </ToggleButtonGroup>
-                </PeriodBox>
-              </InputDetailDiv>
-            </ChoiceBox>
-
+                  <PeriodBox>
+                    <ToggleButtonGroup
+                      style={{ maxHeight: "30px" }}
+                      size="small"
+                      {...controlRepeatCnt}
+                      aria-label="Small sizes"
+                    >
+                      <ToggleButton value={50} key="fifty">
+                        50번
+                      </ToggleButton>
+                      <ToggleButton value={70} key="seventy">
+                        70번
+                      </ToggleButton>
+                      <ToggleButton value={100} key="hundred">
+                        100번
+                      </ToggleButton>
+                    </ToggleButtonGroup>
+                  </PeriodBox>
+                  <MoneyBox>
+                    <StocksInput type="text" value={optionName} readOnly />
+                  </MoneyBox>
+                </InputDetailDiv>
+              </ChoiceBox>
+            </BottomDiv>
             <InputOptionDiv>
-              <div style={{ margin: "8px 0px 0px 0px", fontSize: "12px" }}>종목을&nbsp;</div>
-              <StocksInput type="text" value={optionName} readOnly />
-              <div style={{ margin: "8px 5px 0px 5px", fontSize: "12px" }}>으로</div>
               <TestButton onClick={onClickTestButton}>테스트하기</TestButton>
             </InputOptionDiv>
           </BlockCodingDiv>
+          <SearchDivOpenButton>
+            <SearchDivOpenImg src={RightArrowSrc}/>
+
+          </SearchDivOpenButton>
         </RightDiv>
       </Wrapper>
     </BlockCodingContainer>
