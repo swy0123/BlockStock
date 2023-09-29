@@ -20,8 +20,6 @@ from datetime import datetime
 
 from domain.option.models.option import Option
 
-engine = engineconn()
-session = engine.sessionmaker()
 
 user_profile_service_url = "https://j9b210.p.ssafy.io:8443/api/member/profile"
 
@@ -30,6 +28,9 @@ def get_contests(status: str,
                  key_word: str,
                  page: int,
                  size: int):
+    engine = engineconn()
+    session = engine.sessionmaker()
+
     offset = page * size
 
     result = None
@@ -58,10 +59,14 @@ def get_contests(status: str,
         join_people = session.query(Participate).where(Contest.id == Participate.contest_id).count()
         contest_result.append(ContestResponse(contest, is_registed, join_people))
 
+    session.close()
     return ContestListResponse(contest_result, len(contest_result))
 
 
 def get_proceed_contest_result():
+    engine = engineconn()
+    session = engine.sessionmaker()
+
     contests = (session.query(Contest).filter(Contest.start_time <= datetime.now(), datetime.now() < Contest.end_time).
                 order_by(Contest.start_time.asc()).all())
 
@@ -88,10 +93,13 @@ def get_proceed_contest_result():
 
         result.append(ContestResultList(contest, ranking_result))
 
+    session.close()
     return result
 
 
 def get_contest_result(contest_id: int):
+    engine = engineconn()
+    session = engine.sessionmaker()
     result = []
 
     contest = session.get(Contest, contest_id)
@@ -114,11 +122,13 @@ def get_contest_result(contest_id: int):
                                              profile_image=profile_image,
                                              ticket=contest_ticket,
                                              result_money=participate.result_money))
-
+    session.close()
     return result
 
 
 def get_prev_contest_result():
+    engine = engineconn()
+    session = engine.sessionmaker()
     contest = session.query(Contest).filter(Contest.end_time < datetime.now()).order_by(
         Contest.end_time.desc()).first()
 
@@ -136,11 +146,13 @@ def get_prev_contest_result():
                                              profile_image="",  # 이미지 받아오기
                                              ticket=contest.ticket,
                                              result_money=member.result_money))
-
+    session.close()
     return result
 
 
 def create_contest(contest_create: ContestRequest):
+    engine = engineconn()
+    session = engine.sessionmaker()
     if contest_create.start_time < datetime.now():
         raise HTTPException(status_code=StatusCode.CONTEST_NOT_EXIST_ERROR_CODE,
                             detail=Message.CONTEST_ENROLL_BOFORE_TODAY)
@@ -153,9 +165,11 @@ def create_contest(contest_create: ContestRequest):
 
     session.add(db_contest)
     session.commit()
-
+    session.close()
 
 def delete_contest(contest_id: int):
+    engine = engineconn()
+    session = engine.sessionmaker()
     session.query(Participate).filter(Participate.contest_id == contest_id).delete()
 
     contest_delete = (session.query(Contest).where(Contest.id == contest_id)).one()
@@ -165,11 +179,14 @@ def delete_contest(contest_id: int):
                             detail=Message.CONTEST_NOT_EXIST_ERROR_CODE)
     session.delete(contest_delete)
     session.commit()
+    session.close()
 
     return {"ok": True}
 
 
 def participate_contest(user_id: int, info_create: InfoRequest):
+    engine = engineconn()
+    session = engine.sessionmaker()
     contest_ticket = session.get(Contest, info_create.contest_id).ticket
 
     db_participate = Participate(user_id, info_create, contest_ticket)
@@ -190,9 +207,11 @@ def participate_contest(user_id: int, info_create: InfoRequest):
 
     session.add(db_participate)
     session.commit()
-
+    session.close()
 
 def get_contest_history(user_id: int):
+    engine = engineconn()
+    session = engine.sessionmaker()
     result = []
 
     participate_history = (session.query(Participate.id,
@@ -230,11 +249,13 @@ def get_contest_history(user_id: int):
                                              tactic_id=history.tactic_id,
                                              rank=rank[0],
                                              ticket=history.ticket))
-
+    session.close()
     return result
 
 
 def cancel_participate_contest(user_id: int, contest_id: int):
+    engine = engineconn()
+    session = engine.sessionmaker()
     # user 유효한지 확인
     # 이미 대회에 참여하지 않는다면 에러
     if not session.get(Contest, contest_id):
@@ -247,9 +268,11 @@ def cancel_participate_contest(user_id: int, contest_id: int):
 
     session.delete(participate)
     session.commit()
-
+    session.close()
 
 def get_contest_chart(contest_id: int):
+    engine = engineconn()
+    session = engine.sessionmaker()
     if not session.get(Contest, contest_id):
         raise HTTPException(status_code=StatusCode.CONTEST_NOT_EXIST_ERROR_CODE)
 
@@ -270,11 +293,13 @@ def get_contest_chart(contest_id: int):
                 vol = prev_data[0]
 
         result.append(ContestRealTimeResponse(contest_real_time, contest_real_time.vol - vol))
-
+    session.close()
     return result
 
 
 def get_real_contest_result(contest_id: int):
+    engine = engineconn()
+    session = engine.sessionmaker()
     participate_results = (session.query(Participate).filter(Participate.contest_id == contest_id).
                            order_by(desc(Participate.result_money)))
 
@@ -290,11 +315,13 @@ def get_real_contest_result(contest_id: int):
                                                   result_money=participate_result.result_money)
 
         result.append(ranking_response)
-
+    session.close()
     return result
 
 
 def get_trade_contest(contest_id: int, member_id: int):
+    engine = engineconn()
+    session = engine.sessionmaker()
     participate = session.query(Participate).filter(Participate.contest_id == contest_id, member_id == member_id).first()
     contest = session.query(Contest).filter(Contest.id == contest_id).first()
     trades = (session.query(Trade).outerjoin(Participate, Participate.id == Trade.participate_id).
@@ -305,5 +332,5 @@ def get_trade_contest(contest_id: int, member_id: int):
     trade_response = []
     for trade in trades:
         trade_response.append(ContestTradeResponse(trade))
-
+    session.close()
     return ContestTradeInfoResponse(participate, contest, option_name, trade_response)
