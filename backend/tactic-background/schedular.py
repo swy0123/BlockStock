@@ -3,16 +3,15 @@ import json
 import math
 import os
 import time
-from datetime import datetime, timedelta
-
 import pandas as pd
-import schedule
-from apscheduler.schedulers.background import BackgroundScheduler
 import requests
+import schedule
 from sqlalchemy import func, desc
 from common.conn import engineconn
-from domain.contest.models.contest import Contest, Participate, Tactic, ContestRealTime
+from datetime import datetime, timedelta
 from domain.contest.models.trade import Trade
+from apscheduler.schedulers.background import BackgroundScheduler
+from domain.contest.models.contest import Contest, Participate, Tactic, ContestRealTime
 
 sched = BackgroundScheduler(timezone='Asia/Seoul')
 
@@ -237,7 +236,6 @@ def start_contest(contest_info: Contest,
         session_real_data.commit()
         session_real_data.close()
 
-        # if datetime.now() < contest_info.start_time:
         # 멀티스레드
         for participate in participates:
             _thread.start_new_thread(contest_thread, (participate,))
