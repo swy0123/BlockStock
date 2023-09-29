@@ -23,7 +23,7 @@
 
 import Blockly from "blockly/core";
 import React, { useState } from "react";
-import "./BlocklyComponent.css";
+// import "./BlocklyComponent.css";
 import { useEffect, useRef } from "react";
 import "./index";
 import { pythonGenerator } from "blockly/python";
@@ -35,6 +35,7 @@ import { workspaceCommentOption } from "blockly/core/contextmenu";
 
 import domtoimage from "dom-to-image";
 import * as FileSaver from "file-saver";
+import { BlocklyDiv, BlocklyWrapper } from "./BlocklyComponent.style";
 
 Blockly.setLocale(locale);
 
@@ -367,7 +368,7 @@ function BlocklyComponent(props: any) {
   }, [primaryWorkspace, toolbox, blocklyDiv, props]);
 
   return (
-    <div>
+    <BlocklyWrapper>
       <button onClick={generateCode}>Convert</button>
       <button onClick={generateVar}>Generate</button>
       <button onClick={reset}>reset</button>
@@ -378,7 +379,7 @@ function BlocklyComponent(props: any) {
         파일출력 테스트
         {test!==undefined ? <img src={test}/>:<></>}
       </div> */}
-      <div ref={blocklyDiv} id="blocklyDiv" />
+      <BlocklyDiv ref={blocklyDiv} id="blocklyDiv" />
       {/* <div id='blocklyBlockCanvas'></div> */}
       <div style={{ display: "none" }} ref={toolbox}>
         <Category name="Logic" categorystyle="logic_category">
@@ -573,7 +574,7 @@ function BlocklyComponent(props: any) {
           })}
         </Category>
       </div>
-    </div>
+    </BlocklyWrapper>
   );
 }
 
