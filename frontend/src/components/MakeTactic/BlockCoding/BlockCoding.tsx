@@ -33,12 +33,18 @@ import {
   ChoiceBox,
   StocksInput,
   TestButton,
+  RightDiv,
 } from "./BlockCoding.style";
 import { ThemeProvider, createTheme } from "@mui/system";
 import { ToggleButtonGroup, ToggleButton } from "@mui/material";
 import OptionLikeListItem from "./OptionLikeListItem";
 import "react-datepicker/dist/react-datepicker.css";
-import { tacticImport, tacticSearchOption, tacticTest, tacticTestProps } from "../../../api/Tactic/TacticTest";
+import {
+  tacticImport,
+  tacticSearchOption,
+  tacticTest,
+  tacticTestProps,
+} from "../../../api/Tactic/TacticTest";
 import Swal from "sweetalert2";
 
 export interface OptionItemProps {
@@ -52,9 +58,9 @@ const BlockCoding = (props) => {
 
   const ref = useRef(null);
   const [title, setTitle] = useState(""); //제목
-  const [editable, setEditable] = useState(false);  //제목 수정가능여부
+  const [editable, setEditable] = useState(false); //제목 수정가능여부
   const [keyword, setKeyword] = useState(""); //검색 키워드
-  const [optionLikeList, setOptionLikeList] = useState<OptionItemProps[]>([]);  //종목검색결과
+  const [optionLikeList, setOptionLikeList] = useState<OptionItemProps[]>([]); //종목검색결과
   const [optionCode, setOptionCode] = useState(""); //종목코드
   const [optionName, setOptionName] = useState(""); //종목이름
   const [startAsset, setStartAsset] = useState(10000000); //초기자본
@@ -72,24 +78,22 @@ const BlockCoding = (props) => {
     return () => clearTimeout(timeoutExecute);
   }, [keyword]);
 
-
   //전략 조회일 경우
   useEffect(() => {
     if (props.tacticId != null) {
-      importData(props.tacticId)
+      importData(props.tacticId);
     }
-  }, [props])
+  }, [props]);
 
   const importData = async (id: number) => {
     const res = await tacticImport(id);
-    setOptionCode(res.optionCode)
-    setOptionName(res.optionName)
-    setTitle(res.title)
-    setTacticPythonCode(res.tacticPythonCode)
-    setTacticJsonCode(JSON.parse(res.tacticJsonCode))
-    setTacticImg(res.tacticImg)
-  }
-
+    setOptionCode(res.optionCode);
+    setOptionName(res.optionName);
+    setTitle(res.title);
+    setTacticPythonCode(res.tacticPythonCode);
+    setTacticJsonCode(JSON.parse(res.tacticJsonCode));
+    setTacticImg(res.tacticImg);
+  };
 
   // 검색
   const searchOption = async () => {
@@ -97,8 +101,8 @@ const BlockCoding = (props) => {
     console.log(isSearch);
     const res = await tacticSearchOption(keyword, isSearch);
     console.log(res);
-    setOptionLikeList(res)
-  }
+    setOptionLikeList(res);
+  };
 
   const editSetTrue = () => {
     setEditable(true);
@@ -222,13 +226,13 @@ const BlockCoding = (props) => {
   };
 
   const setOption = (curOptionCode: string, curOptionName: string) => {
-    setOptionCode((curOptionCode).replace(/\D/g, ''));
+    setOptionCode(curOptionCode.replace(/\D/g, ""));
     setOptionName(curOptionName);
     console.log("setOption" + curOptionCode + curOptionName);
   };
 
   const setViewOption = (curOptionCode: string) => {
-    setViewOptionCode((curOptionCode).replace(/\D/g, ''));
+    setViewOptionCode(curOptionCode.replace(/\D/g, ""));
     console.log("setOption" + curOptionCode);
   };
   const clearViewOption = () => {
@@ -258,25 +262,25 @@ const BlockCoding = (props) => {
     };
 
     Swal.fire({
-      title: '테스트 실행',
+      title: "테스트 실행",
       text: "테스트를 실행하시겠습니까?",
       // icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: '테스트 실행',
-      cancelButtonText: '취소'
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "테스트 실행",
+      cancelButtonText: "취소",
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire(
-          '실행중입니다.',
-          '잠시만 기다려주세요',
-          'success',
+          "실행중입니다.",
+          "잠시만 기다려주세요",
+          "success"
           // '확인',
-        )
+        );
         setCodeCheck(false);
       }
-    })
+    });
 
     // console.log(tacticTestData);
   };
@@ -314,28 +318,26 @@ const BlockCoding = (props) => {
     }
   }, [codeCheck]);
 
-
   return (
     <BlockCodingContainer>
-      <div>
-        <TitleDiv ref={ref}>
-          {editable ? (
-            <TitleInput
-              type="text"
-              value={title}
-              onChange={(e) => handleTitleField(e)}
-              onKeyDown={handleKeyDown}
-            />
-          ) : title !== "" ? (
-            <Title onClick={editSetTrue}>{title}</Title>
-          ) : (
-            <Title onClick={editSetTrue}>제목 없는 전략</Title>
-          )}
-        </TitleDiv>
-
+      <TitleDiv ref={ref}>
+        {editable ? (
+          <TitleInput
+            type="text"
+            value={title}
+            onChange={(e) => handleTitleField(e)}
+            onKeyDown={handleKeyDown}
+          />
+        ) : title !== "" ? (
+          <Title onClick={editSetTrue}>{title}</Title>
+        ) : (
+          <Title onClick={editSetTrue}>제목 없는 전략</Title>
+        )}
+      </TitleDiv>
+      <Wrapper>
         <LeftDiv>
-          <IsSearchDiv>{
-            viewOptionCode == "" ?
+          <IsSearchDiv>
+            {viewOptionCode == "" ? (
               <>
                 {/* 이름 */}
                 <SearchTypeDiv>
@@ -359,13 +361,10 @@ const BlockCoding = (props) => {
                 <SearchItemList>
                   {isSearch ? (
                     <>
-                      검색결과
                       {optionLikeList.map((item, index) => (
                         <OptionLikeListItem
                           key={index}
-                          // isLike={item.isLike}
                           item={item}
-                          // index={index}
                           setOption={setOption}
                           setViewOption={setViewOption}
                         ></OptionLikeListItem>
@@ -373,11 +372,9 @@ const BlockCoding = (props) => {
                     </>
                   ) : (
                     <>
-                      관심목록
                       {optionLikeList.map((item, index) => (
                         <OptionLikeListItem
                           key={index}
-                          // isLike={item.isLike}
                           item={item}
                           setOption={setOption}
                           setViewOption={setViewOption}
@@ -386,131 +383,128 @@ const BlockCoding = (props) => {
                     </>
                   )}
                 </SearchItemList>
-
-              </> :
+              </>
+            ) : (
               <>
                 {/* 종목상세보기 */}
                 <button onClick={clearViewOption}> 돌아가기 </button>
               </>
-          }
+            )}
           </IsSearchDiv>
-
-
         </LeftDiv>
-      </div>
 
-      <Wrapper>
-        <BlockCodingDiv>
-          {/* 블록코딩 */}
-          <Test>
-            <BlocklyComponent
-              readOnly={false}
-              trashcan={true}
-              media={"media/"}
-              move={{
-                scrollbars: true,
-                drag: true,
-                wheel: true,
-              }}
-              writeTacticPythonCode={(str) => {
-                writeTacticPythonCode(str);
-              }}
-              writeTacticJsonCode={(str) => {
-                writeTacticJsonCode(str);
-              }}
-              writeTacticImg={(str) => {
-                writeTacticImg(str);
-              }}
-              codeCheck={codeCheck}
-              setCodeCheckTrue={setCodeCheckTrue}
-            ></BlocklyComponent>
-          </Test>
+        <RightDiv>
+          <BlockCodingDiv>
+            {/* 블록코딩 */}
+            <Test>
+              <BlocklyComponent
+                readOnly={false}
+                trashcan={true}
+                media={"media/"}
+                move={{
+                  scrollbars: true,
+                  drag: true,
+                  wheel: true,
+                }}
+                writeTacticPythonCode={(str) => {
+                  writeTacticPythonCode(str);
+                }}
+                writeTacticJsonCode={(str) => {
+                  writeTacticJsonCode(str);
+                }}
+                writeTacticImg={(str) => {
+                  writeTacticImg(str);
+                }}
+                codeCheck={codeCheck}
+                setCodeCheckTrue={setCodeCheckTrue}
+              ></BlocklyComponent>
+            </Test>
 
-          {/* 세부 입력 */}
-          <ChoiceBox>
-            <ChoiceTitleBox>
-              <InputDetailTitle>초기자산</InputDetailTitle>
-              <InputDetailTitle style={{ margin: "0px 0px 0px 30px" }}>시작시간</InputDetailTitle>
-              <InputDetailTitle style={{ margin: "0px 0px 0px 50px" }}>주기</InputDetailTitle>
-              <InputDetailTitle style={{ margin: "0px 0px 0px 20px" }}>반복횟수</InputDetailTitle>
-            </ChoiceTitleBox>
+            {/* 세부 입력 */}
+            <ChoiceBox>
+              <ChoiceTitleBox>
+                <InputDetailTitle>초기자산</InputDetailTitle>
+                <InputDetailTitle style={{ margin: "0px 0px 0px 30px" }}>시작시간</InputDetailTitle>
+                <InputDetailTitle style={{ margin: "0px 0px 0px 50px" }}>주기</InputDetailTitle>
+                <InputDetailTitle style={{ margin: "0px 0px 0px 20px" }}>반복횟수</InputDetailTitle>
+              </ChoiceTitleBox>
 
-            <InputDetailDiv>
-              <MoneyBox>
-                <InputDetailValue style={{ margin: "0px 0px 0px 0px" }}>
-                  <Input
-                    type="text"
-                    onChange={handleStartAsset}
-                    value={addComma(startAsset) || ""}
-                  />
-                  원
-                </InputDetailValue>
-              </MoneyBox>
+              <InputDetailDiv>
+                <MoneyBox>
+                  <InputDetailValue style={{ margin: "0px 0px 0px 0px" }}>
+                    <Input
+                      type="text"
+                      onChange={handleStartAsset}
+                      value={addComma(startAsset) || ""}
+                    />
+                    원
+                  </InputDetailValue>
+                </MoneyBox>
 
-              <ScheduleBox>
-                <InputDetailValue style={{ margin: "0px 0px 0px 15px" }}>
-                  <StyledDatePicker
-                    dateFormat="yyyy-MM-dd"
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
-                  />
-                </InputDetailValue>
-              </ScheduleBox>
+                <ScheduleBox>
+                  <InputDetailValue style={{ margin: "0px 0px 0px 15px" }}>
+                    <StyledDatePicker
+                      dateFormat="yyyy-MM-dd"
+                      selected={startDate}
+                      onChange={(date) => setStartDate(date)}
+                    />
+                  </InputDetailValue>
+                </ScheduleBox>
 
-              <PeriodBox>
-                <ToggleButtonGroup
-                  style={{ maxHeight: "30px" }}
-                  size="small"
-                  {...controlTerm}
-                  aria-label="Small sizes"
-                >
-                  <ToggleButton value="1m" key="min">
-                    <div style={{ fontSize: "10px" }}>&nbsp;1분</div>
-                  </ToggleButton>
-                  <ToggleButton value="10m" key="10min">
-                    <div style={{ fontSize: "10px" }}>10분</div>
-                  </ToggleButton>
-                  <ToggleButton value="1d" key="day">
-                    <div style={{ fontSize: "10px" }}>&nbsp;1일</div>
-                  </ToggleButton>
-                  <ToggleButton value="1w" key="week">
-                    <div style={{ fontSize: "10px" }}>&nbsp;1주</div>
-                  </ToggleButton>
-                </ToggleButtonGroup>
-              </PeriodBox>
+                <PeriodBox>
+                  <ToggleButtonGroup
+                    style={{ maxHeight: "30px" }}
+                    size="small"
+                    {...controlTerm}
+                    aria-label="Small sizes"
+                  >
+                    <ToggleButton value="1m" key="min">
+                      <div style={{ fontSize: "10px" }}>&nbsp;1분</div>
+                    </ToggleButton>
+                    <ToggleButton value="10m" key="10min">
+                      <div style={{ fontSize: "10px" }}>10분</div>
+                    </ToggleButton>
+                    <ToggleButton value="1d" key="day">
+                      <div style={{ fontSize: "10px" }}>&nbsp;1일</div>
+                    </ToggleButton>
+                    <ToggleButton value="1w" key="week">
+                      <div style={{ fontSize: "10px" }}>&nbsp;1주</div>
+                    </ToggleButton>
+                  </ToggleButtonGroup>
+                </PeriodBox>
 
-              <PeriodBox>
-                <ToggleButtonGroup
-                  style={{ maxHeight: "30px" }}
-                  size="small"
-                  {...controlRepeatCnt}
-                  aria-label="Small sizes"
-                >
-                  <ToggleButton value={50} key="fifty">
-                    50번
-                  </ToggleButton>
-                  <ToggleButton value={70} key="seventy">
-                    70번
-                  </ToggleButton>
-                  <ToggleButton value={100} key="hundred">
-                    100번
-                  </ToggleButton>
-                </ToggleButtonGroup>
-              </PeriodBox>
-            </InputDetailDiv>
-          </ChoiceBox>
+                <PeriodBox>
+                  <ToggleButtonGroup
+                    style={{ maxHeight: "30px" }}
+                    size="small"
+                    {...controlRepeatCnt}
+                    aria-label="Small sizes"
+                  >
+                    <ToggleButton value={50} key="fifty">
+                      50번
+                    </ToggleButton>
+                    <ToggleButton value={70} key="seventy">
+                      70번
+                    </ToggleButton>
+                    <ToggleButton value={100} key="hundred">
+                      100번
+                    </ToggleButton>
+                  </ToggleButtonGroup>
+                </PeriodBox>
+              </InputDetailDiv>
+            </ChoiceBox>
 
-          <InputOptionDiv>
-            <div style={{ margin: "8px 0px 0px 0px", fontSize: "12px" }}>종목을&nbsp;</div>
-            <StocksInput type="text" value={optionName} readOnly />
-            <div style={{ margin: "8px 5px 0px 5px", fontSize: "12px" }}>으로</div>
-            <TestButton onClick={onClickTestButton}>테스트하기</TestButton>
-          </InputOptionDiv>
-        </BlockCodingDiv>
+            <InputOptionDiv>
+              <div style={{ margin: "8px 0px 0px 0px", fontSize: "12px" }}>종목을&nbsp;</div>
+              <StocksInput type="text" value={optionName} readOnly />
+              <div style={{ margin: "8px 5px 0px 5px", fontSize: "12px" }}>으로</div>
+              <TestButton onClick={onClickTestButton}>테스트하기</TestButton>
+            </InputOptionDiv>
+          </BlockCodingDiv>
+        </RightDiv>
       </Wrapper>
     </BlockCodingContainer>
   );
 };
 
 export default BlockCoding;
-
