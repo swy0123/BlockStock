@@ -1,7 +1,7 @@
 package com.olock.blockstotck.board.domain.tacticboard.presentation;
 
-import com.amazonaws.Response;
 import com.olock.blockstotck.board.domain.tacticboard.application.TacticBoardService;
+import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostCommentRequest;
 import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostLikeRequest;
 import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostRequest;
 import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostRequestParam;
@@ -44,6 +44,34 @@ public class TacticBoardController {
                                                   @PathVariable Long tacticPostId) {
 
         tacticBoardService.unLikeTacticPost(memberId, tacticPostId);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{tacticPostId}")
+    public ResponseEntity<TacticPostResponse> getTacticPost(@RequestHeader("Member-id") Long memberId,
+                                                            @PathVariable Long tacticPostId) {
+        return ResponseEntity.ok(tacticBoardService.getTacticPost(tacticPostId));
+    }
+
+
+    @DeleteMapping("/{tacticPostId}")
+    public ResponseEntity<Void> deleteTacticPost(@RequestHeader("Member-id") Long memberId,
+                                                 @PathVariable Long tacticPostId) {
+        tacticBoardService.deleteTacticPost(memberId, tacticPostId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/comment")
+    public ResponseEntity<Void> writeTacticPostComment(@RequestHeader("Member-id") Long memberId,
+                                                       @RequestBody TacticPostCommentRequest tacticPostCommentRequest) {
+        tacticBoardService.writeTacticPostComment(memberId, tacticPostCommentRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/comment/{commentId}")
+    public ResponseEntity<Void> deleteTacticPostComment(@RequestHeader("Member-id") Long memberId,
+                                                        @PathVariable Long commentId) {
+        tacticBoardService.deleteTacticPostComment(memberId, commentId);
         return ResponseEntity.ok().build();
     }
 }

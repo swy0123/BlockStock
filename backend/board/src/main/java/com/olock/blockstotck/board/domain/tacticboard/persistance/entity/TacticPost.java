@@ -3,12 +3,16 @@ package com.olock.blockstotck.board.domain.tacticboard.persistance.entity;
 import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostRequest;
 import com.olock.blockstotck.board.global.entity.BaseEntity;
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Setter
+@Getter
+@ToString
 @NoArgsConstructor
 public class TacticPost extends BaseEntity {
     @Id

@@ -1,15 +1,16 @@
 package com.olock.blockstotck.board.domain.tacticboard.application;
 
+import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostCommentRequest;
 import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostRequest;
 import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostRequestParam;
 import com.olock.blockstotck.board.domain.tacticboard.dto.response.TacticPostCommentResponse;
 import com.olock.blockstotck.board.domain.tacticboard.dto.response.TacticPostResponse;
-import com.olock.blockstotck.board.domain.tacticboard.exception.AlreadyLikeTacticPost;
-import com.olock.blockstotck.board.domain.tacticboard.exception.AlreadyUnLikeTacticPost;
-import com.olock.blockstotck.board.domain.tacticboard.exception.NoExistTacticPost;
+import com.olock.blockstotck.board.domain.tacticboard.exception.*;
+import com.olock.blockstotck.board.domain.tacticboard.persistance.TacticPostCommentRepository;
 import com.olock.blockstotck.board.domain.tacticboard.persistance.TacticPostLikeRepository;
 import com.olock.blockstotck.board.domain.tacticboard.persistance.TacticPostRepository;
 import com.olock.blockstotck.board.domain.tacticboard.persistance.entity.TacticPost;
+import com.olock.blockstotck.board.domain.tacticboard.persistance.entity.TacticPostComment;
 import com.olock.blockstotck.board.domain.tacticboard.persistance.entity.TacticPostLike;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,11 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class TacticBoardServiceImpl implements TacticBoardService {
+
     private final TacticPostRepository tacticPostRepository;
     private final TacticPostLikeRepository tacticPostLikeRepository;
+    private final TacticPostCommentRepository tacticPostCommentRepository;
+
     @Override
     public void writeTacticPost(Long memberId, TacticPostRequest tacticPostRequest) {
 //      Tactic 서버에 요청해서, 해당 tacticId에 대한 tacticPythonCode와 imgPath에 반환
@@ -62,17 +66,32 @@ public class TacticBoardServiceImpl implements TacticBoardService {
     }
 
     @Override
-    public TacticPostResponse getTacticPost(Long memberId) {
-        return null;
+    public TacticPostResponse getTacticPost(Long tacticId) {
+        TacticPost tacticPost = tacticPostRepository.findById(tacticId).orElseThrow(() -> new NoExistTacticPost("해당하는 게시글이 없습니다."));
+
+//      option_name 얻어오기
+//      test_returns, contest_returns 얻어오기
+        String optionName = "";
+        double testReturns = 0;
+        double contestReturns = 0;
+        long likeCnt = 0;
+        long hit = 0;
+
+        return new TacticPostResponse(tacticPost, optionName, testReturns, contestReturns, likeCnt, hit);
     }
 
     @Override
-    public void deleteTacticPost(Long tacticBoardId) {
+    public void deleteTacticPost(Long memberId, Long tacticPostId) {
+        TacticPost tacticPost = tacticPostRepository.findById(tacticPostId).
+                orElseThrow(() -> new NoExistTacticPost("해당하는 게시글이 없습니다."));
 
+        if(tacticPost.getMemberId() != memberId) throw new NoMatchingWriter("해당 게시글 작성자가 아닙니다.");
+
+        tacticPostRepository.delete(tacticPost);
     }
 
     @Override
-    public void updateHit(Long tacticBoardId) {
+    public void updateHit(Long tacticPostId) {
 
     }
 
@@ -82,12 +101,21 @@ public class TacticBoardServiceImpl implements TacticBoardService {
     }
 
     @Override
-    public void writeTacticPostComment(Long memberId, Long tacticPostId) {
+    public void writeTacticPostComment(Long memberId, TacticPostCommentRequest tacticPostCommentRequest) {
+        TacticPost tacticPost = tacticPostRepository.findById(tacticPostCommentRequest.getTacticBoardId()).
+                orElseThrow(() -> new NoExistTacticPost("해당하는 게시글이 없습니다."));
 
+        TacticPostComment tacticPostComment = new TacticPostComment(memberId, tacticPost, tacticPostCommentRequest);
+        tacticPostCommentRepository.save(tacticPostComment);
     }
 
     @Override
     public void deleteTacticPostComment(Long memberId, Long tacticPostId) {
+        TacticPostComment tacticPostComment = tacticPostCommentRepository.findById(tacticPostId).
+                orElseThrow(() -> new NoExistTacticPostComment("해당 댓글이 없습니다."));
 
+        if(tacticPostComment.getMemberId() != memberId) throw new NoMatchingWriter("해당 게시글 작성자가 아닙니다.");
+
+        tacticPostCommentRepository.delete(tacticPostComment);
     }
 }
