@@ -15,8 +15,10 @@ import com.olock.blockstotck.board.domain.tacticboard.persistance.entity.TacticP
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -97,7 +99,18 @@ public class TacticBoardServiceImpl implements TacticBoardService {
 
     @Override
     public List<TacticPostCommentResponse> getTacticPostCommentList() {
-        return null;
+        List<TacticPostComment> tacticPostComments = tacticPostCommentRepository.findAll();
+
+        List<TacticPostCommentResponse> tacticPostCommentResponseList = new ArrayList<>();
+
+        for (TacticPostComment tacticPostComment: tacticPostComments) {
+            String nickname = "";
+            TacticPostCommentResponse tmp = new TacticPostCommentResponse(nickname, tacticPostComment);
+        }
+
+        return tacticPostComments.stream()
+                .map(tacticPostComment -> new TacticPostCommentResponse("", tacticPostComment))
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -5,8 +5,10 @@ import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostComm
 import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostLikeRequest;
 import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostRequest;
 import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostRequestParam;
+import com.olock.blockstotck.board.domain.tacticboard.dto.response.TacticPostCommentResponse;
 import com.olock.blockstotck.board.domain.tacticboard.dto.response.TacticPostResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,6 +68,13 @@ public class TacticBoardController {
                                                        @RequestBody TacticPostCommentRequest tacticPostCommentRequest) {
         tacticBoardService.writeTacticPostComment(memberId, tacticPostCommentRequest);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("comment/{tacticPostId}")
+    public ResponseEntity<List<TacticPostCommentResponse>> getTacticPostComment(@RequestHeader("Member-id") Long memberId,
+                                                                                @PathVariable Long tacticPostId) {
+
+        return ResponseEntity.ok(tacticBoardService.getTacticPostCommentList());
     }
 
     @DeleteMapping("/comment/{commentId}")
