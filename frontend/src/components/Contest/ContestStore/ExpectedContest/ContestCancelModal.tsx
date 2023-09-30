@@ -44,7 +44,9 @@ function ContestCancelModal( {selectedContest, onClose}){
           <Schedule>대회기간 {selectedContest.startAt} ~ {selectedContest.endAt}</Schedule>
           <hr style={{color:'#EBEBEB'}}/>
           <Personnel>현재 참가 인원 수 {selectedContest.joinPeople} / {selectedContest.maxCapacity}</Personnel>
-          <Content>
+
+          {/* 줄바꿈 적용 넘어갈 경우 다음 줄로 */}
+          <Content style={{ whiteSpace: 'pre-line',wordWrap: 'break-word' }}>
             {selectedContest.content}
           </Content>
 

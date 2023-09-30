@@ -13,7 +13,11 @@ export const Modal = styled.div`
     /* left: 50%; */
     /* transform: translate(-50%, -50%); */
 `;
-
+export const NotUser = styled.div`
+text-align: center;
+color: #D4D4D4;
+margin: 12% 0px 0px 0px;
+`;
 export const Container = styled.div`
 position: fixed;
   top: 0;
