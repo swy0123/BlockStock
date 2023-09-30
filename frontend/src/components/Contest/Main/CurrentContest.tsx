@@ -31,29 +31,18 @@ import {
 
  // 날짜 변환
  import dayjs from "dayjs";
- // api 통신 
-//  import {currentContest} from '../../../api/Contest/Main'
 
-function CurrentContest(){
+function CurrentContest({contest}){
 
   const navigate = useNavigate();
   const [currentContestList, setCurrentContestList] = useState([]);
 
 
-  // api 통신 ====================================================
+  // 현재 대회 ====================================================
   useEffect(()=>{
-    currentcontestApi()
-  },[])
-    const currentcontestApi = async () => {
-    const contest = await currentContest()
-    console.log('현재 대회 결과 - 컴포넌트',contest)
-    if (contest === undefined){
-      setCurrentContestList([])
-    } else {
-      setCurrentContestList(contest)
-    }
-  }
-  // api 통신 ====================================================
+    console.log(contest,'메인페이지 현재대회')
+    setCurrentContestList(contest)
+  },[contest])
 
   // style 잡기 위한 더미 데이터 ====================================
 
