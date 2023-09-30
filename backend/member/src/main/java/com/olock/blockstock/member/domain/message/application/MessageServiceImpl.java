@@ -64,7 +64,8 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public void deleteMessage(Long memberId, List<String> messageIds) {
-        messageRepository.deleteMessageByIdAndMemberId(memberId, messageIds);
+        messageRepository.deleteByMessageIdAndSenderId(memberId, messageIds);
+        messageRepository.deleteByMessageIdAndReceiverId(memberId, messageIds);
     }
 
     private boolean checkIsSender(Long memberId, Message message) {
