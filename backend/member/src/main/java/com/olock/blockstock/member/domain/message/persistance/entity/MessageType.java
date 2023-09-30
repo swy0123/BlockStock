@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 public enum MessageType {
-    RECEIVE("receive"), SEND("send"), MARK("MARK");
+    RECEIVE("receive"), SEND("send"), MARK("mark");
 
     private final String key;
 }

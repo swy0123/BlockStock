@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,37 +28,67 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public void markMessage(Long memberId, String messageId) {
-        boolean nextMark = !messageRepository.findById(messageId).get().isMarked();
-        messageRepository.updateIsMarked(messageId, nextMark);
+        Message message = messageRepository.findById(messageId).get();
+        boolean isSender = checkIsSender(memberId, message);
+
+        if (isSender) messageRepository.updateIsSenderMarked(messageId, !message.isSenderMarked());
+        else messageRepository.updateIsReceiverMarked(messageId, !message.isReceiverMarked());
     }
 
     @Override
     public List<MessageDetailResponse> getMyMessages(Long memberId, String type) {
         List<Message> msgs;
-        if (type.equals(MessageType.RECEIVE.getKey())) msgs = messageRepository.findMessagesByReceiverId(memberId);
-        else if (type.equals(MessageType.SEND.getKey())) msgs = messageRepository.findMessagesBySenderId(memberId);
-        else msgs = messageRepository.findMessagesByReceiverIdAndIsMarked(memberId, true);
+        if (type.equals(MessageType.SEND.getKey())) {
+            msgs = messageRepository.findBySenderIdAndIsSenderDeletedFalse(memberId);
+            return getMessageDetails(true, msgs);
+        }
 
-        return getMessageDetails(msgs);
+        else if (type.equals(MessageType.RECEIVE.getKey())) {
+            msgs = messageRepository.findByReceiverIdAndIsReceiverDeletedFalse(memberId);
+            return getMessageDetails(false, msgs);
+        }
+
+        msgs = messageRepository.findMessagesByIsMarked(memberId);
+        return getMessageDetails(memberId, msgs);
     }
 
     @Override
-    public MessageDetailResponse getMessage(String messageId) {
-        MessageDetailResponse detail = new MessageDetailResponse(messageRepository.findById(messageId).get());
+    public MessageDetailResponse getMessage(Long memberId, String messageId) {
+        Message message = messageRepository.findById(messageId).get();
+        boolean isSender = checkIsSender(memberId, message);
+        MessageDetailResponse detail = new MessageDetailResponse(messageRepository.findById(messageId).get(), isSender);
         detail.setReceiverNickname(memberRepository.findByMemberId(detail.getReceiverId()).get().getNickname());
         detail.setSenderNickname(memberRepository.findByMemberId(detail.getSenderId()).get().getNickname());
         return detail;
     }
 
     @Override
-    public void deleteMessage(List<String> messageIds) {
-        messageRepository.deleteAllById(messageIds);
+    public void deleteMessage(Long memberId, List<String> messageIds) {
+        messageRepository.deleteByMessageIdAndSenderId(memberId, messageIds);
+        messageRepository.deleteByMessageIdAndReceiverId(memberId, messageIds);
     }
 
-    private List<MessageDetailResponse> getMessageDetails(List<Message> msgs) {
+    private boolean checkIsSender(Long memberId, Message message) {
+        return message.getSenderId().equals(memberId);
+    }
+
+    private List<MessageDetailResponse> getMessageDetails(boolean isSender, List<Message> msgs) {
         List<MessageDetailResponse> details = new ArrayList<>();
         for (Message msg : msgs) {
-            MessageDetailResponse detail = new MessageDetailResponse(msg);
+            MessageDetailResponse detail = new MessageDetailResponse(msg, isSender);
+            detail.setReceiverNickname(memberRepository.findByMemberId(msg.getReceiverId()).get().getNickname());
+            detail.setSenderNickname(memberRepository.findByMemberId(msg.getSenderId()).get().getNickname());
+            details.add(detail);
+        }
+        return details;
+    }
+
+
+    private List<MessageDetailResponse> getMessageDetails(Long memberId, List<Message> msgs) {
+        List<MessageDetailResponse> details = new ArrayList<>();
+        for (Message msg : msgs) {
+            boolean isSender = checkIsSender(memberId, msg);
+            MessageDetailResponse detail = new MessageDetailResponse(msg, isSender);
             detail.setReceiverNickname(memberRepository.findByMemberId(msg.getReceiverId()).get().getNickname());
             detail.setSenderNickname(memberRepository.findByMemberId(msg.getSenderId()).get().getNickname());
             details.add(detail);

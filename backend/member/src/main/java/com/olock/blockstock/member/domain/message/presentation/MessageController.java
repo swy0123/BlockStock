@@ -37,13 +37,13 @@ public class MessageController {
     }
 
     @GetMapping("/{messageId}")
-    public ResponseEntity<MessageDetailResponse> getMessages(@PathVariable("messageId") String messageId) {
-        return ResponseEntity.ok(messageService.getMessage(messageId));
+    public ResponseEntity<MessageDetailResponse> getMessages(@RequestHeader("Member-id") Long memberId, @PathVariable("messageId") String messageId) {
+        return ResponseEntity.ok(messageService.getMessage(memberId, messageId));
     }
 
     @DeleteMapping
-    public ResponseEntity<MessageDetailResponse> deleteMessage(@RequestParam("id") List<String> messageIds) {
-        messageService.deleteMessage(messageIds);
+    public ResponseEntity<MessageDetailResponse> deleteMessage(@RequestHeader("Member-id") Long memberId, @RequestParam("id") List<String> messageIds) {
+        messageService.deleteMessage(memberId, messageIds);
         return ResponseEntity.ok().build();
     }
 }

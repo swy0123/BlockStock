@@ -11,19 +11,19 @@ import java.time.LocalDateTime;
 public class MessageDetailResponse {
     private String id;
     private Long senderId;
-    private String senderNickname = "";
+    private String senderNickname;
     private Long receiverId;
-    private String receiverNickname = "";
+    private String receiverNickname;
     private String  content;
     private boolean isMarked;
     private LocalDateTime createdAt;
 
-    public MessageDetailResponse(Message message) {
+    public MessageDetailResponse(Message message, boolean isSender) {
         this.id = message.getId();
         this.senderId = message.getSenderId();
         this.receiverId = message.getReceiverId();
         this.content = message.getContent();
-        this.isMarked = message.isMarked();
+        this.isMarked = isSender? message.isSenderMarked() : message.isReceiverMarked();
         this.createdAt = message.getCreatedAt();
     }
 }

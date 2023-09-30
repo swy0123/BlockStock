@@ -13,16 +13,27 @@ import java.util.Optional;
 public interface MessageRepository extends MongoRepository<Message, String> {
 
     @Query("{'_id' : ?0}")
-    @Update("{'$set': {'isMarked': ?1}}")
-    Integer updateIsMarked(String id, boolean isMarked);
+    @Update("{'$set': {'isSenderMarked': ?1}}")
+    Integer updateIsSenderMarked(String id, boolean isSenderMarked);
 
-    @Query("{'senderId': ?0}")
-    List<Message> findMessagesBySenderId(Long memberId);
+    @Query("{'_id' : ?0}")
+    @Update("{'$set': {'isReceiverMarked': ?1}}")
+    Integer updateIsReceiverMarked(String id, boolean isReceiverMarked);
 
-    @Query("{'receiverId': ?0}")
-    List<Message> findMessagesByReceiverId(Long memberId);
+    @Query("{'senderId': ?0, 'isSenderDeleted': false}")
+    List<Message> findBySenderIdAndIsSenderDeletedFalse(Long memberId);
 
-    @Query("{'receiverId': ?0, 'isMarked': ?1}")
-    List<Message> findMessagesByReceiverIdAndIsMarked(Long memberId, boolean isMarked);
+    @Query("{'receiverId': ?0, 'isReceiverDeleted': false}")
+    List<Message> findByReceiverIdAndIsReceiverDeletedFalse(Long memberId);
 
+    @Query("{'$or':[ {'receiverId': ?0, 'isReceiverMarked': true}, {'senderId': ?0, 'isSenderMarked': true}]}")
+    List<Message> findMessagesByIsMarked(Long memberId);
+
+    @Query("{'_id': {$in : ?1}, 'senderId': ?0}")
+    @Update("{'$set': {'isSenderDeleted': true}}")
+    void deleteByMessageIdAndSenderId(Long memberId, List<String> messageIds);
+
+    @Query("{'_id': {$in : ?1}, 'receiverId': ?0}")
+    @Update("{'$set': {'isReceiverDeleted': true}}")
+    void deleteByMessageIdAndReceiverId(Long memberId, List<String> messageIds);
 }

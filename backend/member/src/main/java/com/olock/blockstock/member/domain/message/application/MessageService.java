@@ -12,7 +12,7 @@ public interface MessageService {
 
     List<MessageDetailResponse> getMyMessages(Long memberId, String type);
 
-    MessageDetailResponse getMessage(String messageId);
+    MessageDetailResponse getMessage(Long memberId, String messageId);
 
-    void deleteMessage(List<String> messageIds);
+    void deleteMessage(Long memberId, List<String> messageIds);
 }
