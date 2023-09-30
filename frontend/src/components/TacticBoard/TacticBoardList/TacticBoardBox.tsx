@@ -43,7 +43,7 @@ function TacticBoardBox() {
   const [menu, setMenu] = useState("createdAt");
   const [searchKeyword, setSearchKeyword] = useState("");
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(8);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
 
   // 검색
@@ -138,7 +138,12 @@ function TacticBoardBox() {
     <Container>
       <Wrapper>
         <Header>
-          <Box sx={{ maxWidth: '130px' }}>
+          <Search placeholder="  검색" onChange={handleSearchInputChange} />
+          <Box 
+          sx={{ 
+            maxWidth: '130px',
+            margin:'0px 0px 0px 30px'
+            }}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label"></InputLabel>
               <Select
@@ -146,14 +151,17 @@ function TacticBoardBox() {
                 id="demo-simple-select"
                 value={menu}
                 onChange={handleChange}
+                sx={{
+                  fontSize:'12px',
+                  height:'30px'
+              }}
               >
-                <MenuItem value="createdAt">최신순</MenuItem>
-                <MenuItem value="likes">좋아요</MenuItem>
-                <MenuItem value="hits">조회수</MenuItem>
+                <MenuItem sx={{fontSize:'12px'}} value="createdAt">최신순</MenuItem>
+                <MenuItem sx={{fontSize:'12px'}} value="likes">좋아요</MenuItem>
+                <MenuItem sx={{fontSize:'12px'}} value="hits">조회수</MenuItem>
               </Select>
             </FormControl>
           </Box>
-          <Search placeholder="  검색" onChange={handleSearchInputChange} />
           <CreateBtn>
             <div onClick={()=>navigate('/tacticboardcreate')} style={{ margin: '7px 0px 0px 0px' }}>
               글 작성
