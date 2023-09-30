@@ -39,6 +39,8 @@ import {
   BottomDiv,
   SearchDivOpenButton,
   SearchDivOpenImg,
+  TopDiv,
+  TitleSpan,
 } from "./BlockCoding.style";
 import { ThemeProvider, createTheme } from "@mui/system";
 import { ToggleButtonGroup, ToggleButton } from "@mui/material";
@@ -59,7 +61,7 @@ export interface OptionItemProps {
 
 const BlockCoding = (props) => {
   const [isSearch, setSearch] = useState(true); //검색 타입
-  
+
   const [isLeftOpen, setIsLeftOpen] = useState(true); //왼쪽 창 활성화 여부
 
   const [viewOptionCode, setViewOptionCode] = useState("");
@@ -142,6 +144,15 @@ const BlockCoding = (props) => {
       window.removeEventListener("click", handleClickOutside, true);
     };
   });
+
+  const handleIsLeftOpen = () => {
+    console.log(isLeftOpen);
+    setIsLeftOpen(true);
+  };
+  const handleIsLeftClose = () => {
+    console.log(isLeftOpen);
+    setIsLeftOpen(false);
+  };
 
   const writeTacticPythonCode = (str) => {
     setTacticPythonCode(str);
@@ -328,22 +339,29 @@ const BlockCoding = (props) => {
 
   return (
     <BlockCodingContainer>
-      <TitleDiv ref={ref}>
-        {editable ? (
-          <TitleInput
-            type="text"
-            value={title}
-            onChange={(e) => handleTitleField(e)}
-            onKeyDown={handleKeyDown}
-          />
-        ) : title !== "" ? (
-          <Title onClick={editSetTrue}>{title}</Title>
-        ) : (
-          <Title onClick={editSetTrue}>제목 없는 전략</Title>
-        )}
-      </TitleDiv>
+      <TopDiv>
+        <TitleDiv ref={ref}>
+          {editable ? (
+            <TitleInput
+              type="text"
+              value={title}
+              onChange={(e) => handleTitleField(e)}
+              onKeyDown={handleKeyDown}
+            />
+          ) : title !== "" ? (
+            <span>
+              <Title onClick={editSetTrue}>{title}</Title>
+            </span>
+          ) : (
+            <span>
+              <Title onClick={editSetTrue}>제목 없는 전략</Title>
+            </span>
+          )}
+        </TitleDiv>
+        {editable ? <></> : <TitleSpan onClick={editSetTrue}>제목 변경</TitleSpan>}
+      </TopDiv>
       <Wrapper>
-        <LeftDiv>
+        <LeftDiv $isLeftOpen={isLeftOpen}>
           <IsSearchDiv>
             {viewOptionCode == "" ? (
               <>
@@ -367,28 +385,34 @@ const BlockCoding = (props) => {
                 </SearchInputDiv>
 
                 <SearchItemList>
-                  {isSearch ? (
+                  {optionLikeList !== undefined ? (
                     <>
-                      {optionLikeList.map((item, index) => (
-                        <OptionLikeListItem
-                          key={index}
-                          item={item}
-                          setOption={setOption}
-                          setViewOption={setViewOption}
-                        ></OptionLikeListItem>
-                      ))}
+                      {isSearch ? (
+                        <>
+                          {optionLikeList.map((item, index) => (
+                            <OptionLikeListItem
+                              key={index}
+                              item={item}
+                              setOption={setOption}
+                              setViewOption={setViewOption}
+                            ></OptionLikeListItem>
+                          ))}
+                        </>
+                      ) : (
+                        <>
+                          {optionLikeList.map((item, index) => (
+                            <OptionLikeListItem
+                              key={index}
+                              item={item}
+                              setOption={setOption}
+                              setViewOption={setViewOption}
+                            ></OptionLikeListItem>
+                          ))}
+                        </>
+                      )}
                     </>
                   ) : (
-                    <>
-                      {optionLikeList.map((item, index) => (
-                        <OptionLikeListItem
-                          key={index}
-                          item={item}
-                          setOption={setOption}
-                          setViewOption={setViewOption}
-                        ></OptionLikeListItem>
-                      ))}
-                    </>
+                    <></>
                   )}
                 </SearchItemList>
               </>
@@ -401,7 +425,7 @@ const BlockCoding = (props) => {
           </IsSearchDiv>
         </LeftDiv>
 
-        <RightDiv>
+        <RightDiv $isLeftOpen={isLeftOpen}>
           <BlockCodingDiv>
             {/* 블록코딩 */}
             <BlocklyDiv>
@@ -502,7 +526,23 @@ const BlockCoding = (props) => {
                     </ToggleButtonGroup>
                   </PeriodBox>
                   <MoneyBox>
-                    <StocksInput type="text" value={optionName} readOnly />
+                    {isLeftOpen ? (
+                      <StocksInput
+                        type="text"
+                        value={optionName}
+                        onClick={handleIsLeftOpen}
+                        readOnly
+                        placeholder=""
+                      />
+                    ) : (
+                      <StocksInput
+                        type="text"
+                        value={optionName}
+                        onClick={handleIsLeftOpen}
+                        readOnly
+                        placeholder="좌측에서 눌러서 선택"
+                      />
+                    )}
                   </MoneyBox>
                 </InputDetailDiv>
               </ChoiceBox>
@@ -511,10 +551,15 @@ const BlockCoding = (props) => {
               <TestButton onClick={onClickTestButton}>테스트하기</TestButton>
             </InputOptionDiv>
           </BlockCodingDiv>
-          <SearchDivOpenButton>
-            <SearchDivOpenImg src={RightArrowSrc}/>
-
-          </SearchDivOpenButton>
+          {isLeftOpen ? (
+            <SearchDivOpenButton onClick={handleIsLeftClose} $isLeftOpen={isLeftOpen}>
+              <SearchDivOpenImg src={RightArrowSrc} />
+            </SearchDivOpenButton>
+          ) : (
+            <SearchDivOpenButton onClick={handleIsLeftOpen} $isLeftOpen={isLeftOpen}>
+              <SearchDivOpenImg src={LeftArrowSrc} />
+            </SearchDivOpenButton>
+          )}
         </RightDiv>
       </Wrapper>
     </BlockCodingContainer>

@@ -1,6 +1,6 @@
 import ReactDatePicker from "react-datepicker";
 import styled from "styled-components";
-import { colors } from '@mui/material';
+import { colors } from "@mui/material";
 
 export const BlockCodingContainer = styled.div`
   display: flex;
@@ -8,18 +8,26 @@ export const BlockCodingContainer = styled.div`
   width: 100%;
   height: 100%;
 `;
-export const TitleDiv = styled.div`
+
+export const TopDiv = styled.div`
   display: flex;
-  width: 300px;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+`;
+
+export const TitleDiv = styled.div`
+  width: fit-content;
+  min-width: 100px;
   height: 50px;
   align-items: center;
-  justify-content: center;
+  margin: 0 10px;
 `;
 export const Title = styled.div`
   display: flex;
   font-size: 20px;
   font-weight: bolder;
-  width: 90%;
+  width: 100%;
   height: 100%;
   align-items: center;
   white-space: nowrap;
@@ -28,9 +36,17 @@ export const Title = styled.div`
   border-style: solid;
   border-width: 0 0 3px;
   border-color: transparent;
+  cursor: pointer;
+`;
+export const TitleSpan = styled.span`
+  color: #ababab;
+  cursor: pointer;
+  font-size: 12px;
+  text-align: center;
+  align-items: center;
 `;
 export const TitleInput = styled.input`
-  width: 90%;
+  width: 100%;
   height: 80%;
   font-size: 20px;
   font-weight: bolder;
@@ -46,10 +62,12 @@ export const Wrapper = styled.div`
   height: 90%;
 `;
 
-export const LeftDiv = styled.div`
-  display: flex;
+export const LeftDiv = styled.div<{ $isLeftOpen: boolean }>`
+  /* display: flex; */
+  display: ${(props) => (props.$isLeftOpen ? "flex" : "none")};
   position: relative;
-  width: 26%;
+  /* width: 26%; */
+  width: ${(props) => (props.$isLeftOpen ? "26%" : "0%")};
   padding: 10px;
   height: 100%;
 `;
@@ -133,10 +151,12 @@ export const SearchItemList = styled.div`
 
 //-----------------------------------------------
 
-export const RightDiv = styled.div`
+export const RightDiv = styled.div<{ $isLeftOpen: boolean }>`
   display: flex;
   position: relative;
-  width: 74%;
+  /* width: 74%; */
+  width: ${(props) => (props.$isLeftOpen ? "74%" : "99%")};
+  margin-left: ${(props) => (props.$isLeftOpen ? "0%" : "1%")};
   padding: 10px;
   height: 100%;
 `;
@@ -150,8 +170,8 @@ export const BlockCodingDiv = styled.div`
   box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
   border-radius: 10px;
   width: 100%;
-  height: 99%;
-  padding-top: 2%;
+  height: 100%;
+  padding-top: 1%;
 `;
 export const BlocklyDiv = styled.div`
   position: relative;
@@ -267,7 +287,7 @@ export const ScheduleBox = styled.div`
 export const PeriodBox = styled.div`
   display: flex;
   width: 19%;
-  margin: 0 0.5%;
+  padding: 0 0.5%;
   justify-content: center;
   background: #ffffff;
   /* border: 1px solid #d9d9da;
@@ -308,12 +328,11 @@ export const TestButton = styled.div`
   cursor: pointer;
 `;
 
-
-export const SearchDivOpenButton = styled.div`
+export const SearchDivOpenButton = styled.div<{ $isLeftOpen: boolean }>`
   position: absolute;
-  width: 1%;
-  height: 30%;
-  border-radius: 0 10px 10px 0;
+  width: 10px;
+  height: 100px;
+  border-radius: ${(props) => (props.$isLeftOpen ? "0 100px 100px 0" : "100px 0 0 100px")};
   background-color: white;
   display: flex;
   justify-content: center;
@@ -321,10 +340,15 @@ export const SearchDivOpenButton = styled.div`
   top: 50%;
   left: 0%;
   transform: translate(-50%, -50%);
+  cursor: pointer;
+  //
+  &:hover {
+    background-color: #9256fd;
+  }
 `;
 
 export const SearchDivOpenImg = styled.img`
   width: 100%;
-  height: 50px;
+  height: 20px;
   color: #9155fd;
 `;

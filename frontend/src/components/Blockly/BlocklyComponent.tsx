@@ -23,7 +23,7 @@
 
 import Blockly from "blockly/core";
 import React, { useState } from "react";
-// import "./BlocklyComponent.css";
+import "./BlocklyComponent.css";
 import { useEffect, useRef } from "react";
 import "./index";
 import { pythonGenerator } from "blockly/python";
@@ -35,7 +35,12 @@ import { workspaceCommentOption } from "blockly/core/contextmenu";
 
 import domtoimage from "dom-to-image";
 import * as FileSaver from "file-saver";
-import { BlocklyDiv, BlocklyWrapper } from "./BlocklyComponent.style";
+import {
+  BlocklyArea,
+  BlocklyDiv,
+  BlocklyWrapper,
+  CollapseToolBoxButton,
+} from "./BlocklyComponent.style";
 
 Blockly.setLocale(locale);
 
@@ -45,8 +50,10 @@ function BlocklyComponent(props: any) {
   const [settingArray, setSettingArray] = useState<any>([]);
   const [getArray, setGetArray] = useState<any>([]);
   const [cnt, setCnt] = useState<number>(0);
+  const [toolboxCollapsed, setToolboxCollapsed] = useState<boolean>(true);
   // const [test, setest] = useState<any>(undefined);
   const blocklyDiv = useRef();
+  const blocklyArea = useRef();
   const toolbox = useRef();
   let primaryWorkspace = useRef();
   const generateCode = () => {
@@ -109,7 +116,7 @@ function BlocklyComponent(props: any) {
     pythonGenerator.forBlock[set] = function (block: any, generator: any) {
       // var field = block.getFieldValue(set);
       var number_value = generator.valueToCode(block, "Number", Order.NONE).toString();
-      var code = data + ' = ' + number_value + '\n';
+      var code = data + " = " + number_value + "\n";
       return code;
     };
 
@@ -265,9 +272,9 @@ function BlocklyComponent(props: any) {
     svg.setAttribute(
       "class",
       "blocklySvg " +
-      (workspace.options.renderer || "geras") +
-      "-renderer " +
-      (workspace.getTheme ? workspace.getTheme().name + "-theme" : "")
+        (workspace.options.renderer || "geras") +
+        "-renderer " +
+        (workspace.getTheme ? workspace.getTheme().name + "-theme" : "")
     );
     svg.setAttribute("width", width);
     svg.setAttribute("height", height);
@@ -348,16 +355,65 @@ function BlocklyComponent(props: any) {
   }, [props.codeCheck]);
 
   useEffect(() => {
+    if (primaryWorkspace.current !== undefined) {
+      if (!toolboxCollapsed) {
+        primaryWorkspace.current.getToolbox().setVisible(false);
+        primaryWorkspace.current.getFlyout().hide();
+      } else {
+        primaryWorkspace.current.getToolbox().setVisible(true);
+        primaryWorkspace.current.updateToolbox(toolbox.current);
+      }
+    }
+  }, [toolboxCollapsed]);
+
+  useEffect(() => {
     const { initialXml, children, ...rest } = props;
-    if (primaryWorkspace.current === undefined) {
-      primaryWorkspace.current = Blockly.inject(
-        blocklyDiv.current,
-        //  { toolbox }
-        {
-          toolbox: toolbox.current,
-          // ...rest
-        }
-      );
+    if (primaryWorkspace.current === undefined && blocklyDiv.current !== undefined) {
+      const blocklyArea = document.getElementById("blocklyArea");
+      primaryWorkspace.current = Blockly.inject(blocklyDiv.current, {
+        toolbox: toolbox.current,
+        zoom: {
+          controls: true,
+          wheel: true,
+          startScale: 1.0,
+          maxScale: 3,
+          minScale: 0.3,
+          scaleSpeed: 1.2,
+          pinch: true,
+        },
+        trashcan: true,
+      });
+
+      const onresize = function (e) {
+        // Compute the absolute coordinates and dimensions of blocklyArea.
+        let element = blocklyArea;
+        let x = 0;
+        let y = 0;
+        do {
+          x += element.offsetLeft;
+          y += element.offsetTop;
+          element = element.offsetParent;
+        } while (element);
+        // Position blocklyDiv over blocklyArea.
+        blocklyDiv.current.style.left = 0;
+        blocklyDiv.current.style.top = 0;
+        // blocklyDiv.style.left = x + "px";
+        // blocklyDiv.style.top = y + "px";
+        blocklyDiv.current.style.width = blocklyArea.offsetWidth + "px";
+        blocklyDiv.current.style.height = blocklyArea.offsetHeight + "px";
+        Blockly.svgResize(primaryWorkspace.current);
+      };
+      window.addEventListener("resize", onresize, false);
+      window.addEventListener("click", onresize, false);
+      onresize();
+      // primaryWorkspace.current = Blockly.inject(
+      //   blocklyDiv.current,
+      //   //  { toolbox }
+      //   {
+      //     toolbox: toolbox.current,
+      //     // ...rest
+      //   }
+      // );
     }
     if (initialXml) {
       Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(initialXml), primaryWorkspace.current);
@@ -365,24 +421,33 @@ function BlocklyComponent(props: any) {
 
     primaryWorkspace.current.registerButtonCallback("generateblock", generateVar);
     // console.log(array, cnt, toolbox.current, primaryWorkspace.current);
-  }, [primaryWorkspace, toolbox, blocklyDiv, props]);
+  }, [primaryWorkspace, toolbox, blocklyDiv, blocklyArea, props]);
+
+  const collapseToolbox = () => {
+    if (toolboxCollapsed) setToolboxCollapsed(false);
+    else setToolboxCollapsed(true);
+  };
 
   return (
     <BlocklyWrapper>
-      <button onClick={generateCode}>Convert</button>
+      {/* <button onClick={generateCode}>Convert</button>
       <button onClick={generateVar}>Generate</button>
       <button onClick={reset}>reset</button>
       <button onClick={save}>save</button>
       <button onClick={load}>load</button>
-      <button onClick={() => exportImageAsPNG()}>이미지</button>
+      <button onClick={() => exportImageAsPNG()}>이미지</button> */}
+      <BlocklyArea ref={blocklyArea} id="blocklyArea"></BlocklyArea>
+      <CollapseToolBoxButton onClick={collapseToolbox}>
+        {toolboxCollapsed ? "도구상자 닫기" : "도구상자 열기"}
+      </CollapseToolBoxButton>
       {/* <div style={{height:"100px"}}>
         파일출력 테스트
         {test!==undefined ? <img src={test}/>:<></>}
       </div> */}
+      {/* <div style={{width:"98%", height:"98%"}} id="blocklyArea"></div> */}
       <BlocklyDiv ref={blocklyDiv} id="blocklyDiv" />
-      {/* <div id='blocklyBlockCanvas'></div> */}
       <div style={{ display: "none" }} ref={toolbox}>
-        <Category name="Logic" categorystyle="logic_category">
+        <Category name="조건" categorystyle="logic_category">
           <Block type="controls_if" />
           <Block type="controls_ifelse" />
           <Block type="logic_compare" />
@@ -392,7 +457,7 @@ function BlocklyComponent(props: any) {
           {/* <Block type="logic_ternary" /> */}
         </Category>
 
-        <Category name="Loops" categorystyle="loop_category">
+        <Category name="반복" categorystyle="loop_category">
           <Block type="controls_repeat_ext" />
           <Block type="controls_whileUntil" />
           <Block type="controls_for" />
@@ -400,7 +465,7 @@ function BlocklyComponent(props: any) {
           {/* <Block type="controls_flow_statements" /> */}
         </Category>
 
-        <Category name="Math" categorystyle="math_category">
+        <Category name="수식" categorystyle="math_category">
           <Block type="math_number" />
           <Block type="math_percent" />
           <Block type="math_arithmetic" />
@@ -426,7 +491,7 @@ function BlocklyComponent(props: any) {
 
         {/* <Category name="Functions" categorystyle="procedure_category" custom="PROCEDURE"></Category> */}
 
-        <Category name="Trading" colour="300">
+        <Category name="매매" colour="300">
           {/* <Block type="call_function" /> */}
           {/* <Block type="once_volume" >
             <Value name="NAME">
@@ -506,7 +571,7 @@ function BlocklyComponent(props: any) {
           {/* <Block type="dict_keys" /> */}
         </Category>
 
-        <Category name="Variables" colour="360">
+        <Category name="변수" colour="360">
           <Block type="cnt_per_reserve">
             <Value name="NAME">
               <Shadow type="math_number">
@@ -561,7 +626,7 @@ function BlocklyComponent(props: any) {
             </Value>
           </Block>
         </Category>
-        <Category name="Custom" colour="#832626">
+        <Category name="사용자지정" colour="#832626">
           <button text="사용자 변수 생성" callbackkey="generateblock"></button>
           {defArray.map((item, index) => {
             return <Block key={index} type={item} />;
