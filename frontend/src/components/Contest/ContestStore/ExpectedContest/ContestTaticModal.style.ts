@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const Modal = styled.div`
-    width: 1000px;
-    height: 600px;
+    width: 800px;
+    height: 475px;
     background: #FFFFFF;
     border: 1px solid #D4D4D4;
     box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 0.1);
@@ -39,60 +39,66 @@ position: absolute;
  
 export const Title = styled.div`
 margin-top: 20px;
-font-size: 30px;
+font-size: 25px;
 font-weight: 600;
 `;
-
+export const Box = styled.div`
+margin: 0px 0px 0px 0px;
+padding: 10px;
+height: 250px;
+width: 100%;
+`;
 export const TitleBox = styled.div`
 width: 100%;
 display: flex; /* Flex 컨테이너로 설정 */
-  justify-content: center; /* 수평 가운데 정렬 */
-  align-items: center; /* 수직 가운데 정렬 */
+justify-content: center; /* 수평 가운데 정렬 */
+align-items: center; /* 수직 가운데 정렬 */
 `;
 export const Wrapper = styled.div`
-margin: 50px 0px 0px 0px;
+margin: 30px 0px 0px 0px;
 `;
 export const Card = styled.div`
-width: 230px;
-height: 300px;
+width: 180px;
+height: 230px;
 background: #FFFFFF;
 border: 2px solid #D9D9D9;
 border-radius: 10px;
 cursor: pointer;
 `;
 export const TaticTitle = styled.div`
-font-size: 20px;
+font-size: 14px;
 font-weight: 600;
-margin: 0px 0px 0px 30px;
+margin: 20px 0px 0px 25px;
 `;
 export const TaticImg = styled.img`
-width: 170px;
-height: 160px;
-margin: 5px 0px 0px 30px;
+width: 130px;
+height: 120px;
+margin: 5px 0px 0px 25px;
 `;
 export const TaticTime = styled.div`
-font-size: 17px;
+font-size: 12px;
 margin: 5px 0px 0px 30px;
 font-weight: 600;
 `;
 export const Explanation1 = styled.div`
-margin: 20px 0px 0px 100px;
-font-size: 20px;
+margin: 0px 0px 0px 75px;
+font-size: 16px;
 font-weight: 600;
 `;
 export const Explanation2 = styled.div`
-margin: 10px 0px 0px 103px;
+margin: 5px 0px 0px 75px;
+font-size: 12px;
 color: #5B5B5B;
 `;
 export const Button = styled.div`
-  margin: 10px 0px 0px 446px;
-  width: 121px;
-  height: 40px;
+  margin: 10px 0px 0px 346px;
+  width: 100px;
+  height: 35px;
   background: #FFFFFF;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 22px;
   text-align: center;
   color: #9155FD;
