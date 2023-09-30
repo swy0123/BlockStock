@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const Modal = styled.div`
-    width: 1000px;
-    height: 600px;
+    width: 800px;
+    height: 475px;
     background: #FFFFFF;
     border: 1px solid #D4D4D4;
     box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 0.1);
@@ -20,7 +20,6 @@ position: fixed;
   left: 0;
   width: 100%;
   height: 100%;
-  /* background-color: rgba(0, 0, 0, 0.5);  */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -38,39 +37,39 @@ position: absolute;
 `;
  
 export const Title = styled.div`
-margin: 40px 0px 0px 340px;
-font-size: 30px;
+margin: 20px 0px 0px 320px;
+font-size: 25px;
 font-weight: 600;
 text-align: center;
 `;
 export const TicketImg = styled.img`
-margin: 20px 0px 0px 360px;
-width: 260px;
+margin: 20px 0px 0px 280px;
+width: 230px;
 `;
 export const Explanation1 = styled.div`
-margin: 40px 0px 0px 350px;
-font-size: 18px;
+margin: 20px 0px 0px 280px;
+font-size: 16px;
 font-weight: 600;
 `;
 export const Explanation2 = styled.div`
-margin: 20px 0px 0px 400px;
-font-size: 18px;
+margin: 10px 0px 0px 320px;
+font-size: 16px;
 font-weight: 600;
 `;
 
 export const Box = styled.div`
 display: flex;
-margin: 30px 0px 0px 330px;
+margin: 30px 0px 0px 230px;
 `;
 export const Button1 = styled.div`
-width: 100px;
-height: 40px;
+width: 90px;
+height: 35px;
 background: #EC4275;
 border-radius: 6px;
 font-family: 'Inter';
 font-style: normal;
 font-weight: 700;
-font-size: 18px;
+font-size: 16px;
 align-items: center;
 text-align: center;
 margin: 10px 100px 0px 30px;
@@ -85,14 +84,14 @@ display: flex; /* Flex 컨테이너로 설정 */
   }
 `;
 export const Button2 = styled.div`
-width: 100px;
-height: 40px;
+width: 90px;
+height: 35px;
 background: #097DF3;
 border-radius: 6px;
 font-family: 'Inter';
 font-style: normal;
 font-weight: 700;
-font-size: 18px;
+font-size: 16px;
 line-height: 19px;
 align-items: center;
 text-align: center;

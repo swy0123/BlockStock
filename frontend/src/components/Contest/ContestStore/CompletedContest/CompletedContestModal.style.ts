@@ -47,19 +47,19 @@ export const Title = styled.div`
 width: 533px;
 height: 32.9px;
 font-weight: 600;
-font-size: 30px;
+font-size: 25px;
 `;
 export const Schedule = styled.div`
 font-weight: 400;
 font-size: 14px;
 color: #B6ABBB;
-margin: 20px 0px 0px 30px;
+margin: 10px 0px 0px 40px;
 `;
 export const Personnel = styled.div`
 font-weight: 400;
 font-size: 14px;
 color: #B6ABBB;
-margin: 10px 0px 0px 30px;
+margin: 5px 0px 0px 40px;
 `;
 
 export const Wrapper = styled.div`

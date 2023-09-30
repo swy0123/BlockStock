@@ -7,7 +7,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import "swiper/css/navigation";
 import { Pagination, Navigation } from "swiper/modules";
-import styles from "./Swiper.module.css";
+import './Tactic.css';
 // import StarBorderIcon from '@mui/icons-material/StarBorder';
 // import StarIcon from '@mui/icons-material/Star';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
@@ -132,10 +132,10 @@ function ContestTaticModal(props){
                 loop={true}
                 navigation={true}
                 modules={[Pagination, Navigation]}
-                className={styles.mySwiper}
+                className='mySwiper'
               >
               {tacticList.map((contest, index) => (
-                <SwiperSlide className={styles.slide} key={contest.tacticId}>
+                <SwiperSlide className='slide' key={contest.tacticId}>
                   <div>
                     <Card
                       onClick={() =>
@@ -162,7 +162,11 @@ function ContestTaticModal(props){
                         {dayjs(contest.createdAt).format('YYYY.MM.DD HH:mm:ss')} 
                       </TaticTime>
                       <hr style={{ width: "170px" }} />
-                      <TaticImg src="/icon/전략블록.png" />
+                      {contest.imgPath ? (
+                        <TaticImg src="/icon/전략블록.png" />
+                      ) : (
+                        <TaticImg src={contest.imgPath} />
+                      )}
                     </Card>
                   </div>
                 </SwiperSlide>
