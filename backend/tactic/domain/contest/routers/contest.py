@@ -9,26 +9,24 @@ router = APIRouter(
 
 
 @router.get("")
-def get_contest(status: str = Query(default=None),
+def get_contest(request: Request,
+                status: str = Query(default=None),
                 key_word: str = Query(default=""),
                 page: int = Query(default=None),
                 size: int = Query(default=None)):
-    return contest_service.get_contests(status, key_word, page, size)
+    member_id = request.headers.get("Member-id")
+    return contest_service.get_contests(member_id, status, key_word, page, size)
 
 
-@router.get("/result")
-def get_proceed_contest_result():
-    return contest_service.get_proceed_contest_result()
+@router.get("/outline")
+def get_contest_outline(request: Request):
+    member_id = request.headers.get("Member-id")
+    return contest_service.get_contest_outine(member_id)
 
 
 @router.get("/result/{contest_id}")
 def get_contest_result(contest_id: int):
     return contest_service.get_contest_result(contest_id)
-
-
-@router.get("/result/prev/rank")
-def get_prev_contest_result():
-    return contest_service.get_prev_contest_result()
 
 
 @router.post("")
