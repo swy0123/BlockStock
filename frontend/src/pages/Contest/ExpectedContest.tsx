@@ -5,8 +5,7 @@ import ExpectedContestContent from "../../components/Contest/ContestStore/Expect
 
 
 const Container = styled.div`
-margin: 30px 0px 100px 60px;
-width: 1000px;
+width: 100%;
 min-height: 200px;
 `;
 
