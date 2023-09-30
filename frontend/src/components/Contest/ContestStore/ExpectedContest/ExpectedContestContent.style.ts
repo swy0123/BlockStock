@@ -1,18 +1,19 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  width: 1000px;
+  width: 100%;
   height: 650px;
   background: #FFFFFF;
   border: 1px solid #D4D4D4;
   box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
   border-radius: 10px;
-  margin: 30px 0px 0px 0px;
+  margin: 10px 0px 0px 0px;
 `;
 
 export const Wrapper = styled.div`
-margin: 30px 0px 0px 0px;
-height: 84%;
+width: 100%;
+margin: 0px 0px 10px 0px;
+height: 88%;
 overflow: auto;
 scrollbar-width: none;
 
@@ -38,7 +39,6 @@ height: 30px;
 font-weight: 600;
 font-size: 20px;
 line-height: 26px;
-margin: 0px 0px 10px 50px;
 `;
 
 export const Schedule = styled.div`
@@ -47,28 +47,28 @@ height: 15px;
 font-family: 'Inter';
 font-style: normal;
 font-weight: 400;
-font-size: 12px;
+font-size: 10px;
 line-height: 15px;
 display: flex;
 align-items: center;
 color: #B6ABBB;
-margin: 0px 0px 0px 50px;
 `;
 
 export const ContestBox = styled.div`
 display: flex;
 `;
-
+export const Box = styled.div`
+& :hover{
+  background-color: #f5f5f5;
+}
+`;
 export const ContentBox = styled.div`
 margin: 0px 0px 0px 50px;
 `;
 
 export const Content = styled.div`
-font-family: 'Inter';
-font-style: normal;
 font-weight: 400;
 font-size: 12px;
-line-height: 19px;
 display: flex;
 align-items: center;
 margin: 10px 0px 0px 0px;
@@ -95,7 +95,7 @@ line-height: 19px;
 display: flex;
 align-items: center;
 color: #B6ABBB;
-margin: 30px 0px 0px 0px;
+margin:30px 0px 0px 0px;
 `;
 
 export const Term = styled.div`
@@ -107,20 +107,23 @@ line-height: 19px;
 display: flex;
 align-items: center;
 color: #B6ABBB;
-margin: 10px 0px 30px 0px;
+margin: 10px 0px 20px 0px;
 `;
 
 export const Button = styled.button`
 padding: 5px 10px;
 background: rgba(145, 85, 253, 0.8);
 border-radius: 6px;
+font-family: 'Inter';
+font-style: normal;
 font-weight: 500;
 font-size: 12px;
+line-height: 19px;
 align-items: center;
 text-align: center;
 color: #FFFFFF;
 border: none;
-margin: 50px 0px 0px 830px;
+margin: 50px 0px 20px 88%;
 &:hover{
   background-color: rgba(145, 85, 253, 2);
   transition: background-color 0.6s ease;

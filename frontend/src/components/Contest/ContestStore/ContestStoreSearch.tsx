@@ -16,7 +16,7 @@ const StoreSearch = styled.input`
     font-family: 'Noto Sans Arabic';
     font-style: normal;
     font-weight: 400;
-    font-size: 12px;
+    font-size: 10px;
     line-height: 34px;
     display: flex;
     align-items: center;
@@ -42,7 +42,7 @@ function ContestStoreSearch(){
        <Box
         component="form"
         sx={{
-          '& > :not(style)': { m: '0px 0px 15px 0px', width: '25ch' },
+          '& > :not(style)': { m: '0px 0px 15px 0px', width: '30ch' },
         }}
         noValidate
         autoComplete="off"
@@ -54,6 +54,9 @@ function ContestStoreSearch(){
           variant="standard" 
           value={searchKeyword}
           onChange={handleInputChange}
+          sx={{
+            '& > :not(style)' : {fontSize:'13px'}
+          }}
         />
       </Box>
     </div>
