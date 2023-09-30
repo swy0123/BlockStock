@@ -15,8 +15,7 @@ public interface TacticBoardService {
     void unLikeTacticPost(Long memberId, Long tacticPostId);
     TacticPostResponse getTacticPost(Long tacticId);
     void deleteTacticPost(Long memberId, Long tacticPostId);
-    void updateHit(Long tacticPostId);
-    List<TacticPostCommentResponse> getTacticPostCommentList();
+    List<TacticPostCommentResponse> getTacticPostCommentList(Long tacticPostId);
     void writeTacticPostComment(Long memberId, TacticPostCommentRequest tacticPostId);
     void deleteTacticPostComment(Long memberId, Long commentId);
 }

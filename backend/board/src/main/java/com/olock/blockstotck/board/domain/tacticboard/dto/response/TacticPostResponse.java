@@ -18,7 +18,7 @@ public class TacticPostResponse {
     private LocalDateTime createdAt;
 
     public TacticPostResponse(TacticPost tacticPost, String optionName, double testReturns,
-                              double contestReturns, Long likeCnt, Long hit) {
+                              double contestReturns, Long likeCnt) {
         this.tacticPostId = tacticPost.getTacticId();
         this.title = tacticPost.getTitle();
         this.optionName = optionName;
@@ -26,7 +26,7 @@ public class TacticPostResponse {
         this.testReturns = testReturns;
         this.contestReturns = contestReturns;
         this.likeCnt = likeCnt;
-        this.hit = hit;
+        this.hit = tacticPost.getHit();
         this.createdAt = tacticPost.getCreatedAt();
     }
 }

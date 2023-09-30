@@ -25,7 +25,7 @@ public class TacticPost extends BaseEntity {
     private String tacticPythonCode;
     private String imgPath;
     @ColumnDefault("0")
-    private String hit;
+    private Long hit;
 
     public TacticPost(Long memberId, String tacticPythonCode, String imgPath, TacticPostRequest tacticPostRequest) {
         super();
@@ -35,5 +35,9 @@ public class TacticPost extends BaseEntity {
         this.content = tacticPostRequest.getContent();
         this.tacticPythonCode = tacticPythonCode;
         this.imgPath = imgPath;
+    }
+
+    public void updateHit() {
+        this.hit += 1;
     }
 }

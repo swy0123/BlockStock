@@ -72,14 +72,15 @@ public class TacticBoardServiceImpl implements TacticBoardService {
         TacticPost tacticPost = tacticPostRepository.findById(tacticId).orElseThrow(() -> new NoExistTacticPost("해당하는 게시글이 없습니다."));
 
 //      option_name 얻어오기
-//      test_returns, contest_returns 얻어오기
+//      test_returns,  얻어오기
+        tacticPost.updateHit();
+
         String optionName = "";
         double testReturns = 0;
         double contestReturns = 0;
         long likeCnt = 0;
-        long hit = 0;
 
-        return new TacticPostResponse(tacticPost, optionName, testReturns, contestReturns, likeCnt, hit);
+        return new TacticPostResponse(tacticPost, optionName, testReturns, contestReturns, likeCnt);
     }
 
     @Override
@@ -93,20 +94,10 @@ public class TacticBoardServiceImpl implements TacticBoardService {
     }
 
     @Override
-    public void updateHit(Long tacticPostId) {
-
-    }
-
-    @Override
-    public List<TacticPostCommentResponse> getTacticPostCommentList() {
-        List<TacticPostComment> tacticPostComments = tacticPostCommentRepository.findAll();
+    public List<TacticPostCommentResponse> getTacticPostCommentList(Long tacticPostId) {
+        List<TacticPostComment> tacticPostComments = tacticPostCommentRepository.findByTacticPostId(tacticPostId);
 
         List<TacticPostCommentResponse> tacticPostCommentResponseList = new ArrayList<>();
-
-        for (TacticPostComment tacticPostComment: tacticPostComments) {
-            String nickname = "";
-            TacticPostCommentResponse tmp = new TacticPostCommentResponse(nickname, tacticPostComment);
-        }
 
         return tacticPostComments.stream()
                 .map(tacticPostComment -> new TacticPostCommentResponse("", tacticPostComment))
