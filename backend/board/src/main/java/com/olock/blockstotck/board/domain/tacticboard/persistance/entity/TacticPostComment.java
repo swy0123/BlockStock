@@ -10,7 +10,6 @@ public class TacticPostComment extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "tactic_id")
     private TacticPost tacticPost;
     private Long memberId;
     private String content;

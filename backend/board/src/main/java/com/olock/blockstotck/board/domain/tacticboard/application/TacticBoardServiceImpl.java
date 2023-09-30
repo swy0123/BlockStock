@@ -1,21 +1,34 @@
 package com.olock.blockstotck.board.domain.tacticboard.application;
 
 import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostRequest;
+import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostRequestParam;
 import com.olock.blockstotck.board.domain.tacticboard.dto.response.TacticPostCommentResponse;
 import com.olock.blockstotck.board.domain.tacticboard.dto.response.TacticPostResponse;
+import com.olock.blockstotck.board.domain.tacticboard.persistance.TacticBoardRepository;
+import com.olock.blockstotck.board.domain.tacticboard.persistance.entity.TacticPost;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class TacticBoardServiceImpl implements TacticBoardService {
-    @Override
-    public void writeTacticPost(Long memberId, TacticPostRequest tacticBoardReqDto) {
+    private final TacticBoardRepository tacticBoardRepository;
 
+    @Override
+    public void writeTacticPost(Long memberId, TacticPostRequest tacticPostRequest) {
+//      Tactic 서버에 요청해서, 해당 tacticId에 대한 tacticPythonCode와 imgPath에 반환
+        String tacticPythonCode = "";
+        String imgPath = "";
+
+        TacticPost tacticPost = new TacticPost(memberId, tacticPythonCode, imgPath, tacticPostRequest);
+        tacticBoardRepository.save(tacticPost);
     }
 
     @Override
-    public List<TacticPostResponse> getTacticPostList() {
+    public List<TacticPostResponse> getTacticPostList(Long memberId, TacticPostRequestParam tacticPostRequestParam) {
+
         return null;
     }
 
@@ -30,7 +43,7 @@ public class TacticBoardServiceImpl implements TacticBoardService {
     }
 
     @Override
-    public TacticPostResponse getTacticPost() {
+    public TacticPostResponse getTacticPost(Long memberId) {
         return null;
     }
 

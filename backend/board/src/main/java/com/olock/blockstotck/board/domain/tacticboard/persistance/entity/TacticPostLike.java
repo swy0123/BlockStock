@@ -10,7 +10,6 @@ public class TacticPostLike {
     private Long id;
     private Long memberId;
     @ManyToOne
-    @JoinColumn(name = "tactic_id")
     private TacticPost tacticPost;
     private LocalDateTime createdAt;
 }
