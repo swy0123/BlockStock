@@ -13,7 +13,11 @@ export const Modal = styled.div`
     /* left: 50%; */
     /* transform: translate(-50%, -50%); */
 `;
-
+export const NotUser = styled.div`
+text-align: center;
+color: #D4D4D4;
+margin: 12% 0px 0px 0px;
+`;
 export const Container = styled.div`
 position: fixed;
   top: 0;
@@ -43,19 +47,19 @@ export const Title = styled.div`
 width: 533px;
 height: 32.9px;
 font-weight: 600;
-font-size: 30px;
+font-size: 25px;
 `;
 export const Schedule = styled.div`
 font-weight: 400;
 font-size: 14px;
 color: #B6ABBB;
-margin: 20px 0px 0px 30px;
+margin: 10px 0px 0px 40px;
 `;
 export const Personnel = styled.div`
 font-weight: 400;
 font-size: 14px;
 color: #B6ABBB;
-margin: 10px 0px 0px 30px;
+margin: 5px 0px 0px 40px;
 `;
 
 export const Wrapper = styled.div`

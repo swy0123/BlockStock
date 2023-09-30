@@ -43,9 +43,8 @@ function ExpectedContestContent(){
   const { userid } = currentUser;
 
   // const [expectedContestItem, setExpectedContestItem] = useState([])
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(3);
-
+  const [ page, setPage ] = React.useState(0);
+  const [ rowsPerPage, setRowsPerPage ] = React.useState(8);
   const [ count, setCount] = useState(0)
   const [ tacticListItem, setTacticListItem ] = useState([])
 
@@ -221,11 +220,12 @@ function ExpectedContestContent(){
                 <Content style={{ whiteSpace: 'pre-line',wordWrap: 'break-word' }}>
                   {contest.content}
                 </Content>
-                {!contest.isRegisted ? (
+                {/* {!contest.isRegisted ? (
                   <Button onClick={OpenCandelModal}>신청취소</Button>
                 ) : (
                   <Button onClick={OpenModal}>참가하기</Button>
-                )} 
+                  )}  */}
+                <Button onClick={OpenModal}>참가하기</Button>
               </ContentBox>
               <hr style={{margin:'0px 0px 0px 0px'}}/>
 
