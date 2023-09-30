@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface TacticPostLikeRepository extends JpaRepository<TacticPostLike, Long> {
     Optional<TacticPostLike> findByMemberIdAndTacticPostId(Long memberId, Long tacticPostId);
+
+    long countByTacticId(Long tacticId);
 }

@@ -8,6 +8,5 @@ import lombok.ToString;
 public class TacticPostRequest {
     private String title;
     private Long tacticId;
-    private String imgPath;
     private String content;
 }

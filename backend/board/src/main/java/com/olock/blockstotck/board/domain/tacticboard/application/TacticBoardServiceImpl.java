@@ -14,7 +14,6 @@ import com.olock.blockstotck.board.domain.tacticboard.persistance.entity.TacticP
 import com.olock.blockstotck.board.domain.tacticboard.persistance.entity.TacticPostLike;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -71,14 +70,14 @@ public class TacticBoardServiceImpl implements TacticBoardService {
     public TacticPostResponse getTacticPost(Long tacticId) {
         TacticPost tacticPost = tacticPostRepository.findById(tacticId).orElseThrow(() -> new NoExistTacticPost("해당하는 게시글이 없습니다."));
 
-//      option_name 얻어오기
-//      test_returns,  얻어오기
         tacticPost.updateHit();
 
+//      option_name 얻어오기
+//      test_returns,  얻어오기
         String optionName = "";
         double testReturns = 0;
         double contestReturns = 0;
-        long likeCnt = 0;
+        long likeCnt = tacticPostLikeRepository.countByTacticId(tacticId);
 
         return new TacticPostResponse(tacticPost, optionName, testReturns, contestReturns, likeCnt);
     }
