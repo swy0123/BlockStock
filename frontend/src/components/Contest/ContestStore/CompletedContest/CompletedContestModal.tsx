@@ -18,6 +18,7 @@ import {
     Line,
     Participant,
     NoRankImage,
+    NotUser
 } from './CompletedContestModal.style'
 
 function CompletedContestModal({onClose, selectedContest, rank}){
@@ -38,7 +39,7 @@ function CompletedContestModal({onClose, selectedContest, rank}){
                 <Schedule>대회 기간: {selectedContest.startTime} ~ {selectedContest.endTime}</Schedule>
                 <Personnel>참가 인원 수 {selectedContest.joinPeople} / {selectedContest.maxCapacity} </Personnel>
                 {userRank.length === 0 ? (
-                  <div>유저가 없습니다</div>
+                  <NotUser>유저가 없습니다</NotUser>
                 ) : (
                 <Wrapper>
                     <RankUser>

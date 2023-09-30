@@ -1,14 +1,13 @@
 import React, {useState, useEffect} from "react";
 import CloseIcon from '@mui/icons-material/Close';
-import { useRecoilValue, useRecoilState  } from "recoil";
-// import { contestTatic } from '../../../../recoil/Contest/ExpectedContest'
+import { useRecoilState  } from "recoil";
 import { tacticdata } from '../../../../recoil/TacticBoard/TacticBoardBox'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import 'swiper/css/navigation';
-import { Pagination, Navigation } from 'swiper/modules';
-import './Swiper.css'
+import "swiper/css/navigation";
+import { Pagination, Navigation } from "swiper/modules";
+import './Tactic.css';
 // import StarBorderIcon from '@mui/icons-material/StarBorder';
 // import StarIcon from '@mui/icons-material/Star';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
@@ -27,25 +26,29 @@ import {
   TaticImg,
   TaticTime,
   Button,
-  TitleBox
+  TitleBox,
+  Box
 } from './ContestTaticModal.style'
 import ContestTicketModal from "./ContestTicketModal";
-
+ // 날짜 변환
+ import dayjs from "dayjs";
 // // contestid 리코일
 import { ContestId } from '../../../../recoil/Contest/ExpectedContest'
-
+// 전략 더미데이터
+import {TacticList} from '../../../../recoil/Contest/Tactic'
 function ContestTaticModal(props){
   // 전달 받은 데이터
   const { selectedContest, type, onClose } = props;
   
   // 리코일 대회 id 전략 id
   const [contestId, setContestId] = useRecoilState(ContestId);
+  const [tacticList, setTacticList] = useRecoilState(TacticList);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // const contestTaticList = useRecoilValue(contestTatic);
+
   
-  const [isStarred, setIsStarred] = useState(Array(selectedContest.length).fill(false));
+  const [isStarred, setIsStarred] = useState(Array(tacticList.length).fill(false));
   const [selectedTacticIndex, setSelectedTacticIndex] = useState(-1);
   const [tacticId, setTacticId] = useState(0)
 
@@ -94,7 +97,7 @@ function ContestTaticModal(props){
       setState(tactic);
       onClose()
     } else {
-      console.log(selectedContest);
+      console.log(tacticList);
       setIsModalOpen(!isModalOpen);
     }
   };
@@ -102,15 +105,6 @@ function ContestTaticModal(props){
 
   const CloseModal = () => {
     setIsModalOpen(false);
-  };
-
-
-  const formatDateTime = (dateTimeString) => {
-    const date = new Date(dateTimeString);
-    const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1)
-      .toString()
-      .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
-    return formattedDate;
   };
 
   return(
@@ -125,48 +119,61 @@ function ContestTaticModal(props){
                   <Title>전략 불러오기</Title>
                 )}
             </TitleBox>
-            <CloseBtn onClick={onClose}><CloseIcon/></CloseBtn>
+            <CloseBtn onClick={onClose}>
+              <CloseIcon style={{fontSize:'20px'}}/>
+            </CloseBtn>
           </Header>
-          <Wrapper>
-            <Swiper
-              slidesPerView={3}
-              spaceBetween={-90}
-              loop={true}
-              navigation={true}
-              modules={[Pagination, Navigation]}
-              className="mySwiper"
-            >
-            {selectedContest.map((contest, index) => (
-              <SwiperSlide className="slide" key={contest.tacticId}>
-                <div>
-                  <Card
-                    onClick={() =>
-                      handleCardClick({ i: index, t: contest.id, img: contest.imgPath })
-                    }
-                    style={{
-                      border:
-                        selectedTacticIndex === index ? "3.5px solid #a782ec" : "",
-                      boxShadow:
-                        selectedTacticIndex === index
-                          ? "rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset"
-                          : "",
-                    }}
-                  >
-                    {selectedTacticIndex === index ? (
-                      <TaskAltIcon style={{ color: "green", margin: "10px" }} />
-                    ) : (
-                      <RadioButtonUncheckedIcon style={{ margin: "10px" }} />
-                    )}
-                    <TaticTitle>{contest.title}</TaticTitle>
-                    <TaticTime>{formatDateTime(contest.createdAt)}</TaticTime>
-                    <hr style={{ width: "170px" }} />
-                    <TaticImg src="/icon/전략블록.png" />
-                  </Card>
-                </div>
-              </SwiperSlide>
-            ))}
 
-            </Swiper>
+          <Wrapper>
+            <Box>
+              <Swiper
+                slidesPerView={3}
+                spaceBetween={-85}
+                loop={true}
+                navigation={true}
+                modules={[Pagination, Navigation]}
+                className='mySwiper'
+              >
+              {tacticList.map((contest, index) => (
+                <SwiperSlide className='slide' key={contest.tacticId}>
+                  <div>
+                    <Card
+                      onClick={() =>
+                        handleCardClick({ i: index, t: contest.id, img: contest.imgPath })
+                      }
+                      style={{
+                        border:
+                          selectedTacticIndex === index ? "3.5px solid #a782ec" : "",
+                        boxShadow:
+                          selectedTacticIndex === index
+                            ? "rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset"
+                            : "",
+                      }}
+                    >
+                      <div style={{display:'flex'}}>
+                        {selectedTacticIndex === index ? (
+                          <TaskAltIcon style={{ color: "green", margin: "10px", width:'20px' }} />
+                        ) : (
+                          <RadioButtonUncheckedIcon style={{ margin: "10px", width:'20px' }} />
+                        )}
+                        <TaticTitle>{contest.title}</TaticTitle>
+                      </div>
+                      <TaticTime>
+                        {dayjs(contest.createdAt).format('YYYY.MM.DD HH:mm:ss')} 
+                      </TaticTime>
+                      <hr style={{ width: "170px" }} />
+                      {contest.imgPath ? (
+                        <TaticImg src="/icon/전략블록.png" />
+                      ) : (
+                        <TaticImg src={contest.imgPath} />
+                      )}
+                    </Card>
+                  </div>
+                </SwiperSlide>
+              ))}
+
+              </Swiper>
+            </Box>
           </Wrapper>
 
           {type === 'contest' ? (
@@ -190,7 +197,7 @@ function ContestTaticModal(props){
       {isModalOpen ? 
       <ContestTicketModal 
       tacticid = {tacticId} 
-      selectedContest={selectedContest} 
+      selectedContest={tacticList} 
       onClose={CloseModal}
       /> : null}
     </>
