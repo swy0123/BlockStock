@@ -1,15 +1,15 @@
-import { privateApi, publicApi } from "../index";
+import { privateApi } from "../index";
 
-// 현재 대회 결과 api
-export const currentContest = async () => {
-  console.log('현재 대회 결과 - api 진입')
+// contest main api
+export const contestMain = async () => {
+  console.log('대회 메인 결과 - api 진입')
   try {
-  const res = await privateApi.get("/contest/result");
-  console.log('현재 대회 결과 - api', res.data);
+  const res = await privateApi.get("/contest/outline");
+  console.log('대회 메인 결과 - api', res);
   return res.data;
   }
    catch(error) {
-  console.log('현재 대회 결과 - api', error)
+  console.log('대회 메인 결과 - api', error)
   }
 };
 
@@ -36,17 +36,5 @@ export const expectedContest = async ( props:paramProps ) => {
   }
 };
 
-// 직전 대회 결과 api
-export const recentContestResults = async () => {
-  console.log('직전 대회 결과 - api 진입')
-  try{
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    const res = await privateApi.get(`/contest/result/prev/rank`);
-    console.log(res);
-    return res.data;
-  }
-  catch(err){
-    console.log('직전 대회 결과 - api', err)
-  }
-};
+
 

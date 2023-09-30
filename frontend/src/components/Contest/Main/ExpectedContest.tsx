@@ -26,31 +26,18 @@ import {
 
  // 날짜 변환
  import dayjs from "dayjs";
-// api 통신
-// import { expectedContest } from '../../../api/Contest/Main';
 
-
-function ExpectedContest(){
+function ExpectedContest({contest}){
   const navigate = useNavigate();
   const [expectedContestItem, setExpectedContestItem] = useState([])
 
 
-  // api 통신 ==================================================
-  const params = {
-    status: 'expected',
-    page: 0,
-    size: 100,
-    key_word: ''
-  };
+  // 예정 대회 ==================================================
   useEffect(()=>{
-    expectedcontest()
-  },[])
-  const expectedcontest = async () => {
-    const contest = await expectedContest(params)
-    console.log('예정 대회 결과 - 컴포넌트',contest)
-    setExpectedContestItem(contest.contestList)
-  }
-  // api 통신 ==================================================
+    console.log(contest,'메인페이지 예정대회')
+    setExpectedContestItem(contest)
+  },[contest])
+  // 예정 대회 ==================================================
 
     
     const [showContent, setShowContent] = useState(Array(expectedContestItem.length).fill(false));
