@@ -15,25 +15,15 @@ import {
   Notexist
 } from './RecentContestResults.style';
 
-// import {recentContestResults} from '../../../api/Contest/Main'
-
-function RecentContestResults() {
+function RecentContestResults({contest}) {
   const navigate = useNavigate();
   const [rank,setRank] = useState([])
   
   // api 통신 ==================================================
     useEffect(()=>{
-    recentcontestresults()
-  },[])
-    const recentcontestresults = async () => {
-    const contest = await recentContestResults()
-    console.log('직전 대회 결과 - 컴포넌트',contest)
-    if(contest===undefined){
-      setRank([])
-    } else {
+      console.log(contest, '이전 대회 1,2,3등')
       setRank(contest)
-    }
-  }
+  },[contest])
   // api 통신 ==================================================
   
   return (

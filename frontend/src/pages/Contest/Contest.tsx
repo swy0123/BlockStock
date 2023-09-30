@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import CurrentContest from '../../components/Contest/Main/CurrentContest';
 import ExpectedContest from '../../components/Contest/Main/ExpectedContest';
 import RecentContestResults from '../../components/Contest/Main/RecentContestResults';
 
+// 대회 메인api
+import { contestMain } from '../../api/Contest/Main';
   // 스타일드 컴포넌트를 함수 내부에 정의
   const ContestBox = styled.div`
     max-width: 100%;
@@ -18,16 +20,31 @@ import RecentContestResults from '../../components/Contest/Main/RecentContestRes
 
 function Contest() {
 
+  const [currentContest, setCurrentContest] = useState([])
+  const [expectedContest, setExpectedContest] = useState([])
+  const [recentContestResults, setRecentContestResults] = useState([])
+  // 대회 메인 api ==========================================
+  useEffect(()=>{
+    contestApi()
+  },[currentContest, expectedContest, recentContestResults])
+  const contestApi = async()=>{
+    const res = await contestMain()
+    console.log('대회 메인', res)
+    setCurrentContest(res.data.currentContestResultList)
+    setExpectedContest(res.data.nextContestList)
+    setRecentContestResults(res.data.prevContestResult)
+  }
+  // 대회 메인 api ==========================================
   return (
     <>
       <ContestBox>
-        <CurrentContest />
+        <CurrentContest contest={currentContest}/>
         <ContestContent>
           <div style={{width:'50%', margin:'0px 15% 0px 0px' }}>
-          <ExpectedContest/>
+          <ExpectedContest contest={expectedContest}/>
           </div>
           <div style={{width:'34%'}}>
-            <RecentContestResults />
+            <RecentContestResults contest={recentContestResults}/>
           </div>
         </ContestContent>
       </ContestBox>
