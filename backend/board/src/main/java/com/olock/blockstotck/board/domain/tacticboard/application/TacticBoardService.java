@@ -10,7 +10,7 @@ import java.util.List;
 public interface TacticBoardService {
     void writeTacticPost(Long memberId, TacticPostRequest tacticBoardReqDto);
     List<TacticPostResponse> getTacticPostList(Long memberId, TacticPostRequestParam tacticPostRequestParam);
-    void likeTacticPost(Long memberId, Long tacticPostId);
+    void likeTacticPost(Long memberId, Long tacticId);
     void unLikeTacticPost(Long memberId, Long tacticPostId);
     TacticPostResponse getTacticPost(Long memberId);
     void deleteTacticPost(Long tacticBoardId);

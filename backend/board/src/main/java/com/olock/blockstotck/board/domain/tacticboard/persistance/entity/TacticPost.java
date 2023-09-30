@@ -4,9 +4,11 @@ import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostRequ
 import com.olock.blockstotck.board.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 @Entity
+@Setter
 @NoArgsConstructor
 public class TacticPost extends BaseEntity {
     @Id
