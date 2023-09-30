@@ -1,45 +1,66 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  width: 1000px;
+  width: 98%;
   min-height: 410px;
   background: #FFFFFF;
   box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
-  margin: 30px 0px 0px 0px;
+  margin: 30px 0px 0px 5px;
 `;
 export const Wrapper = styled.div`
+width: 100%;
+`;
+export const CreateBtn = styled.div`
+position: relative;
+top: 0px;
+left: 30px;
+min-width: 90px;
+height: 30px;
+/* margin: 0px 0px 0px 53%; */
+font-weight: 400;
+font-size: 13px;
+background: #9155FD;
+text-align: center;
+border-radius: 6px;
+color: #FFFFFF;
+border: none;
+transition: 0.5s; // 자연스럽게 호버 효과 주려고 넣음(필수)
+&:hover{
+  background: #dfd1f8;
+    color: #535155;
+    transition: 0.5s;
+}
+@media (min-width: 1000px) {
+  .CreateBtn {
+    margin-left: 53%;
+  }
+}
 `;
 export const Header = styled.div`
 display: flex;
-margin: 20px 30px 0px 500px;
 padding: 30px;
+width: 100%;
 `;
 export const Search = styled.input`
 margin: 0px 0px 0px 30px;
 font-size: 12px;
-`;
-export const CreateBtn = styled.div`
-width: 117px;
-height: 33px;
-margin: 0px 0px 0px 30px;
-font-weight: 400;
-font-size: 16px;
-line-height: 22px;
-background: #9155FD;
-text-align: center;
-border-radius: 5px;
-color: #FFFFFF;
-&:hover{
-  background-color: #5A3EFF;
-}
+  border-radius: 6px;
+height: 28px;
+border: solid 1px lightgrey;
+width: 50px;
+outline: none;
+transition:  width 1s ease;
+&:focus {
+  width: 250px; /* Set the expanded width when focused */
+  }
 `;
 
 export const ItemBox = styled.div`
 background-color: #F4F6F8;
 min-height: 500px;
-max-width: 100%;
-padding: 0px 30px 60px 30px ;
+min-width: 96%;
+padding: 0px 20px 60px 20px ;
 `;
 
 export const Card = styled.div`
@@ -49,6 +70,7 @@ background: #FFFFFF;
 box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
 border-radius: 8px;
 margin: 60px 0px 0px 20px;
+z-index: 5;
 `;
 
 export const TitleBox = styled.div`
