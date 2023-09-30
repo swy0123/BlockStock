@@ -42,8 +42,8 @@ public class MessageController {
     }
 
     @DeleteMapping
-    public ResponseEntity<MessageDetailResponse> deleteMessage(@RequestParam("id") List<String> messageIds) {
-        messageService.deleteMessage(messageIds);
+    public ResponseEntity<MessageDetailResponse> deleteMessage(@RequestHeader("Member-id") Long memberId, @RequestParam("id") List<String> messageIds) {
+        messageService.deleteMessage(memberId, messageIds);
         return ResponseEntity.ok().build();
     }
 }

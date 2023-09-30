@@ -14,5 +14,5 @@ public interface MessageService {
 
     MessageDetailResponse getMessage(Long memberId, String messageId);
 
-    void deleteMessage(List<String> messageIds);
+    void deleteMessage(Long memberId, List<String> messageIds);
 }
