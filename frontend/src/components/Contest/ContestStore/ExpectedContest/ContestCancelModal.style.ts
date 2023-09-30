@@ -47,11 +47,28 @@ background: #FFFFFF;
 border: 3px solid #D4D4D4;
 border-radius: 10px;
 margin: 30px 0px 0px 70px;
+overflow: auto;
+scrollbar-width: none;
+
+&::-webkit-scrollbar {
+width: 8px; /* 스크롤바의 너비 설정 */
+}
+
+/* 스크롤바 색상 설정 */
+&::-webkit-scrollbar-thumb {
+background: #888; /* 스크롤바 색상 설정 */
+border-radius: 6px; /* 스크롤바 모양을 둥글게 만듭니다. */
+}
+
+/* 스크롤바 hover 시 색상 변경 */
+&::-webkit-scrollbar-thumb:hover {
+background: #555; /* 스크롤바 hover 시 색상 변경 */
+}
 `;
 
 export const ContestTitle = styled.div`
 font-weight: 400;
-font-size: 22px;
+font-size: 20px;
 line-height: 26px;
 text-align: center;
 color: #000000;
@@ -61,7 +78,7 @@ margin: 20px 0px 0px 0px;
 
 export const Schedule = styled.div`
 font-weight: 400;
-font-size: 13px;
+font-size: 12px;
 align-items: center;
 text-align: center;
 color: #B6ABBB;
@@ -74,7 +91,7 @@ font-weight: 400;
 font-size: 13px;
 line-height: 19px;
 color: #444444;
-margin: 20px 0px 0px 30px;
+margin: 20px 30px 0px 30px;
 `;
 
 export const Personnel = styled.div`
@@ -86,17 +103,17 @@ margin: 20px 0px 0px 30px;
 
 export const Box = styled.div`
 display: flex;
-margin: 30px 0px 0px 420px;
+margin: 30px 0px 0px 440px;
 `;
 export const Button1 = styled.div`
-width: 80px;
-height: 40px;
+width: 70px;
+height: 30px;
 background: #EC4275;
 border-radius: 6px;
 font-family: 'Inter';
 font-style: normal;
 font-weight: 700;
-font-size: 14px;
+font-size: 12px;
 align-items: center;
 text-align: center;
 margin: 0px 40px 0px 0px;
@@ -111,12 +128,12 @@ display: flex; /* Flex 컨테이너로 설정 */
   }
 `;
 export const Button2 = styled.div`
-width: 80px;
-height: 40px;
+width: 70px;
+height: 30px;
 background: #097DF3;
 border-radius: 6px;
 font-weight: 700;
-font-size: 14px;
+font-size: 12px;
 line-height: 19px;
 align-items: center;
 text-align: center;

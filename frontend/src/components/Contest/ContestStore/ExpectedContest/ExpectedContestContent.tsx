@@ -43,9 +43,8 @@ function ExpectedContestContent(){
   const { userid } = currentUser;
 
   // const [expectedContestItem, setExpectedContestItem] = useState([])
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(3);
-
+  const [ page, setPage ] = React.useState(0);
+  const [ rowsPerPage, setRowsPerPage ] = React.useState(8);
   const [ count, setCount] = useState(0)
   const [ tacticListItem, setTacticListItem ] = useState([])
 
