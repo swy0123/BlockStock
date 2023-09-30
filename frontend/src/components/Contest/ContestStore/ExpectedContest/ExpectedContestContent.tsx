@@ -220,11 +220,12 @@ function ExpectedContestContent(){
                 <Content style={{ whiteSpace: 'pre-line',wordWrap: 'break-word' }}>
                   {contest.content}
                 </Content>
-                {!contest.isRegisted ? (
+                {/* {!contest.isRegisted ? (
                   <Button onClick={OpenCandelModal}>신청취소</Button>
                 ) : (
                   <Button onClick={OpenModal}>참가하기</Button>
-                )} 
+                  )}  */}
+                <Button onClick={OpenModal}>참가하기</Button>
               </ContentBox>
               <hr style={{margin:'0px 0px 0px 0px'}}/>
 
