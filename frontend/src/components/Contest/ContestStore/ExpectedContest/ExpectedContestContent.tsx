@@ -18,19 +18,23 @@ import {
   Stock,
   Term,
   Button,
-  Notexist
+  Notexist,
+  Box
 } from './ExpectedContestContent.style'
 
 import TablePagination from '@mui/material/TablePagination';
-import {expectedContestList} from '../../../../api/Contest/ContestStore'
 
+ // 날짜 변환
+ import dayjs from "dayjs";
 // 리코일로 userid
 import { CurrentUserAtom } from '../../../../recoil/Auth'
 // contestid
 import { useRecoilState } from 'recoil';
 import { ContestId } from '../../../../recoil/Contest/ExpectedContest'
-// 전략 불러오기 api
-import { tacticList } from '../../../../api/Contest/ContestStore'
+import {currentContestListState} from '../../../../recoil/Contest/CurrentContest'
+// 예정대회, 전략 불러오기 api
+// import {expectedContestList} from '../../../../api/Contest/ContestStore'
+// import { tacticList } from '../../../../api/Contest/ContestStore'
 
 function ExpectedContestContent(){
 
@@ -38,7 +42,7 @@ function ExpectedContestContent(){
   const currentUser = useRecoilValue(CurrentUserAtom);
   const { userid } = currentUser;
 
-  const [expectedContestItem, setExpectedContestItem] = useState([])
+  // const [expectedContestItem, setExpectedContestItem] = useState([])
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(3);
 
@@ -50,6 +54,8 @@ function ExpectedContestContent(){
 
   // 리코일 대회 id 전략 id
   const [contestId, setContestId] = useRecoilState(ContestId);
+  //더미데이터
+  const [expectedContestItem, setExpectedContestItem] = useRecoilState(currentContestListState);
 
   // 리코일로 검색어를 불러온다 ======================================================
   const searchKeyword  = useRecoilValue(searchKeywordState);
@@ -182,32 +188,46 @@ function ExpectedContestContent(){
         ) : (
           <>
           {expectedContestItem.map((contest, index) => (
-            <div key={contest.id} style={{margin:'0px 0px 30px 0px'}}>
-              {/* <Line hide={index === 0} /> */}
-              <ContestBox onClick={() => toggleContent(index)}>
-                <div>
-                  <Title> [경진대회] {contest.title}</Title>
-                  <Schedule>대회 기간: {contest.startTime} ~ {contest.endTime}</Schedule>
-                </div>
-                {showContent[index] ? (
-                  <KeyboardControlKeyIcon style={{ fontSize: '50px', marginLeft: 'auto', marginRight: '50px' }} />
-                ) : (
-                  <ExpandMoreIcon style={{ fontSize: '50px', marginLeft: 'auto', marginRight: '50px' }} />
-                )}
-              </ContestBox>
+            <div key={contest.id} style={{margin:'0px 0px 0px 0px'}}>
+              <Box>         
+                <ContestBox onClick={() => toggleContent(index)}>
+                  <div style={{margin:'16px 50% 16px 50px'}}>
+                    <Title> [경진대회] {contest.title}</Title>
+                    <Schedule>
+                      {dayjs(contest.startTime).format('MM/DD HH:mm')} 부터 ~ {dayjs(contest.endTime).format('MM/DD HH:mm')} 까지
+                    </Schedule>
+                  </div>
+                  {showContent[index] ? (
+                    <KeyboardControlKeyIcon style={{ fontSize: '50px', margin: '10px 80% 0px 0px' }} />
+                  ) : (
+                    <ExpandMoreIcon style={{ fontSize: '50px' }} />
+                  )}
+                </ContestBox>
+              </Box>
+              
+              <hr style={{ color: '#ebebeb', margin: '0px' , border:'1px solid #ebebeb'}} />
 
-              <ContentBox style={{ display: showContent[index] ? 'block' : 'none' }}>
+              <ContentBox 
+              style={{
+                transition: 'max-height 1s ease, transform 1s ease', // 트랜지션 적용
+                overflow: 'hidden', // 내용이 보이지 않도록 숨김
+                maxHeight: showContent[index] ? '1200px' : '0', // 최대 높이 설정
+              }}
+              >
                 <Stock>현재 인원: {contest.joinPeople} / {contest.maxCapacity}</Stock>
                 <StartAsset>필요 티켓: {contest.ticket} 개</StartAsset>
                 <Term>전략 실행 주기 : {contest.term}</Term>
-                <Content>{contest.content}</Content>
+                {/* 줄바꿈 적용 넘어갈 경우 다음 줄로 */}
+                <Content style={{ whiteSpace: 'pre-line',wordWrap: 'break-word' }}>
+                  {contest.content}
+                </Content>
                 {!contest.isRegisted ? (
                   <Button onClick={OpenCandelModal}>신청취소</Button>
                 ) : (
                   <Button onClick={OpenModal}>참가하기</Button>
                 )} 
               </ContentBox>
-              <hr style={{margin:'30px 0px 0px 0px'}}/>
+              <hr style={{margin:'0px 0px 0px 0px'}}/>
 
             </div>
           ))}
