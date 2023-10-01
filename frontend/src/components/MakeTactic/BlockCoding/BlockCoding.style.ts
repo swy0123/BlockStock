@@ -21,7 +21,7 @@ export const TitleDiv = styled.div`
   min-width: 100px;
   height: 50px;
   align-items: center;
-  margin: 0 10px;
+  margin: 0 10px 0 25px;
 `;
 export const Title = styled.div`
   display: flex;
@@ -34,13 +34,14 @@ export const Title = styled.div`
   text-overflow: ellipsis;
   overflow: hidden;
   border-style: solid;
-  border-width: 0 0 3px;
+  border-width: 0 0 1px;
   border-color: transparent;
   cursor: pointer;
 `;
 export const TitleSpan = styled.span`
   color: #ababab;
   cursor: pointer;
+  width: fit-content;
   font-size: 12px;
   text-align: center;
   align-items: center;
@@ -52,7 +53,7 @@ export const TitleInput = styled.input`
   font-weight: bolder;
   outline: none;
   border-style: solid;
-  border-width: 0 0 3px;
+  border-width: 0 0 2px;
   background-color: transparent;
 `;
 export const Wrapper = styled.div`
@@ -244,6 +245,7 @@ export const StyledDatePicker = styled(ReactDatePicker)`
   border: 1px solid transparent; /* 보더를 투명하게 만듭니다. */
   background-color: transparent;
   outline: none;
+  
 `;
 
 //======================================
