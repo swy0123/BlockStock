@@ -4,8 +4,6 @@ import com.olock.blockstotck.board.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Entity
 @NoArgsConstructor
 public class TacticPostLike extends BaseEntity {
