@@ -5,14 +5,10 @@ import com.olock.blockstotck.board.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 
 @Entity
-@Setter
 @Getter
-@ToString
 @NoArgsConstructor
 public class TacticPost extends BaseEntity {
     @Id
@@ -23,6 +19,7 @@ public class TacticPost extends BaseEntity {
     private String title;
     private String content;
     private String tacticPythonCode;
+    private String tacticJsonCode;
     private String imgPath;
     @ColumnDefault("0")
     private Long hit;
