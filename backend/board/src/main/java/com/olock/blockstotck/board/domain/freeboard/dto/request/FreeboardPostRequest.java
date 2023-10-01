@@ -9,16 +9,4 @@ import java.time.LocalDateTime;
 public class FreeboardPostRequest {
     String title;
     String content;
-
-    public FreePost toFreePostEntity(){
-        FreePost freepost = new FreePost();
-
-        freepost.setTitle(this.getTitle());
-        freepost.setContent(this.getContent());
-        freepost.setHit(0);
-        freepost.setCreatedAt(LocalDateTime.now());
-        freepost.setUpdatedAt(LocalDateTime.now());
-
-        return freepost;
-    }
 }

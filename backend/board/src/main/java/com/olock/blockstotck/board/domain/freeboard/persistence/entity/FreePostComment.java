@@ -1,5 +1,6 @@
 package com.olock.blockstotck.board.domain.freeboard.persistence.entity;
 
+import com.olock.blockstotck.board.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,8 +8,8 @@ import lombok.ToString;
 
 import java.time.LocalDateTime;
 
-@Entity @Getter @Setter @ToString
-public class FreePostComment {
+@Entity @Getter
+public class FreePostComment extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -17,6 +18,4 @@ public class FreePostComment {
     private FreePost freePost;
     private long memberId;
     private String content;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 }

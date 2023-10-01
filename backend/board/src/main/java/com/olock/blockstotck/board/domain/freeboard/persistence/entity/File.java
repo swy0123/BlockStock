@@ -6,7 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Getter @Setter @ToString
+@Getter
 public class File {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,4 +18,14 @@ public class File {
     private String imgPath;
     private String type;
     private long size;
+
+    public File(FreePost freePost, String imgOriginalName, String imgPath, String type, long size){
+        super();
+        this.freePost = freePost;
+        this.imgOriginalName = imgOriginalName;
+        this.imgPath = imgPath;
+        this.type = type;
+        this.size = size;
+    }
+
 }

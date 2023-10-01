@@ -28,8 +28,6 @@ spring:
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
   application:
     name: board-service
-  cache:
-    type: redis
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://${MARIA_HOST}:${MARIA_PORT}/board?characterEncoding=UTF-8&serverTimezone=UTC
