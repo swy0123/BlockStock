@@ -9,7 +9,7 @@ for (let i = 1; i <= 10; i++) {
     "memberId": 10,
     "optionName" : "카카오",
     title: `제목 ${i}`,
-    imgPath: "/icon/전략불록.png",
+    imgPath: "/icon/전략블록.png",
     "optionCode": "555555",
     "tacticJsonCode": "{\"block\" : \"round\"}",
     "tacticPythonCode": "print(hello)",

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import './style.css'
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
+import Swal from 'sweetalert2';
+
 import {
   Container,
   TitleInput,
@@ -77,10 +77,25 @@ function TacticBoardCreateBox(){
     console.log("content:", content);
     console.log("imgPath:", imgPath);
     console.log("Form Data:", formData);
-    // tacticBoardCreate(formData)
+    // boardcreate(formData)
+    boardcreate()
   };
 
-
+  // 글 작성 api =====================================================
+  const boardcreate = async ()=>{
+    // const res = await tacticBoardCreate(formData)
+    // console.log(res)
+    
+    navigate('/tacticboard')
+    Swal.fire({
+      icon: 'success',
+      title: 'success!',
+      showConfirmButton: false,
+      timer: 2000
+    })
+    // if (res.status===200){
+    // }
+  }
 
   // 모달 열고 닫기 ======================================
   const OpenModal = () => {
