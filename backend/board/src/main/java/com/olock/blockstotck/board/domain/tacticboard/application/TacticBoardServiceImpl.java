@@ -81,7 +81,8 @@ public class TacticBoardServiceImpl implements TacticBoardService {
         String optionName = "";
         double testReturns = 0;
         double contestReturns = 0;
-        long likeCnt = tacticPostLikeRepository.countByTacticId(tacticPostId);
+//        long likeCnt = tacticPostLikeRepository.countByTacticId(tacticPostId);
+        long likeCnt = 0;
 
         return new TacticPostResponse(tacticPost.get(), optionName, testReturns, contestReturns, likeCnt);
     }
