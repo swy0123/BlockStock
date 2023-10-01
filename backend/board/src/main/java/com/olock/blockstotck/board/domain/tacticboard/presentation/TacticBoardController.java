@@ -36,7 +36,7 @@ public class TacticBoardController {
     @PostMapping("/like")
     public ResponseEntity<Void> likeTacticBoard(@RequestHeader("Member-id") Long memberId,
                                                 @RequestBody TacticPostLikeRequest tacticPostLikeRequest) {
-        tacticBoardService.likeTacticPost(memberId, tacticPostLikeRequest.getTacticId());
+        tacticBoardService.likeTacticPost(memberId, tacticPostLikeRequest.getTacticPostId());
         return ResponseEntity.ok().build();
     }
 

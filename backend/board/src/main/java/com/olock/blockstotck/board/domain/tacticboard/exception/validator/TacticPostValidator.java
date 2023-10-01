@@ -3,6 +3,7 @@ package com.olock.blockstotck.board.domain.tacticboard.exception.validator;
 import com.olock.blockstotck.board.domain.tacticboard.exception.AlreadyLikeTacticPost;
 import com.olock.blockstotck.board.domain.tacticboard.exception.AlreadyUnLikeTacticPost;
 import com.olock.blockstotck.board.domain.tacticboard.exception.NoExistTacticPost;
+import com.olock.blockstotck.board.domain.tacticboard.exception.NoMatchingWriter;
 import com.olock.blockstotck.board.domain.tacticboard.persistance.TacticPostLikeRepository;
 import com.olock.blockstotck.board.domain.tacticboard.persistance.TacticPostRepository;
 import com.olock.blockstotck.board.domain.tacticboard.persistance.entity.TacticPost;
@@ -26,5 +27,9 @@ public class TacticPostValidator {
 
     public void checkAlreadyUnLike(Optional<TacticPostLike> tacticPostLike) {
         if(tacticPostLike.isEmpty()) throw new AlreadyUnLikeTacticPost("이미 게시글 좋아요를 하지 않습니다.");
+    }
+
+    public void checkTacticPostWriter(TacticPost tacticPost, Long memberId) {
+        if(tacticPost.getMemberId() != memberId) throw new NoMatchingWriter("해당 게시글 작성자가 아닙니다.");
     }
 }
