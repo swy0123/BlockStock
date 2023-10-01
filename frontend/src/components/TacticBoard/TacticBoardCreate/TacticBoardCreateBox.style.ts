@@ -1,15 +1,16 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-width: 1000px;
+width: 99%;
 min-height: 602px;
 background: #FFFFFF;
 box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
 border-radius: 8px;
+margin: 0px 0px 0px 5px;
 `;
 
 export const TitleInput = styled.textarea`
-  width: 970px;
+  width: 97%;
   height: 50px;
   resize: none;
   font-size: 25px;
@@ -20,15 +21,22 @@ export const TitleInput = styled.textarea`
 `;
 
 export const Wrapper = styled.div`
-display: flex;
+  display: flex;
+  
+  @media (max-width: 1000px) {
+    display: block; 
+  }
 `;
 export const ImgContainer = styled.div`
 width: 50%;
-height: 404px;
+height: 440px;
 background-color: #F4F6F8;
 display: flex; /* Set display to flex */
   justify-content: center; /* Center horizontally */
   align-items: center; 
+  @media (max-width: 1000px) {
+   width: 100%;
+  }
 `;
 
 export const ContentInput = styled.textarea`
@@ -39,6 +47,9 @@ font-size: 17px;
 border: none;
 outline: none;
 padding: 20px;
+@media (max-width: 1000px) {
+   width: 90%;
+  }
 `;
 
 export const ImgBox = styled.div`
@@ -50,8 +61,11 @@ export const ImgBox = styled.div`
   background-color: white;
 `;
 export const Img = styled.img`
-width: 90%;
-height: 90%;
+  width: auto;
+  height: auto;
+  max-width: 95%;
+  max-height: 95%;
+  object-fit: cover;
 `;
 
 export const FileBtn = styled.label`
@@ -73,7 +87,16 @@ export const FileBtn = styled.label`
 
 export const ButtonBox = styled.div`
 display: flex;
-margin: 20px 0px 0px 800px;
+position: absolute;
+top:720px;
+right: 50px;
+  @media (max-width: 1000px) {
+    position: static;
+    margin: 20px 0px 0px 0px;
+    display: flex; /* Set display to flex */
+    justify-content: center; /* Center horizontally */
+    align-items: center; 
+  }
 `;
 
 export const Button1 = styled.div`

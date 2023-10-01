@@ -10,11 +10,15 @@ export const Container = styled.div`
 `;
 export const Wrapper = styled.div`
 width: 100%;
+@media (max-width: 1200px) {
+ width : 99%;
+}
+@media (max-width: 900px) {
+ width : 95.5%;
+}
 `;
 export const CreateBtn = styled.div`
-position: relative;
-top: 0px;
-left: 30px;
+margin-left: 63%;
 min-width: 90px;
 height: 30px;
 /* margin: 0px 0px 0px 53%; */
@@ -31,10 +35,17 @@ transition: 0.5s; // 자연스럽게 호버 효과 주려고 넣음(필수)
     color: #535155;
     transition: 0.5s;
 }
-@media (min-width: 1000px) {
-  .CreateBtn {
-    margin-left: 53%;
-  }
+@media (max-width: 1400px) {
+    margin-left: 57%;
+}
+@media (max-width: 1300px) {
+    margin-left: 50%;
+}
+@media (max-width: 1300px) {
+  margin: 0px;
+  position: relative;
+  top: 0px;
+  left: 30px;
 }
 `;
 export const Header = styled.div`
@@ -52,7 +63,7 @@ width: 50px;
 outline: none;
 transition:  width 1s ease;
 &:focus {
-  width: 250px; /* Set the expanded width when focused */
+  width: 250px; 
   }
 `;
 
