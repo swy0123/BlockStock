@@ -4,12 +4,14 @@ import com.olock.blockstock.member.domain.member.application.EmailService;
 import com.olock.blockstock.member.domain.member.application.MemberService;
 import com.olock.blockstock.member.domain.member.dto.request.*;
 import com.olock.blockstock.member.domain.member.dto.response.MemberInfoResponse;
+import com.olock.blockstock.member.infra.s3.S3Uploader;
 import jakarta.ws.rs.Path;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,6 +24,7 @@ import java.net.URLConnection;
 public class MemberController {
     private final MemberService memberService;
     private final EmailService emailService;
+    private final S3Uploader s3Uploader;
 
     @PostMapping
     public ResponseEntity<Void> join(@RequestBody MemberJoinRequest memberJoinRequest) {
@@ -51,8 +54,15 @@ public class MemberController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("/profile")
+    public String upload(@RequestHeader("Member-id") Long memberId, @RequestParam("file") MultipartFile multipartFile) throws IOException {
+        String fileName = s3Uploader.upload(multipartFile, "member");
+        return fileName;
+    }
+
+
     @GetMapping("/profile/{memberId}")
-    public ResponseEntity<InputStreamResource> profile(@PathVariable("memberId") Long memberId) throws IOException {
+    public ResponseEntity<InputStreamResource> profile(@PathVariable("member-id") Long memberId) throws IOException {
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(memberService.getProfile(memberId));
     }
 
