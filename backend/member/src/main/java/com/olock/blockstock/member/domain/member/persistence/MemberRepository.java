@@ -28,6 +28,9 @@ public interface MemberRepository extends Neo4jRepository<Member, Long> {
     @Query("MATCH (n:Member) WHERE n.id = $id SET n.nickname = $nickname")
     void updateNickname(@Param("id") Long id, @Param("nickname") String nickname);
 
+    @Query("MATCH (n:Member) WHERE n.id = $id SET n.imagePath = $imagePath")
+    void updateProfileImage(@Param("id") Long id, @Param("imagePath") String imagePath);
+
     @Query("MATCH (n:Member) WHERE n.id = $id SET n.password = $password")
     void updatePassword(@Param("id") Long id, @Param("password") String password);
 

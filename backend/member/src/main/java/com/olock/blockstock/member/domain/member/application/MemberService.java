@@ -6,6 +6,7 @@ import com.olock.blockstock.member.domain.member.dto.request.MoneyChargeRequest;
 import com.olock.blockstock.member.domain.member.dto.request.PasswordUpdateRequest;
 import com.olock.blockstock.member.domain.member.dto.response.MemberInfoResponse;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface MemberService {
     void join(MemberJoinRequest memberJoinRequest);
@@ -22,5 +23,6 @@ public interface MemberService {
 
     void chargeMoney(Long memberId, MoneyChargeRequest moneyChargeRequest);
 
+    void updateProfileImage(Long memberId, MultipartFile file);
     InputStreamResource getProfile(Long memberId);
 }
