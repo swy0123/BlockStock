@@ -168,6 +168,7 @@ function BlocklyComponent(props: any) {
   const save = () => {
     if (primaryWorkspace.current != undefined) {
       const state = Blockly.serialization.workspaces.save(primaryWorkspace.current);
+      console.log(state)
       localStorage.setItem("data", JSON.stringify(state));
       localStorage.setItem("blocks", JSON.stringify(array));
     }
@@ -638,6 +639,9 @@ function BlocklyComponent(props: any) {
           {getArray.map((item, index) => {
             return <Block key={index} type={item} />;
           })}
+        </Category>
+        <Category name="가이드 블록" colour="#ffee04">
+          
         </Category>
       </div>
     </BlocklyWrapper>

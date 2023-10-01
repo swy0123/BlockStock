@@ -33,6 +33,7 @@ export const CollapseToolBoxButton = styled.div<{ $toolboxCollapsed: boolean }>`
   background-color: ${(props) =>
     props.$toolboxCollapsed ? "rgba(255,255,255, 0.9)" : "rgba(195,195,196, 0.7)"};
   color: ${(props) => (props.$toolboxCollapsed ? "#c3c3c4" : "white")};
+  cursor: pointer;
 `;
 
 // export const BlocklyTreeLabel = styled.div`

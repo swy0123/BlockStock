@@ -32,6 +32,7 @@ import {
   LabelAnnotation,
   HoverTooltip,
 } from "react-financial-charts";
+import dayjs from "dayjs";
 
 const dateTimeFormat = "%d %b";
 const timeDisplayFormat = timeFormat(dateTimeFormat);
@@ -154,22 +155,6 @@ const CandleChart = (props) => {
     return chartHeight - (chartHeight * ((cur - curMin) / (curMax - curMin)))
   }
 
-  // const annotationBuyProps = (d) => {
-  //   // let ySize = 
-  //   console.log(d)
-  //   let annotationProps = {
-  //     fontFamily: "Glyphicons Halflings",
-  //     fontSize: 20,
-  //     fill: "#060f8f",
-  //     opacity: 0.8,
-  //     text: "buy",
-  //     y: chartHeight/2,
-  //     onClick: console.log.bind(console),
-  //     // tooltip: d => timeFormat("%b")((d.date + d.time).replace(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})/, "$1-$2-$3 $4:$5:00")),
-  //     // onMouseOver: console.log.bind(console),
-  //   }
-  //   return annotationProps
-  // };
   const annotationBuyProps = {
     fontFamily: "Glyphicons Halflings",
     fontSize: 14,
@@ -219,6 +204,33 @@ const CandleChart = (props) => {
     return flag;
   }
 
+  const contentProps = (data: any) => {
+    // console.log(data)
+    const timeToStr = dayjs(data.currentItem.date+data.currentItem.time, "YYYYMMDDHHmmss").format("YY.MM.DD HH:mm:ss");
+    
+    // .toString()
+    return {
+      x: timeToStr,
+      y: [
+        {
+          label: "시가",
+          value: pricesDisplayFormat(data.currentItem.open) + "원",
+        },
+        {
+          label: "고가",
+          value: pricesDisplayFormat(data.currentItem.high) + "원",
+        },
+        {
+          label: "저가",
+          value: pricesDisplayFormat(data.currentItem.low) + "원",
+        },
+        {
+          label: "종가",
+          value: pricesDisplayFormat(data.currentItem.close) + "원",
+        },
+      ],
+    };
+  };
 
   return (
     <ChartCanvas
@@ -271,30 +283,9 @@ const CandleChart = (props) => {
           when={d => (checkHistoryType(d.date, d.time, "sell"))}
           usingProps={(annotationSellPropsPos)} />
 
-        {/* <MovingAverageTooltip
-          origin={[8, 24]}
-          options={[
-            {
-              yAccessor: ema26.accessor(),
-              type: "EMA",
-              stroke: ema26.stroke(),
-              windowSize: ema26.options().windowSize,
-            },
-            {
-              yAccessor: ema12.accessor(),
-              type: "EMA",
-              stroke: ema12.stroke(),
-              windowSize: ema12.options().windowSize,
-            },
-          ]}
-        /> */}
-        
         <OHLCTooltip origin={[8, 16]} />
+        <HoverTooltip yAccessor={(d) => d.close} tooltip={{ content: (d) => contentProps(d) }} />
       </Chart>
-
-      {/* <Chart id={2} height={barChartHeight} origin={barChartOrigin} yExtents={barChartExtents}>
-        <BarSeries fillStyle={volumeColor} yAccessor={volumeSeries} />
-      </Chart> */}
 
       <Chart
         id={4}
@@ -304,20 +295,10 @@ const CandleChart = (props) => {
         padding={{ top: 8, bottom: 8 }}
       >
         <BarSeries fillStyle={volumeColor} yAccessor={volumeSeries} />
-        {/* <ElderRaySeries yAccessor={elder.accessor()} /> */}
 
         <XAxis showGridLines gridLinesStrokeStyle="#e0e3eb" />
         <YAxis ticks={4} tickFormat={pricesDisplayFormat} />
         
-
-        {/* <SingleValueTooltip
-          yAccessor={elder.accessor()}
-          yLabel="Elder Ray"
-          yDisplayFormat={(d) =>
-            `${pricesDisplayFormat(d.bullPower)}, ${pricesDisplayFormat(d.bearPower)}`
-          }
-          origin={[8, 16]}
-        /> */}
       </Chart>
       <CrossHairCursor />
     </ChartCanvas>
