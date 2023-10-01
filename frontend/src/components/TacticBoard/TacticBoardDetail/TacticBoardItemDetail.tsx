@@ -6,7 +6,7 @@ import SmsIcon from '@mui/icons-material/Sms';
 
 import CommentCreate from "../../FreeBoard/FreeBoardDetail/Comment/CommentCeate";
 import CommentList from "../../FreeBoard/FreeBoardDetail/Comment/CommentList";
-
+import Tooltip from "../../Tooltip/Tooltip";
 import {
     Container,
     PostTitle,
@@ -30,7 +30,7 @@ import {
   } from './TacticBoardItemDetail.style'
 
 // 상세페이지 api 호출
-import {tacticBoardDetail, tacticBoardDelete} from '../../../api/TacticBoard/TacticBoard'
+// import {tacticBoardDetail, tacticBoardDelete} from '../../../api/TacticBoard/TacticBoard'
 
 function TacticBoardItemDetail(){
 
@@ -74,11 +74,15 @@ function TacticBoardItemDetail(){
                 <PostTitle>{data.title}</PostTitle>
 
                 <Header>
-                <div style={{display:'flex', minWidth:'500px'}}>
-                    <UserImg src="/icon/user_purple.png"/>
-                    <NickName>{data.nickname}</NickName>
-                    <Date>{data.createdAt}</Date>
-                </div>
+                    <div style={{display:'flex', minWidth:'500px'}}>
+                        <Tooltip type={'detail'}>
+                            <div style={{display:'flex'}}>
+                            <UserImg src="/icon/user_purple.png"/>
+                            <NickName>{data.nickname}</NickName>
+                            </div>
+                        </Tooltip>
+                        <Date>{data.createdAt}</Date>
+                    </div>
 
                 <Box>
                     <Hit>
@@ -117,7 +121,10 @@ function TacticBoardItemDetail(){
                             <Img src="/icon/전략블록.png"/>
                         </ImgBox>
                     </ContentImg>
-                    <Content>{data.content}</Content>
+                    {/* 줄바꿈 적용 넘어갈 경우 다음 줄로 */}
+                    <Content style={{ whiteSpace: 'pre-line',wordWrap: 'break-word' }}>
+                        {data.content}
+                    </Content>
                 </ContentBox>
                 <Line style={{margin:'0px 0px 0px 0px'}}/>
 
