@@ -50,6 +50,7 @@ function BlocklyComponent(props: any) {
   const [settingArray, setSettingArray] = useState<any>([]);
   const [getArray, setGetArray] = useState<any>([]);
   const [cnt, setCnt] = useState<number>(0);
+  //도구상자 열고 닫기
   const [toolboxCollapsed, setToolboxCollapsed] = useState<boolean>(true);
   // const [test, setest] = useState<any>(undefined);
   const blocklyDiv = useRef();
@@ -395,13 +396,15 @@ function BlocklyComponent(props: any) {
           element = element.offsetParent;
         } while (element);
         // Position blocklyDiv over blocklyArea.
-        blocklyDiv.current.style.left = 0;
-        blocklyDiv.current.style.top = 0;
-        // blocklyDiv.style.left = x + "px";
-        // blocklyDiv.style.top = y + "px";
-        blocklyDiv.current.style.width = blocklyArea.offsetWidth + "px";
-        blocklyDiv.current.style.height = blocklyArea.offsetHeight + "px";
-        Blockly.svgResize(primaryWorkspace.current);
+        if (blocklyDiv.current !== null) {
+          blocklyDiv.current.style.left = 0;
+          blocklyDiv.current.style.top = 0;
+          // blocklyDiv.style.left = x + "px";
+          // blocklyDiv.style.top = y + "px";
+          blocklyDiv.current.style.width = blocklyArea.offsetWidth + "px";
+          blocklyDiv.current.style.height = blocklyArea.offsetHeight + "px";
+          Blockly.svgResize(primaryWorkspace.current);
+        }
       };
       window.addEventListener("resize", onresize, false);
       window.addEventListener("click", onresize, false);
@@ -430,20 +433,18 @@ function BlocklyComponent(props: any) {
 
   return (
     <BlocklyWrapper>
-      {/* <button onClick={generateCode}>Convert</button>
-      <button onClick={generateVar}>Generate</button>
-      <button onClick={reset}>reset</button>
-      <button onClick={save}>save</button>
-      <button onClick={load}>load</button>
-      <button onClick={() => exportImageAsPNG()}>이미지</button> */}
+      
       <BlocklyArea ref={blocklyArea} id="blocklyArea"></BlocklyArea>
-      <CollapseToolBoxButton onClick={collapseToolbox}>
+      <CollapseToolBoxButton onClick={collapseToolbox} $toolboxCollapsed={toolboxCollapsed}>
         {toolboxCollapsed ? "도구상자 닫기" : "도구상자 열기"}
       </CollapseToolBoxButton>
-      {/* <div style={{height:"100px"}}>
-        파일출력 테스트
-        {test!==undefined ? <img src={test}/>:<></>}
-      </div> */}
+      <CollapseToolBoxButton style={{left:"128px", width:"100px"}} $toolboxCollapsed={toolboxCollapsed} onClick={generateCode}>Convert</CollapseToolBoxButton>
+      <CollapseToolBoxButton style={{left:"228px", width:"100px"}} $toolboxCollapsed={toolboxCollapsed} onClick={generateVar}>Generate</CollapseToolBoxButton>
+      <CollapseToolBoxButton style={{left:"328px", width:"100px"}} $toolboxCollapsed={toolboxCollapsed} onClick={reset}>reset</CollapseToolBoxButton>
+      <CollapseToolBoxButton style={{left:"428px", width:"100px"}} $toolboxCollapsed={toolboxCollapsed} onClick={save}>save</CollapseToolBoxButton>
+      <CollapseToolBoxButton style={{left:"528px", width:"100px"}} $toolboxCollapsed={toolboxCollapsed} onClick={load}>load</CollapseToolBoxButton>
+      <CollapseToolBoxButton style={{left:"628px", width:"100px"}} $toolboxCollapsed={toolboxCollapsed} onClick={() => exportImageAsPNG()}>이미지</CollapseToolBoxButton>
+      
       {/* <div style={{width:"98%", height:"98%"}} id="blocklyArea"></div> */}
       <BlocklyDiv ref={blocklyDiv} id="blocklyDiv" />
       <div style={{ display: "none" }} ref={toolbox}>
