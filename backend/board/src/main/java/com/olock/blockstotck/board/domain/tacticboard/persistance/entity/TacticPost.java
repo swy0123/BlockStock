@@ -24,13 +24,13 @@ public class TacticPost extends BaseEntity {
     @ColumnDefault("0")
     private Long hit;
 
-    public TacticPost(Long memberId, String tacticPythonCode, String imgPath, TacticPostRequest tacticPostRequest) {
-        super();
+    public TacticPost(Long memberId, String tacticPythonCode, String tacticJsonCode, String imgPath, TacticPostRequest tacticPostRequest) {
         this.memberId = memberId;
         this.tacticId = tacticPostRequest.getTacticId();
         this.title = tacticPostRequest.getTitle();
         this.content = tacticPostRequest.getContent();
         this.tacticPythonCode = tacticPythonCode;
+        this.tacticJsonCode = tacticJsonCode;
         this.imgPath = imgPath;
     }
 
