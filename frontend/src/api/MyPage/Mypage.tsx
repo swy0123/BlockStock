@@ -25,8 +25,13 @@ export const getmypage = async () => {
 export const putProfile = async(formData) => {
     try{
         console.log("프로필 try", formData)
-        const response = await privateApi.put("/member/profile", formData);
-        console.log(response)
+        const response = await privateApi.put("/member/profile", formData,
+        {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+        });
+        return response
     }catch(error){
         console.log('err', error)
     }
