@@ -16,7 +16,7 @@ import {
 import {commentList, commentDelete} from '../../../../api/FreeBoard/Comment'
 
 // 전략게시판 댓글 api
-import { tacticcommentList,tacticcommentDelete } from '../../../../api/TacticBoard/Comment'
+// import { tacticcommentList,tacticcommentDelete } from '../../../../api/TacticBoard/Comment'
 
 
 function CommentList(props) {
@@ -27,17 +27,17 @@ function CommentList(props) {
 
 
   // 댓글 리스트 api 호출
-  useEffect(()=>{
-    comments()
-  },[])
+  // useEffect(()=>{
+  //   comments()
+  // },[])
   
-  const comments =()=>{
-    if (type==='free'){
-      commentList(id)
-    } else if ( type==='tactic'){
-      tacticcommentList(id)
-    }
-  }
+  // const comments =()=>{
+  //   if (type==='free'){
+  //     commentList(id)
+  //   } else if ( type==='tactic'){
+  //     tacticcommentList(id)
+  //   }
+  // }
   // ============================================
 
 
@@ -60,14 +60,17 @@ function CommentList(props) {
           comment.map((item, index) => (
             <div key={index}>
               <Header>
-                <div style={{ display: 'flex', width: '790px' }}>
+                <div style={{ display: 'flex', width: '500px' }}>
                   <UserImg src="/icon/user_purple.png" />
                   <NickName>{item.nickName}</NickName>|
                   <Day>{item.createdAt}</Day>
                 </div>
                 <DeleteBtn onClick={() => handleDelete(item.commentId)}>삭제</DeleteBtn>
               </Header>
-              <Comment>{item.content}</Comment>
+               {/* 줄바꿈 적용 넘어갈 경우 다음 줄로 */}
+              <Comment style={{ whiteSpace: 'pre-line',wordWrap: 'break-word' }}>
+                {item.content}
+              </Comment>
               <hr style={{ border: '1px solid #F4F1F1' }} />
             </div>
           ))

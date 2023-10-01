@@ -24,7 +24,8 @@ export const Day = styled.div`
 margin: 2px 0px 0px 10px;
 `;
 export const DeleteBtn = styled.div`
-margin: 5px 0px 0px 20px;
+position: relative;
+left: 47%;
 width: 40px;
 height: 20px;
 color: white;
@@ -35,6 +36,15 @@ display: flex;
 cursor: pointer;
 justify-content: center; /* 수평 가운데 정렬 */
 align-items: center;
+@media(max-width:1300px){
+  left: 30%;
+}
+@media(max-width:1200px){
+  left: 20%;
+}
+@media(max-width:1000px){
+  left: 0%;
+}
 `;
 export const Comment = styled.div`
 margin: 20px 0px 35px 50px;
