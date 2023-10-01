@@ -53,6 +53,7 @@ import {
   tacticTestProps,
 } from "../../../api/Tactic/TacticTest";
 import Swal from "sweetalert2";
+import dayjs from "dayjs";
 
 export interface OptionItemProps {
   optionCode: string;
@@ -62,7 +63,7 @@ export interface OptionItemProps {
 const BlockCoding = (props) => {
   const [isSearch, setSearch] = useState(true); //검색 타입
 
-  const [isLeftOpen, setIsLeftOpen] = useState(true); //왼쪽 창 활성화 여부
+  const [isLeftOpen, setIsLeftOpen] = useState(false); //왼쪽 창 활성화 여부
 
   const [viewOptionCode, setViewOptionCode] = useState("");
 
@@ -75,6 +76,7 @@ const BlockCoding = (props) => {
   const [optionName, setOptionName] = useState(""); //종목이름
   const [startAsset, setStartAsset] = useState(10000000); //초기자본
   const [startDate, setStartDate] = useState(new Date()); //시작시간
+  const [curDate, setCurDate] = useState(new Date()); //시작시간
   const [term, setTerm] = useState("1m"); //주기
   const [repeatCnt, setRepeatCnt] = useState(50); //반복횟수 (scope)
   const [tacticPythonCode, setTacticPythonCode] = useState(undefined); //"""code"""
@@ -300,8 +302,52 @@ const BlockCoding = (props) => {
         setCodeCheck(false);
       }
     });
+  };
 
-    // console.log(tacticTestData);
+  useEffect(() => {
+    // setCurDate
+    isPossibleDay();
+  }, [startDate, term, repeatCnt]);
+  useEffect(() => {
+    console.log(curDate);
+    if (curDate < new Date()) {
+      if(dayjs(curDate).isSame(dayjs(new Date()), "day")) return;
+      setStartDate(curDate);
+    }
+  }, [curDate]);
+  const isPossibleDay = () => {
+    // term 1m, 10m, 1d, 1w
+    // repeatCnt 50 75 100
+    //6시간 반 390
+    //1440
+    // date.subtract(1, "d").format();
+
+    // var date = dayjs("2021-10-09");
+    // date.isBefore("2021-10-09"); // false
+    // date.isBefore("2021-10-20"); // true
+    let selectedDate = dayjs(new Date());
+    console.log(selectedDate);
+    console.log(term);
+    console.log(repeatCnt);
+    if (term == "1m") {
+      selectedDate = selectedDate.subtract(repeatCnt, "m");
+    } else if (term == "10m") {
+      selectedDate = selectedDate.subtract((repeatCnt * 10 * 1440) / 390 + 1, "m");
+    } else if (term == "1d") {
+      selectedDate = selectedDate.subtract((repeatCnt * 7) / 5 + 7, "d");
+    } else if (term == "1w") {
+      selectedDate = selectedDate.subtract(repeatCnt + 1, "w");
+    }
+    const now = selectedDate.get("d");
+    if (now === 0) selectedDate = selectedDate.subtract(2, "d");
+    else if (now === 6) selectedDate = selectedDate.subtract(1, "d");
+
+    console.log(selectedDate);
+    if(!selectedDate.isSame((curDate), "day")) {
+      setCurDate(selectedDate.toDate());
+      return selectedDate.toDate();
+    }
+    else return curDate;
   };
 
   // 테스트 버튼 누르면 상위 컴포넌트로 값 전달 후 컴포넌트 교체
@@ -457,9 +503,9 @@ const BlockCoding = (props) => {
               <ChoiceBox>
                 <ChoiceTitleBox>
                   <InputDetailTitle>초기자산</InputDetailTitle>
-                  <InputDetailTitle>시작시간</InputDetailTitle>
                   <InputDetailTitle>주기</InputDetailTitle>
                   <InputDetailTitle>반복횟수</InputDetailTitle>
+                  <InputDetailTitle>시작시간</InputDetailTitle>
                   <InputDetailTitle>종목명</InputDetailTitle>
                 </ChoiceTitleBox>
 
@@ -474,16 +520,6 @@ const BlockCoding = (props) => {
                       원
                     </InputDetailValue>
                   </MoneyBox>
-
-                  <ScheduleBox>
-                    <InputDetailValue>
-                      <StyledDatePicker
-                        dateFormat="yyyy-MM-dd"
-                        selected={startDate}
-                        onChange={(date) => setStartDate(date)}
-                      />
-                    </InputDetailValue>
-                  </ScheduleBox>
 
                   <PeriodBox>
                     <ToggleButtonGroup
@@ -525,6 +561,19 @@ const BlockCoding = (props) => {
                       </ToggleButton>
                     </ToggleButtonGroup>
                   </PeriodBox>
+
+                  <ScheduleBox>
+                    <InputDetailValue style={{ zIndex: "1000" }}>
+                      <StyledDatePicker
+                        // locale={"ko"}
+                        dateFormat="yyyy-MM-dd"
+                        selected={startDate}
+                        minDate={dayjs(new Date).subtract(2,"y").add(100*5/7+7, "d").toDate()}
+                        maxDate={curDate}
+                        onChange={(date) => setStartDate(date)}
+                      />
+                    </InputDetailValue>
+                  </ScheduleBox>
                   <MoneyBox>
                     {isLeftOpen ? (
                       <StocksInput
