@@ -12,6 +12,7 @@ import { useQuery, useQueryClient } from "react-query";
 import { putProfile } from "../../api/MyPage/Mypage";
 import { useRecoilValue } from "recoil";
 import { CurrentUserAtom } from "../../recoil/Auth";
+import swal from "sweetalert";
 import { getmypage } from "../../api/MyPage/Mypage";
 import {
   Container,
@@ -79,7 +80,6 @@ function MyPage() {
   const [isFollowModalOpen, setIsFollowModalOpen] = useState(false);
   const [isFollowType, setIsFollowType] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
-  const [file, setFile] = useState();
   const fileInputRef = useRef<HTMLInputElement>(null); // 파일 업로드 input 엘리먼트의 Ref
 
   const handleImageClick = () => {
@@ -89,24 +89,20 @@ function MyPage() {
   };
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target && event.target.files && event.target.files.length > 0) {
-      const file = event.target.files[0];
+    if (event.target?.files && event.target.files.length > 0) {
+      const file: File = event.target.files[0]; // 파일 형식으로 명시
       const formData = new FormData();
       formData.append("file", file);
+      // setSelectedFile(`https://j9b210.p.ssafy.io:8443/api/member/profile/${currentUser.userid}`);
+      setSelectedFile(file);
       console.log("폼데이터 보자",formData)
   
-      try {
-        const response = await putProfile(currentUser.userid, formData);
-        if (response.status === 200) {
-          console.log("File uploaded successfully.");
-        } else {
-          console.error("File upload failed. Server returned an error.");
-        }
-      } catch (error) {
-        console.error("An error occurred while uploading the file:", error);
-      }
+      const response = await putProfile(formData);
+      if (response?.status === 200) {
+        swal("프로필 이미지 등록", "프로필 이미지가 업로드 되었습니다.", "success")
     }
   };
+}
 
   const openFollowerModal = () => {
     setIsFollowModalOpen(true);
@@ -181,8 +177,8 @@ function MyPage() {
               onChange={handleFileChange}
             />
             <Img
-              src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${currentUser.userid}`}
-              alt="profile"
+            src={selectedFile ? URL.createObjectURL(selectedFile) : `https://j9b210.p.ssafy.io:8443/api/member/profile/${currentUser.userid}`}
+            alt="profile"
             />
             {/* <Img src="/icon/user4.png" /> */}
             <EditImg 
