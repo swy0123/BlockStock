@@ -24,7 +24,6 @@ import java.net.URLConnection;
 public class MemberController {
     private final MemberService memberService;
     private final EmailService emailService;
-    private final S3Uploader s3Uploader;
 
     @PostMapping
     public ResponseEntity<Void> join(@RequestBody MemberJoinRequest memberJoinRequest) {
@@ -55,14 +54,14 @@ public class MemberController {
     }
 
     @PutMapping("/profile")
-    public String upload(@RequestHeader("Member-id") Long memberId, @RequestParam("file") MultipartFile multipartFile) throws IOException {
-        String fileName = s3Uploader.upload(multipartFile, "member");
-        return fileName;
+    public ResponseEntity<Void> upload(@RequestHeader("Member-id") Long memberId, @RequestParam("file") MultipartFile file) {
+        memberService.updateProfileImage(memberId, file);
+        return ResponseEntity.ok().build();
     }
 
 
     @GetMapping("/profile/{memberId}")
-    public ResponseEntity<InputStreamResource> profile(@PathVariable("member-id") Long memberId) throws IOException {
+    public ResponseEntity<InputStreamResource> profile(@PathVariable("memberId") Long memberId) throws IOException {
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(memberService.getProfile(memberId));
     }
 
