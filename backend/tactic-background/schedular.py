@@ -93,14 +93,14 @@ def contest_thread(participate: Participate):
                              profit_and_loss=0,
                              trade_cost=real_data.iloc[0]['4'])
 
-        if db_trade:
-            participate.result_money -= (db_trade.cost * db_trade.trade_cnt)
+            if db_trade:
+                participate.result_money -= (db_trade.cost * db_trade.trade_cnt)
 
-            (session_thread.query(Participate).filter(Participate.id == participate.id).
-             update({'result_money': participate.result_money}))
+                (session_thread.query(Participate).filter(Participate.id == participate.id).
+                 update({'result_money': participate.result_money}))
 
-            session_thread.add(db_trade)
-            session_thread.commit()
+                session_thread.add(db_trade)
+                session_thread.commit()
 
     def sell(param: int):
         now_asset = session_thread.get(Participate, participate.member_id).result_money
@@ -128,15 +128,15 @@ def contest_thread(participate: Participate):
                              profit_and_loss=(buy_avg - sell_avg) * param,
                              trade_cost=real_data.iloc[0]['4'])
 
-        if db_trade:
-            participate.result_money += (db_trade.cost * db_trade.trade_cnt)
+            if db_trade:
+                participate.result_money += (db_trade.cost * db_trade.trade_cnt)
 
-            (session_thread.query(Participate).
-             filter(Participate.id == participate.id).
-             update({'result_money': participate.result_money}))
+                (session_thread.query(Participate).
+                 filter(Participate.id == participate.id).
+                 update({'result_money': participate.result_money}))
 
-            session_thread.add(db_trade)
-            session_thread.commit()
+                session_thread.add(db_trade)
+                session_thread.commit()
 
     def asset(percent):
         tmp_asset = math.ceil(participate.result_money / 100 * percent)

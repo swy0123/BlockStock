@@ -22,5 +22,5 @@ class ContestTradeInfoResponse:
         self.startTime = contest.start_time.strftime('%H%M%S')
         self.startAsset = contest.ticket * 10000000
         self.endAsset = participate.result_money
-        self.returnPercent = participate.result_money / (10000000 * contest.ticket) * 100
+        self.returnPercent = (participate.result_money - (10000000 * contest.ticket)) / (10000000 * contest.ticket) * 100
         self.returns = participate.result_money - (contest.ticket * 10000000)
