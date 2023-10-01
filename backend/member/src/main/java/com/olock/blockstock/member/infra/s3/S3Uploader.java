@@ -36,7 +36,7 @@ public class S3Uploader {
         String fileName = dirName + "/" + UUID.randomUUID() + uploadFile.getName();
         String uploadImageUrl = putS3(uploadFile, fileName);
         removeNewFile(uploadFile);
-        return uploadImageUrl;
+        return uploadImageUrl.replaceAll("https", "http");
     }
 
     private Optional<File> convert(MultipartFile file) throws IOException {
