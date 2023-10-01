@@ -8,7 +8,7 @@ interface pwData {
 interface nickName {
     nickname: string;
 }
-  
+
 // 마이페이지 조회 api
 export const getmypage = async () => {
     try{
@@ -20,6 +20,17 @@ export const getmypage = async () => {
         console.error("error!", error);
     }
 };
+
+// 프로필 이미지 등록
+export const putProfile = async(formData) => {
+    try{
+        console.log("프로필 try", formData)
+        const response = await privateApi.put("/member/profile", formData);
+        console.log(response)
+    }catch(error){
+        console.log('err', error)
+    }
+}
 
 // 비밀번호 수정
 export const putPassword = async(pw : pwData) => {
