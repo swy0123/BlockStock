@@ -18,7 +18,7 @@ width: 100%;
 }
 `;
 export const CreateBtn = styled.div`
-margin-left: 63%;
+margin-left: 70%;
 min-width: 90px;
 height: 30px;
 /* margin: 0px 0px 0px 53%; */

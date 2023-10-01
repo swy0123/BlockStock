@@ -22,7 +22,7 @@ const Hr = styled.hr`
   border-color: rgb(210, 189, 233);
 `;
 
-const Tooltip = ({ state, children }) => {
+const Tooltip = ({ state, children, type }) => {
   const navigate = useNavigate();
   const [isTooltipVisible, setTooltipVisible] = useState(false);
   const [isMessageVisible, setMessageVisible] = useState(false);
@@ -54,6 +54,9 @@ const Tooltip = ({ state, children }) => {
           className={`${style.tooltip}`}
           onMouseLeave={() => {
             setTooltipVisible(false);
+          }}
+          style={{
+            left: type === 'detail' ? '-100px' : '-20px'
           }}
         >
           <Box onClick={() => navigate(`/userpage/${38}`)}>

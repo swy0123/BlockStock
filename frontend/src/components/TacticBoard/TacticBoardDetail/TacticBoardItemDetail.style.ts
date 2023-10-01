@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-width: 1000px;
+width: 99%;
 min-height: 1000px;
 background: #FFFFFF;
 box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
 border-radius: 8px;
-margin: 20px 0px 100px 100px;
+margin: 0px 0px 0px 5px;
 `;
 
 export const PostTitle = styled.div`
@@ -26,18 +26,27 @@ height: 23px;
 `;
 export const NickName = styled.div`
 color: #B8B6B6;
-font-size: 15px;
+font-size: 13px;
 margin: 0px 0px 0px 10px;
 `;
 export const Date = styled.div`
 color: #B8B6B6;
-font-size: 15px;
+font-size: 13px;
 margin: 0px 0px 0px 10px;
 `;
 export const Box = styled.div`
 font-size: 13px;
-margin: 0px 0px 0px 230px;
+margin: 0px 0px 0px 40%;
 display: flex;
+@media(max-width: 1500px){
+  margin: 0px 0px 0px 30%;
+}
+@media(max-width: 1300px){
+  margin: 0px 0px 0px 20%;
+}
+@media(max-width: 1000px){
+  margin: 0px 0px 0px 0%;
+}
 `;
 export const Hit = styled.div`
 color: #B8B6B6;
@@ -68,6 +77,9 @@ export const ContentBox = styled.div`
 display: flex;
 width: 100%;
 min-height: 100px;
+@media(max-width: 1000px){
+  display: block;
+}
 `;
 export const ContentImg = styled.div`
 width: 50%;
@@ -123,21 +135,23 @@ color: #6D6D6D;
 
 export const BtnBox = styled.div`
 width: 100%;
-min-height: 100px;
+min-height: 80px;
 display: flex;
 `;
 export const DeleteBtn = styled.div`
-width: 80.05px;
-height: 30px;
+width: 70px;
+height: 28px;
 background: #EC4275;
 border-radius: 6px;
 font-weight: 600;
-font-size: 14px;
+font-size: 12px;
 display: flex;
 justify-content: center; /* 수평 가운데 정렬 */
 align-items: center;
 color: #FFFFFF;
-margin: 30px 0px 0px 850px;
+position: relative;
+top: 40px;
+left: 88%;
 &:hover{
   background-color: #B61E35;
 }
