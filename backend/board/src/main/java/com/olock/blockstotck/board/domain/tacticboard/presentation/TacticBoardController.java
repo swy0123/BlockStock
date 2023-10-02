@@ -6,6 +6,7 @@ import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostLike
 import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostRequest;
 import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostRequestParam;
 import com.olock.blockstotck.board.domain.tacticboard.dto.response.TacticPostCommentResponse;
+import com.olock.blockstotck.board.domain.tacticboard.dto.response.TacticPostListResponse;
 import com.olock.blockstotck.board.domain.tacticboard.dto.response.TacticPostResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +28,8 @@ public class TacticBoardController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<TacticPostResponse>> getTacticPostList(@RequestHeader("Member-id") Long memberId,
-                                                                      @ModelAttribute TacticPostRequestParam tacticPostRequestParam) {
+    public ResponseEntity<List<TacticPostListResponse>> getTacticPostList(@RequestHeader("Member-id") Long memberId,
+                                                                          @ModelAttribute TacticPostRequestParam tacticPostRequestParam) {
         return ResponseEntity.ok(tacticBoardService.getTacticPostList(memberId, tacticPostRequestParam));
     }
 
