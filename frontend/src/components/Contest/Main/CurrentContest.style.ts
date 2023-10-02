@@ -104,7 +104,7 @@ export const NoRankImage = styled.img`
 `;
 
 export const RankUser = styled.div`
-width: 55%;
+width: 53%;
 height: 100%;
 /* margin: 0px 50px 0px 0px; */
 `;
@@ -143,10 +143,16 @@ margin: 0px 50px 0px 30px;
 `;
 
 export const Prev = styled.div`
-position: relative;
-top:30px;
+position: absolute;
+min-width: 30px;
+top:170px;
+left: 10px;
+color: #E1E1E1;
 `;
 export const Next = styled.div`
-position: relative;
-top:30px;
+position: absolute;
+min-width: 30px;
+top:150px;
+right: -10px;
+color: #E1E1E1;
 `;

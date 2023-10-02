@@ -24,17 +24,20 @@ function Contest() {
   const [currentContest, setCurrentContest] = useState([])
   const [expectedContest, setExpectedContest] = useState([])
   const [recentContestResults, setRecentContestResults] = useState([])
+
   // 대회 메인 api ==========================================
   useEffect(()=>{
     contestApi()
-  },[currentContest, expectedContest, recentContestResults])
+  },[])
+
   const contestApi = async()=>{
     const res = await contestMain()
     console.log('대회 메인', res)
-    setCurrentContest(res.data.currentContestResultList)
-    setExpectedContest(res.data.nextContestList)
-    setRecentContestResults(res.data.prevContestResult)
+    setCurrentContest(res.currentContestResultList)
+    setExpectedContest(res.nextContestList)
+    setRecentContestResults(res.prevContestResult)
   }
+
   // 대회 메인 api ==========================================
   return (
     <>

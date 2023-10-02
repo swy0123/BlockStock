@@ -1,8 +1,9 @@
-import React, {useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import SmsIcon from '@mui/icons-material/Sms';
+import Swal from 'sweetalert2';
 
 import CommentCreate from "../../FreeBoard/FreeBoardDetail/Comment/CommentCeate";
 import CommentList from "../../FreeBoard/FreeBoardDetail/Comment/CommentList";
@@ -27,63 +28,125 @@ import {
     Line,
     ContentBox,
     BtnBox,
+    UserInfo
   } from './TacticBoardItemDetail.style'
 
 // 상세페이지 api 호출
 import {tacticBoardDetail, tacticBoardDelete} from '../../../api/TacticBoard/TacticBoard'
+// 댓글 recoil 
+import { useRecoilState } from "recoil";
+import {commentlist} from '../../../recoil/FreeBoard/Comment'
+import {tacticBoardList} from '../../../recoil/TacticBoard/TacticBoardBox'
+// userId
+import { useRecoilValue } from 'recoil';
+import { CurrentUserAtom } from '../../../recoil/Auth';
+ // 날짜 변환
+ import dayjs from "dayjs";
 
 function TacticBoardItemDetail(){
 
-    const navigate = useNavigate();
+    // userId
+    const currentUser = useRecoilValue(CurrentUserAtom);
+    const userId = currentUser.userid;
 
+    const [commentlists, setCommentlists] = useRecoilState(commentlist)
+    const [boardItem, setBoardItem] = useRecoilState(tacticBoardList)
+
+    const navigate = useNavigate();
     const location = useLocation();
     const state = location.state;
+    const {
+        // contestReturnStatus,
+        // contestReturns,
+        createdAt,
+        hit,
+        isLike,
+        likeCnt,
+        tacticPostId,
+        // testReturns,
+        title
+    } = state.post
+
+    const [data, setData] = useState({})
 
     useEffect(()=>{
+        console.log(boardItem,'boardItem')
         detailApi()
     },[])
 
-    const detailApi = ()=>{
-        tacticBoardDetail(state.postId)
-    }
+    useEffect(()=>{
+        setData(boardItem)
+    },[boardItem])
 
-    //더미데이터
-    const data = {
-        'id': 1,
-        "title": "제목입니다",
-        "profileImageUrl": "",
-        "imgPath": "",
-        "content": "내용입니다",
-        "hit": 2,
-        "likeCnt": 3,
-        "commentCnt": 2,
-        "createdAt": "2023-09-07 15:18:00",
-        "nickname": "하진",
-        "isLike": true
+    const detailApi = async()=>{
+        const res = await tacticBoardDetail(tacticPostId)
+        console.log(res)
+        setBoardItem(res.data)
+        setData(res.data)
     }
 
     // 삭제
     const handleDelete = ()=>{
-        // tacticBoardDelete(state.postId)
-        tacticBoardDelete(29)
-        navigate('/tacticboard')
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+              confirmButton: 'btn btn-success',
+              cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+          })
+          
+          swalWithBootstrapButtons.fire({
+            // title: '삭제?',
+            // text: "You won't be able to revert this!",
+            text: '정말 삭제하시겠습니까?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: `<span>삭제</span>`,
+            cancelButtonText: '<span>취소</span>',
+            reverseButtons: true
+          }).then((result) => {
+            if (result.isConfirmed) {
+                // tacticBoardDelete(state.postId)
+                tacticBoardDelete(29)
+                navigate('/tacticboard')
+              swalWithBootstrapButtons.fire({
+                title: '삭제되었습니다',
+                icon:'success',
+                timer: 1000, // 2초 후에 자동으로 사라집니다 (밀리초 단위)
+                showConfirmButton: false, // 확인 버튼을 표시하지 않음
+                showCancelButton: false, // 취소 버튼을 표시하지 않음
+              })
+            } else if (
+              result.dismiss === Swal.DismissReason.cancel
+            ) {
+              swalWithBootstrapButtons.fire({
+                title: '취소되었습니다',
+                icon:'error',
+                timer: 1000, // 2초 후에 자동으로 사라집니다 (밀리초 단위)
+                showConfirmButton: false, // 확인 버튼을 표시하지 않음
+                showCancelButton: false, // 취소 버튼을 표시하지 않음
+              })
+              }
+            })
     }
 
     return(
         <>
             <Container>
-                <PostTitle>{data.title}</PostTitle>
+                <PostTitle>{title}</PostTitle>
 
                 <Header>
-                    <div style={{display:'flex', minWidth:'500px'}}>
+                    <UserInfo>
                         <Tooltip type={'detail'}>
                             <div style={{display:'flex'}}>
                             <UserImg src="/icon/user_purple.png"/>
-                            <NickName>{data.nickname}</NickName>
+                            {/* <NickName>{data.nickname}</NickName> */}
                             </div>
                         </Tooltip>
-                        <Date>{data.createdAt}</Date>
-                    </div>
+                        <Date>
+                            {dayjs(createdAt).format('YYYY.MM.DD')}
+                        </Date>
+                    </UserInfo>
 
                 <Box>
                     <Hit>
@@ -91,7 +154,7 @@ function TacticBoardItemDetail(){
                         <VisibilityIcon style={{fontSize:'16px'}}/>
                     </div>
                     <div>
-                        {data.hit}
+                        {hit}
                     </div>
                     </Hit>
                     <Like>
@@ -107,7 +170,7 @@ function TacticBoardItemDetail(){
                         <SmsIcon style={{fontSize:'16px'}}/>
                     </div>
                     <div>
-                        {data.commentCnt}
+                        {commentlists.length}
                     </div>
                     </Comment>
                 </Box>
@@ -124,20 +187,23 @@ function TacticBoardItemDetail(){
                     </ContentImg>
                     {/* 줄바꿈 적용 넘어갈 경우 다음 줄로 */}
                     <Content style={{ whiteSpace: 'pre-line',wordWrap: 'break-word' }}>
-                        {data.content}
+                        {/* {data.content} */}
                     </Content>
                 </ContentBox>
                 <Line style={{margin:'0px 0px 0px 0px'}}/>
 
-
-                <BtnBox>
-                    <DeleteBtn onClick={handleDelete}>삭제</DeleteBtn>
-                </BtnBox>
+                {data.memberId === userId ? (
+                    <BtnBox>
+                        <DeleteBtn onClick={handleDelete}>삭제</DeleteBtn>
+                    </BtnBox>
+                ) : (
+                    <></>
+                )}
                 </Wrapper>
                 <Line />
-                    <CommentCreate state={{ id :data.id, isLike:data.isLike , type:'tactic' }}/>
+                    <CommentCreate state={{ id :tacticPostId, isLike:isLike , type:'tactic' }}/>
                 <Line />
-                <CommentList state={{ id :data.id, type:'tactic' }}/>
+                <CommentList state={{ id :tacticPostId, type:'tactic' }}/>
             </Container>
         </>
     )
