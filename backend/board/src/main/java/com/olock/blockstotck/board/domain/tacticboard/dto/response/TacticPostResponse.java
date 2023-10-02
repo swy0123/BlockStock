@@ -17,14 +17,13 @@ public class TacticPostResponse {
     private Long hit;
     private LocalDateTime createdAt;
 
-    public TacticPostResponse(TacticPost tacticPost, String optionName, double testReturns,
-                              double contestReturns, Long likeCnt) {
+    public TacticPostResponse(TacticPost tacticPost, Long likeCnt) {
         this.tacticPostId = tacticPost.getTacticId();
         this.title = tacticPost.getTitle();
-        this.optionName = optionName;
+        this.optionName = tacticPost.getOptionName();
         this.imgPath = tacticPost.getImgPath();
-        this.testReturns = testReturns;
-        this.contestReturns = contestReturns;
+        this.testReturns = tacticPost.getTestReturns();
+        this.contestReturns = tacticPost.getContestReturns();
         this.likeCnt = likeCnt;
         this.hit = tacticPost.getHit();
         this.createdAt = tacticPost.getCreatedAt();
