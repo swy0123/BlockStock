@@ -81,6 +81,8 @@ export const Img = styled.img`
   margin-top: -50px;
   margin-left: 50px;
   margin-right: 30px;
+  border-radius: 6px;
+  background-color: white;
 `;
 export const Text1 = styled.p`
   font-size: 15px;

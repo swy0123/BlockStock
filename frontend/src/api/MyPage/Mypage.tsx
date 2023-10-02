@@ -8,7 +8,7 @@ interface pwData {
 interface nickName {
     nickname: string;
 }
-  
+
 // 마이페이지 조회 api
 export const getmypage = async () => {
     try{
@@ -20,6 +20,22 @@ export const getmypage = async () => {
         console.error("error!", error);
     }
 };
+
+// 프로필 이미지 등록
+export const putProfile = async(formData) => {
+    try{
+        console.log("프로필 try", formData)
+        const response = await privateApi.put("/member/profile", formData,
+        {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+        });
+        return response
+    }catch(error){
+        console.log('err', error)
+    }
+}
 
 // 비밀번호 수정
 export const putPassword = async(pw : pwData) => {
@@ -48,6 +64,18 @@ export const getRecodeList =async() => {
         console.log('try history')
         const response = await privateApi.get("/contest/history");
         // console.log('기록조회', response.data)
+        return response.data
+    }catch(error){
+        console.log('err', error)
+    }
+}
+
+// 내 전략 조회
+export const getTactic =async() => {
+    try{
+        // console.log('try mytactic')
+        const response = await privateApi.get("/tactic");
+        console.log('전략 조회', response.data)
         return response.data
     }catch(error){
         console.log('err', error)
