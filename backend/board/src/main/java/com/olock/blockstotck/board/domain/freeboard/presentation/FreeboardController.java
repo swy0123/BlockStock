@@ -2,6 +2,7 @@ package com.olock.blockstotck.board.domain.freeboard.presentation;
 
 import com.olock.blockstotck.board.domain.freeboard.application.FreeboardService;
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostCommentRequest;
+import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostLikeRequest;
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreeboardPostRequest;
 import com.olock.blockstotck.board.infra.awsS3.AwsS3Uploader;
 import lombok.RequiredArgsConstructor;
@@ -65,4 +66,14 @@ public class FreeboardController {
 
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/like")
+    public ResponseEntity<Void> likeFreePost(@RequestHeader("Member-id") Long memberId,
+                                             @RequestBody FreePostLikeRequest freePostLikeRequest){
+
+        freeboardService.likeFreePost(memberId, freePostLikeRequest);
+
+        return ResponseEntity.ok().build();
+    }
+
 }
