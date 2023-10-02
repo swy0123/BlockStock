@@ -1,5 +1,7 @@
 package com.olock.blockstotck.board.domain.tacticboard.application;
 
+import com.olock.blockstotck.board.domain.member.application.MemberServiceImpl;
+import com.olock.blockstotck.board.domain.member.persistance.Member;
 import com.olock.blockstotck.board.domain.tactic.persistance.Tactic;
 import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostCommentRequest;
 import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostRequest;
@@ -43,6 +45,8 @@ public class TacticBoardServiceImpl implements TacticBoardService {
     private final TacticPostValidator tacticPostValidator;
     private final TacticPostCommentValidator tacticPostCommentValidator;
     private final WebClientUtil webClientUtil;
+
+    private final MemberServiceImpl memberService;
 
     @Override
     public void writeTacticPost(Long memberId, TacticPostRequest tacticPostRequest) {
@@ -136,7 +140,12 @@ public class TacticBoardServiceImpl implements TacticBoardService {
         TacticPost tacticPost = findTacticPost.get();
 
         long likeCnt = tacticPostLikeRepository.countByTacticPostId(tacticPostId);
-        String nickName = "";
+
+        Member member = memberService.getMember(tacticPost.getMemberId());
+
+        if(member == null) memberService.saveMember(tacticPost.getMemberId());
+
+        String nickName = member.getNickname();
 
         boolean isLike = true;
         if(tacticPostLikeRepository.findByMemberIdAndTacticPostId(memberId, tacticPostId).isEmpty()) isLike = false;
@@ -171,7 +180,11 @@ public class TacticBoardServiceImpl implements TacticBoardService {
         List<TacticPostComment> tacticPostComments = tacticPostCommentRepository.findByTacticPostId(tacticPostId);
 
         return tacticPostComments.stream()
-                .map(tacticPostComment -> new TacticPostCommentResponse("", tacticPostComment))
+                .map(tacticPostComment -> {
+                    Member member = memberService.getMember(tacticPostComment.getMemberId());
+                    if(member == null) memberService.saveMember(tacticPostComment.getMemberId());
+                    return new TacticPostCommentResponse(member.getNickname(), tacticPostComment);
+                })
                 .collect(Collectors.toList());
     }
 
