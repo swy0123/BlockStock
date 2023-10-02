@@ -11,6 +11,7 @@ import com.olock.blockstock.member.domain.member.persistence.MemberRepository;
 import com.olock.blockstock.member.domain.member.persistence.entity.Member;
 import com.olock.blockstock.member.domain.member.persistence.entity.Role;
 import com.olock.blockstock.member.global.kafka.MemberProducer;
+import com.olock.blockstock.member.infra.s3.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
@@ -18,11 +19,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
 import java.time.LocalDateTime;
 
 @Service
@@ -34,6 +43,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberValidator memberValidator;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final FollowRepository followRepository;
+    private final S3Uploader s3Uploader;
 
     @Override
     public void join(MemberJoinRequest memberJoinRequest) {
@@ -44,7 +54,7 @@ public class MemberServiceImpl implements MemberService {
                 .email(memberJoinRequest.getEmail())
                 .password(passwordEncoder.encode(memberJoinRequest.getPassword()))
                 .nickname(memberJoinRequest.getNickname())
-                .imagePath("/default")
+                .imagePath("https://blockstock.bucket.s3.ap-northeast-2.amazonaws.com/member/5c8c4bfe-5496-435c-85ee-dec6c22e7071user4.png")
                 .role(Role.MEMBER.name())
                 .createdAt(LocalDateTime.now())
                 .createdAt(LocalDateTime.now())
@@ -112,10 +122,18 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public InputStreamResource getProfile(Long memberId) {
-        // TODO : S3 이미지 저장소와 연결
-        String imageUrl = "https://firebasestorage.googleapis.com/v0/b/pocket-sch.appspot.com/o/user4.png?alt=media&token=a402c7d3-2f93-4a14-b291-4c143d4e450b";
+    public void updateProfileImage(Long memberId, MultipartFile file) {
+        try {
+            String fileName = s3Uploader.upload(file, "member");
+            memberRepository.updateProfileImage(memberId, fileName);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    @Override
+    public InputStreamResource getProfile(Long memberId) {
+        String imageUrl = memberRepository.findByMemberId(memberId).get().getImagePath();
         URL url = null;
         InputStream in = null;
         try {
