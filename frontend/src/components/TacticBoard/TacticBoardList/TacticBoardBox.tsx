@@ -54,20 +54,20 @@ function TacticBoardBox() {
 
 
   // api 통신 =============================================================
-  // const params = {
-  //   sort: menu,
-  //   page: page,
-  //   size: rowsPerPage,
-  //   keyWord: searchKeyword,
-  // };
-  // useEffect(()=>{
-  //   freeboard()
-  // },[page,rowsPerPage,searchKeyword])
+  const params = {
+    sort: menu,
+    page: page,
+    size: rowsPerPage,
+    keyWord: searchKeyword,
+  };
+  useEffect(()=>{
+    tacticboardapi()
+  },[page,rowsPerPage,searchKeyword])
 
-  // const freeboard = async () => {
-  //   const freeBoard = await tacticBoardList(params)
-  //   console.log(freeBoard)
-  // }
+  const tacticboardapi = async () => {
+    const res = await tacticBoardList(params)
+    console.log(res)
+  }
   // api 통신 =================
 
 

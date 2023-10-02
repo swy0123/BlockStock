@@ -5,8 +5,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { Pagination, Navigation } from 'swiper/modules';
-import './Swiper.css'
-
+import './Contest.css'
 import { 
   Container,
   CurrentContestTitle,
@@ -27,6 +26,8 @@ import {
   NotCurrentContest,
   NotCurrentContestImage,
   ContestReturn,
+  Prev,
+  Next
  } from './CurrentContest.style'
 
  // 날짜 변환
@@ -35,17 +36,133 @@ import {
 function CurrentContest({contest}){
 
   const navigate = useNavigate();
-  const [currentContestList, setCurrentContestList] = useState([]);
+  // const [currentContestList, setCurrentContestList] = useState([]);
 
 
   // 현재 대회 ====================================================
   useEffect(()=>{
     console.log(contest,'메인페이지 현재대회')
-    setCurrentContestList(contest)
+    // setCurrentContestList(contest)
   },[contest])
 
   // style 잡기 위한 더미 데이터 ====================================
 
+  const currentContestList = [
+    {
+      "id": 7,
+      "content": "string",
+      "code": "005930",
+      "title": "대회 생성",
+      "term": 15,
+      "startAsset": 50000000,
+      "startAt": "2023-09-29T17:26:55",
+      "endAt": "2024-09-20T16:57:40",
+      "ranking": [
+          {
+              "memberId": 16,
+              "nickName": "",
+              "returns": -80.0
+          },
+          {
+              "memberId": 10,
+              "nickName": "",
+              "returns": -99.94340000000001
+          },
+          {
+              "memberId": 12,
+              "nickName": "",
+              "returns": -99.999996
+          },
+          {
+              "memberId": 16,
+              "nickName": "",
+              "returns": -80.0
+          },
+          {
+              "memberId": 10,
+              "nickName": "",
+              "returns": -99.94340000000001
+          },
+          {
+              "memberId": 12,
+              "nickName": "",
+              "returns": -99.999996
+          },
+          {
+              "memberId": 16,
+              "nickName": "",
+              "returns": -80.0
+          },
+          {
+              "memberId": 10,
+              "nickName": "",
+              "returns": -99.94340000000001
+          },
+          {
+              "memberId": 12,
+              "nickName": "",
+              "returns": -99.999996
+          }
+      ]
+    },
+    {
+      "id": 7,
+      "content": "string",
+      "code": "005930",
+      "title": "대회 생성",
+      "term": 15,
+      "startAsset": 50000000,
+      "startAt": "2023-09-29T17:26:55",
+      "endAt": "2024-09-20T16:57:40",
+      "ranking": [
+          {
+              "memberId": 16,
+              "nickName": "",
+              "returns": -80.0
+          },
+          {
+              "memberId": 10,
+              "nickName": "",
+              "returns": -99.94340000000001
+          },
+          {
+              "memberId": 12,
+              "nickName": "",
+              "returns": -99.999996
+          },
+          {
+              "memberId": 16,
+              "nickName": "",
+              "returns": -80.0
+          },
+          {
+              "memberId": 10,
+              "nickName": "",
+              "returns": -99.94340000000001
+          },
+          {
+              "memberId": 12,
+              "nickName": "",
+              "returns": -99.999996
+          },
+          {
+              "memberId": 16,
+              "nickName": "",
+              "returns": -80.0
+          },
+          {
+              "memberId": 10,
+              "nickName": "",
+              "returns": -99.94340000000001
+          },
+          {
+              "memberId": 12,
+              "nickName": "",
+              "returns": -99.999996
+          }
+      ]
+    }
+  ]
   
 
   return(
@@ -56,7 +173,7 @@ function CurrentContest({contest}){
 
       
       <CurrentContestBox
-      style={{width: currentContestList.length === 0 ? '100%' : '80%'}}
+      style={{width: currentContestList.length === 0 ? '100%' : '100%'}}
       >
         {currentContestList.length === 0 ? (
           <NotCurrentContest>
@@ -76,10 +193,22 @@ function CurrentContest({contest}){
               pagination={{
                 clickable: true,
               }}
-              navigation={true}
+              // navigation={true}
+              navigation={{
+                prevEl: '.swiper-button-prev',
+                nextEl: '.swiper-button-next',
+              }}
               modules={[Pagination, Navigation]}
               className="mySwiper"
+              style={
+                {
+                  margin:'0px 0px 0px 0px',
+                position:'relative',
+                height:'350px',
+              }}
             >
+              <Prev className="swiper-button-prev">이전</Prev>
+              <Next className="swiper-button-next">다음</Next>
               {currentContestList.map((contest) => (
                 <SwiperSlide style={{ margin: '0px' }}>
                   <div key={contest.id}>
