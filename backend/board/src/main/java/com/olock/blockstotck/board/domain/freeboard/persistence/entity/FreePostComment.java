@@ -1,5 +1,6 @@
 package com.olock.blockstotck.board.domain.freeboard.persistence.entity;
 
+import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostCommentRequest;
 import com.olock.blockstotck.board.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
