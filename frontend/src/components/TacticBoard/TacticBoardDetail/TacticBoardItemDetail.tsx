@@ -30,7 +30,7 @@ import {
   } from './TacticBoardItemDetail.style'
 
 // 상세페이지 api 호출
-// import {tacticBoardDetail, tacticBoardDelete} from '../../../api/TacticBoard/TacticBoard'
+import {tacticBoardDetail, tacticBoardDelete} from '../../../api/TacticBoard/TacticBoard'
 
 function TacticBoardItemDetail(){
 
@@ -40,12 +40,12 @@ function TacticBoardItemDetail(){
     const state = location.state;
 
     useEffect(()=>{
-        // detailApi()
+        detailApi()
     },[])
 
-    // const detailApi = ()=>{
-        // tacticBoardDetail(state.postId)
-    // }
+    const detailApi = ()=>{
+        tacticBoardDetail(state.postId)
+    }
 
     //더미데이터
     const data = {
@@ -65,7 +65,8 @@ function TacticBoardItemDetail(){
     // 삭제
     const handleDelete = ()=>{
         // tacticBoardDelete(state.postId)
-        // navigate('/tacticboard')
+        tacticBoardDelete(29)
+        navigate('/tacticboard')
     }
 
     return(
