@@ -15,4 +15,10 @@ public interface FreeboardService{
     void postFreeBoardFile(List<MultipartFile> multipartFileList,
                            List<String> filePathList,
                            long freePostId);
+
+    void deleteFreePost(Long memberId, Long freeboardId);
+
+    void deleteAllFreePostComment(Long freeboardId);
+
+    void deleteMyFreePostComment(Long memberId, Long commentId);
 }

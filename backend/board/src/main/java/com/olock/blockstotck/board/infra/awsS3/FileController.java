@@ -2,6 +2,7 @@ package com.olock.blockstotck.board.infra.awsS3;
 
 import java.io.IOException;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,5 +20,10 @@ public class FileController {
     public String upload(@RequestParam("file") MultipartFile multipartFile) throws IOException {
         String fileName = awsS3Uploader.upload(multipartFile, "test");
         return fileName;
+    }
+
+    @DeleteMapping("/delete-test")
+    public void delete(){
+        awsS3Uploader.delete("test/d3d52bf7-aeb5-485f-b910-f7c9e62bda93image (8).png");
     }
 }
