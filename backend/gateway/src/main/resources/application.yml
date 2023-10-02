@@ -50,7 +50,7 @@ spring:
         - id: board-service
           uri: https://j9b210.p.ssafy.io:64413
           predicates:
-            - Path=/api/board/**
+            - Path=/api/board/**, /api/free-board/**, /api/tactic-board/**
         - id: tactic-service
           uri: https://seal-striking-presumably.ngrok-free.app
           predicates:
