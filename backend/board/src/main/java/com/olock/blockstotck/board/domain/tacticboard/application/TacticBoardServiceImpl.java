@@ -199,4 +199,17 @@ public class TacticBoardServiceImpl implements TacticBoardService {
 
         tacticPostCommentRepository.delete(tacticPostComment);
     }
+
+    @Override
+    public List<TacticPostListResponse> getTacticBoardMy(Long memberId, Long userId, Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+
+        Page<TacticPost> findTacticPostList = tacticPostRepository.findByMemberId(userId, pageable);
+
+        return findTacticPostList.stream()
+                .map(findTacticPost -> {
+                    boolean isLike = !tacticPostLikeRepository.findByMemberIdAndTacticPostId(memberId, findTacticPost.getId()).isEmpty();
+                    return new TacticPostListResponse(findTacticPost, isLike);
+                }).collect(Collectors.toList());
+    }
 }

@@ -20,4 +20,5 @@ public interface TacticBoardService {
     List<TacticPostCommentResponse> getTacticPostCommentList(Long tacticPostId);
     void writeTacticPostComment(Long memberId, TacticPostCommentRequest tacticPostId);
     void deleteTacticPostComment(Long memberId, Long commentId);
+    List<TacticPostListResponse> getTacticBoardMy(Long memberId, Long userId, Integer page, Integer size);
 }
