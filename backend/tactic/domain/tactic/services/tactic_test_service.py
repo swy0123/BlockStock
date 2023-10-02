@@ -167,7 +167,14 @@ def get_tactic_test_response(tactic_test_request):
 
     # 반복문 끝나고 남은 주식 매수
     if now_stock_cnt > 0:
-        now_asset += now_stock_cnt * now_data[now_repeat_cnt-1][4]
+        now_asset += now_stock_cnt * now_data[now_repeat_cnt-1][5]
+        item = OptionHistory()
+        item.type = "sell"
+        item.turn = now_repeat_cnt - 1
+        item.cost = now_data[now_repeat_cnt - 1][5]
+        item.tradeCnt(now_stock_cnt)
+        
+        option_history_list.append(item)
 
     # set option_history
     response.optionHistory = option_history_list
@@ -444,17 +451,17 @@ def cur_data(data_type):
 def buy(param):
     global now_asset, now_stock_cnt, buy_sum, buy_cnt
     # param 들어온 개수만큼 살 수 있는지 확인
-    if param * now_data[now_repeat_cnt][4] <= now_asset:
-        now_asset -= param * now_data[now_repeat_cnt][4]
+    if param * now_data[now_repeat_cnt][5] <= now_asset:
+        now_asset -= param * now_data[now_repeat_cnt][5]
         now_stock_cnt += param
         # option_history_response 객체 생성
         item = OptionHistory()
         item.type = "buy"
         item.turn = now_repeat_cnt
-        item.cost = now_data[now_repeat_cnt][4]
+        item.cost = now_data[now_repeat_cnt][5]
         item.tradeCnt = param
         # 매도 총 합, 개수 계산
-        buy_sum += param * now_data[now_repeat_cnt][4]
+        buy_sum += param * now_data[now_repeat_cnt][5]
         buy_cnt += param
 
         # 실현손익 setting
@@ -467,16 +474,16 @@ def sell(param):
     global now_stock_cnt, now_asset, sell_sum, sell_cnt
     # param 들어온 수만큼 팔 수 있는지 확인
     if now_stock_cnt != 0 and param <= now_stock_cnt:
-        now_asset += param * now_data[now_repeat_cnt][4]
+        now_asset += param * now_data[now_repeat_cnt][5]
         now_stock_cnt -= param
         # 매수 총 합, 개수 계산
-        sell_sum += param * now_data[now_repeat_cnt][4]
+        sell_sum += param * now_data[now_repeat_cnt][5]
         sell_cnt += param
         # option_history_response 객체 생성
         item = OptionHistory()
         item.type = "sell"
         item.turn = now_repeat_cnt
-        item.cost = now_data[now_repeat_cnt][4]
+        item.cost = now_data[now_repeat_cnt][5]
         item.tradeCnt = param
 
         buy_avg = buy_sum / buy_cnt
@@ -491,7 +498,7 @@ def sell(param):
 
 def asset(percent):
     tmp_asset = math.ceil(now_asset / 100 * percent)
-    return math.ceil(tmp_asset / now_data[now_repeat_cnt][4])
+    return math.ceil(tmp_asset / now_data[now_repeat_cnt][5])
 
 
 def reserve(percent):
