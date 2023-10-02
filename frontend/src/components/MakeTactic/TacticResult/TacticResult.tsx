@@ -29,7 +29,14 @@ import {
 } from "./TacticResult.style";
 import OptionHistoryItem from "./OptionHistoryItem";
 import { format } from "d3-format";
-import { saveTacticProps, tacticCreate, tacticTest, tacticTestProps, tacticUpdate, updateTacticProps } from "../../../api/Tactic/TacticTest";
+import {
+  saveTacticProps,
+  tacticCreate,
+  tacticTest,
+  tacticTestProps,
+  tacticUpdate,
+  updateTacticProps,
+} from "../../../api/Tactic/TacticTest";
 import { useNavigate } from "react-router-dom";
 
 const TacticResult = (props) => {
@@ -59,7 +66,7 @@ const TacticResult = (props) => {
       term: props.term,
       repeatCnt: props.repeatCnt,
     };
-    console.log(tacticTestData)
+    console.log(tacticTestData);
     const res = await tacticTest(tacticTestData);
     // const res = dummyData;
     console.log("결과~~~~~~~~~~~~~");
@@ -95,7 +102,6 @@ const TacticResult = (props) => {
     return formattedDate;
   };
 
-
   useEffect(() => {
     axiosGetData();
     console.log("res useEffect");
@@ -113,24 +119,8 @@ const TacticResult = (props) => {
 
     // ----------------아래가 실제 코드 ------------------
 
-    // const formData = new FormData();
-    // formData.append("title", props.title);
-    // formData.append("optionCode", props.optionCode);
-    // formData.append("taticJsonCode", JSON.stringify(props.taticJsonCode));
-    // formData.append("tacticPythonCode", props.tacticPythonCode);
-    // formData.append("testReturns", returnPercent);
-    // formData.append("imgPath", "img.svg");
-    // // formData.append('imgPath', props.tacticImg, "img.svg");
-    // console.log(formData);
-    // console.log(formData.get("title"));
-    // console.log(formData.get("optionCode"));
-    // console.log(formData.get("taticJsonCode"));
-    // console.log(formData.get("tacticPythonCode"));
-    // console.log(formData.get("testReturns"));
-    // console.log(formData.get("imgPath"));
-    // const res = await tacticCreate(formData);
-
-    // -------------------이미지 없이 임시 코드------------------
+    const formData = new FormData();
+    
     if (tacticId != null) {
       const requestProps: updateTacticProps = {
         id: tacticId,
@@ -138,43 +128,61 @@ const TacticResult = (props) => {
         optionCode: props.optionCode,
         tacticJsonCode: JSON.stringify(props.tacticJsonCode),
         tacticPythonCode: props.tacticPythonCode,
-        imgPath: "props.tacticImg",
+        tacticJsonDefCode: props.customVariableBlockGroup.defArray,
+        tacticJsonSetCode: props.customVariableBlockGroup.settingArray,
+        tacticJsonGetCode: props.customVariableBlockGroup.getArray,
+        // imgPath: "props.tacticImg",
         testReturns: returnPercent,
       };
-      console.log(requestProps);
-      const res = await tacticUpdate(requestProps);
+      // console.log(requestProps);
+      formData.append(
+        "request",
+        new Blob([JSON.stringify(requestProps)], {
+          type: "application/json",
+        })
+      );
+      formData.append("imgPath", props.tacticImg);
+      // formData.append("imgPath", props.tacticImg, "img.svg");
+      const res = await tacticUpdate(formData);
       console.log(res);
-    }
-    else {
+    } else {
       const requestProps: saveTacticProps = {
         title: props.title,
         optionCode: props.optionCode,
         tacticJsonCode: JSON.stringify(props.tacticJsonCode),
         tacticPythonCode: props.tacticPythonCode,
-        imgPath: "props.tacticImg",
+        tacticJsonDefCode: props.customVariableBlockGroup.defArray,
+        tacticJsonSetCode: props.customVariableBlockGroup.settingArray,
+        tacticJsonGetCode: props.customVariableBlockGroup.getArray,
+        // imgPath: "props.tacticImg",
         testReturns: returnPercent,
       };
-      console.log(requestProps);
-      const res = await tacticCreate(requestProps);
+      formData.append(
+        "request",
+        new Blob([JSON.stringify(requestProps)], {
+          type: "application/json",
+        })
+      );
+      formData.append("imgPath", props.tacticImg);
+      // formData.append("imgPath", props.tacticImg, "img.svg");
+      // console.log(requestProps);
+      const res = await tacticCreate(formData);
       console.log(res);
-
     }
-
   };
 
   const saveTactic = async () => {
     await uploadData();
-    navigate('/maketactic')
+    navigate("/maketactic");
     // console.log(requestProps);
   };
-
 
   //전략 조회일 경우
   useEffect(() => {
     if (props.tacticId != null) {
-      setTacticId(props.tacticId)
+      setTacticId(props.tacticId);
     }
-  }, [props])
+  }, [props]);
 
   return (
     <TradingHistoryContainer>
@@ -220,16 +228,16 @@ const TacticResult = (props) => {
                     </div> */}
             {/* 차트 */}
             {size.width > 0 &&
-              size.height > 0 &&
-              chartInfos !== undefined &&
-              chartInfos.length > 0 ? (
+            size.height > 0 &&
+            chartInfos !== undefined &&
+            chartInfos.length > 0 ? (
               <CandleChart
                 curwidth={size.width - 10}
                 curheight={size.height - 10}
                 optionHistory={optionHistory}
                 chartInfos={chartInfos}
                 term={props.term}
-              // 주기 데이터 추가하고 차트 x값 수정
+                // 주기 데이터 추가하고 차트 x값 수정
               ></CandleChart>
             ) : (
               <></>
@@ -245,16 +253,15 @@ const TacticResult = (props) => {
                 <div style={{ fontSize: "13px" }}>{pricesDisplayFormat(startAsset)}원</div>
                 <div>↓</div>
                 <div style={{ fontSize: "14px" }}>최종자산</div>
-                {
-                  returnPercent > 0 ?
-                    <div style={{ fontSize: "16px", color: "#F24822" }}>
-                      {pricesDisplayFormat(startAsset + startAsset * returnPercent/100)}원
-                    </div> :
-                    <div style={{ fontSize: "16px", color: "#097DF3" }}>
-                      {pricesDisplayFormat(startAsset + startAsset * returnPercent/100)}원
-                    </div>
-                }
-
+                {returnPercent > 0 ? (
+                  <div style={{ fontSize: "16px", color: "#F24822" }}>
+                    {pricesDisplayFormat(startAsset + (startAsset * returnPercent) / 100)}원
+                  </div>
+                ) : (
+                  <div style={{ fontSize: "16px", color: "#097DF3" }}>
+                    {pricesDisplayFormat(startAsset + (startAsset * returnPercent) / 100)}원
+                  </div>
+                )}
               </HistorySummaryContentsResult>
               <HistorySummaryContentsItem>
                 <HistorySummaryContentsItemLeft>종목:</HistorySummaryContentsItemLeft>
@@ -283,7 +290,7 @@ const TacticResult = (props) => {
               <HistorySummaryContentsItem>
                 <HistorySummaryContentsItemLeft>수익금</HistorySummaryContentsItemLeft>
                 <HistorySummaryContentsItemRight>
-                  {pricesDisplayFormat(startAsset * returnPercent/100)}
+                  {pricesDisplayFormat((startAsset * returnPercent) / 100)}
                 </HistorySummaryContentsItemRight>
               </HistorySummaryContentsItem>
               <HistorySummaryContentsItem>

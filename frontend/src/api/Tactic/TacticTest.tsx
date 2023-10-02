@@ -64,12 +64,14 @@ export interface saveTacticProps {
   optionCode: string;
   tacticJsonCode: string;
   tacticPythonCode: string;
-  imgPath: string;
+  tacticJsonDefCode: string;
+  tacticJsonSetCode: string;
+  tacticJsonGetCode: string;
   testReturns: number;
 }
 
 // 전략 생성
-export const tacticCreate = async (data: saveTacticProps) => {
+export const tacticCreate = async (data: FormData) => {
   console.log(data)
   try {
     const res = await privateApi.post(`/tactic`, data);
@@ -103,18 +105,23 @@ export const tacticImport = async (params: number) => {
 };
 
 
+// defArray:JSON.parse(res.tacticJsonDefCode),
+// settingArray:JSON.parse(res.tacticJsonSetCode),
+// getArray:JSON.parse(res.tacticJsonGetCode)
 export interface updateTacticProps {
   id: number;
   title: string;
   optionCode: string;
   tacticJsonCode: string;
   tacticPythonCode: string;
-  imgPath: string;
+  tacticJsonDefCode: string;
+  tacticJsonSetCode: string;
+  tacticJsonGetCode: string;
   testReturns: number;
 }
 
 // 전략 수정
-export const tacticUpdate = async (data: updateTacticProps) => {
+export const tacticUpdate = async (data: FormData) => {
   console.log(data)
   try {
     const res = await privateApi.put(`/tactic`, data);
