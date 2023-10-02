@@ -124,4 +124,18 @@ public class FreeboardServiceImpl implements FreeboardService{
         freePostLikeRepository.save(freePostLike);
     }
 
+    @Override
+    public void unlikeFreePost(Long memberId, Long freePostId) {
+
+        Optional<FreePost> tmpFreePost = freePostRepository.findById(freePostId);
+        freePostValidator.checkFreePostExist(tmpFreePost);
+
+        Optional<FreePostLike> tmpFreePostLike = freePostLikeRepository.findByMemberIdAndFreePostId(memberId, freePostId);
+        freePostValidator.checkAlreadyUnlike(tmpFreePostLike);
+
+        FreePostLike freePostLike = tmpFreePostLike.get();
+
+        freePostLikeRepository.delete(freePostLike);
+    }
+
 }

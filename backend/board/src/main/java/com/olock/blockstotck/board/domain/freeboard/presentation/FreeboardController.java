@@ -76,4 +76,13 @@ public class FreeboardController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/like/{freePostId}")
+    public ResponseEntity<Void> unlikeFreePost(@RequestHeader("Member-id") Long memberId,
+                                               @PathVariable Long freePostId){
+
+        freeboardService.unlikeFreePost(memberId, freePostId);
+
+        return ResponseEntity.ok().build();
+    }
+
 }
