@@ -4,4 +4,5 @@ import com.olock.blockstotck.board.domain.freeboard.persistence.entity.FreePostC
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FreePostCommentRepository extends JpaRepository<FreePostComment, Long> {
+    void deleteAllByFreePostId(Long freePostId);
 }

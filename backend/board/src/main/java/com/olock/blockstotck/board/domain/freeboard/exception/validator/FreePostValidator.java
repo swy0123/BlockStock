@@ -17,4 +17,10 @@ public class FreePostValidator {
             throw new NoExistFreePost("해당 게시글이 존재하지 않습니다.");
         }
     }
+
+    public void checkFreePostWriter(FreePost freePost, Long memberId){
+        if(freePost.getMemberId() != memberId){
+            throw new NoMatchingWriter("해당 게시글 작성자가 아닙니다.");
+        }
+    }
 }

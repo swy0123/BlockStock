@@ -3,6 +3,7 @@ package com.olock.blockstotck.board.domain.freeboard.persistence.entity;
 import com.olock.blockstotck.board.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class FreePostLike extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
