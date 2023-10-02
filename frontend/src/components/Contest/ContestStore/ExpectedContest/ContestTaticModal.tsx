@@ -36,19 +36,24 @@ import ContestTicketModal from "./ContestTicketModal";
 import { ContestId } from '../../../../recoil/Contest/ExpectedContest'
 // 전략 더미데이터
 import {TacticList} from '../../../../recoil/Contest/Tactic'
+// api 전략 불러오기
+import { tacticList } from '../../../../api/Contest/ContestStore'
+
 function ContestTaticModal(props){
   // 전달 받은 데이터
-  const { selectedContest, type, onClose } = props;
+  const { selectedContest, tacticListItem, type, onClose } = props;
   
   // 리코일 대회 id 전략 id
   const [contestId, setContestId] = useRecoilState(ContestId);
-  const [tacticList, setTacticList] = useRecoilState(TacticList);
-
+  // 더미데이터
+  const [tacticLists, setTacticList] = useRecoilState(TacticList);
+  
+  const [tacticListItems, setTacticListItems] = useState(tacticLists)
   const [isModalOpen, setIsModalOpen] = useState(false);
 
 
   
-  const [isStarred, setIsStarred] = useState(Array(tacticList.length).fill(false));
+  const [isStarred, setIsStarred] = useState(Array(tacticListItems.length).fill(false));
   const [selectedTacticIndex, setSelectedTacticIndex] = useState(-1);
   const [tacticId, setTacticId] = useState(0)
 
@@ -61,9 +66,28 @@ function ContestTaticModal(props){
 
 
   useEffect(() => {
+    console.log('type',type);
     console.log('tactic',tactic);
-  }, []);
+    console.log('tacticListItem',tacticListItem);
+    // 전략 게시판 전략 불러오기
+    if(type==='tactic'){
+      tacticApi()
+    }
+  }, [tactic]);
 
+  // api 전략불러오기 ============================================================
+  const data = {
+    optionCode:''
+  }
+
+  const tacticApi = async()=>{
+    console.log('type', type)
+    console.log('전략불러오기')
+    const res = await tacticList(data)
+    console.log(res, '전략 불러옴')
+    setTacticListItems(res)
+  }
+  // api 전략불러오기 ============================================================
 
   const handleCardClick = (e) => {
     console.log('tactic',tactic);
@@ -134,7 +158,7 @@ function ContestTaticModal(props){
                 modules={[Pagination, Navigation]}
                 className='mySwiper'
               >
-              {tacticList.map((contest, index) => (
+              {tacticListItems.map((contest, index) => (
                 <SwiperSlide className='slide' key={contest.tacticId}>
                   <div>
                     <Card

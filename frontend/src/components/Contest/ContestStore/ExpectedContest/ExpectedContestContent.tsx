@@ -34,7 +34,7 @@ import { ContestId } from '../../../../recoil/Contest/ExpectedContest'
 import {currentContestListState} from '../../../../recoil/Contest/CurrentContest'
 // 예정대회, 전략 불러오기 api
 // import {expectedContestList} from '../../../../api/Contest/ContestStore'
-// import { tacticList } from '../../../../api/Contest/ContestStore'
+import { tacticList } from '../../../../api/Contest/ContestStore'
 
 function ExpectedContestContent(){
 
@@ -162,8 +162,7 @@ function ExpectedContestContent(){
 
     // api 전략불러오기 ============================================================
     const data = {
-      member_id:userid,
-      option_code:optionCode
+      optionCode:optionCode
     }
   
     const tacticApi = async()=>{
@@ -235,7 +234,7 @@ function ExpectedContestContent(){
           </>
         )}
 
-         {isModalOpen ? <ContestTaticModal selectedContest={tacticListItem} type={'contest'} onClose={CloseModal} /> : null}
+         {isModalOpen ? <ContestTaticModal tacticListItem={tacticListItem} selectedContest={selectedContest} type={'contest'} onClose={CloseModal} /> : null}
          {isCancelModalOpen ? <ContestCancelModal selectedContest={selectedContest} onClose={CloseCandelModal}/> : null}
       </Wrapper>
       {expectedContestItem.length > 0 && (

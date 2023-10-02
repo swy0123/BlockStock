@@ -24,7 +24,7 @@ import { tacticdata } from '../../../recoil/TacticBoard/TacticBoardBox'
 import ContestTaticModal from "../../Contest/ContestStore/ExpectedContest/ContestTaticModal";
 
 // 글 작성 api
-// import {tacticBoardCreate} from '../../../api/TacticBoard/TacticBoard'
+import {tacticBoardCreate} from '../../../api/TacticBoard/TacticBoard'
 
 
 function TacticBoardCreateBox(){
@@ -59,37 +59,27 @@ function TacticBoardCreateBox(){
 
   // 글 등록
   const handleSubmit = () => {
-
-    const formData = new FormData();
-    formData.append('imgPath', imgPath)
-
-    formData.append('tacticId', new Blob([JSON.stringify(tacticId)], {
-      type: "application/json"
-    }));
-    formData.append('title', new Blob([JSON.stringify(title)], {
-      type: "application/json"
-    }));
-    formData.append('content', new Blob([JSON.stringify(content)], {
-      type: "application/json"
-    }));
-
-    console.log("title:", title);
-    console.log("content:", content);
-    console.log("imgPath:", imgPath);
-    console.log("Form Data:", formData);
-    // boardcreate(formData)
     boardcreate()
   };
 
   // 글 작성 api =====================================================
   const boardcreate = async ()=>{
-    // const res = await tacticBoardCreate(formData)
-    // console.log(res)
+    const formData = {
+      tacticId:tacticId,
+      title:title,
+      content:content
+    };
+    // console.log("title:", title);
+    // console.log("content:", content);
+    // console.log("imgPath:", imgPath);
+    console.log('글작성', formData)
+    const res = await tacticBoardCreate(formData)
+    console.log(res)
     
     navigate('/tacticboard')
     Swal.fire({
       icon: 'success',
-      title: 'success!',
+      title: '글 작성 완료!',
       showConfirmButton: false,
       timer: 2000
     })
