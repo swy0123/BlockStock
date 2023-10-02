@@ -1,7 +1,6 @@
 package com.olock.blockstotck.board.domain.tacticboard.dto.request;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 public class TacticPostRequestParam {
@@ -13,11 +12,11 @@ public class TacticPostRequestParam {
     private Boolean like;
 
     public TacticPostRequestParam(String sort, Integer page, Integer size, String keyword, Boolean my, Boolean like) {
-        this.sort = sort == null ? "date" : sort;
+        this.sort = sort == null ? "createdAt" : sort;
         this.page = page;
         this.size = size;
         this.keyword = keyword == null ? "" : keyword;
         this.my = my == null ? false : my;
-        this.like = like == null ? false : my;
+        this.like = like == null ? false : like;
     }
 }
