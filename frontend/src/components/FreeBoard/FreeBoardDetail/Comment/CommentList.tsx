@@ -1,6 +1,7 @@
-import React, {useEffect} from "react";
-import { useRecoilValue } from "recoil";
-import { commentlist } from '../../../../recoil/FreeBoard/Comment'
+import React, {useState, useEffect} from "react";
+import { useRecoilState } from "recoil";
+import {commentlist} from '../../../../recoil/FreeBoard/Comment'
+
 import {
   Container,
   Header,
@@ -16,40 +17,55 @@ import {
 import {commentList, commentDelete} from '../../../../api/FreeBoard/Comment'
 
 // 전략게시판 댓글 api
-// import { tacticcommentList,tacticcommentDelete } from '../../../../api/TacticBoard/Comment'
+import { tacticcommentList,tacticcommentDelete } from '../../../../api/TacticBoard/Comment'
 
 
 function CommentList(props) {
-  // 더미데이터
-  const comment = useRecoilValue(commentlist);
+
+  const [commentlists, setCommentlists] = useRecoilState(commentlist)
+
+  const [comment, setComment] = useState<any[]>([])
 
   const { id, type } = props.state
 
-
-  // 댓글 리스트 api 호출
-  // useEffect(()=>{
-  //   comments()
-  // },[])
+  // // 댓글 리스트 api 호출
+  useEffect(()=>{
+    comments()
+    console.log(type)
+  },[])
   
-  // const comments =()=>{
-  //   if (type==='free'){
-  //     commentList(id)
-  //   } else if ( type==='tactic'){
-  //     tacticcommentList(id)
-  //   }
-  // }
+  useEffect(()=>{
+    console.log(commentlists,'commentlists')
+    setComment(commentlists)
+  },[commentlists])
+  
+  const comments =()=>{
+    if (type==='free'){
+      commentList(id)
+    } else if ( type==='tactic'){
+      tacticcommentapi()
+    }
+  }
   // ============================================
 
+  // api 전략게시판 댓글 =====================================
+  const tacticcommentapi = async ()=>{
+    const res = await tacticcommentList(10)
+    console.log('전략게시판 댓글----------')
+    console.log(comment)
+    setComment(res)
+    
+  }
 
   // 댓글 삭제
-  // const handleDelete = (id) => {
-  //   if (type==='free'){
-  //     console.log(id);
-  //     commentDelete(id);
-  //   }else if (type==='tactic'){
-  //     tacticcommentDelete(id)
-  //   }
-  // };
+  const handleDelete = (id) => {
+    if (type==='free'){
+      console.log(id);
+      commentDelete(id);
+    }else if (type==='tactic'){
+      tacticcommentDelete(id)
+    }
+  };
 
   return (
     <>
@@ -65,7 +81,7 @@ function CommentList(props) {
                   <NickName>{item.nickName}</NickName>|
                   <Day>{item.createdAt}</Day>
                 </div>
-                <DeleteBtn onClick={() => handleDelete(item.commentId)}>삭제</DeleteBtn>
+                <DeleteBtn onClick={() => handleDelete(index)}>삭제</DeleteBtn>
               </Header>
                {/* 줄바꿈 적용 넘어갈 경우 다음 줄로 */}
               <Comment style={{ whiteSpace: 'pre-line',wordWrap: 'break-word' }}>

@@ -80,7 +80,11 @@ export const tacticList = async ( data: data ) => {
   console.log('전략 조회 api 진입')
   try{
     console.log(data)
-    const res = await privateApi.get(`/tactic`, data);
+    const res = await privateApi.get(`/tactic`, {
+      params:{
+        optionCode:data.optionCode
+      }
+    });
     console.log(res.data);
     return res.data;
   }

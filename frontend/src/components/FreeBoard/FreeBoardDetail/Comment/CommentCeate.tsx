@@ -19,12 +19,16 @@ import {
 // FreeBoard api
 import {commentCreate, likeCreate, likeDelete} from '../../../../api/FreeBoard/Comment'
 
-// FreeBoard api
-import {tacticcommentCreate, tacticlikeCreate, tacticlikeDelete} from '../../../../api/TacticBoard/Comment'
+// tacticBoard api
+import {tacticcommentList, tacticcommentCreate, tacticlikeCreate, tacticlikeDelete} from '../../../../api/TacticBoard/Comment'
 
+// 리코일 댓글 리스트
+import { useRecoilState } from "recoil";
+import {commentlist} from '../../../../recoil/FreeBoard/Comment'
 
 function CommentCreate(props){
 
+  const [commentlists, setCommentlists] = useRecoilState(commentlist)
   const navigate = useNavigate();
   const [content, setContent] = useState('')
   const { id, isLike, type } = props.state
@@ -33,6 +37,7 @@ function CommentCreate(props){
   // 댓글 작성 ==========================================
 
   const handleCreate = () => {
+    console.log(id, isLike, type)
     if (type === 'free') {
       const data = {
         "freeboardId": id,
@@ -40,15 +45,30 @@ function CommentCreate(props){
       }
       commentCreate(data);
     } else if (type === 'tactic') {
-      const data = {
-        "freeboardId": id,
-        'content':content
-      }
-      tacticcommentCreate(data)
-      console.log(data);
+      tacticcreateapi()
     }
   }
   // ====================================================
+
+  // 전략 댓글 작성 =========================================
+  const tacticcreateapi = async()=>{
+    const data = {
+      "tacticBoardId": '10',
+      'content':content
+    }
+    const res = await tacticcommentCreate(data)
+    console.log(res)
+    if(res.status===200){
+      listapi()
+    }
+  }
+
+  // 댓글 목록 호출 =========================================
+  const listapi = async ()=>{
+    const res = await tacticcommentList(10)
+    console.log('작성 성공', res)
+    setCommentlists(res)
+  }
 
   // 목록으로 ===========================================
   const handleNavigate = ()=>{
@@ -63,10 +83,17 @@ function CommentCreate(props){
 
 
   // 좋아요 ==========================================
-  const like = {
-    "freeboardId": id,
-  }
   const handleLike = () => {
+    let like = {};
+    if (type==='free'){      
+      like = {
+        "freeboardId": id,
+      }
+    } else {
+      like = {
+        "tacticPostId": 10,
+      }
+    }
     if (type==='free'){
       if (isLike) {
         likeDelete(like);
@@ -74,8 +101,8 @@ function CommentCreate(props){
         likeCreate(like);
       }
     } else if (type==='tactic'){
-      if (isLike) {
-        tacticlikeDelete(like);
+      if (!isLike) {
+        tacticlikeDelete(10);
       } else {
         tacticlikeCreate(like);
       }
