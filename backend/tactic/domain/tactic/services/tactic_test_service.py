@@ -165,6 +165,7 @@ def get_tactic_test_response(tactic_test_request):
 
         now_repeat_cnt += 1
 
+
     # 반복문 끝나고 남은 주식 매도
     if now_stock_cnt > 0:
         now_asset += now_stock_cnt * now_data[now_repeat_cnt-1][5]
@@ -172,7 +173,14 @@ def get_tactic_test_response(tactic_test_request):
         item.type = "sell"
         item.turn = now_repeat_cnt - 1
         item.cost = now_data[now_repeat_cnt - 1][5]
-        item.tradeCnt(now_stock_cnt)
+        item.tradeCnt = now_stock_cnt
+
+        sell_sum += now_stock_cnt * now_data[now_repeat_cnt-1][5]
+        sell_cnt += now_stock_cnt
+
+        buy_avg = buy_sum / buy_cnt
+        sell_avg = sell_sum / sell_cnt
+        item.profitAndLoss = (sell_avg - buy_avg) * now_stock_cnt
 
         option_history_list.append(item)
 
