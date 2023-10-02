@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface TacticPostCommentRepository extends JpaRepository<TacticPostComment, Long> {
     List<TacticPostComment> findByTacticPostId(Long tacticPostId);
 
-    Optional<TacticPostComment> findByTacticPostIdAndMemberId(Long tacticPostId, Long memberId);
+    Optional<TacticPostComment> findByIdAndMemberId(Long commentId, Long memberId);
 }

@@ -12,11 +12,17 @@ import com.olock.blockstotck.board.domain.tacticboard.exception.validator.Tactic
 import com.olock.blockstotck.board.domain.tacticboard.persistance.TacticPostCommentRepository;
 import com.olock.blockstotck.board.domain.tacticboard.persistance.TacticPostLikeRepository;
 import com.olock.blockstotck.board.domain.tacticboard.persistance.TacticPostRepository;
+import com.olock.blockstotck.board.domain.tacticboard.persistance.TacticPostSpecification;
 import com.olock.blockstotck.board.domain.tacticboard.persistance.entity.TacticPost;
 import com.olock.blockstotck.board.domain.tacticboard.persistance.entity.TacticPostComment;
 import com.olock.blockstotck.board.domain.tacticboard.persistance.entity.TacticPostLike;
 import com.olock.blockstotck.board.infra.member.WebClientUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,7 +41,6 @@ public class TacticBoardServiceImpl implements TacticBoardService {
 
     private final TacticPostValidator tacticPostValidator;
     private final TacticPostCommentValidator tacticPostCommentValidator;
-
     private final WebClientUtil webClientUtil;
 
     @Override
@@ -43,7 +48,7 @@ public class TacticBoardServiceImpl implements TacticBoardService {
         Tactic tactic = null;
 
         try {
-            String url = String.format("https://j9b210.p.ssafy.io:8443/%s", tacticPostRequest.getTacticId());
+            String url = String.format("https://j9b210.p.ssafy.io:8443/api/tactic/%s", tacticPostRequest.getTacticId());
             tactic = webClientUtil.get(
                     url,
                     memberId,
@@ -75,20 +80,29 @@ public class TacticBoardServiceImpl implements TacticBoardService {
     @Override
     public List<TacticPostResponse> getTacticPostList(Long memberId, TacticPostRequestParam tacticPostRequestParam) {
 
-        if(tacticPostRequestParam.getMy() == true) {
+        String sort = "";
 
-        }
+        if(tacticPostRequestParam.getSort().equals("date")) sort = "createdAt";
+        else if (tacticPostRequestParam.getSort().equals("likes")) sort = "likeCnt";
+        else if (tacticPostRequestParam.getSort().equals("hits")) sort ="hit";
 
-        if(tacticPostRequestParam.getLike() == true) {
+        Pageable pageable = PageRequest.of(
+                tacticPostRequestParam.getPage(),
+                tacticPostRequestParam.getSize(), Sort.by(sort));
 
-        }
 
-        if(tacticPostRequestParam.getSort().equals("date")) {
+        Specification<TacticPost> spec = (root, query, criteriaBuilder) -> null;
 
-        } else if (tacticPostRequestParam.getSort().equals("likes")) {
+        if(tacticPostRequestParam.getKeyword() != null)  spec = spec.and(TacticPostSpecification.findByKeyword(tacticPostRequestParam.getKeyword()));
 
-        } else if (tacticPostRequestParam.getSort().equals("hits")) {
+        if(tacticPostRequestParam.getMy()) spec = spec.and(TacticPostSpecification.findByMy(memberId));
 
+        if(tacticPostRequestParam.getLike()) spec = spec.and(TacticPostSpecification.findByLike(memberId));
+
+        Page<TacticPost> all = tacticPostRepository.findAll(spec, pageable);
+
+        for (TacticPost tacticPost:all) {
+            System.out.println(tacticPost.getTitle());
         }
         return null;
     }
@@ -118,7 +132,7 @@ public class TacticBoardServiceImpl implements TacticBoardService {
     }
 
     @Override
-    public TacticPostResponse getTacticPost(Long tacticPostId) {
+    public TacticPostResponse getTacticPost(Long memberId, Long tacticPostId) {
         Optional<TacticPost> findTacticPost = tacticPostRepository.findById(tacticPostId);
         tacticPostValidator.checkTacticPostExist(findTacticPost);
         tacticPostRepository.updateHit(tacticPostId);
@@ -126,8 +140,12 @@ public class TacticBoardServiceImpl implements TacticBoardService {
         TacticPost tacticPost = findTacticPost.get();
 
         long likeCnt = tacticPostLikeRepository.countByTacticPostId(tacticPostId);
+        String nickName = "";
 
-        return new TacticPostResponse(tacticPost, likeCnt);
+        boolean isLike = true;
+        if(tacticPostLikeRepository.findByMemberIdAndTacticPostId(memberId, tacticPostId).isEmpty()) isLike = false;
+
+        return new TacticPostResponse(tacticPost, nickName, likeCnt, isLike);
     }
 
     @Override
@@ -173,11 +191,9 @@ public class TacticBoardServiceImpl implements TacticBoardService {
     }
 
     @Override
-    public void deleteTacticPostComment(Long memberId, Long tacticPostId) {
-        Optional<TacticPost> findTacticPost = tacticPostRepository.findById(tacticPostId);
-        tacticPostValidator.checkTacticPostExist(findTacticPost);
+    public void deleteTacticPostComment(Long memberId, Long commentId) {
 
-        Optional<TacticPostComment> findTacticPostComment = tacticPostCommentRepository.findByTacticPostIdAndMemberId(tacticPostId, memberId);
+        Optional<TacticPostComment> findTacticPostComment = tacticPostCommentRepository.findByIdAndMemberId(commentId, memberId);
 
         tacticPostCommentValidator.checkTacticPostCommentExist(findTacticPostComment);
 

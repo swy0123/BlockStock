@@ -7,7 +7,9 @@ import java.time.LocalDateTime;
 
 @Getter
 public class TacticPostResponse {
+    private Long memberId;
     private Long tacticPostId;
+    private String nickName;
     private String title;
     private String optionName;
     private String imgPath;
@@ -16,8 +18,11 @@ public class TacticPostResponse {
     private Long likeCnt;
     private Long hit;
     private LocalDateTime createdAt;
+    private Boolean isLike;
 
-    public TacticPostResponse(TacticPost tacticPost, Long likeCnt) {
+    public TacticPostResponse(TacticPost tacticPost, String nickName, Long likeCnt, boolean isLike) {
+        this.memberId = tacticPost.getMemberId();
+        this.nickName = nickName;
         this.tacticPostId = tacticPost.getTacticId();
         this.title = tacticPost.getTitle();
         this.optionName = tacticPost.getOptionName();
@@ -27,5 +32,6 @@ public class TacticPostResponse {
         this.likeCnt = likeCnt;
         this.hit = tacticPost.getHit();
         this.createdAt = tacticPost.getCreatedAt();
+        this.isLike = isLike;
     }
 }
