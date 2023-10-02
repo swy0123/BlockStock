@@ -25,4 +25,6 @@ public interface FreeboardService{
     void deleteFreePostComment(Long memberId, Long commentId);
 
     void likeFreePost(Long memberId, FreePostLikeRequest freePostLikeRequest);
+
+    void unlikeFreePost(Long memberId, Long freePostId);
 }

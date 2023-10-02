@@ -1,6 +1,7 @@
 package com.olock.blockstotck.board.domain.freeboard.exception.validator;
 
 import com.olock.blockstotck.board.domain.freeboard.exception.AlreadyLikeFreePost;
+import com.olock.blockstotck.board.domain.freeboard.exception.AlreadyUnlikeFreePost;
 import com.olock.blockstotck.board.domain.freeboard.exception.NoExistFreePost;
 import com.olock.blockstotck.board.domain.freeboard.exception.NoMatchingWriter;
 import com.olock.blockstotck.board.domain.freeboard.persistence.entity.FreePost;
@@ -30,6 +31,12 @@ public class FreePostValidator {
     public void checkAlreadyLike(Optional<FreePostLike> tmpFreePostLike){
         if(tmpFreePostLike.isPresent()){
             throw new AlreadyLikeFreePost("이미 좋아요 한 게시글입니다.");
+        }
+    }
+
+    public void checkAlreadyUnlike(Optional<FreePostLike> tmpFreePostLike){
+        if(tmpFreePostLike.isEmpty()){
+            throw new AlreadyUnlikeFreePost("이미 좋아요를 취소한 게시글입니다.");
         }
     }
 }
