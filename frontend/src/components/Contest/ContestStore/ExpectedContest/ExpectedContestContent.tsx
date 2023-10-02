@@ -33,7 +33,7 @@ import { useRecoilState } from 'recoil';
 import { ContestId } from '../../../../recoil/Contest/ExpectedContest'
 import {currentContestListState} from '../../../../recoil/Contest/CurrentContest'
 // 예정대회, 전략 불러오기 api
-// import {expectedContestList} from '../../../../api/Contest/ContestStore'
+import {expectedContestList} from '../../../../api/Contest/ContestStore'
 import { tacticList } from '../../../../api/Contest/ContestStore'
 
 function ExpectedContestContent(){
@@ -42,7 +42,7 @@ function ExpectedContestContent(){
   const currentUser = useRecoilValue(CurrentUserAtom);
   const { userid } = currentUser;
 
-  // const [expectedContestItem, setExpectedContestItem] = useState([])
+  const [expectedContestItem, setExpectedContestItem] = useState([])
   const [ page, setPage ] = React.useState(0);
   const [ rowsPerPage, setRowsPerPage ] = React.useState(8);
   const [ count, setCount] = useState(0)
@@ -53,8 +53,6 @@ function ExpectedContestContent(){
 
   // 리코일 대회 id 전략 id
   const [contestId, setContestId] = useRecoilState(ContestId);
-  //더미데이터
-  const [expectedContestItem, setExpectedContestItem] = useRecoilState(currentContestListState);
 
   // 리코일로 검색어를 불러온다 ======================================================
   const searchKeyword  = useRecoilValue(searchKeywordState);

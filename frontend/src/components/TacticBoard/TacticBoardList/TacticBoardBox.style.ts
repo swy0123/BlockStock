@@ -71,7 +71,7 @@ export const ItemBox = styled.div`
 background-color: #F4F6F8;
 min-height: 500px;
 min-width: 96%;
-padding: 0px 20px 60px 20px ;
+padding: 0px 20px 60px 12px ;
 `;
 
 export const Card = styled.div`
@@ -90,8 +90,8 @@ height: 40px;
 `;
 export const Title = styled.div`
   text-align: center;
-  font-size: 20px;
-  font-weight: bold;
+  font-size: 18px;
+  font-weight: 500;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -133,4 +133,9 @@ display: flex;
 export const Hit = styled.div`
 margin: 0px 0px 0px 100px;
 display: flex;
+`;
+
+export const Missile = styled.img`
+position: absolute;
+
 `;
