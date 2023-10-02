@@ -8,6 +8,7 @@ import { TacticContainer } from './MakeTactic.style';
 import BlockCoding from '../../components/MakeTactic/BlockCoding/BlockCoding';
 import TacticResult from '../../components/MakeTactic/TacticResult/TacticResult';
 import { useLocation } from 'react-router-dom';
+import { CustomVariableBlockGroup } from '../../components/Blockly/BlocklyComponent';
 
 const TestDiv = styled.div`
     background-color: rgba(255,0,0,0.3);
@@ -33,6 +34,7 @@ function MakeTactic() {
     const [repeatCnt, setRepeatCnt] = useState("");
     const [tacticPythonCode, setTacticPythonCode] = useState(undefined);
     const [tacticJsonCode, setTacticJsonCode] = useState(undefined);
+    const [customVariableBlockGroup, setCustomVariableBlockGroup] = useState<CustomVariableBlockGroup>();
     const [tacticImg, setTacticImg] = useState(undefined);
     const [tacticId, setTacticId] = useState(null);
 
@@ -91,6 +93,9 @@ function MakeTactic() {
     const returnTacticJsonCode = (ret) => {
         setTacticJsonCode(ret);
     }
+    const returnCustomVariableBlockGroup = (ret) => {
+        setCustomVariableBlockGroup(ret);
+    }
 
     const returnTacticImg = (ret) => {
         setTacticImg(ret);
@@ -111,6 +116,7 @@ function MakeTactic() {
                         returnRepeatCnt={(ret) => { returnRepeatCnt(ret) }}
                         returnTacticPythonCode={(ret) => { returnTacticPythonCode(ret) }}
                         returnTacticJsonCode={(ret) => { returnTacticJsonCode(ret) }}
+                        returnCustomVariableBlockGroup={(ret) => { returnCustomVariableBlockGroup(ret) }}
                         returnTacticImg={(ret) => { returnTacticImg(ret) }}
                         returnStartAsset={(ret) => { returnStartAsset(ret) }}
                     ></BlockCoding>
@@ -126,6 +132,7 @@ function MakeTactic() {
                         repeatCnt={repeatCnt}
                         tacticPythonCode={tacticPythonCode}
                         tacticJsonCode={tacticJsonCode}
+                        customVariableBlockGroup={customVariableBlockGroup}
                         tacticImg={tacticImg}
                     ></TacticResult>
             }

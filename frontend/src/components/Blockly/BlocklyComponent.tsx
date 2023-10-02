@@ -42,7 +42,15 @@ import {
   CollapseToolBoxButton,
 } from "./BlocklyComponent.style";
 
+import { guideBlocks } from "./blocks/guideblocks";
+
 Blockly.setLocale(locale);
+
+export interface CustomVariableBlockGroup {
+  defArray: any[];
+  settingArray: any[];
+  getArray: any[];
+}
 
 function BlocklyComponent(props: any) {
   const [array, setArray] = useState<any>([]);
@@ -124,7 +132,7 @@ function BlocklyComponent(props: any) {
     //get
     Blockly.Blocks[get] = {
       init: function () {
-        this.appendDummyInput().appendField(new Blockly.FieldLabelSerializable(tmp), def);
+        this.appendDummyInput().appendField(new Blockly.FieldLabelSerializable(tmp), get);
         this.setOutput(true, "Number");
         this.setColour(360);
         this.setTooltip("");
@@ -150,13 +158,15 @@ function BlocklyComponent(props: any) {
     console.log("generateVar");
 
     console.log(defArray);
-    console.log(setArray);
+    console.log(settingArray);
     console.log(getArray);
   };
 
   const reset = () => {
     setCnt(0);
-    setArray([]);
+    setDefArray([]);
+    setSettingArray([]);
+    setGetArray([]);
     Blockly.Events.disable();
     if (primaryWorkspace.current != undefined) {
       primaryWorkspace.current.clear();
@@ -165,44 +175,130 @@ function BlocklyComponent(props: any) {
     console.log("reset");
   };
 
+  //사용자 지정 변수 배열 3개 포함, local에 임시로
   const save = () => {
     if (primaryWorkspace.current != undefined) {
       const state = Blockly.serialization.workspaces.save(primaryWorkspace.current);
-      console.log(state)
+      console.log("bloooooooooooooooooooooooock");
+      console.log(state);
       localStorage.setItem("data", JSON.stringify(state));
-      localStorage.setItem("blocks", JSON.stringify(array));
+      localStorage.setItem("defblocks", JSON.stringify(defArray));
+      localStorage.setItem("setblocks", JSON.stringify(settingArray));
+      localStorage.setItem("getblocks", JSON.stringify(getArray));
     }
     console.log("save");
   };
-  const load = () => {
+  //사용자 지정 변수 배열 3개 포함, local에 임시로
+  const load = (
+    isTest: boolean,
+    blockcode?: any,
+    defblocks?: any,
+    setblocks?: any,
+    getblocks?: any
+  ) => {
+    reset();
+    console.log("load- start--------------------");
+    console.log(isTest);
+    console.log(blockcode);
+    console.log(defblocks);
+    console.log(setblocks);
+    console.log(getblocks);
+    console.log("load- end--------------------");
     if (primaryWorkspace.current != undefined) {
-      const tmp = localStorage.getItem("data");
-      const blocksTmp = localStorage.getItem("blocks");
+      const tmp = !isTest ? blockcode : localStorage.getItem("data");
+      const defblocksTmp = !isTest ? defblocks : localStorage.getItem("defblocks");
+      const settingblocksTmp = !isTest ? setblocks : localStorage.getItem("setblocks");
+      const getblocksTmp = !isTest ? getblocks : localStorage.getItem("getblocks");
 
-      if (tmp != null) {
-        if (blocksTmp !== null) {
-          const blocks = JSON.parse(blocksTmp);
-          blocks.forEach((type: string) => {
-            Blockly.Blocks[type] = {
+      if (tmp != undefined) {
+        if (
+          defblocksTmp !== undefined &&
+          settingblocksTmp != undefined &&
+          getblocksTmp != undefined
+        ) {
+          const defblocks = JSON.parse(defblocksTmp);
+          const settingblocks = JSON.parse(settingblocksTmp);
+          const getblocks = JSON.parse(getblocksTmp);
+          console.log(defblocks);
+          console.log(settingblocks);
+          console.log(getblocks);
+          defblocks.forEach((def: string) => {
+            let value = def.substring("custom_value_def_".length);
+            const data = "custom_value_" + value;
+            //def
+            Blockly.Blocks[def] = {
               init: function () {
-                this.appendDummyInput().appendField(new Blockly.FieldLabelSerializable(type), type);
-                this.setOutput(true, null);
-                this.setColour(230);
+                this.appendDummyInput()
+                  .appendField(new Blockly.FieldLabelSerializable(value), def)
+                  .appendField(" 변수 선언");
+                this.setPreviousStatement(true, null);
+                this.setNextStatement(true, null);
+                this.setColour(360);
+                this.setColour(360);
                 this.setTooltip("");
                 this.setHelpUrl("");
               },
             };
-            pythonGenerator.forBlock[type] = function (block, generator) {
-              var field = block.getFieldValue(type);
-              // TODO: Assemble python into code variable.
-              var code = field;
-              // TODO: Change ORDER_NONE to the correct strength.
+            pythonGenerator.forBlock[def] = function (block: any, generator: any) {
+              // var field = block.getFieldValue(def);/
+              var code = data + " = 0\n";
+              return code;
+            };
+          });
+
+          settingblocks.forEach((set: string) => {
+            let value = set.substring("custom_value_set_".length);
+            const data = "custom_value_" + value;
+            //set
+            Blockly.Blocks[set] = {
+              init: function () {
+                this.appendDummyInput()
+                  .appendField(new Blockly.FieldLabelSerializable(value), set)
+                  .appendField("의 값을 ");
+                this.appendValueInput("Number").setCheck("Number");
+                this.appendDummyInput().appendField("으로 설정");
+                this.setPreviousStatement(true, null);
+                this.setNextStatement(true, null);
+                this.setColour(360);
+                this.setTooltip("");
+                this.setHelpUrl("");
+              },
+            };
+            pythonGenerator.forBlock[set] = function (block: any, generator: any) {
+              // var field = block.getFieldValue(set);
+              var number_value = generator.valueToCode(block, "Number", Order.NONE).toString();
+              var code = data + " = " + number_value + "\n";
+              return code;
+            };
+          });
+
+          getblocks.forEach((get: string) => {
+            let value = get.substring("custom_value_get_".length);
+            const data = "custom_value_" + value;
+            //get
+            Blockly.Blocks[get] = {
+              init: function () {
+                this.appendDummyInput().appendField(new Blockly.FieldLabelSerializable(value), get);
+                this.setOutput(true, "Number");
+                this.setColour(360);
+                this.setTooltip("");
+                this.setHelpUrl("");
+              },
+            };
+            pythonGenerator.forBlock[get] = function (block: any, generator: any) {
+              // var field = block.getFieldValue(get);
+              var code = data;
               return [code, Order.NONE];
             };
           });
 
-          setCnt(blocks.length);
-          setArray(blocks);
+          console.log(defblocks);
+          console.log(settingblocks);
+          console.log(getblocks);
+          setCnt(getblocks.length);
+          setDefArray(defblocks);
+          setSettingArray(settingblocks);
+          setGetArray(getblocks);
         }
         const state = JSON.parse(tmp);
         Blockly.serialization.workspaces.load(state, primaryWorkspace.current);
@@ -333,6 +429,7 @@ function BlocklyComponent(props: any) {
   //   }
   // }
 
+  //사용자 변수 추가
   useEffect(() => {
     // console.log(primaryWorkspace.current);
     if (primaryWorkspace.current != undefined) {
@@ -342,20 +439,48 @@ function BlocklyComponent(props: any) {
     }
   }, [cnt]);
 
+  //블록 코드 있는지 여부 확인 + 저장
   useEffect(() => {
     if (!props.codeCheck) {
       if (primaryWorkspace.current != undefined) {
-        props.writeTacticJsonCode(Blockly.serialization.workspaces.save(primaryWorkspace.current));
+        props.writeTacticJsonCode(
+          JSON.stringify(Blockly.serialization.workspaces.save(primaryWorkspace.current))
+        );
         // .replace(/\s/g, '\\u0020').replace(/\n/g, '\\n')
         props.writeTacticPythonCode(pythonGenerator.workspaceToCode(primaryWorkspace.current));
         props.writeTacticImg(exportImageAsPNG);
       }
+
+      // CustomVariableBlockGroup
+      props.writeCustomVariableBlockGroup({
+        defArray: JSON.stringify(defArray),
+        settingArray: JSON.stringify(settingArray),
+        getArray: JSON.stringify(getArray),
+      });
+
       props.setCodeCheckTrue();
       console.log(props.codeCheck);
       console.log("codeCheck low component");
     }
   }, [props.codeCheck]);
 
+  // if (props.tacticId != null)
+
+  // (blockcode?:any, defblocks?:any, setblocks?:any, getblocks?:any)
+  //전략 id 있는지 확인 === 불러온 전략인지 확인 + 코드 불러오기
+  useEffect(() => {
+    if (props.tacticId != null && props.tacticJsonCode !== undefined) {
+      load(
+        false,
+        props.tacticJsonCode,
+        props.customVariableBlockGroup.defArray,
+        props.customVariableBlockGroup.settingArray,
+        props.customVariableBlockGroup.getArray
+      );
+    }
+  }, [props.tacticId]);
+
+  //도구상자 열고 닫기 기능
   useEffect(() => {
     if (primaryWorkspace.current !== undefined) {
       if (!toolboxCollapsed) {
@@ -368,6 +493,75 @@ function BlocklyComponent(props: any) {
     }
   }, [toolboxCollapsed]);
 
+  // Returns an array of objects.
+  var coloursFlyoutCallback = function (workspace) {
+    var blockList = [];
+    blockList.push({
+      blocks: {
+        languageVersion: 0,
+        blocks: [
+          {
+            type: "controls_if",
+            inputs: {
+              IF0: {
+                block: {
+                  type: "logic_compare",
+                  fields: {
+                    OP: "EQ",
+                  },
+                  inputs: {
+                    A: {
+                      block: {
+                        type: "math_arithmetic",
+                        fields: {
+                          OP: "ADD",
+                        },
+                        inputs: {
+                          A: {
+                            block: {
+                              type: "math_number",
+                              fields: {
+                                NUM: 0,
+                              },
+                            },
+                          },
+                          B: {
+                            block: {
+                              type: "math_number",
+                              fields: {
+                                NUM: 0,
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                    B: {
+                      block: {
+                        type: "math_number",
+                        fields: {
+                          NUM: 0,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+              DO0: {
+                block: {
+                  type: "controls_repeat_ext",
+                },
+              },
+            },
+          },
+        ],
+      },
+    });
+
+    return blockList;
+  };
+
+  //블록리 화면 동적 주입
   useEffect(() => {
     const { initialXml, children, ...rest } = props;
     if (primaryWorkspace.current === undefined && blocklyDiv.current !== undefined) {
@@ -420,10 +614,18 @@ function BlocklyComponent(props: any) {
       // );
     }
     if (initialXml) {
+      console.log("제발ㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ");
+      console.log(initialXml);
       Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(initialXml), primaryWorkspace.current);
     }
 
     primaryWorkspace.current.registerButtonCallback("generateblock", generateVar);
+
+    // Associates the function with the string 'COLOUR_PALETTE'
+    primaryWorkspace.current.registerToolboxCategoryCallback("guide", coloursFlyoutCallback);
+    // var category = primaryWorkspace.current.getToolbox().getToolboxItems()[6];
+    // category.updateFlyoutContents(guideBlocks[0]);
+
     // console.log(array, cnt, toolbox.current, primaryWorkspace.current);
   }, [primaryWorkspace, toolbox, blocklyDiv, blocklyArea, props]);
 
@@ -434,18 +636,54 @@ function BlocklyComponent(props: any) {
 
   return (
     <BlocklyWrapper>
-      
       <BlocklyArea ref={blocklyArea} id="blocklyArea"></BlocklyArea>
       <CollapseToolBoxButton onClick={collapseToolbox} $toolboxCollapsed={toolboxCollapsed}>
         {toolboxCollapsed ? "도구상자 닫기" : "도구상자 열기"}
       </CollapseToolBoxButton>
-      <CollapseToolBoxButton style={{left:"128px", width:"100px"}} $toolboxCollapsed={toolboxCollapsed} onClick={generateCode}>Convert</CollapseToolBoxButton>
-      <CollapseToolBoxButton style={{left:"228px", width:"100px"}} $toolboxCollapsed={toolboxCollapsed} onClick={generateVar}>Generate</CollapseToolBoxButton>
-      <CollapseToolBoxButton style={{left:"328px", width:"100px"}} $toolboxCollapsed={toolboxCollapsed} onClick={reset}>reset</CollapseToolBoxButton>
-      <CollapseToolBoxButton style={{left:"428px", width:"100px"}} $toolboxCollapsed={toolboxCollapsed} onClick={save}>save</CollapseToolBoxButton>
-      <CollapseToolBoxButton style={{left:"528px", width:"100px"}} $toolboxCollapsed={toolboxCollapsed} onClick={load}>load</CollapseToolBoxButton>
-      <CollapseToolBoxButton style={{left:"628px", width:"100px"}} $toolboxCollapsed={toolboxCollapsed} onClick={() => exportImageAsPNG()}>이미지</CollapseToolBoxButton>
-      
+      {/* 아래는 임시 버튼 */}
+      <CollapseToolBoxButton
+        style={{ left: "128px", width: "100px" }}
+        $toolboxCollapsed={toolboxCollapsed}
+        onClick={generateCode}
+      >
+        Convert
+      </CollapseToolBoxButton>
+      <CollapseToolBoxButton
+        style={{ left: "228px", width: "100px" }}
+        $toolboxCollapsed={toolboxCollapsed}
+        onClick={generateVar}
+      >
+        Generate
+      </CollapseToolBoxButton>
+      <CollapseToolBoxButton
+        style={{ left: "328px", width: "100px" }}
+        $toolboxCollapsed={toolboxCollapsed}
+        onClick={reset}
+      >
+        reset
+      </CollapseToolBoxButton>
+      <CollapseToolBoxButton
+        style={{ left: "428px", width: "100px" }}
+        $toolboxCollapsed={toolboxCollapsed}
+        onClick={save}
+      >
+        save
+      </CollapseToolBoxButton>
+      <CollapseToolBoxButton
+        style={{ left: "528px", width: "100px" }}
+        $toolboxCollapsed={toolboxCollapsed}
+        onClick={() => load(true)}
+      >
+        load
+      </CollapseToolBoxButton>
+      <CollapseToolBoxButton
+        style={{ left: "628px", width: "100px" }}
+        $toolboxCollapsed={toolboxCollapsed}
+        onClick={() => exportImageAsPNG()}
+      >
+        이미지
+      </CollapseToolBoxButton>
+
       {/* <div style={{width:"98%", height:"98%"}} id="blocklyArea"></div> */}
       <BlocklyDiv ref={blocklyDiv} id="blocklyDiv" />
       <div style={{ display: "none" }} ref={toolbox}>
@@ -640,9 +878,7 @@ function BlocklyComponent(props: any) {
             return <Block key={index} type={item} />;
           })}
         </Category>
-        <Category name="가이드 블록" colour="#ffee04">
-          
-        </Category>
+        <Category name="가이드 블록" colour="#ffee04" custom="guide"></Category>
       </div>
     </BlocklyWrapper>
   );
