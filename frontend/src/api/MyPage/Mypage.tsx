@@ -69,3 +69,15 @@ export const getRecodeList =async() => {
         console.log('err', error)
     }
 }
+
+// 내 전략 조회
+export const getTactic =async() => {
+    try{
+        // console.log('try mytactic')
+        const response = await privateApi.get("/tactic");
+        console.log('전략 조회', response.data)
+        return response.data
+    }catch(error){
+        console.log('err', error)
+    }
+}
