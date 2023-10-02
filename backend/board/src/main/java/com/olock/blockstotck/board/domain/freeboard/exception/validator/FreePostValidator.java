@@ -1,6 +1,7 @@
 package com.olock.blockstotck.board.domain.freeboard.exception.validator;
 
 import com.olock.blockstotck.board.domain.freeboard.exception.NoExistFreePost;
+import com.olock.blockstotck.board.domain.freeboard.exception.NoMatchingWriter;
 import com.olock.blockstotck.board.domain.freeboard.persistence.entity.FreePost;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

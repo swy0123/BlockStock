@@ -21,5 +21,5 @@ public interface FreeboardService{
 
     void postFreePostComment(Long memberId, FreePostCommentRequest freePostCommentRequest);
 
-    void deleteMyFreePostComment(Long memberId, Long commentId);
+    void deleteFreePostComment(Long memberId, Long commentId);
 }

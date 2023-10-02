@@ -2,6 +2,7 @@ package com.olock.blockstotck.board.domain.freeboard.application;
 
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostCommentRequest;
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreeboardPostRequest;
+import com.olock.blockstotck.board.domain.freeboard.exception.validator.FreePostCommentValidator;
 import com.olock.blockstotck.board.domain.freeboard.exception.validator.FreePostValidator;
 import com.olock.blockstotck.board.domain.freeboard.persistence.FileRepository;
 import com.olock.blockstotck.board.domain.freeboard.persistence.FreePostCommentRepository;
@@ -27,9 +28,11 @@ public class FreeboardServiceImpl implements FreeboardService{
     private final FreePostRepository freePostRepository;
     private final FileRepository fileRepository;
     private final FreePostCommentRepository freePostCommentRepository;
-    private final FreePostValidator freePostValidator;
     private final AwsS3Uploader awsS3Uploader;
     private final FreePostLikeRepository freePostLikeRepository;
+
+    private final FreePostValidator freePostValidator;
+    private final FreePostCommentValidator freePostCommentValidator;
 
     @Override
     public long postFreePost(long memberId, FreeboardPostRequest freeboardPostRequest) {
@@ -94,7 +97,15 @@ public class FreeboardServiceImpl implements FreeboardService{
     }
 
     @Override
-    public void deleteMyFreePostComment(Long memberId, Long commentId) {
+    public void deleteFreePostComment(Long memberId, Long commentId) {
 
+        Optional<FreePostComment> tmpFreePostComment = freePostCommentRepository.findById(commentId);
+        freePostCommentValidator.checkFreePostCommentExist(tmpFreePostComment);
+
+        FreePostComment freePostComment = tmpFreePostComment.get();
+        freePostCommentValidator.checkFreePostCommentWriter(freePostComment, memberId);
+
+        freePostCommentRepository.delete(freePostComment);
     }
+
 }
