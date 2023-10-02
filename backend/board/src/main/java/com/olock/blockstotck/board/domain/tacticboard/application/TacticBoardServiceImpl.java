@@ -158,6 +158,7 @@ public class TacticBoardServiceImpl implements TacticBoardService {
 
         tacticPostValidator.checkTacticPostWriter(tacticPost, memberId);
 
+        tacticPostCommentRepository.deleteAllByTacticPostId(tacticPostId);
         tacticPostRepository.delete(tacticPost);
     }
 
