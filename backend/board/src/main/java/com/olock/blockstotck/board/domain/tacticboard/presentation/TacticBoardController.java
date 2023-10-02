@@ -50,7 +50,7 @@ public class TacticBoardController {
     @GetMapping("/{tacticPostId}")
     public ResponseEntity<TacticPostResponse> getTacticPost(@RequestHeader("Member-id") Long memberId,
                                                             @PathVariable Long tacticPostId) {
-        return ResponseEntity.ok(tacticBoardService.getTacticPost(tacticPostId));
+        return ResponseEntity.ok(tacticBoardService.getTacticPost(memberId, tacticPostId));
     }
 
 

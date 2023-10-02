@@ -13,7 +13,7 @@ public interface TacticBoardService {
     List<TacticPostResponse> getTacticPostList(Long memberId, TacticPostRequestParam tacticPostRequestParam);
     void likeTacticPost(Long memberId, Long tacticPostId);
     void unLikeTacticPost(Long memberId, Long tacticPostId);
-    TacticPostResponse getTacticPost(Long tacticPostId);
+    TacticPostResponse getTacticPost(Long memberId, Long tacticPostId);
     void updateHit(Long tacticId);
     void deleteTacticPost(Long memberId, Long tacticPostId);
     List<TacticPostCommentResponse> getTacticPostCommentList(Long tacticPostId);

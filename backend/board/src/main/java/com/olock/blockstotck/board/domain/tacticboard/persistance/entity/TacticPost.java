@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -27,6 +30,9 @@ public class TacticPost extends BaseEntity {
     @Column(columnDefinition = "BigInteger default 0")
     private Long hit;
 
+    @OneToMany(mappedBy = "tacticPost", cascade = CascadeType.ALL)
+    private List<TacticPostLike> tacticPostLikes = new ArrayList<>();
+
     @Builder
     public TacticPost(Long id, Long memberId, Long tacticId, String title, String content,
                       String optionName, String tacticPythonCode, String tacticJsonCode,
@@ -43,9 +49,5 @@ public class TacticPost extends BaseEntity {
         this.contestReturns = contestReturns;
         this.imgPath = imgPath;
         this.hit = 0L;
-    }
-
-    public void updateHit() {
-        this.hit += 1;
     }
 }

@@ -12,6 +12,7 @@ public class TacticPostLike extends BaseEntity {
     private Long id;
     private Long memberId;
     @ManyToOne
+    @JoinColumn(name = "tactic_post_id")
     private TacticPost tacticPost;
 
     public TacticPostLike(Long memberId, TacticPost tacticPost) {
