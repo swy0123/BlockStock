@@ -4,24 +4,24 @@ import styled from "styled-components";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
   margin-bottom: 20px;
-  text-align: center;
+  /* text-align: center; */
   margin-top: 15px;
-  margin-left: 25px;
+  /* margin-left: 25px; */
 `;
 const Title = styled.div`
-  width: 200px;
+  width: 150px;
   font-size: 25px;
   color: #000000;
   font-weight: bold;
   margin-top: -27px;
   background-color: #f4f5fa;
   z-index: 1000;
-  margin-left: 20px;
+  margin-left: 15px;
 `;
 const Hr = styled.hr`
-  width: 88%;
+  width: 99%;
   opacity: 50%;
   z-index: 50;
 `;

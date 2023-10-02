@@ -16,110 +16,70 @@ import {
   Button2
 } from './FreeBoardCreateBox.style'
 import { useNavigate } from "react-router-dom";
+import { freeBoardCreate } from "../../../api/FreeBoard/FreeBoard";
+import swal from "sweetalert";
 
-// import {freeBoardCreate} from '../../../api/FreeBoard/FreeBoard'
-
-// const preventDefault = (event) => event.preventDefault();
 
 function FreeBoardCreateBox(){
-
   const navigate = useNavigate();
-  // 이미지 파일 저장
-  // const [selectedFiles, setSelectedFiles] = useState([]); 
   const [title, setTitle] = useState(''); 
   const [content, setContent] = useState(''); 
   const [file, setFile] = useState(null)
-  const [fileName, setFileName] = useState('')
+  const [fileList, setFileList] = useState([]);
   
+  const contentInfo = {
+    title: title,
+    content: content
+  }
 
-
-  // 이미지 파일만
+  // 파일 선택 5개 제한
   const handleFileSelect = (e) => {
-    const files = e.target.files[0];
-    // const imageFiles = Array.from(files).filter(file => file.type.startsWith('image/'));
-    // setSelectedFiles([...selectedFiles, ...imageFiles]);
-    console.log(files)
-    setFileName(files.name)
-    setFile(files)
+    const files = e.target.files;
+  const newFileList = [...fileList]; 
+
+  if (newFileList.length + files.length > 5) {
+    swal("파일 첨부는 최대 5개까지 가능합니다.");
+    return;
+  }
+
+  for (let i = 0; i < files.length; i++) {
+    newFileList.push(files[i]);
+  }
+  setFileList(newFileList); 
+};
+
+  const removeFile = (name) => {
+    const newFileList = fileList.filter((file) => file.name !== name);
+    setFileList(newFileList); 
   };
-
-  // const handleFileSelect = (e) => {
-    // console.log(e.target.files[0])
-    // setFile(()=>{return e.target.files[0]})
-  //   const files = e.target.files;
-  //   const imageFiles = Array.from(files).filter(file => file.type.startsWith('image/'));
-  
-  //   // 이미지 파일을 미리보기로 표시하는 함수
-  //   const displayImagePreview = (imageFile) => {
-  //     const reader = new FormData();
-  //     reader.onload = (event) => {
-  //       const imageDataUrl = event.target.result;
-        
-  //       // 이미지 데이터 URL을 selectedFiles 상태에 추가
-  //       setSelectedFiles(prevSelectedFiles => [...prevSelectedFiles, imageDataUrl]);
-  //     };
-  
-  //     reader.readAsDataURL(imageFile);
-  //   };
-  
-  //   // 이미지 파일을 미리보기로 표시
-  //   imageFiles.forEach(displayImagePreview);
-  
-  //   // 선택한 이미지 파일을 selectedFiles 상태에 추가
-  //   setSelectedFiles(prevSelectedFiles => [...prevSelectedFiles, ...imageFiles]);
-  // };
-  
-  
+  console.log('현재 파일 목록은?', fileList)
 
 
-
-  // 모든 파일
-  // const handleFileSelect = (e) => {
-  //   const files = e.target.files;
-  //   setSelectedFiles([...selectedFiles, ...files]);
-  //   setFormData({ ...formData, files: [...formData.files, ...files] });
-  // };
-
-
-
-  // 해당 파일만 취소
-  const removeFile = () => {
-    setFile(null)
-    setFileName('')
-    // const updatedFiles = [...selectedFiles];
-    // updatedFiles.splice(index, 1);
-    // setSelectedFiles(updatedFiles);
-
-    // const updatedFormData = { ...formData };
-    // updatedFormData.files.splice(index, 1);
-    // setFormData(updatedFormData);
-  };
-
-
-
-  // 글 등록
-  const handleSubmit = () => {
-
+// Blob 활용
+  const handleSubmit = async() => {
     const formData = new FormData();
-    formData.append('file', file)
 
-    formData.append('title', new Blob([JSON.stringify(title)], {
-      type: "application/json"
-    }));
-    formData.append('content', new Blob([JSON.stringify(content)], {
-      type: "application/json"
-    }));
-
-    console.log("title:", title);
-    console.log("content:", content);
-    console.log("file:", file);
-    console.log("Form Data:", formData);
-    // freeBoardCreate(formData)
-    // navigate("/freeboard");
-  };
-
-
-
+    for (let i = 0; i < fileList.length; i++) {
+      formData.append("files", fileList[i]);
+    }
+  
+    // 파일 이름 배열 JSON 형태 문자열로 직렬화한 다음 추가하기!
+    const fileNamesJSON = JSON.stringify(fileList);
+    const fileNamesBlob = new Blob([fileNamesJSON], { type: "application/json" });
+    formData.append("fileList", fileNamesBlob);
+    const jsonBlob = new Blob([JSON.stringify(contentInfo)], { type: "application/json" });
+    formData.append("postRequest", jsonBlob);
+    // console.log("Form Data:", formData);
+  
+    if (formData) {
+        const response = await freeBoardCreate(formData);
+        if (response?.status == 200){
+          swal("", "게시글 작성 완료", "success")
+          navigate("/freeboard")
+        }
+      }
+    }
+  
   return(
     <>
     <Container>
@@ -127,59 +87,37 @@ function FreeBoardCreateBox(){
             placeholder="제목을 입력하세요."
             onChange={(e) => setTitle(e.target.value )}
           />
-      <hr />
+      <hr/>
       <ContentInput
           placeholder="내용을 입력하세요."
           onChange={(e) => setContent(e.target.value)}
         />
-      <hr />
-
+      <hr/>
       <Wrapper>
         <FileBtn>
           업로드
-          <FileInput type="file" accept="image/*" onChange={handleFileSelect} multiple />
+          <FileInput type="file" onChange={handleFileSelect} multiple />
         </FileBtn>
         <FileList>
-          {/* {selectedFiles.map((file, index) => (
-            <div key={index} style={{ display: 'flex', margin: '0px 0px 0px 10px' }}>
-              <Box
-                sx={{
-                  typography: 'body1',
-                  '& > :not(style) ~ :not(style)': {
-                    ml: 2,
-                  },
-                  maxWidth: '300px', // Set maximum width for the container
-                  wordWrap: 'break-word', // Allow text to wrap within the container
-                }}
-                onClick={preventDefault}
-              >
-                <Link href="#" color="inherit" >
-                  {file.name}
-                </Link>
-              </Box>
-              <HighlightOffIcon
-                style={{ margin: '0px 0px 0px 4px', cursor: 'pointer' }}
-                onClick={() => removeFile(index)} // Call removeFile function on icon click
-              />
-            </div>
-          ))} */}
-          {fileName && (
-              <>
-                {fileName}
+            {fileList.map((file, index) => (
+              <div key={index}>
+                {file.name}
                 <HighlightOffIcon
-                  style={{ margin: '0px 0px 0px 4px', cursor: 'pointer' }}
-                  onClick={() => removeFile()} // Call removeFile function on icon click
+                  style={{ 
+                    margin: "0px 17px 0px 4px", 
+                    cursor: "pointer",
+                    opacity: "40%", }}
+                  onClick={() => removeFile(file.name)} // 파일 이름으로 삭제
                 />
-              </>
-            )}
-        </FileList>
+              </div>
+            ))}
+          </FileList>
       </Wrapper>
     </Container>
     <ButtonBox>
       <Button1 onClick={()=>navigate('/freeboard')}>목록</Button1>
       <Button2 onClick={handleSubmit}>등록</Button2>
     </ButtonBox>
-
     </>
   )
 }
