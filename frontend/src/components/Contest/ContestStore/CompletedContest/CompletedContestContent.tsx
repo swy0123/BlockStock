@@ -23,12 +23,9 @@ import {
 // 날짜 변환
 import dayjs from "dayjs";
 import TablePagination from '@mui/material/TablePagination';
-// 리코일 더미데이터
-import { useRecoilState } from 'recoil';
-import {currentContestListState} from '../../../../recoil/Contest/CurrentContest'
 
 // api 통신
-// import { completedContestList, contestResult  } from '../../../../api/Contest/ContestStore'
+import { completedContestList, contestResult  } from '../../../../api/Contest/ContestStore'
 
 
 function CompletedContestContent() {
@@ -38,12 +35,10 @@ function CompletedContestContent() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(3);
 
-  // const [completedContestItem, setCompletedContestItem] = useState([])
+  const [completedContestItem, setCompletedContestItem] = useState([])
   const [ count, setCount] = useState(0)
   const [ userRank, setUserRank] = useState([])
   
-    //더미데이터
-    const [completedContestItem, setCompletedContestItem] = useRecoilState(currentContestListState);
 
   // api 통신 =============================================================
   const params = {

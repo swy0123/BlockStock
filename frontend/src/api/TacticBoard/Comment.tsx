@@ -13,7 +13,7 @@ export const tacticlikeCreate = async (data:data) => {
   console.log(data)
   const res = await privateApi.post(`/tactic-board/like`, data);
   console.log(res);
-  return res.data;
+  return res;
 };
 
 // 전략게시판 게시글 좋아요 취소
@@ -21,7 +21,7 @@ export const tacticlikeDelete = async (boardId:boardId) => {
   console.log(boardId)
   const res = await privateApi.delete(`/tactic-board/like/${boardId}`);
   console.log(res);
-  return res.data;
+  return res;
 };
 
 // 전략게시판 게시글 댓글 리스트
@@ -37,7 +37,7 @@ export const tacticcommentDelete = async (commentId:commentId) => {
   console.log(commentId)
   const res = await privateApi.delete(`/tactic-board/comment/${commentId}`);
   console.log(res);
-  return res.data;
+  return res;
 };
 
 

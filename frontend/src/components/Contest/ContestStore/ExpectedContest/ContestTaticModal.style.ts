@@ -68,7 +68,9 @@ cursor: pointer;
 export const TaticTitle = styled.div`
 font-size: 14px;
 font-weight: 600;
-margin: 20px 0px 0px 25px;
+margin: 20px 0px 0px 0px;
+width: 100%;
+text-align: center;
 `;
 export const TaticImg = styled.img`
 width: 130px;
@@ -82,12 +84,12 @@ font-weight: 600;
 `;
 export const Explanation1 = styled.div`
 margin: 0px 0px 0px 75px;
-font-size: 16px;
+font-size: 14px;
 font-weight: 600;
 `;
 export const Explanation2 = styled.div`
 margin: 5px 0px 0px 75px;
-font-size: 12px;
+font-size: 10px;
 color: #5B5B5B;
 `;
 export const Button = styled.div`
@@ -112,7 +114,9 @@ export const Button = styled.div`
   }
 `;
 
-
+export const Icon = styled.div`
+position: absolute;
+`;
 
 
 

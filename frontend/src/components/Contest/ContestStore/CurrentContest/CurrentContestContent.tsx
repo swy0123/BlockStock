@@ -3,7 +3,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import KeyboardControlKeyIcon from '@mui/icons-material/KeyboardControlKey';
 
 import { useRecoilValue } from 'recoil';
-import { currentContestListState, searchKeywordState } from '../../../../recoil/Contest/CurrentContest';
+import { searchKeywordState } from '../../../../recoil/Contest/CurrentContest';
 
 import {
   Container,
@@ -27,7 +27,7 @@ import TablePagination from '@mui/material/TablePagination';
  // 날짜 변환
  import dayjs from "dayjs";
 // api 통신
-// import {currentContestList} from '../../../../api/Contest/ContestStore'
+import {currentContestList} from '../../../../api/Contest/ContestStore'
 
 
 function CurrentContestContent(){
@@ -40,16 +40,6 @@ function CurrentContestContent(){
   const [rowsPerPage, setRowsPerPage] = React.useState(7);
   const [ currentContestListItem, setCurrentContestListItem] = useState([])
   const [count, setCount] = useState(0)
-
-
-  // api 통신 이후 삭제 =======================================================================
-  // // 리코일에서 불러온 더미 데이터
-  // const currentContestListItem = useRecoilValue(currentContestListState);
-  // // 검색어로 title 일치하는 것만 다시 리스트로 배열을 만들어 준다
-  // const filteredContestList = currentContestListItem.filter((contest) =>
-  // contest.title.includes(searchKeyword)
-  // );
-  // api 통신 이후 삭제 =======================================================================
 
 
   // api 통신 =============================================================
