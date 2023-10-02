@@ -62,10 +62,9 @@ public class FreeboardServiceImpl implements FreeboardService{
         freePostValidator.checkFreePostExist(tmpFreePost);
         FreePost freePost = tmpFreePost.get();
         freePostValidator.checkFreePostWriter(freePost, memberId);
-
-        // 댓글 삭제
+        
         freePostCommentRepository.deleteAllByFreePostId(freeboardId);
-        // s3에서 삭제
+
         List<File> fileList = fileRepository.findAllByFreePostId(freeboardId);
         for(File file : fileList){
             String imgPath = file.getImgPath();
@@ -73,9 +72,8 @@ public class FreeboardServiceImpl implements FreeboardService{
 
             awsS3Uploader.delete(fileName);
         }
-        // file 테이블에서 삭제
         fileRepository.deleteAllByFreePostId(freeboardId);
-        // 좋아요 삭제
+
         freePostLikeRepository.deleteAllByFreePostId(freeboardId);
 
         freePostRepository.delete(freePost);
