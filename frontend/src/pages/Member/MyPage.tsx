@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Profile from "../../components/MyPage/Profile";
 import MyBoard from "../../components/MyPage/MyBoard";
 import LikeList from "../../components/MyPage/LikeList";
@@ -9,8 +9,10 @@ import PasswordModal from "../../components/MyPage/EditModal/ChangePasswordModal
 import SecessionModal from "../../components/MyPage/EditModal/SecessionModal";
 import FollowListModal from "../../components/MyPage/FollowModal/FollowListModal";
 import { useQuery, useQueryClient } from "react-query";
+import { putProfile } from "../../api/MyPage/Mypage";
 import { useRecoilValue } from "recoil";
 import { CurrentUserAtom } from "../../recoil/Auth";
+import swal from "sweetalert";
 import { getmypage } from "../../api/MyPage/Mypage";
 import {
   Container,
@@ -77,6 +79,30 @@ function MyPage() {
   const [isSecessionModalOpen, setIsSecessionModalOpen] = useState(false);
   const [isFollowModalOpen, setIsFollowModalOpen] = useState(false);
   const [isFollowType, setIsFollowType] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+  const fileInputRef = useRef<HTMLInputElement>(null); // 파일 업로드 input 엘리먼트의 Ref
+
+  const handleImageClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click(); // 파일 업로드 다이얼로그 열기
+    }
+  };
+
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target?.files && event.target.files.length > 0) {
+      const file: File = event.target.files[0]; // 파일 형식으로 명시
+      const formData = new FormData();
+      formData.append("file", file);
+      // setSelectedFile(`https://j9b210.p.ssafy.io:8443/api/member/profile/${currentUser.userid}`);
+      setSelectedFile(file);
+      console.log("폼데이터 보자",formData)
+  
+      const response = await putProfile(formData);
+      if (response?.status === 200) {
+        swal("프로필 이미지 등록", "프로필 이미지가 업로드 되었습니다.", "success")
+    }
+  };
+}
 
   const openFollowerModal = () => {
     setIsFollowModalOpen(true);
@@ -114,6 +140,7 @@ function MyPage() {
     setIsSecessionModalOpen(false);
     setIsEditing(false);
   };
+
   if (isLoading) {
     return <div>Loading...</div>; // 데이터가 로드 중일 때 표시할 내용
   }
@@ -143,12 +170,21 @@ function MyPage() {
         />
         <InfoBox>
           <Box>
+          <input
+              type="file"
+              style={{ display: "none" }}
+              ref={fileInputRef}
+              onChange={handleFileChange}
+            />
             <Img
-              src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${currentUser.userid}`}
-              alt="profile"
+            src={selectedFile ? URL.createObjectURL(selectedFile) : `https://j9b210.p.ssafy.io:8443/api/member/profile/${currentUser.userid}`}
+            alt="profile"
             />
             {/* <Img src="/icon/user4.png" /> */}
-            <EditImg src="/icon/pen.png" />
+            <EditImg 
+            onClick={handleImageClick}
+            src="/icon/pen.png" 
+            />
             <Text>{data.nickname}</Text>
             <InfoBox>
               <MailIcon src="/icon/mail.png" />

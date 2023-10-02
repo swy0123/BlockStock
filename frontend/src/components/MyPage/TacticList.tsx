@@ -3,6 +3,8 @@ import styled from "styled-components";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import { useQuery } from "react-query";
+import { getTactic } from "../../api/MyPage/Mypage";
 
 const StyledSlider = styled(Slider)`
   width: 1100px;
@@ -20,6 +22,7 @@ const TacticCard = styled.div`
   background: #fff;
   box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
 `;
+
 const Space = styled.div`
   display: flex;
 `;
@@ -29,82 +32,29 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.p`
-  font-size: 15px;
+  font-size: 17px;
 `;
-
+const EmptyBox = styled.div`
+  width: 75%;
+  height: 250px;
+  background-color: white;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #535254;
+`
+const Noneimg = styled.img`
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+`
 function TacticList() {
-  const data = [
-    {
-      tacticPostId: 1,
-      title: "제목 1",
-      imgPath: "",
-      testReturns: -2.1,
-      contestReturns: 2.2,
-      likeCnt: 21,
-      isLike: true,
-      hit: 40,
-    },
-    {
-      tacticPostId: 2,
-      title: "제목 2",
-      imgPath: "",
-      testReturns: 3.5,
-      contestReturns: -1.2,
-      likeCnt: 21,
-      isLike: true,
-      hit: 40,
-    },
-    {
-      tacticPostId: 3,
-      title: "제목 3",
-      imgPath: "",
-      testReturns: +3.5,
-      contestReturns: +1.2,
-      likeCnt: 21,
-      isLike: true,
-      hit: 40,
-    },
-    {
-      tacticPostId: 3,
-      title: "제목 3",
-      imgPath: "",
-      testReturns: +3.5,
-      contestReturns: +1.2,
-      likeCnt: 21,
-      isLike: true,
-      hit: 40,
-    },
-    {
-      tacticPostId: 3,
-      title: "제목 3",
-      imgPath: "",
-      testReturns: +3.5,
-      contestReturns: +1.2,
-      likeCnt: 21,
-      isLike: true,
-      hit: 40,
-    },
-    {
-      tacticPostId: 3,
-      title: "제목 3",
-      imgPath: "",
-      testReturns: +3.5,
-      contestReturns: +1.2,
-      likeCnt: 21,
-      isLike: true,
-      hit: 40,
-    },
-    {
-      tacticPostId: 3,
-      title: "제목 3",
-      imgPath: "",
-      testReturns: +3.5,
-      contestReturns: +1.2,
-      likeCnt: 21,
-      isLike: true,
-      hit: 40,
-    },
-  ];
+  const {data, isLoading, isError} = useQuery("mytactic", getTactic);
+
+  
   const settings = {
     dots: false,
     infinite: true,
@@ -113,8 +63,15 @@ function TacticList() {
     slidesToScroll: 1,
     // centerPadding: '20px', // centerPadding을 제거
   };
+  if(isLoading){
+    return <div>Loading...</div>
+  }
+  if(isError){
+    return <div>Error loading data</div>
+  }
   return (
     <Container>
+      {data && data.length > 0 ? (
       <Wrapper>
       <StyledSlider {...settings}>
         {data.map((item) => (
@@ -127,6 +84,12 @@ function TacticList() {
           ))}
       </StyledSlider>
       </Wrapper>
+      ) : (
+        <EmptyBox>
+          <Noneimg src="/icon/none.png"/>
+          <Title>저장된 전략이 없습니다.</Title>
+        </EmptyBox>
+      )}
     </Container>
   );
 }
