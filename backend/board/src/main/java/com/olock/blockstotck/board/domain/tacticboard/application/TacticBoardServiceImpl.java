@@ -7,6 +7,7 @@ import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostComm
 import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostRequest;
 import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostRequestParam;
 import com.olock.blockstotck.board.domain.tacticboard.dto.response.TacticPostCommentResponse;
+import com.olock.blockstotck.board.domain.tacticboard.dto.response.TacticPostListCntResponse;
 import com.olock.blockstotck.board.domain.tacticboard.dto.response.TacticPostListResponse;
 import com.olock.blockstotck.board.domain.tacticboard.dto.response.TacticPostResponse;
 import com.olock.blockstotck.board.domain.tacticboard.exception.*;
@@ -83,7 +84,7 @@ public class TacticBoardServiceImpl implements TacticBoardService {
     }
 
     @Override
-    public List<TacticPostListResponse> getTacticPostList(Long memberId, TacticPostRequestParam tacticPostRequestParam) {
+    public TacticPostListCntResponse getTacticPostList(Long memberId, TacticPostRequestParam tacticPostRequestParam) {
 
         Pageable pageable = PageRequest.of(
                 tacticPostRequestParam.getPage(),
@@ -98,13 +99,17 @@ public class TacticBoardServiceImpl implements TacticBoardService {
 
         if(tacticPostRequestParam.getLike()) spec = spec.and(TacticPostSpecification.findByLike(memberId));
 
+        long totalCount = tacticPostRepository.count(spec);
+
         Page<TacticPost> findTacticPostList = tacticPostRepository.findAll(spec, pageable);
 
-        return findTacticPostList.stream()
+        List<TacticPostListResponse> tacticPostListResponse = findTacticPostList.stream()
                 .map(findTacticPost -> {
                     boolean isLike = !tacticPostLikeRepository.findByMemberIdAndTacticPostId(memberId, findTacticPost.getId()).isEmpty();
                     return new TacticPostListResponse(findTacticPost, isLike);
                 }).collect(Collectors.toList());
+
+        return new TacticPostListCntResponse(tacticPostListResponse, totalCount);
     }
 
     @Override
