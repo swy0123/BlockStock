@@ -165,16 +165,16 @@ def get_tactic_test_response(tactic_test_request):
 
         now_repeat_cnt += 1
 
-    # 반복문 끝나고 남은 주식 매수
+    # 반복문 끝나고 남은 주식 매도
     if now_stock_cnt > 0:
         now_asset += now_stock_cnt * now_data[now_repeat_cnt-1][5]
-        item = OptionHistory()
-        item.type = "sell"
-        item.turn = now_repeat_cnt - 1
-        item.cost = now_data[now_repeat_cnt - 1][5]
-        item.tradeCnt(now_stock_cnt)
-        
-        option_history_list.append(item)
+        # item = OptionHistory()
+        # item.type = "sell"
+        # item.turn = now_repeat_cnt - 1
+        # item.cost = now_data[now_repeat_cnt - 1][5]
+        # item.tradeCnt(now_stock_cnt)
+        #
+        # option_history_list.append(item)
 
     # set option_history
     response.optionHistory = option_history_list
@@ -491,7 +491,7 @@ def sell(param):
         sell_avg = 0
         if sell_cnt != 0:
             sell_avg = sell_sum / sell_cnt
-        item.profitAndLoss = (buy_avg - sell_avg) * param
+        item.profitAndLoss = (sell_avg - buy_avg) * param
         # list에 넣기
         option_history_list.append(item)
 
