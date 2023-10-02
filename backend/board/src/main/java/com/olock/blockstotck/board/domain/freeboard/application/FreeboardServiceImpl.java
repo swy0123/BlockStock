@@ -1,6 +1,7 @@
 package com.olock.blockstotck.board.domain.freeboard.application;
 
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostCommentRequest;
+import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostLikeRequest;
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreeboardPostRequest;
 import com.olock.blockstotck.board.domain.freeboard.exception.validator.FreePostCommentValidator;
 import com.olock.blockstotck.board.domain.freeboard.exception.validator.FreePostValidator;
@@ -11,6 +12,7 @@ import com.olock.blockstotck.board.domain.freeboard.persistence.FreePostReposito
 import com.olock.blockstotck.board.domain.freeboard.persistence.entity.File;
 import com.olock.blockstotck.board.domain.freeboard.persistence.entity.FreePost;
 import com.olock.blockstotck.board.domain.freeboard.persistence.entity.FreePostComment;
+import com.olock.blockstotck.board.domain.freeboard.persistence.entity.FreePostLike;
 import com.olock.blockstotck.board.infra.awsS3.AwsS3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -106,6 +108,20 @@ public class FreeboardServiceImpl implements FreeboardService{
         freePostCommentValidator.checkFreePostCommentWriter(freePostComment, memberId);
 
         freePostCommentRepository.delete(freePostComment);
+    }
+
+    @Override
+    public void likeFreePost(Long memberId, FreePostLikeRequest freePostLikeRequest) {
+
+        Optional<FreePost> tmpFreePost = freePostRepository.findById(freePostLikeRequest.getFreePostId());
+        freePostValidator.checkFreePostExist(tmpFreePost);
+
+        Optional<FreePostLike> tmpFreePostLike = freePostLikeRepository.findByMemberIdAndFreePostId(memberId, freePostLikeRequest.getFreePostId());
+        freePostValidator.checkAlreadyLike(tmpFreePostLike);
+
+        FreePostLike freePostLike = new FreePostLike(memberId, tmpFreePost.get());
+
+        freePostLikeRepository.save(freePostLike);
     }
 
 }

@@ -20,4 +20,9 @@ public class FreePostLike extends BaseEntity {
     @JoinColumn(name = "free_post_id")
     private FreePost freePost;
     private long memberId;
+
+    public FreePostLike(Long memberId, FreePost freePost){
+        this.memberId = memberId;
+        this.freePost = freePost;
+    }
 }
