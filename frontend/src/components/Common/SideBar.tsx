@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import RightArrowSrc from "../../assets/img/MakeTactic/rightarrow.png";
 // import Swal from 'sweetalert2'
 
 const Container = styled.div` 
@@ -30,6 +32,7 @@ const ClickBox1 = styled.div`
   }
 `;
 const ClickBox = styled.div`
+  width: 100%;
 	height: 42px;
   display: flex;
   align-items: center;
@@ -61,6 +64,25 @@ const Menu = styled.div`
     transition: 0.5s;
   }
 `;
+const Icon = styled.img`
+  width: 15px;
+  height: 15px;
+  margin-left: 10%;
+  opacity: 50%;
+  cursor: pointer;
+  &:hover{
+    opacity: 100;
+  }
+`
+const Close = styled.img`
+  width: 30px;
+  height: 30px;
+  margin-left: 10%;
+  opacity: 50%;
+  cursor: pointer;
+  &:hover{
+  }
+`
 
 function SideBar(){
   const navigate = useNavigate();
@@ -68,47 +90,79 @@ function SideBar(){
   if (window.location.pathname === '/signup') return null;
   if (window.location.pathname === '/findpw') return null;
 
+  const [showContestMenu, setShowContestMenu] = useState(false);
+  const [showBoardMenu, setShowBoardMenu] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showSideWrapper, setShowSideWrapper] = useState(true);
+
+  const toggleContestMenu = () => {
+    setShowContestMenu(!showContestMenu);
+  };
+  const toggleBoardMenu = () => {
+    setShowBoardMenu(!showBoardMenu);
+  };
+  const toggleProfileMenu = () => {
+    setShowProfileMenu(!showProfileMenu);
+  };
+  const toggleSideWrapper = () => {
+    setShowSideWrapper(!showSideWrapper);
+  };
+
     return(
         <Container>
+          {showSideWrapper && (
             <SideWrapper>
                 <ClickBox1 onClick={()=> navigate("/")}>
                     <Img src="/icon/home.png"/>
-                    <Text>Home</Text>
+                    <Text>홈</Text>
 								</ClickBox1>
 								<ClickBox onClick={()=> navigate("/maketactic")}>
                     <Img src="/icon/circle.png"/>
-										<Text>Tactic</Text>
+										<Text>전략생성</Text>
                 </ClickBox>
 								<ClickBox>
                     <Img src="/icon/circle.png"/>
-										<Text>Contest</Text>
+										<Text>모의투자대회</Text>
+                    <Icon src="/icon/down.png" onClick={toggleContestMenu}/>
                 </ClickBox>
-								<ClickBox onClick={() => navigate("/contest")}>
-										<Menu>개요</Menu>
+								{showContestMenu && (
+                <>
+                <ClickBox onClick={() => navigate("/contest")}>
+                  <Menu>개요</Menu>
                 </ClickBox>
-								<ClickBox onClick={()=> navigate("/currentcontest")}>
-										<Menu>진행중인 대회</Menu>
+                <ClickBox onClick={() => navigate("/currentcontest")}>
+                  <Menu>진행중인 대회</Menu>
                 </ClickBox>
-								<ClickBox onClick={()=> navigate("/expectedcontest")}>
-										<Menu>예정 대회</Menu>
+                <ClickBox onClick={() => navigate("/expectedcontest")}>
+                  <Menu>예정 대회</Menu>
                 </ClickBox>
-								<ClickBox onClick={()=>navigate("/completedcontest")}>
-										<Menu>종료 대회</Menu>
+                <ClickBox onClick={() => navigate("/completedcontest")}>
+                  <Menu>종료 대회</Menu>
                 </ClickBox>
+              </>
+             )}
 								<ClickBox>
                     <Img src="/icon/circle.png"/>
-										<Text>Board</Text>
+										<Text>게시판</Text>
+                    <Icon src="/icon/down.png" onClick={toggleBoardMenu}/>
                 </ClickBox>
+                {showBoardMenu && (
+                <>
 								<ClickBox onClick={()=>navigate("/freeboard")}>
 										<Menu>자유 게시판</Menu>
                 </ClickBox>
 								<ClickBox onClick={()=>navigate("/tacticboard")}>
 										<Menu>전략 게시판</Menu>
                 </ClickBox>
+                </>
+                )}
 								<ClickBox>
                     <Img src="/icon/user_black.png"/>
-										<Text>User</Text>
+										<Text>사용자</Text>
+                    <Icon src="/icon/down.png" onClick={toggleProfileMenu}/>
                 </ClickBox>
+                {showProfileMenu && (
+                <>
 								<ClickBox onClick={()=> navigate("/mypage")}>
 										<Menu>프로필</Menu>
                 </ClickBox>
@@ -124,7 +178,17 @@ function SideBar(){
 								<ClickBox>
 										<Menu>전략 목록</Menu>
                 </ClickBox>
+                </>
+              )}
             </SideWrapper>
+            )}
+             <Close 
+             src={RightArrowSrc}
+             onClick={toggleSideWrapper}
+             style={{
+              position: "absolute",
+              bottom: showSideWrapper ? "50%" : "-400px",
+              right: showSideWrapper? "10%": ""}} />
         </Container>
     );
 }
