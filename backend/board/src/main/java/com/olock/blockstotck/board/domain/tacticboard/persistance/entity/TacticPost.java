@@ -1,15 +1,19 @@
 package com.olock.blockstotck.board.domain.tacticboard.persistance.entity;
 
-import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostRequest;
 import com.olock.blockstotck.board.global.entity.BaseEntity;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Formula;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TacticPost extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,23 +22,36 @@ public class TacticPost extends BaseEntity {
     private Long tacticId;
     private String title;
     private String content;
+    private String optionName;
     private String tacticPythonCode;
     private String tacticJsonCode;
+    private Double testReturns;
+    private Double contestReturns;
     private String imgPath;
-    @ColumnDefault("0")
+    @Column(columnDefinition = "BigInteger default 0")
     private Long hit;
 
-    public TacticPost(Long memberId, String tacticPythonCode, String tacticJsonCode, String imgPath, TacticPostRequest tacticPostRequest) {
+    @OneToMany(mappedBy = "tacticPost", cascade = CascadeType.ALL)
+    private List<TacticPostLike> tacticPostLikes = new ArrayList<>();
+
+    @Formula("(select count(*) from tactic_post_like where tactic_post_like.tactic_post_id=id)")
+    private long likes;
+
+    @Builder
+    public TacticPost(Long id, Long memberId, Long tacticId, String title, String content,
+                      String optionName, String tacticPythonCode, String tacticJsonCode,
+                      Double testReturns, Double contestReturns, String imgPath) {
+        this.id = id;
         this.memberId = memberId;
-        this.tacticId = tacticPostRequest.getTacticId();
-        this.title = tacticPostRequest.getTitle();
-        this.content = tacticPostRequest.getContent();
+        this.tacticId = tacticId;
+        this.title = title;
+        this.content = content;
+        this.optionName = optionName;
         this.tacticPythonCode = tacticPythonCode;
         this.tacticJsonCode = tacticJsonCode;
+        this.testReturns = testReturns;
+        this.contestReturns = contestReturns;
         this.imgPath = imgPath;
-    }
-
-    public void updateHit() {
-        this.hit += 1;
+        this.hit = 0L;
     }
 }
