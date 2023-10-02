@@ -1,5 +1,6 @@
 package com.olock.blockstotck.board.domain.freeboard.application;
 
+import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostCommentRequest;
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreeboardPostRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public interface FreeboardService{
 
     void deleteFreePost(Long memberId, Long freeboardId);
 
-    void deleteAllFreePostComment(Long freeboardId);
+    void postFreePostComment(Long memberId, FreePostCommentRequest freePostCommentRequest);
 
     void deleteMyFreePostComment(Long memberId, Long commentId);
 }
