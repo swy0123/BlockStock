@@ -76,15 +76,15 @@ function TacticBoardCreateBox(){
     const res = await tacticBoardCreate(formData)
     console.log(res)
     
-    navigate('/tacticboard')
-    Swal.fire({
-      icon: 'success',
-      title: '글 작성 완료!',
-      showConfirmButton: false,
-      timer: 2000
-    })
-    // if (res.status===200){
-    // }
+    if (res.status===200){
+      navigate('/tacticboard')
+      Swal.fire({
+        icon: 'success',
+        title: '글 작성 완료!',
+        showConfirmButton: false,
+        timer: 2000
+      })
+    }
   }
 
   // 모달 열고 닫기 ======================================

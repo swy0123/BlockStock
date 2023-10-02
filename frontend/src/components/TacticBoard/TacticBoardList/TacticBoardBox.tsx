@@ -8,6 +8,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import TablePagination from '@mui/material/TablePagination';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 // import './style.css'
 
 import { useRecoilValue } from "recoil";
@@ -31,6 +32,7 @@ import {
   LikeBox,
   Like,
   Hit,
+  Missile
 } from './TacticBoardBox.style'
 
 // 게시글 조회 api
@@ -44,6 +46,7 @@ function TacticBoardBox() {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [boardList, setBoardList] = useState([])
 
 
   // 검색
@@ -58,51 +61,26 @@ function TacticBoardBox() {
     sort: menu,
     page: page,
     size: rowsPerPage,
-    keyWord: searchKeyword,
+    keyword: searchKeyword,
   };
   useEffect(()=>{
     tacticboardapi()
-  },[page,rowsPerPage,searchKeyword])
+  },[page,rowsPerPage,searchKeyword,menu])
 
   const tacticboardapi = async () => {
     const res = await tacticBoardList(params)
     console.log(res)
+    if(res.status===200){
+      setBoardList(res.data)
+    }
   }
   // api 통신 =================
-
-
-
-  // 더미데이터 ============================================
-  const BoardList = useRecoilValue(TacticBoardList);
-
-
-  // 더미데이터를 사용하여 직접 조건에 맞게 다시 배열을 만들기
-  // useEffect(() => {
-  //   // Sort the BoardList in "최신순" order when the component mounts
-  //   const sortedListCopy = [...BoardList].sort((a, b) =>
-  //     new Date(b.freeboard.modifiedAt) - new Date(a.freeboard.modifiedAt)
-  //   );
-  //   setBoardList(sortedListCopy);
-  // }, []);
 
 
   const handleChange = (event: SelectChangeEvent) => {
     const selectedMenu = event.target.value as string;
     setMenu(selectedMenu);
-
-    // let sortedListCopy = [...BoardList];
-
-    // if (selectedMenu === "최신순") {
-    //   sortedListCopy.sort((a, b) =>
-    //     new Date(b.freeboard.modifiedAt) - new Date(a.freeboard.modifiedAt)
-    //   );
-    // } else if (selectedMenu === "조회수") {
-    //   sortedListCopy.sort((a, b) => b.freeboard.hit - a.freeboard.hit);
-    // }
-
-    // setBoardList(sortedListCopy);
   };
-  // 더미데이터 ============================================
 
 
 
@@ -127,7 +105,7 @@ function TacticBoardBox() {
 
   const startIndex = page * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
-  const itemsToDisplay = BoardList.slice(startIndex, endIndex);
+  const itemsToDisplay = boardList.slice(startIndex, endIndex);
   const filteredItems = itemsToDisplay.filter((item) =>
     item.title.includes(searchKeyword)
   );
@@ -158,7 +136,7 @@ function TacticBoardBox() {
               >
                 <MenuItem sx={{fontSize:'12px'}} value="createdAt">최신순</MenuItem>
                 <MenuItem sx={{fontSize:'12px'}} value="likes">좋아요</MenuItem>
-                <MenuItem sx={{fontSize:'12px'}} value="hits">조회수</MenuItem>
+                <MenuItem sx={{fontSize:'12px'}} value="hit">조회수</MenuItem>
               </Select>
             </FormControl>
           </Box>
@@ -170,7 +148,7 @@ function TacticBoardBox() {
         </Header>
 
         <ItemBox style={{display:'flex', flexWrap: 'wrap',}}>
-          {filteredItems.map((item, index)=>(
+          {boardList.map((item, index)=>(
               <Card>
                 <div key={index}>
 
@@ -178,7 +156,7 @@ function TacticBoardBox() {
                   <Title
                   onClick={() => {
                     navigate(`/tacticboarddetail`, {
-                      state: { postId: item.tacticPostId } // URL 매개변수 설정
+                      state: { post: item } // URL 매개변수 설정
                     });
                   }}>
                     {item.title}
@@ -193,7 +171,7 @@ function TacticBoardBox() {
                     테스트 수익률
                     </div>
                     <div style={{margin: '0px 0px 0px 60px'}}>
-                    {item.testReturns}%
+                      {item.testReturns}%
                     </div>
                     </Testreturn>
                   <Contestreturn>
@@ -201,7 +179,15 @@ function TacticBoardBox() {
                     대 회 수익률
                     </div>
                     <div style={{margin: '0px 0px 0px 72px'}}>
-                    {item.contestReturns}%
+                      {item.contestReturnStatus ? (
+                        <>
+                        {item.contestReturns}%
+                        </>
+                      ) : (
+                        <>
+                        {'-'}
+                        </>
+                      )}
                     </div>
                     </Contestreturn>
                 </ReturnBox>
@@ -209,14 +195,18 @@ function TacticBoardBox() {
                 <LikeBox>
 
                   <Like>
-                    <FavoriteBorderIcon style={{width:'18px', margin:'0px 0px 0px 0px'}}/>
+                    {item.isLike ? (
+                      <FavoriteIcon style={{width:'18px', margin:'0px 0px 0px 0px', color:'red'}}/>
+                      ) : (
+                      <FavoriteBorderIcon style={{width:'18px', margin:'0px 0px 0px 0px'}}/>
+                    )}
                     <div style={{margin:'3px 0px 0px 3px'}}>
                     {item.likeCnt}
                     </div>
                   </Like>
 
                   <Hit>
-                    <VisibilityIcon style={{width:'18px', margin:'0px 0px 0px 0px'}}/>
+                    <VisibilityIcon style={{width:'18px', margin:'0px 0px 0px 0px', color:'black'}}/>
                     <div style={{margin:'3px 0px 0px 3px'}}>
                     {item.hit}
                     </div>
@@ -230,10 +220,12 @@ function TacticBoardBox() {
           
         </ItemBox>
 
-
+        <Missile src="/icon/미사일new.png" 
+          style={{width:'20px'}}
+        />
         <TablePagination
           component="div"
-          count={BoardList.length}
+          count={boardList.length}
           page={page}
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}
