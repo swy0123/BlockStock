@@ -1,5 +1,6 @@
 package com.olock.blockstotck.board.domain.tacticboard.application;
 
+import com.olock.blockstotck.board.domain.tactic.persistance.Tactic;
 import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostCommentRequest;
 import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostRequest;
 import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostRequestParam;
@@ -14,15 +15,17 @@ import com.olock.blockstotck.board.domain.tacticboard.persistance.TacticPostRepo
 import com.olock.blockstotck.board.domain.tacticboard.persistance.entity.TacticPost;
 import com.olock.blockstotck.board.domain.tacticboard.persistance.entity.TacticPostComment;
 import com.olock.blockstotck.board.domain.tacticboard.persistance.entity.TacticPostLike;
+import com.olock.blockstotck.board.infra.member.WebClientUtil;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Log4j2
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class TacticBoardServiceImpl implements TacticBoardService {
 
@@ -33,19 +36,60 @@ public class TacticBoardServiceImpl implements TacticBoardService {
     private final TacticPostValidator tacticPostValidator;
     private final TacticPostCommentValidator tacticPostCommentValidator;
 
+    private final WebClientUtil webClientUtil;
+
     @Override
     public void writeTacticPost(Long memberId, TacticPostRequest tacticPostRequest) {
-//      Tactic 서버에 요청해서, 해당 tacticId에 대한 tacticPythonCode와 imgPath에 반환
-        String tacticPythonCode = "";
-        String tacticJsonCode = "";
-        String imgPath = "";
+        Tactic tactic = null;
 
-        TacticPost tacticPost = new TacticPost(memberId, tacticPythonCode, tacticJsonCode, imgPath, tacticPostRequest);
+        try {
+            String url = String.format("https://j9b210.p.ssafy.io:8443/%s", tacticPostRequest.getTacticId());
+            tactic = webClientUtil.get(
+                    url,
+                    memberId,
+                    Tactic.class
+            );
+        } catch (TacticRequestException e) {
+            throw new TacticRequestException("Tactic 정보 요청 실패");
+        }
+
+//      optionName: 종목 검색 API에서 가지고 올까?
+        String optionName = "";
+
+        TacticPost tacticPost = TacticPost.builder()
+                .memberId(memberId)
+                .tacticId(tacticPostRequest.getTacticId())
+                .title(tacticPostRequest.getTitle())
+                .content(tacticPostRequest.getContent())
+                .optionName(optionName)
+                .tacticPythonCode(tactic.getTacticPythonCode())
+                .tacticJsonCode(tactic.getTacticJsonCode())
+                .testReturns(tactic.getTestReturns())
+                .contestReturns(tactic.getContestReturns())
+                .imgPath(tactic.getImgPath())
+                .build();
+
         tacticPostRepository.save(tacticPost);
     }
 
     @Override
     public List<TacticPostResponse> getTacticPostList(Long memberId, TacticPostRequestParam tacticPostRequestParam) {
+
+        if(tacticPostRequestParam.getMy() == true) {
+
+        }
+
+        if(tacticPostRequestParam.getLike() == true) {
+
+        }
+
+        if(tacticPostRequestParam.getSort().equals("date")) {
+
+        } else if (tacticPostRequestParam.getSort().equals("likes")) {
+
+        } else if (tacticPostRequestParam.getSort().equals("hits")) {
+
+        }
         return null;
     }
 
@@ -77,17 +121,18 @@ public class TacticBoardServiceImpl implements TacticBoardService {
     public TacticPostResponse getTacticPost(Long tacticPostId) {
         Optional<TacticPost> findTacticPost = tacticPostRepository.findById(tacticPostId);
         tacticPostValidator.checkTacticPostExist(findTacticPost);
+        tacticPostRepository.updateHit(tacticPostId);
 
         TacticPost tacticPost = findTacticPost.get();
-//      조회수 증가 처리하기
-//      option_name 얻어오기
-//      test_returns,  얻어오기
-        String optionName = "";
-        double testReturns = 0;
-        double contestReturns = 0;
+
         long likeCnt = tacticPostLikeRepository.countByTacticPostId(tacticPostId);
 
-        return new TacticPostResponse(tacticPost, optionName, testReturns, contestReturns, likeCnt);
+        return new TacticPostResponse(tacticPost, likeCnt);
+    }
+
+    @Override
+    public void updateHit(Long tacticId) {
+        tacticPostRepository.updateHit(tacticId);
     }
 
     @Override
@@ -139,7 +184,6 @@ public class TacticBoardServiceImpl implements TacticBoardService {
         TacticPostComment tacticPostComment = findTacticPostComment.get();
 
         tacticPostCommentValidator.checkTacticPostCommentWriter(memberId, tacticPostComment);
-        if(tacticPostComment.getMemberId() != memberId) throw new NoMatchingWriter("해당 게시글 작성자가 아닙니다.");
 
         tacticPostCommentRepository.delete(tacticPostComment);
     }

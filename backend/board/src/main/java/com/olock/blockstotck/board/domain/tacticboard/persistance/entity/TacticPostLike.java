@@ -2,10 +2,11 @@ package com.olock.blockstotck.board.domain.tacticboard.persistance.entity;
 
 import com.olock.blockstotck.board.global.entity.BaseEntity;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TacticPostLike extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

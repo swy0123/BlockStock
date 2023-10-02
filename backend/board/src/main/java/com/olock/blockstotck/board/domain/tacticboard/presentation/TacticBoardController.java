@@ -29,7 +29,6 @@ public class TacticBoardController {
     @GetMapping("")
     public ResponseEntity<List<TacticPostResponse>> getTacticPostList(@RequestHeader("Member-id") Long memberId,
                                                                       @ModelAttribute TacticPostRequestParam tacticPostRequestParam) {
-
         return ResponseEntity.ok(tacticBoardService.getTacticPostList(memberId, tacticPostRequestParam));
     }
 

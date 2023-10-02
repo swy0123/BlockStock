@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
+@Setter
 public class TacticPostRequestParam {
     private String sort;
     private Integer page;
