@@ -1,6 +1,7 @@
 package com.olock.blockstotck.board.domain.freeboard.presentation;
 
 import com.olock.blockstotck.board.domain.freeboard.application.FreeboardService;
+import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostCommentRequest;
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreeboardPostRequest;
 import com.olock.blockstotck.board.infra.awsS3.AwsS3Uploader;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +44,15 @@ public class FreeboardController {
                                                @PathVariable Long freeboardId){
 
         freeboardService.deleteFreePost(memberId, freeboardId);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/comment")
+    public ResponseEntity<Void> postFreePostComment(@RequestHeader("Member-id") Long memberId,
+                                                    @RequestBody FreePostCommentRequest freePostCommentRequest){
+
+        freeboardService.postFreePostComment(memberId, freePostCommentRequest);
 
         return ResponseEntity.ok().build();
     }

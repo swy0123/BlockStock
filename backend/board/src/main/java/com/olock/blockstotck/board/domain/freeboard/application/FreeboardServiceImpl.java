@@ -1,5 +1,6 @@
 package com.olock.blockstotck.board.domain.freeboard.application;
 
+import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostCommentRequest;
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreeboardPostRequest;
 import com.olock.blockstotck.board.domain.freeboard.exception.validator.FreePostValidator;
 import com.olock.blockstotck.board.domain.freeboard.persistence.FileRepository;
@@ -8,6 +9,7 @@ import com.olock.blockstotck.board.domain.freeboard.persistence.FreePostLikeRepo
 import com.olock.blockstotck.board.domain.freeboard.persistence.FreePostRepository;
 import com.olock.blockstotck.board.domain.freeboard.persistence.entity.File;
 import com.olock.blockstotck.board.domain.freeboard.persistence.entity.FreePost;
+import com.olock.blockstotck.board.domain.freeboard.persistence.entity.FreePostComment;
 import com.olock.blockstotck.board.infra.awsS3.AwsS3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -62,7 +64,7 @@ public class FreeboardServiceImpl implements FreeboardService{
         freePostValidator.checkFreePostExist(tmpFreePost);
         FreePost freePost = tmpFreePost.get();
         freePostValidator.checkFreePostWriter(freePost, memberId);
-        
+
         freePostCommentRepository.deleteAllByFreePostId(freeboardId);
 
         List<File> fileList = fileRepository.findAllByFreePostId(freeboardId);
@@ -80,8 +82,15 @@ public class FreeboardServiceImpl implements FreeboardService{
     }
 
     @Override
-    public void deleteAllFreePostComment(Long freeboardId) {
+    public void postFreePostComment(Long memberId, FreePostCommentRequest freePostCommentRequest) {
 
+        Optional<FreePost> tmpFreePost = freePostRepository.findById(freePostCommentRequest.getFreeBoardId());
+        freePostValidator.checkFreePostExist(tmpFreePost);
+        FreePost freePost = tmpFreePost.get();
+
+        FreePostComment freePostComment = new FreePostComment(memberId, freePost, freePostCommentRequest.getContent());
+
+        freePostCommentRepository.save(freePostComment);
     }
 
     @Override
