@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Formula;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,9 @@ public class TacticPost extends BaseEntity {
 
     @OneToMany(mappedBy = "tacticPost", cascade = CascadeType.ALL)
     private List<TacticPostLike> tacticPostLikes = new ArrayList<>();
+
+    @Formula("(select count(*) from tactic_post_like where tactic_post_like.tactic_post_id=id)")
+    private long likes;
 
     @Builder
     public TacticPost(Long id, Long memberId, Long tacticId, String title, String content,

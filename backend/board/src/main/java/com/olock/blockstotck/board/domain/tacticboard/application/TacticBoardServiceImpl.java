@@ -5,6 +5,7 @@ import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostComm
 import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostRequest;
 import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostRequestParam;
 import com.olock.blockstotck.board.domain.tacticboard.dto.response.TacticPostCommentResponse;
+import com.olock.blockstotck.board.domain.tacticboard.dto.response.TacticPostListResponse;
 import com.olock.blockstotck.board.domain.tacticboard.dto.response.TacticPostResponse;
 import com.olock.blockstotck.board.domain.tacticboard.exception.*;
 import com.olock.blockstotck.board.domain.tacticboard.exception.validator.TacticPostCommentValidator;
@@ -78,18 +79,12 @@ public class TacticBoardServiceImpl implements TacticBoardService {
     }
 
     @Override
-    public List<TacticPostResponse> getTacticPostList(Long memberId, TacticPostRequestParam tacticPostRequestParam) {
-
-        String sort = "";
-
-        if(tacticPostRequestParam.getSort().equals("date")) sort = "createdAt";
-        else if (tacticPostRequestParam.getSort().equals("likes")) sort = "likeCnt";
-        else if (tacticPostRequestParam.getSort().equals("hits")) sort ="hit";
+    public List<TacticPostListResponse> getTacticPostList(Long memberId, TacticPostRequestParam tacticPostRequestParam) {
 
         Pageable pageable = PageRequest.of(
                 tacticPostRequestParam.getPage(),
-                tacticPostRequestParam.getSize(), Sort.by(sort));
-
+                tacticPostRequestParam.getSize(),
+                Sort.by(Sort.Direction.DESC, tacticPostRequestParam.getSort()));
 
         Specification<TacticPost> spec = (root, query, criteriaBuilder) -> null;
 
@@ -99,12 +94,13 @@ public class TacticBoardServiceImpl implements TacticBoardService {
 
         if(tacticPostRequestParam.getLike()) spec = spec.and(TacticPostSpecification.findByLike(memberId));
 
-        Page<TacticPost> all = tacticPostRepository.findAll(spec, pageable);
+        Page<TacticPost> findTacticPostList = tacticPostRepository.findAll(spec, pageable);
 
-        for (TacticPost tacticPost:all) {
-            System.out.println(tacticPost.getTitle());
-        }
-        return null;
+        return findTacticPostList.stream()
+                .map(findTacticPost -> {
+                    boolean isLike = !tacticPostLikeRepository.findByMemberIdAndTacticPostId(memberId, findTacticPost.getId()).isEmpty();
+                    return new TacticPostListResponse(findTacticPost, isLike);
+                }).collect(Collectors.toList());
     }
 
     @Override

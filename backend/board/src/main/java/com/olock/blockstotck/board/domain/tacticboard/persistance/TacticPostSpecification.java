@@ -25,8 +25,8 @@ public class TacticPostSpecification {
         return (root, query, criteriaBuilder) -> {
             root.join("tacticPostLikes", JoinType.LEFT);
             query.groupBy(root.get("id"));
-            Expression<Long> likeCount = criteriaBuilder.count(root.get("like")); // like의 갯수를 세기 위한 표현식입니다.
-            query.multiselect(root, likeCount); // select절에 tactic_post와 like의 갯수를 추가합니다.
+            Expression<Long> likes = criteriaBuilder.count(root.get("tacticPostLikes")); // like의 갯수를 세기 위한 표현식입니다.
+            query.multiselect(root, likes.alias("likes")); // select절에 tactic_post와 like의 갯수를 추가합니다.
             return null;
         };
     }
