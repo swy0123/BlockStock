@@ -82,4 +82,13 @@ public class TacticBoardController {
         tacticBoardService.deleteTacticPostComment(memberId, commentId);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/{memberId}/my")
+    public ResponseEntity<List<TacticPostListResponse>> getTacticBoardMy(@RequestHeader("Member-id") Long memberId,
+                                                                         @PathVariable("memberId") Long userId,
+                                                                         @RequestParam Integer page,
+                                                                         @RequestParam Integer size) {
+
+        return ResponseEntity.ok(tacticBoardService.getTacticBoardMy(memberId, userId, page, size));
+    }
 }
