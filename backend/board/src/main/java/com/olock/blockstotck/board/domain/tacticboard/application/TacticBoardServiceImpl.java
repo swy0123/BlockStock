@@ -151,9 +151,9 @@ public class TacticBoardServiceImpl implements TacticBoardService {
         tacticPostValidator.checkTacticPostExist(tacticPostRepository, tacticPostId);
 
         tacticPostRepository.updateHit(tacticPostId);
-//
+
         TacticPost tacticPost = tacticPostRepository.findById(tacticPostId).get();
-//
+
         long likeCnt = tacticPostLikeRepository.countByTacticPostId(tacticPostId);
 
         Member member = memberService.getMember(tacticPost.getMemberId());
@@ -192,7 +192,7 @@ public class TacticBoardServiceImpl implements TacticBoardService {
         return tacticPostComments.stream()
                 .map(tacticPostComment -> {
                     Member member = memberService.getMember(tacticPostComment.getMemberId());
-                    if(member == null) memberService.saveMember(tacticPostComment.getMemberId());
+
                     return new TacticPostCommentResponse(member.getNickname(), tacticPostComment);
                 })
                 .collect(Collectors.toList());
