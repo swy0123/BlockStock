@@ -2,15 +2,15 @@ package com.olock.blockstotck.board.domain.freeboard.application;
 
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostCommentRequest;
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostLikeRequest;
+import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostRequestParam;
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreeboardPostRequest;
 import com.olock.blockstotck.board.domain.freeboard.dto.response.FileResponse;
+import com.olock.blockstotck.board.domain.freeboard.dto.response.FreePostListCntResponse;
+import com.olock.blockstotck.board.domain.freeboard.dto.response.FreePostListResponse;
 import com.olock.blockstotck.board.domain.freeboard.dto.response.FreePostResponse;
 import com.olock.blockstotck.board.domain.freeboard.exception.validator.FreePostCommentValidator;
 import com.olock.blockstotck.board.domain.freeboard.exception.validator.FreePostValidator;
-import com.olock.blockstotck.board.domain.freeboard.persistence.FileRepository;
-import com.olock.blockstotck.board.domain.freeboard.persistence.FreePostCommentRepository;
-import com.olock.blockstotck.board.domain.freeboard.persistence.FreePostLikeRepository;
-import com.olock.blockstotck.board.domain.freeboard.persistence.FreePostRepository;
+import com.olock.blockstotck.board.domain.freeboard.persistence.*;
 import com.olock.blockstotck.board.domain.freeboard.persistence.entity.File;
 import com.olock.blockstotck.board.domain.freeboard.persistence.entity.FreePost;
 import com.olock.blockstotck.board.domain.freeboard.persistence.entity.FreePostComment;
@@ -19,6 +19,11 @@ import com.olock.blockstotck.board.domain.member.application.MemberServiceImpl;
 import com.olock.blockstotck.board.domain.member.persistance.Member;
 import com.olock.blockstotck.board.infra.awsS3.AwsS3Uploader;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -172,6 +178,40 @@ public class FreeboardServiceImpl implements FreeboardService{
         }
 
         return new FreePostResponse(freePost, nickName, likeCnt, isLike, fileResponseList);
+    }
+
+    @Override
+    public FreePostListCntResponse getFreePostList(Long memberId, FreePostRequestParam freePostRequestParam) {
+
+        Pageable pageable = PageRequest.of(
+                freePostRequestParam.getPage(),
+                freePostRequestParam.getSize(),
+                Sort.by(Sort.Direction.DESC, freePostRequestParam.getSort())
+        );
+
+        Specification<FreePost> spec = (root, query, criteriaBuilder) -> null;
+
+        if(freePostRequestParam.getKeyword() != null){
+            spec = spec.and(FreePostSpecification.findByKeyword(freePostRequestParam.getKeyword()));
+        }
+        if(freePostRequestParam.getMy()){
+            spec = spec.and(FreePostSpecification.findByMy(memberId));
+        }
+        if(freePostRequestParam.getLike()){
+            spec = spec.and(FreePostSpecification.findByLike(memberId));
+        }
+
+        long totalCnt = freePostRepository.count(spec);
+
+        Page<FreePost> findFreePostList = freePostRepository.findAll(spec, pageable);
+
+        List<FreePostListResponse> freePostListResponse = findFreePostList.stream()
+                .map(findFreePost -> {
+                    Member member = memberService.getMember(findFreePost.getMemberId());
+                    return new FreePostListResponse(findFreePost, member.getId(), member.getNickname());
+                }).collect(Collectors.toList());
+
+        return new FreePostListCntResponse(freePostListResponse, totalCnt);
     }
 
 }
