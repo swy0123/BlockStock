@@ -110,8 +110,7 @@ function TacticBoardItemDetail(){
             reverseButtons: true
           }).then((result) => {
             if (result.isConfirmed) {
-                // tacticBoardDelete(state.postId)
-                tacticBoardDelete(29)
+                tacticBoardDelete(tacticPostId)
                 navigate('/tacticboard')
               swalWithBootstrapButtons.fire({
                 title: '삭제되었습니다',
@@ -171,8 +170,9 @@ function TacticBoardItemDetail(){
                     <UserInfo>
                         <Tooltip type={'detail'}>
                             <div style={{display:'flex'}}>
+                            {/* <UserImg src="/icon/user_purple.png"/> */}
                             <UserImg src="/icon/user_purple.png"/>
-                            <NickName>{data.nickname}</NickName>
+                            <NickName>{data.nickName}</NickName>
                             </div>
                         </Tooltip>
                         <Date>
@@ -186,7 +186,7 @@ function TacticBoardItemDetail(){
                         <VisibilityIcon style={{fontSize:'16px'}}/>
                     </div>
                     <div>
-                        {hit}
+                        {data.hit}
                     </div>
                     </Hit>
                     <Like>
@@ -214,7 +214,7 @@ function TacticBoardItemDetail(){
                 <ContentBox>
                     <ContentImg>
                         <ImgBox>
-                            <Img src="/icon/전략블록.png"/>
+                            <Img src={data.imgPath}/>
                             <DownloadBtn onClick={downloadFile}>
                                 <DownloadIcon/>
                             </DownloadBtn>

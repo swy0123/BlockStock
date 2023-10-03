@@ -6,10 +6,6 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import TablePagination from "@mui/material/TablePagination";
 import "./style.css";
-import { useRecoilValue } from "recoil";
-import { useRecoilState } from "recoil";
-import { freeBoardList } from "../../../recoil/FreeBoard/FreeBoardList";
-import { postidState } from "../../../recoil/FreeBoard/Post";
 
 import { useNavigate } from "react-router-dom";
 import Tooltip from "../../Tooltip/Tooltip";
@@ -37,7 +33,7 @@ import {
 } from "./FreeBoardListBox.style";
 
 // api
-// import {freeBoardListt} from '../../../api/FreeBoard/FreeBoard'
+import {freeBoardList} from '../../../api/FreeBoard/FreeBoard'
 
 function FreeBoardListBox() {
   const navigate = useNavigate();
@@ -47,59 +43,48 @@ function FreeBoardListBox() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(8);
 
-  // api 통신 =============================================================
-  // const params = {
-  //   sort: menu,
-  //   page: page,
-  //   size: rowsPerPage,
-  //   keyWord: searchKeyword,
-  // };
-  // useEffect(()=>{
-  //   freeboard()
-  // },[page,rowsPerPage,searchKeyword])
+  // 글 리스트
+  const [ boardList, setBoardList] = useState([])
+  // 전체 글의 수
+  const [count, setCount] = useState(0)
 
-  // const freeboard = async () => {
-  //   const freeBoard = await freeBoardListt(params)
-  //   console.log(freeBoard)
-  // }
+  // api 통신 =============================================================
+  const params = {
+    sort: menu,
+    page: page,
+    size: rowsPerPage,
+    keyWord: searchKeyword,
+  };
+
+  useEffect(()=>{
+    freeboard()
+  },[page,rowsPerPage,searchKeyword])
+
+  // 자유게시판 리스트 api
+  const freeboard = async () => {
+    const res = await freeBoardList(params)
+    console.log(res)
+    if (res.status===200){
+      setBoardList(res.data)
+      // setCount()
+    }
+  }
   // api 통신 =================
 
-  // 더미데이터 ============================================
-  const [postid, setPostid] = useRecoilState(postidState);
-  const BoardList = useRecoilValue(freeBoardList);
-  const [sortedList, setBoardList] = useState([]);
+  // 삭제시 다시 한번 갱신
+  useEffect(()=>{
+    freeboard()
+  },[])
+  
 
-  // 더미데이터를 사용하여 직접 조건에 맞게 다시 배열을 만들기
-  useEffect(() => {
-    // Sort the BoardList in "최신순" order when the component mounts
-    const sortedListCopy = [...BoardList].sort(
-      (a, b) =>
-        new Date(b.freeboard.modifiedAt) - new Date(a.freeboard.modifiedAt)
-    );
-    setBoardList(sortedListCopy);
-  }, []);
-
+  // sort
   const handleChange = (event: SelectChangeEvent) => {
     const selectedMenu = event.target.value as string;
     setMenu(selectedMenu);
-
-    let sortedListCopy = [...BoardList];
-
-    if (selectedMenu === "최신순") {
-      sortedListCopy.sort(
-        (a, b) =>
-          new Date(b.freeboard.modifiedAt) - new Date(a.freeboard.modifiedAt)
-      );
-    } else if (selectedMenu === "조회수") {
-      sortedListCopy.sort((a, b) => b.freeboard.hit - a.freeboard.hit);
-    }
-
-    setBoardList(sortedListCopy);
   };
-  // 더미데이터 ============================================
+
 
   // 페이지네이션 ============================================
-
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
@@ -107,23 +92,17 @@ function FreeBoardListBox() {
     setPage(newPage);
   };
 
-  // Handle rows per page change
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-  };
+  }
 
-  const rowsPerPageOptions = [5, 6, 7, 8];
-
-  const handleSearchInputChange = (event) => {
-    setSearchKeyword(event.target.value);
-  };
 
   const startIndex = page * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
-  const itemsToDisplay = sortedList.slice(startIndex, endIndex);
+  const itemsToDisplay = boardList.slice(startIndex, endIndex);
   const filteredItems = itemsToDisplay.filter((item) =>
     item.freeboard.title.includes(searchKeyword)
   );
@@ -134,7 +113,7 @@ function FreeBoardListBox() {
       <Wrapper>
         <Header>
           <DivBox>
-          <Search placeholder="  검색" onChange={handleSearchInputChange} />
+          <Search placeholder="  검색" onChange={(e)=>setSearchKeyword(e.target.value)} />
           <Box sx={{ maxWidth: "130px" }}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label"></InputLabel>
@@ -176,13 +155,13 @@ function FreeBoardListBox() {
             </ListHit>
           </FreeBoardListTitle>
 
-          {filteredItems.map((item, index) => (
+        
+          {boardList.map((item, index) => (
             <Posting key={`boardItem_${index}`}>
               <div style={{ display: "flex", cursor: "pointer" }}>
                 <ItemNumber>{item.freeboard.id}</ItemNumber>
                 <ItemTitle
                   onClick={() => {
-                    setPostid(item.freeboard.id);
                     navigate(`/freeboarddetail`, {
                       state: { postId: item.freeboard.id }, // URL 매개변수 설정
                     });
@@ -209,12 +188,12 @@ function FreeBoardListBox() {
         </FreeBoardBox>
         <TablePagination
           component="div"
-          count={sortedList.length}
+          count={count}
           page={page}
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          rowsPerPageOptions={rowsPerPageOptions}
+          onRowsPerPageChange={()=>{}}
+          rowsPerPageOptions={[]}
           style={{ margin: "0px 15px 0px 0px" }}
         />
       </Wrapper>
