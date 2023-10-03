@@ -107,18 +107,18 @@ const BlockCoding = (props) => {
   // }
 
   const importData = async (id: number) => {
-    const res = await tacticImport(id);
-    setOptionCode(res.optionCode);
-    setOptionName(res.optionName);
-    setTitle(res.title);
-    setTacticPythonCode(res.tacticPythonCode);
-    setTacticJsonCode(JSON.parse(res.tacticJsonCode));
-    setCustomVariableBlockGroup({
-      defArray: JSON.parse(res.customVariableBlockGroup.defArray),
-      settingArray: JSON.parse(res.customVariableBlockGroup.settingArray),
-      getArray: JSON.parse(res.customVariableBlockGroup.getArray),
-    });
-    setTacticImg(res.tacticImg);
+    if(id>=0){
+      const res = await tacticImport(id);
+      setOptionCode(res.optionCode);
+      setOptionName(res.optionName);
+      setTitle(res.title);
+      setTacticPythonCode(res.tacticPythonCode);
+      setTacticJsonCode(JSON.parse(res.tacticJsonCode));
+      setTacticImg(res.tacticImg);
+    }
+    else{
+      setTacticJsonCode(JSON.parse(props.tacticJsonCode));
+    }
   };
 
   // 검색
@@ -214,10 +214,6 @@ const BlockCoding = (props) => {
   const writeTacticJsonCode = (str) => {
     setTacticJsonCode(str);
     console.log(str);
-  };
-  const writeCustomVariableBlockGroup = (arrayGroup) => {
-    setCustomVariableBlockGroup(arrayGroup);
-    console.log(arrayGroup);
   };
   const writeTacticImg = (str) => {
     setTacticImg(str);
@@ -429,7 +425,6 @@ const BlockCoding = (props) => {
       props.returnRepeatCnt(repeatCnt);
       props.returnTacticPythonCode(tacticPythonCode);
       props.returnTacticJsonCode(tacticJsonCode);
-      props.returnCustomVariableBlockGroup(customVariableBlockGroup);
       props.returnTacticImg(tacticImg);
       console.log("---------------------------------");
 
@@ -544,9 +539,6 @@ const BlockCoding = (props) => {
                 writeTacticJsonCode={(str) => {
                   writeTacticJsonCode(str);
                 }}
-                writeCustomVariableBlockGroup={(arrayGropup) => {
-                  writeCustomVariableBlockGroup(arrayGropup);
-                }}
                 writeTacticImg={(str) => {
                   writeTacticImg(str);
                 }}
@@ -554,7 +546,6 @@ const BlockCoding = (props) => {
                 setCodeCheckTrue={setCodeCheckTrue}
                 tacticId={props.tacticId}
                 tacticJsonCode={tacticJsonCode}
-                customVariableBlockGroup={customVariableBlockGroup}
               ></BlocklyComponent>
             </BlocklyDiv>
 
