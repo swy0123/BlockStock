@@ -3,6 +3,7 @@ package com.olock.blockstotck.board.domain.freeboard.application;
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostCommentRequest;
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostLikeRequest;
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreeboardPostRequest;
+import com.olock.blockstotck.board.domain.freeboard.dto.response.FreePostResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,4 +28,6 @@ public interface FreeboardService{
     void likeFreePost(Long memberId, FreePostLikeRequest freePostLikeRequest);
 
     void unlikeFreePost(Long memberId, Long freePostId);
+
+    FreePostResponse getFreePost(Long memberId, Long freePostId);
 }
