@@ -7,11 +7,13 @@ import { useQuery } from "react-query";
 import { getTactic } from "../../api/MyPage/Mypage";
 
 const StyledSlider = styled(Slider)`
-  width: 1100px;
+  width: 90%;
 `
 const Container = styled.div`
   /* justify-content: center; */
-  width: 900px;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
 `;
 
 const TacticCard = styled.div`
@@ -73,7 +75,7 @@ function TacticList() {
     <Container>
       {data && data.length > 0 ? (
       <Wrapper>
-      <StyledSlider {...settings}>
+      <StyledSlider>
         {data.map((item) => (
           <Space>
           <TacticCard>
