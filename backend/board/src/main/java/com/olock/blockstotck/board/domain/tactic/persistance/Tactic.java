@@ -3,6 +3,7 @@ package com.olock.blockstotck.board.domain.tactic.persistance;
 import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 

@@ -4,8 +4,6 @@ import com.olock.blockstotck.board.domain.tacticboard.exception.AlreadyLikeTacti
 import com.olock.blockstotck.board.domain.tacticboard.exception.AlreadyUnLikeTacticPost;
 import com.olock.blockstotck.board.domain.tacticboard.exception.NoExistTacticPost;
 import com.olock.blockstotck.board.domain.tacticboard.exception.NoMatchingWriter;
-import com.olock.blockstotck.board.domain.tacticboard.persistance.TacticPostLikeRepository;
-import com.olock.blockstotck.board.domain.tacticboard.persistance.TacticPostRepository;
 import com.olock.blockstotck.board.domain.tacticboard.persistance.entity.TacticPost;
 import com.olock.blockstotck.board.domain.tacticboard.persistance.entity.TacticPostLike;
 import lombok.AccessLevel;
