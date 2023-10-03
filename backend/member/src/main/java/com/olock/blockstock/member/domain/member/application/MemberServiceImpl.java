@@ -2,6 +2,9 @@ package com.olock.blockstock.member.domain.member.application;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.olock.blockstock.member.domain.award.appication.TacticService;
+import com.olock.blockstock.member.domain.award.persistence.AwardRepository;
+import com.olock.blockstock.member.domain.award.persistence.entity.Award;
 import com.olock.blockstock.member.domain.member.dto.MemberDeleteMessage;
 import com.olock.blockstock.member.domain.member.dto.MemberUpdateMessage;
 import com.olock.blockstock.member.domain.member.dto.request.*;
@@ -33,11 +36,14 @@ import java.net.URLConnection;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
+    private final AwardRepository awardRepository;
     private final MemberProducer memberProducer;
     private final PasswordEncoder passwordEncoder;
     private final MemberValidator memberValidator;
@@ -74,7 +80,8 @@ public class MemberServiceImpl implements MemberService {
     public MemberInfoResponse getInfo(Long memberId) {
         memberValidator.existsMember(memberId);
         Member member = memberRepository.findByMemberId(memberId).get();
-        return new MemberInfoResponse(member, false, followRepository.findFollowerCnt(memberId), followRepository.findFollowingCnt(memberId));
+        List<String> awards = awardRepository.findAwardTitlesByMemberId(memberId).stream().map(award -> award.getName()).collect(Collectors.toList());
+        return new MemberInfoResponse(member, awards, false, followRepository.findFollowerCnt(memberId), followRepository.findFollowingCnt(memberId));
     }
 
     @Override
@@ -82,7 +89,8 @@ public class MemberServiceImpl implements MemberService {
         memberValidator.existsMember(memberId);
         Member member = memberRepository.findByMemberId(memberId).get();
         boolean isFollowing = followRepository.isFollowing(myId, memberId);
-        return new MemberInfoResponse(member, isFollowing, followRepository.findFollowerCnt(memberId), followRepository.findFollowingCnt(memberId));
+        List<String> awards = awardRepository.findAwardTitlesByMemberId(memberId).stream().map(award -> award.getName()).collect(Collectors.toList());
+        return new MemberInfoResponse(member, awards, isFollowing, followRepository.findFollowerCnt(memberId), followRepository.findFollowingCnt(memberId));
     }
 
     @Override
