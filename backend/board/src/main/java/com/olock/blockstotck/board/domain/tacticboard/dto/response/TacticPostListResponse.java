@@ -19,6 +19,7 @@ public class TacticPostListResponse {
     private LocalDateTime createdAt;
     private boolean contestReturnStatus;
     private boolean testReturnStatus;
+    private String imgPath;
 
     public TacticPostListResponse(TacticPost findTacticPost, boolean isLike) {
         this.tacticPostId = findTacticPost.getId();
@@ -28,6 +29,7 @@ public class TacticPostListResponse {
         this.likeCnt = findTacticPost.getLikes();
         this.isLike = isLike;
         this.hit = findTacticPost.getHit();
+        this.imgPath = findTacticPost.getImgPath();
         this.createdAt = findTacticPost.getCreatedAt();
         this.contestReturnStatus = findTacticPost.getContestReturns() == null ? false : true;
         this.testReturnStatus = findTacticPost.getTestReturns() == null ? false : true;
