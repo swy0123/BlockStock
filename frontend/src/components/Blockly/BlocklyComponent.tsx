@@ -449,14 +449,13 @@ function BlocklyComponent(props: any) {
         // .replace(/\s/g, '\\u0020').replace(/\n/g, '\\n')
         props.writeTacticPythonCode(pythonGenerator.workspaceToCode(primaryWorkspace.current));
         props.writeTacticImg(exportImageAsPNG);
+        // CustomVariableBlockGroup
+        props.writeCustomVariableBlockGroup({
+          defArray: JSON.stringify(defArray),
+          settingArray: JSON.stringify(settingArray),
+          getArray: JSON.stringify(getArray),
+        });
       }
-
-      // CustomVariableBlockGroup
-      props.writeCustomVariableBlockGroup({
-        defArray: JSON.stringify(defArray),
-        settingArray: JSON.stringify(settingArray),
-        getArray: JSON.stringify(getArray),
-      });
 
       props.setCodeCheckTrue();
       console.log(props.codeCheck);
@@ -496,67 +495,7 @@ function BlocklyComponent(props: any) {
   // Returns an array of objects.
   var coloursFlyoutCallback = function (workspace) {
     var blockList = [];
-    blockList.push({
-      blocks: {
-        languageVersion: 0,
-        blocks: [
-          {
-            type: "controls_if",
-            inputs: {
-              IF0: {
-                block: {
-                  type: "logic_compare",
-                  fields: {
-                    OP: "EQ",
-                  },
-                  inputs: {
-                    A: {
-                      block: {
-                        type: "math_arithmetic",
-                        fields: {
-                          OP: "ADD",
-                        },
-                        inputs: {
-                          A: {
-                            block: {
-                              type: "math_number",
-                              fields: {
-                                NUM: 0,
-                              },
-                            },
-                          },
-                          B: {
-                            block: {
-                              type: "math_number",
-                              fields: {
-                                NUM: 0,
-                              },
-                            },
-                          },
-                        },
-                      },
-                    },
-                    B: {
-                      block: {
-                        type: "math_number",
-                        fields: {
-                          NUM: 0,
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-              DO0: {
-                block: {
-                  type: "controls_repeat_ext",
-                },
-              },
-            },
-          },
-        ],
-      },
-    });
+    blockList.push({});
 
     return blockList;
   };
