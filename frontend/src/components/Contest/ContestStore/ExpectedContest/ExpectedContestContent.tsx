@@ -32,9 +32,8 @@ import { CurrentUserAtom } from '../../../../recoil/Auth'
 import { useRecoilState } from 'recoil';
 import { ContestId } from '../../../../recoil/Contest/ExpectedContest'
 import {currentContestListState} from '../../../../recoil/Contest/CurrentContest'
-// 예정대회, 전략 불러오기 api
+// 예정대회 api
 import {expectedContestList} from '../../../../api/Contest/ContestStore'
-import { tacticList } from '../../../../api/Contest/ContestStore'
 
 function ExpectedContestContent(){
 
@@ -46,10 +45,6 @@ function ExpectedContestContent(){
   const [ page, setPage ] = React.useState(0);
   const [ rowsPerPage, setRowsPerPage ] = React.useState(8);
   const [ count, setCount] = useState(0)
-  const [ tacticListItem, setTacticListItem ] = useState([])
-
-  // 종목 ========================================
-  const [optionCode, setOptionCode] = useState('')
 
   // 리코일 대회 id 전략 id
   const [contestId, setContestId] = useRecoilState(ContestId);
@@ -141,7 +136,6 @@ function ExpectedContestContent(){
   // 모달 열고 닫는 이벤트 ====================================================
   const OpenModal = () => {
     setIsModalOpen(!isModalOpen);
-    tacticApi()
   };
   
   const CloseModal = () => {
@@ -156,19 +150,6 @@ function ExpectedContestContent(){
     setIsCancelModalOpen(false);
   };
   // 모달 열고 닫는 이벤트 ====================================================
-  
-
-    // api 전략불러오기 ============================================================
-    const data = {
-      optionCode:optionCode
-    }
-  
-    const tacticApi = async()=>{
-      const res = await tacticList(data)
-      console.log(res, '전략 불러옴')
-      setTacticListItem(res)
-    }
-    // api 전략불러오기 ============================================================
 
 
   return(
@@ -232,7 +213,7 @@ function ExpectedContestContent(){
           </>
         )}
 
-         {isModalOpen ? <ContestTaticModal tacticListItem={tacticListItem} selectedContest={selectedContest} type={'contest'} onClose={CloseModal} /> : null}
+         {isModalOpen ? <ContestTaticModal selectedContest={selectedContest} type={'contest'} onClose={CloseModal} /> : null}
          {isCancelModalOpen ? <ContestCancelModal selectedContest={selectedContest} onClose={CloseCandelModal}/> : null}
       </Wrapper>
       {expectedContestItem.length > 0 && (
