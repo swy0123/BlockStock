@@ -18,7 +18,7 @@ width: 100%;
 }
 `;
 export const CreateBtn = styled.div`
-margin-left: 70%;
+margin-left: 50%;
 min-width: 90px;
 height: 30px;
 /* margin: 0px 0px 0px 53%; */
@@ -36,10 +36,10 @@ transition: 0.5s; // 자연스럽게 호버 효과 주려고 넣음(필수)
     transition: 0.5s;
 }
 @media (max-width: 1400px) {
-    margin-left: 57%;
+    margin-left: 47%;
 }
 @media (max-width: 1300px) {
-    margin-left: 50%;
+    margin-left: 30%;
 }
 @media (max-width: 1300px) {
   margin: 0px;
@@ -59,7 +59,7 @@ font-size: 12px;
   border-radius: 6px;
 height: 28px;
 border: solid 1px lightgrey;
-width: 50px;
+width: 250px;
 outline: none;
 transition:  width 1s ease;
 &:focus {
@@ -82,6 +82,9 @@ box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
 border-radius: 8px;
 margin: 60px 0px 0px 20px;
 z-index: 5;
+&:hover{
+  background-color: #F4F6F8;
+}
 `;
 
 export const TitleBox = styled.div`
@@ -136,6 +139,60 @@ display: flex;
 `;
 
 export const Missile = styled.img`
-position: absolute;
+  position: absolute;
+  top: 800px;
+  left: 300px; /* 왼쪽 위치 초기화 */
+  z-index: 1000;
+  transition: all 2s ease; /* left 속성에만 2초 동안 부드러운 트랜지션 적용 */
 
+  &:hover {
+    cursor: pointer; 
+  }
+`;
+export const MeBox = styled.div`
+width: 80px;
+`;
+export const Mes = styled.div`
+font-size: 10px;
+position: absolute;
+top: 770px;
+left: 300px;
+padding: 3px;
+border: 1px solid black;
+background-color: white;
+color: red;
+z-index: 100;
+border-radius: 3px;
+font-weight: bold;
+`;
+
+
+export const Boom = styled.img`
+z-index: 1001;
+position: absolute;
+top: 0px;
+left: 0;
+width: 100%;
+height: 100vh;
+`;
+
+export const BoomVideo = styled.video`
+z-index: 1001;
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100vh;
+`;
+export const Speech = styled.div`
+clip-path: polygon(0% 0%, 100% 0%, 100% 75%, 75% 75%, 34% 100%, 50% 75%, 0% 75%);
+background-color: white;
+min-width: 200px;
+min-height: 150px;
+font-size: 23px;
+position: absolute;
+top:180px;
+left:580px;
+z-index: 1003;
+padding: 20px;
 `;
