@@ -2,6 +2,7 @@ from fastapi import HTTPException
 from sqlalchemy import desc, func
 
 from domain.contest.models.trade import Trade
+from domain.member.services.member_service import *
 from domain.contest.schemas.contest_history_response import ContestHistoryResponse
 from domain.contest.schemas.contest_outline_response import ContestOutlineResponse
 from domain.contest.schemas.contest_real_time_response import ContestRealTimeResponse
@@ -84,9 +85,10 @@ def get_contest_result(contest_id: int):
         Participate.result_money.desc())
 
     for participate in participates:
-        nick_name = ""
+        member = get_member_data(participate.member_id)
+
         result.append(ContestRankingResponse(member_id=participate.member_id,
-                                             nick_name=nick_name,
+                                             nick_name=member.nickname,
                                              ticket=contest_ticket,
                                              result_money=participate.result_money))
     session.close()
@@ -126,10 +128,17 @@ def delete_contest(contest_id: int):
     session.close()
 
 
-def participate_contest(member_id: int, info_create: InfoRequest):
+async def participate_contest(member_id: int, info_create: InfoRequest):
+
+    member = await get_member_data(member_id)
+
     engine = engineconn()
     session = engine.sessionmaker()
     contest_ticket = session.get(Contest, info_create.contest_id).ticket
+
+    if member.ticket_count < contest_ticket:
+        raise HTTPException(status_code=StatusCode.LESS_TICKET_ERROR_CODE,
+                            detail=Message.LESS_TICKET_ERROR_MSG)
 
     db_participate = Participate(member_id, info_create, contest_ticket)
 
@@ -249,9 +258,10 @@ def get_real_contest_result(contest_id: int):
     result = []
 
     for participate_result in participate_results:
-        nick_name = ""
+        member = get_member_data(participate_result.member_id)
+
         ranking_response = ContestRankingResponse(member_id=participate_result.member_id,
-                                                  nick_name=nick_name,
+                                                  nick_name=member.id,
                                                   ticket=participate_result.ticket,
                                                   result_money=participate_result.result_money)
 
@@ -278,7 +288,7 @@ def get_trade_contest(contest_id: int, member_id: int):
     return ContestTradeInfoResponse(participate, contest, option_name, trade_response)
 
 
-def get_contest_outine(member_id: int):
+async def get_contest_outline(member_id: int):
     engine = engineconn()
     session = engine.sessionmaker()
     contests = (session.query(Contest).filter(Contest.start_time <= datetime.now(), datetime.now() < Contest.end_time).
@@ -292,9 +302,10 @@ def get_contest_outine(member_id: int):
 
         ranking_result = []
         for rank in rankings:
-            nick_name = ""
+            member = await get_member_data(rank.member_id)
+
             ranking_response = ContestRankingResponse(member_id=rank.member_id,
-                                                      nick_name=nick_name,
+                                                      nick_name=member.nickname,
                                                       ticket=contest.ticket,
                                                       result_money=rank.result_money)
 
@@ -332,9 +343,10 @@ def get_contest_outine(member_id: int):
                    limit(3).all())
 
         for member in members:
-            nick_name = ""
+            get_member = await get_member_data(member.member_id)
+
             prevContestResult.append(ContestRankingResponse(member_id=member.member_id,
-                                                            nick_name=nick_name,
+                                                            nick_name=get_member.nickname,
                                                             ticket=contest.ticket,
                                                             result_money=member.result_money))
 
