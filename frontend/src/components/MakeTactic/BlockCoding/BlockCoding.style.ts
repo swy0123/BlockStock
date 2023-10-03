@@ -134,6 +134,9 @@ export const SearchInput = styled.input`
   font-size: 15px;
 `;
 export const SearchItemList = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
   height: 80%;
   margin-top: 2%;
