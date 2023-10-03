@@ -52,7 +52,7 @@ function TacticBoardBox() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [boardList, setBoardList] = useState([])
-
+  const [count, setCount] = useState(0)
 
   // 검색
   const handleSearchInputChange = (event) => {
@@ -76,11 +76,15 @@ function TacticBoardBox() {
     const res = await tacticBoardList(params)
     console.log(res)
     if(res.status===200){
-      setBoardList(res.data)
+      setBoardList(res.data.tacticPostListResponseList)
+      setCount(res.data.totalCnt)
     }
   }
   // api 통신 =================
 
+  useEffect(()=>{
+    tacticboardapi()
+  },[])
 
   const handleChange = (event: SelectChangeEvent) => {
     const selectedMenu = event.target.value as string;
@@ -90,7 +94,6 @@ function TacticBoardBox() {
 
 
   // 페이지네이션 ============================================
-
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number,
@@ -104,8 +107,6 @@ function TacticBoardBox() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
-  const rowsPerPageOptions = [5, 6, 7, 8];
 
 
   const startIndex = page * rowsPerPage;
@@ -201,8 +202,8 @@ function TacticBoardBox() {
                     {item.title}
                   </Title>
                 </TitleBox>
-
-                <Img src="/icon/전략블록.png"/>
+                
+                <Img src={item.imgPath}/>
 
                 <ReturnBox>
                   <Testreturn>
@@ -281,7 +282,7 @@ function TacticBoardBox() {
           </MeBox>
         <TablePagination
           component="div"
-          count={boardList.length}
+          count={count}
           page={page}
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}

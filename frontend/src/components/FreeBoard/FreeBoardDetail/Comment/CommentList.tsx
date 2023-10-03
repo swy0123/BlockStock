@@ -15,10 +15,11 @@ import {
 } from './CommentList.style'
 
 // 자유게시판 댓글 api
-import {commentList, commentDelete} from '../../../../api/FreeBoard/Comment'
+import {freecommentList, commentDelete} from '../../../../api/FreeBoard/Comment'
 
 // 전략게시판 댓글 api
 import { tacticcommentList,tacticcommentDelete } from '../../../../api/TacticBoard/Comment'
+
 // userId
 import { useRecoilValue } from 'recoil';
 import { CurrentUserAtom } from '../../../../recoil/Auth';
@@ -49,13 +50,29 @@ function CommentList(props) {
   
   const comments =()=>{
     if (type==='free'){
-      commentList(id)
+      freecommentapi()
     } else if ( type==='tactic'){
       tacticcommentapi()
     }
   }
   // ============================================
 
+  // api 자유게시판 댓글 =========================
+  const freecommentapi = async ()=>{
+    const res = await freecommentList(id)
+    console.log(res)
+    setComment(res)
+    setCommentlists(res)
+  }
+
+  // api 자유 게시판 댓글 삭제 =======================
+  const freecommentdelete = async()=>{
+    const res = await commentDelete(id)
+    console.log(res)
+    if(res.status===200){
+      comments()
+    }
+  }
 
   // api 전략게시판 댓글 =====================================
   const tacticcommentapi = async ()=>{
@@ -65,7 +82,7 @@ function CommentList(props) {
     setComment(res)
     setCommentlists(res)
   }
-  // api 댓글 삭제 ===========================================
+  // api 전략 게시판 댓글 삭제 ===============================
   const commentdeleteapi = async (id)=>{
     console.log(id, '댓글 id')
     const res = await tacticcommentDelete(id)
@@ -98,7 +115,8 @@ function CommentList(props) {
     }).then((result) => {
       if (result.isConfirmed) {
         if (type==='free'){
-          commentDelete(id);
+          console.log(id);
+          freecommentdelete(id);
         }else if (type==='tactic'){
           console.log(id);
           commentdeleteapi(id)
@@ -136,7 +154,7 @@ function CommentList(props) {
               <Header>
                 <div style={{ display: 'flex', width: '500px' }}>
                   <UserImg src="/icon/user_purple.png" />
-                  <NickName>{item.nickName}</NickName>|
+                  <NickName>{item.nickname}</NickName>|
                   <Day> {dayjs(item.createdAt).format('YYYY.MM.DD HH:mm')}</Day>
                 </div>
                 {item.memberId === userId ? (
