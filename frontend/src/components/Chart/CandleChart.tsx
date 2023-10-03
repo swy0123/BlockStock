@@ -70,24 +70,24 @@ const CandleChart = (props) => {
     console.log(props.chartInfos);
   }, []);
 
-  const ema12 = ema()
-    .id(1)
-    .options({ windowSize: 12 })
-    .merge((d, c) => {
-      d.ema12 = c;
-    })
-    .accessor((d) => d.ema12);
+  // const ema12 = ema()
+  //   .id(1)
+  //   .options({ windowSize: 12 })
+  //   .merge((d, c) => {
+  //     d.ema12 = c;
+  //   })
+  //   .accessor((d) => d.ema12);
 
-  const ema26 = ema()
-    .id(2)
-    .options({ windowSize: 26 })
-    .merge((d, c) => {
-      d.ema26 = c;
-    })
-    .accessor((d) => d.ema26);
-  const elder = elderRay();
+  // const ema26 = ema()
+  //   .id(2)
+  //   .options({ windowSize: 26 })
+  //   .merge((d, c) => {
+  //     d.ema26 = c;
+  //   })
+  //   .accessor((d) => d.ema26);
+  // const elder = elderRay();
 
-  const calculatedData = elder(ema26(ema12(props.chartInfos)));
+  // const calculatedData = elder(ema26(ema12(props.chartInfos)));
   const { data, xScale, xAccessor, displayXAccessor } = ScaleProvider(props.chartInfos);
   const pricesDisplayFormat = format(",.0f");
   const max = xAccessor(data[data.length - 1]);
@@ -124,7 +124,7 @@ const CandleChart = (props) => {
   const volumeColor = (data) => {
     // console.log(data);
     // console.log(initialData);
-    return data.close > data.open ? "rgba(38, 166, 154, 0.3)" : "rgba(239, 83, 80, 0.3)";
+    return data.close > data.open ? "rgba(239, 83, 80, 0.3)" : "rgba(38, 166, 154, 0.3)";
   };
 
   const volumeSeries = (data) => {
@@ -132,11 +132,11 @@ const CandleChart = (props) => {
   };
 
   const openCloseColor = (data) => {
-    return data.close > data.open ? "#26a69a" : "#ef5350";
+    return data.close > data.open ? "#ef5350" : "#26a69a";
   };
 
   const returnNum = (d) => {
-    // console.log(xAccessor)
+    console.log(d)
     let cur = d.datum.open > d.datum.close ? d.datum.low : d.datum.high;
     let curMax = d.yScale.domain()[1];
     let curMin = d.yScale.domain()[0];
@@ -260,11 +260,11 @@ const CandleChart = (props) => {
         <MouseCoordinateY rectWidth={margin.right} displayFormat={pricesDisplayFormat} />
         <YAxis showGridLines tickFormat={pricesDisplayFormat} />
         <CandlestickSeries />
-        <LineSeries yAccessor={ema26.accessor()} strokeStyle={ema26.stroke()} />
+        {/* <LineSeries yAccessor={ema26.accessor()} strokeStyle={ema26.stroke()} />
         <CurrentCoordinate yAccessor={ema26.accessor()} fillStyle={ema26.stroke()} />
         <LineSeries yAccessor={ema12.accessor()} strokeStyle={ema12.stroke()} />
-        <CurrentCoordinate yAccessor={ema12.accessor()} fillStyle={ema12.stroke()} />
-        {/* <MouseCoordinateY rectWidth={margin.right} displayFormat={pricesDisplayFormat} /> */}
+        <CurrentCoordinate yAccessor={ema12.accessor()} fillStyle={ema12.stroke()} /> */}
+        <MouseCoordinateY rectWidth={margin.right} displayFormat={pricesDisplayFormat} />
         <EdgeIndicator
           itemType="last"
           rectWidth={margin.right}
