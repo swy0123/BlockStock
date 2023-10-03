@@ -149,6 +149,7 @@ function TacticBoardBox() {
   };
 
   const z = 'zzzzzzz'
+  
   return (
     <Container>
       <Wrapper>

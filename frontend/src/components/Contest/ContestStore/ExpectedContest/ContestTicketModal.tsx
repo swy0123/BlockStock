@@ -1,5 +1,7 @@
 import React from "react";
 import CloseIcon from '@mui/icons-material/Close';
+import Swal from 'sweetalert2';
+
 import {
   Modal,
   Container,
@@ -21,7 +23,7 @@ import {contestParticipant} from '../../../../api/Contest/Participant'
 import { useRecoilState } from 'recoil';
 import { ContestId } from '../../../../recoil/Contest/ExpectedContest'
 
-function ContestTicketModal({tacticid ,selectedContest, onClose}){
+function ContestTicketModal({tacticid ,selectedContest, onClose, onClosetactic}){
   
 
   // 리코일 대회 id 전략 id
@@ -39,8 +41,17 @@ function ContestTicketModal({tacticid ,selectedContest, onClose}){
   }
   
   const participant = async () => {
-    const contest = await contestParticipant(contestId)
-    console.log('참가 완료 모달', contest)
+    const res = await contestParticipant(contestId)
+    console.log('참가 완료 모달', res)
+    onClose()
+    onClosetactic()
+    Swal.fire({
+      title: '참가 완료되었습니다.',
+      icon:'success',
+      timer: 1000, // 2초 후에 자동으로 사라집니다 (밀리초 단위)
+      showConfirmButton: false, // 확인 버튼을 표시하지 않음
+      showCancelButton: false, // 취소 버튼을 표시하지 않음
+    })
   }
   // 대회 참가 api ==========================================================
 
