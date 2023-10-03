@@ -19,7 +19,9 @@ import {
   Term,
   Button,
   Notexist,
-  Box
+  Box,
+  NotRegisted,
+  Registed
 } from './ExpectedContestContent.style'
 
 import TablePagination from '@mui/material/TablePagination';
@@ -93,7 +95,6 @@ function ExpectedContestContent(){
     if (updatedShowContent[index]) {
       console.log(expectedContestItem[index],'expectedContestItem[index]')
       setSelectedContest(expectedContestItem[index]);
-      setOptionCode(expectedContestItem[index].optionCode)
       const newContestId = { ...contestId, contestId: expectedContestItem[index].id };
       // Recoil 상태 업데이트
       setContestId(newContestId);
@@ -140,6 +141,7 @@ function ExpectedContestContent(){
   
   const CloseModal = () => {
     setIsModalOpen(false);
+    expectedcontest()
   };
   
   const OpenCandelModal = () => {
@@ -148,6 +150,7 @@ function ExpectedContestContent(){
   
   const CloseCandelModal = () => {
     setIsCancelModalOpen(false);
+    expectedcontest()
   };
   // 모달 열고 닫는 이벤트 ====================================================
 
@@ -169,9 +172,16 @@ function ExpectedContestContent(){
               <Box>         
                 <ContestBox onClick={() => toggleContent(index)}>
                   <div style={{margin:'16px 50% 16px 50px'}}>
-                    <Title> [경진대회] {contest.title}</Title>
+                    <div style={{display:'flex'}}>
+                        <Title> [경진대회] {contest.title}</Title>
+                        {contest.isRegisted ? (
+                          <NotRegisted>참여</NotRegisted>
+                        ) : (
+                        <Registed>미참여</Registed>
+                        )}
+                      </div>
                     <Schedule>
-                      {dayjs(contest.startTime).format('MM/DD HH:mm')} 부터 ~ {dayjs(contest.endTime).format('MM/DD HH:mm')} 까지
+                      {dayjs(contest.startTime).format('YYYY/MM/DD HH:mm')} 부터 ~ {dayjs(contest.endTime).format('YYYY/MM/DD HH:mm')} 까지
                     </Schedule>
                   </div>
                   {showContent[index] ? (
@@ -198,14 +208,14 @@ function ExpectedContestContent(){
                 <Content style={{ whiteSpace: 'pre-line',wordWrap: 'break-word' }}>
                   {contest.content}
                 </Content>
-                {/* {!contest.isRegisted ? (
+                {contest.isRegisted ? (
                   <Button onClick={OpenCandelModal}>신청취소</Button>
                 ) : (
                   <Button onClick={OpenModal}>참가하기</Button>
-                  )}  */}
-                <Button onClick={OpenModal}>참가하기</Button>
+                  )} 
+                {/* <Button onClick={OpenModal}>참가하기</Button> */}
               </ContentBox>
-              <hr style={{margin:'0px 0px 0px 0px'}}/>
+              <hr style={{margin:'0px 0px 0px 0px', border:'1px solid #D3D3D3'}}/>
 
             </div>
           ))}
@@ -213,8 +223,8 @@ function ExpectedContestContent(){
           </>
         )}
 
-         {isModalOpen ? <ContestTaticModal selectedContest={selectedContest} type={'contest'} onClose={CloseModal} /> : null}
-         {isCancelModalOpen ? <ContestCancelModal selectedContest={selectedContest} onClose={CloseCandelModal}/> : null}
+         {isModalOpen ? <ContestTaticModal selectedContest={selectedContest} type={'contest'} onClose={CloseModal} onClosetactic={CloseModal}/> : null}
+         {isCancelModalOpen ? <ContestCancelModal selectedContest={selectedContest} onClose={CloseCandelModal} /> : null}
       </Wrapper>
       {expectedContestItem.length > 0 && (
           <>

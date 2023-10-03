@@ -47,6 +47,23 @@ function CurrentContest({contest}){
 
   // style 잡기 위한 더미 데이터 ====================================
 
+  // const [selectedContest, setSelectedContest] = useState(null);
+  // const [showContent, setShowContent] = useState(Array(currentContestList.length).fill(false));
+  // const toggleContent = (index) => {
+  //   const updatedShowContent = [...showContent];
+  //   console.log(updatedShowContent)
+  //   updatedShowContent[index] = !updatedShowContent[index];
+  //   setShowContent(updatedShowContent);
+
+  //   if (updatedShowContent[index]) {
+  //     console.log(currentContestList[index],'-----------------')
+  //     setSelectedContest(currentContestList[index]);
+  //   } else {
+  //     setSelectedContest(null);
+  //   }
+  //   console.log(selectedContest)
+  //   navigate('/contestprogress',{ state: { selectedContest.id } })
+  // };
 
   return(
     <Container>
@@ -92,22 +109,22 @@ function CurrentContest({contest}){
             >
               <Prev className="swiper-button-prev"></Prev>
               <Next className="swiper-button-next"></Next>
-              {currentContestList.map((contest) => (
+              {currentContestList.map((contest, index) => (
                 <SwiperSlide style={{ margin: '0px', position:'relative',left:'10px' }}>
-                  <div key={contest.id}>
+                  <div key={index}>
 
                   <ContestHeader>
                     <ContestTitle>
                     {contest.title.length > 15 ? `${contest.title.slice(0, 15)}...` : contest.title}
                     </ContestTitle>
                     <Contestperiod>
-                      {dayjs(contest.startAt).format('MM/DD HH:mm')} 부터 ~ {dayjs(contest.endAt).format('MM/DD HH:mm')} 까지
+                      {dayjs(contest.startAt).format('YYYY/MM/DD HH:mm')} 부터 ~ {dayjs(contest.endAt).format('MM/DD HH:mm')} 까지
                     </Contestperiod>
                   </ContestHeader>
 
                   <CurrentContestLinkBox>
-                    <div>현재 대회 정보</div>
-                    <CurrentContestLink onClick={()=>navigate('/currentcontest')}>현재 현황 조회</CurrentContestLink>
+                    <div onClick={()=>navigate('/currentcontest')}>현재 대회 정보</div>
+                    <CurrentContestLink onClick={()=>toggleContent(index)}>현재 현황 조회</CurrentContestLink>
                   </CurrentContestLinkBox>
 
                   <CurrentContestRankBox>
