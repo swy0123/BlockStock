@@ -179,13 +179,15 @@ export const HistorySummaryContents = styled.div`
 
 export const HistorySummaryContentsResult = styled.div`
   display: flex;
+  
+  text-align: center;
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
   background-color: #f7f3ff;
   border-radius: 6px;
   width: 75%;
   height: 26%;
-  text-align: center;
-  align-items: center;
   margin-left: 12.5%;
   margin-right: 12.5%;
 `;

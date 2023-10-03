@@ -64,12 +64,12 @@ export interface saveTacticProps {
   optionCode: string;
   tacticJsonCode: string;
   tacticPythonCode: string;
-  customVariableBlockGroup: string;
+  imgPath: string;
   testReturns: number;
 }
 
 // 전략 생성
-export const tacticCreate = async (data: FormData) => {
+export const tacticCreate = async (data: saveTacticProps) => {
   console.log(data)
   try {
     const res = await privateApi.post(`/tactic`, data);
@@ -80,16 +80,16 @@ export const tacticCreate = async (data: FormData) => {
   }
 };
 
-// export const tacticCreate = async (data:FormData) => {
-//   console.log(data)
-//   const res = await privateApi.post(`/tactic`, data, {
-//     headers: {
-//       "Content-Type": "multipart/form-data",
-//     },
-//   });
-//   console.log(res.data);
-//   return res.data;
-// };
+export const tacticImg = async (data:FormData) => {
+  console.log(data)
+  const res = await privateApi.post(`/tactic/img`, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  console.log(res.data);
+  return res.data;
+};
 
 // 전략 조회
 export const tacticImport = async (params: number) => {
@@ -112,12 +112,12 @@ export interface updateTacticProps {
   optionCode: string;
   tacticJsonCode: string;
   tacticPythonCode: string;
-  customVariableBlockGroup: string;
+  imgPath: string;
   testReturns: number;
 }
 
 // 전략 수정
-export const tacticUpdate = async (data: FormData) => {
+export const tacticUpdate = async (data: updateTacticProps) => {
   console.log(data)
   try {
     const res = await privateApi.put(`/tactic`, data);
