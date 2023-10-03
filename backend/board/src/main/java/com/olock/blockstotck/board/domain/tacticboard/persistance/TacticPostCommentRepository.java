@@ -10,4 +10,6 @@ public interface TacticPostCommentRepository extends JpaRepository<TacticPostCom
     List<TacticPostComment> findByTacticPostId(Long tacticPostId);
 
     Optional<TacticPostComment> findByIdAndMemberId(Long commentId, Long memberId);
+
+    void deleteAllByTacticPostId(Long tacticPostId);
 }

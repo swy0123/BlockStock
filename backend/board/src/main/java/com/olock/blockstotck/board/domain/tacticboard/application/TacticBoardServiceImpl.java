@@ -1,10 +1,14 @@
 package com.olock.blockstotck.board.domain.tacticboard.application;
 
+import com.olock.blockstotck.board.domain.member.application.MemberServiceImpl;
+import com.olock.blockstotck.board.domain.member.persistance.Member;
+import com.olock.blockstotck.board.domain.option.persistance.Option;
 import com.olock.blockstotck.board.domain.tactic.persistance.Tactic;
 import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostCommentRequest;
 import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostRequest;
 import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostRequestParam;
 import com.olock.blockstotck.board.domain.tacticboard.dto.response.TacticPostCommentResponse;
+import com.olock.blockstotck.board.domain.tacticboard.dto.response.TacticPostListCntResponse;
 import com.olock.blockstotck.board.domain.tacticboard.dto.response.TacticPostListResponse;
 import com.olock.blockstotck.board.domain.tacticboard.dto.response.TacticPostResponse;
 import com.olock.blockstotck.board.domain.tacticboard.exception.*;
@@ -44,12 +48,14 @@ public class TacticBoardServiceImpl implements TacticBoardService {
     private final TacticPostCommentValidator tacticPostCommentValidator;
     private final WebClientUtil webClientUtil;
 
+    private final MemberServiceImpl memberService;
+
     @Override
     public void writeTacticPost(Long memberId, TacticPostRequest tacticPostRequest) {
         Tactic tactic = null;
 
         try {
-            String url = String.format("https://j9b210.p.ssafy.io:8443/api/tactic/%s", tacticPostRequest.getTacticId());
+            String url = String.format("https://seal-striking-presumably.ngrok-free.app/api/tactic/%s", tacticPostRequest.getTacticId());
             tactic = webClientUtil.get(
                     url,
                     memberId,
@@ -59,15 +65,25 @@ public class TacticBoardServiceImpl implements TacticBoardService {
             throw new TacticRequestException("Tactic 정보 요청 실패");
         }
 
-//      optionName: 종목 검색 API에서 가지고 올까?
-        String optionName = "";
+        Option option = null;
+
+        try {
+            String url = String.format("https://seal-striking-presumably.ngrok-free.app/api/option/%s", tactic.getOptionCode());
+            option = webClientUtil.get(
+                    url,
+                    memberId,
+                    Option.class
+            );
+        } catch (TacticRequestException e) {
+            throw new TacticRequestException("Option 정보 요청 실패");
+        }
 
         TacticPost tacticPost = TacticPost.builder()
                 .memberId(memberId)
                 .tacticId(tacticPostRequest.getTacticId())
                 .title(tacticPostRequest.getTitle())
                 .content(tacticPostRequest.getContent())
-                .optionName(optionName)
+                .optionName(option.getOptionName())
                 .tacticPythonCode(tactic.getTacticPythonCode())
                 .tacticJsonCode(tactic.getTacticJsonCode())
                 .testReturns(tactic.getTestReturns())
@@ -79,7 +95,7 @@ public class TacticBoardServiceImpl implements TacticBoardService {
     }
 
     @Override
-    public List<TacticPostListResponse> getTacticPostList(Long memberId, TacticPostRequestParam tacticPostRequestParam) {
+    public TacticPostListCntResponse getTacticPostList(Long memberId, TacticPostRequestParam tacticPostRequestParam) {
 
         Pageable pageable = PageRequest.of(
                 tacticPostRequestParam.getPage(),
@@ -94,20 +110,23 @@ public class TacticBoardServiceImpl implements TacticBoardService {
 
         if(tacticPostRequestParam.getLike()) spec = spec.and(TacticPostSpecification.findByLike(memberId));
 
+        long totalCount = tacticPostRepository.count(spec);
+
         Page<TacticPost> findTacticPostList = tacticPostRepository.findAll(spec, pageable);
 
-        return findTacticPostList.stream()
+        List<TacticPostListResponse> tacticPostListResponse = findTacticPostList.stream()
                 .map(findTacticPost -> {
                     boolean isLike = !tacticPostLikeRepository.findByMemberIdAndTacticPostId(memberId, findTacticPost.getId()).isEmpty();
                     return new TacticPostListResponse(findTacticPost, isLike);
                 }).collect(Collectors.toList());
+
+        return new TacticPostListCntResponse(tacticPostListResponse, totalCount);
     }
 
     @Override
     public void likeTacticPost(Long memberId, Long tacticPostId) {
-
+        tacticPostValidator.checkTacticPostExist(tacticPostRepository, tacticPostId);
         Optional<TacticPost> tacticPost = tacticPostRepository.findById(tacticPostId);
-        tacticPostValidator.checkTacticPostExist(tacticPost);
 
         Optional<TacticPostLike> existTacticPostLike = tacticPostLikeRepository.findByMemberIdAndTacticPostId(memberId, tacticPostId);
         tacticPostValidator.checkAlreadyLike(existTacticPostLike);
@@ -118,8 +137,7 @@ public class TacticBoardServiceImpl implements TacticBoardService {
 
     @Override
     public void unLikeTacticPost(Long memberId, Long tacticPostId) {
-        Optional<TacticPost> tacticPost = tacticPostRepository.findById(tacticPostId);
-        tacticPostValidator.checkTacticPostExist(tacticPost);
+        tacticPostValidator.checkTacticPostExist(tacticPostRepository, tacticPostId);
 
         Optional<TacticPostLike> tacticPostLike = tacticPostLikeRepository.findByMemberIdAndTacticPostId(memberId, tacticPostId);
         tacticPostValidator.checkAlreadyUnLike(tacticPostLike);
@@ -129,14 +147,20 @@ public class TacticBoardServiceImpl implements TacticBoardService {
 
     @Override
     public TacticPostResponse getTacticPost(Long memberId, Long tacticPostId) {
-        Optional<TacticPost> findTacticPost = tacticPostRepository.findById(tacticPostId);
-        tacticPostValidator.checkTacticPostExist(findTacticPost);
+
+        tacticPostValidator.checkTacticPostExist(tacticPostRepository, tacticPostId);
+
         tacticPostRepository.updateHit(tacticPostId);
-
-        TacticPost tacticPost = findTacticPost.get();
-
+//
+        TacticPost tacticPost = tacticPostRepository.findById(tacticPostId).get();
+//
         long likeCnt = tacticPostLikeRepository.countByTacticPostId(tacticPostId);
-        String nickName = "";
+
+        Member member = memberService.getMember(tacticPost.getMemberId());
+
+        if(member == null) memberService.saveMember(tacticPost.getMemberId());
+
+        String nickName = member.getNickname();
 
         boolean isLike = true;
         if(tacticPostLikeRepository.findByMemberIdAndTacticPostId(memberId, tacticPostId).isEmpty()) isLike = false;
@@ -151,36 +175,37 @@ public class TacticBoardServiceImpl implements TacticBoardService {
 
     @Override
     public void deleteTacticPost(Long memberId, Long tacticPostId) {
-        Optional<TacticPost> findTacticPost = tacticPostRepository.findById(tacticPostId);
-        tacticPostValidator.checkTacticPostExist(findTacticPost);
+        tacticPostValidator.checkTacticPostExist(tacticPostRepository, tacticPostId);
 
-        TacticPost tacticPost = findTacticPost.get();
+        TacticPost tacticPost = tacticPostRepository.findById(tacticPostId).get();
 
         tacticPostValidator.checkTacticPostWriter(tacticPost, memberId);
 
+        tacticPostCommentRepository.deleteAllByTacticPostId(tacticPostId);
         tacticPostRepository.delete(tacticPost);
     }
 
     @Override
     public List<TacticPostCommentResponse> getTacticPostCommentList(Long tacticPostId) {
-
-        Optional<TacticPost> findTacticPost = tacticPostRepository.findById(tacticPostId);
-        tacticPostValidator.checkTacticPostExist(findTacticPost);
+        tacticPostValidator.checkTacticPostExist(tacticPostRepository, tacticPostId);
 
         List<TacticPostComment> tacticPostComments = tacticPostCommentRepository.findByTacticPostId(tacticPostId);
 
         return tacticPostComments.stream()
-                .map(tacticPostComment -> new TacticPostCommentResponse("", tacticPostComment))
+                .map(tacticPostComment -> {
+                    Member member = memberService.getMember(tacticPostComment.getMemberId());
+                    if(member == null) memberService.saveMember(tacticPostComment.getMemberId());
+                    return new TacticPostCommentResponse(member.getNickname(), tacticPostComment);
+                })
                 .collect(Collectors.toList());
     }
 
     @Override
     public void writeTacticPostComment(Long memberId, TacticPostCommentRequest tacticPostCommentRequest) {
 
-        Optional<TacticPost> findTacticPost = tacticPostRepository.findById(tacticPostCommentRequest.getTacticBoardId());
-        tacticPostValidator.checkTacticPostExist(findTacticPost);
+        tacticPostValidator.checkTacticPostExist(tacticPostRepository, tacticPostCommentRequest.getTacticBoardId());
 
-        TacticPost tacticPost = findTacticPost.get();
+        TacticPost tacticPost = tacticPostRepository.findById(tacticPostCommentRequest.getTacticBoardId()).get();
 
         TacticPostComment tacticPostComment = new TacticPostComment(memberId, tacticPost, tacticPostCommentRequest);
         tacticPostCommentRepository.save(tacticPostComment);
@@ -198,5 +223,18 @@ public class TacticBoardServiceImpl implements TacticBoardService {
         tacticPostCommentValidator.checkTacticPostCommentWriter(memberId, tacticPostComment);
 
         tacticPostCommentRepository.delete(tacticPostComment);
+    }
+
+    @Override
+    public List<TacticPostListResponse> getTacticBoardMy(Long memberId, Long userId, Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+
+        Page<TacticPost> findTacticPostList = tacticPostRepository.findByMemberId(userId, pageable);
+
+        return findTacticPostList.stream()
+                .map(findTacticPost -> {
+                    boolean isLike = !tacticPostLikeRepository.findByMemberIdAndTacticPostId(memberId, findTacticPost.getId()).isEmpty();
+                    return new TacticPostListResponse(findTacticPost, isLike);
+                }).collect(Collectors.toList());
     }
 }
