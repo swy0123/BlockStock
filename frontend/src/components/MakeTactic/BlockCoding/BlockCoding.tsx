@@ -82,16 +82,14 @@ const BlockCoding = (props) => {
   const [repeatCnt, setRepeatCnt] = useState(50); //반복횟수 (scope)
   const [tacticPythonCode, setTacticPythonCode] = useState(undefined); //"""code"""
   const [tacticJsonCode, setTacticJsonCode] = useState(undefined); //json 객체 (직렬화해서 저장)
-  const [customVariableBlockGroup, setCustomVariableBlockGroup] =
-    useState<CustomVariableBlockGroup>();
   const [tacticImg, setTacticImg] = useState(undefined); //svg
   //코드 검사 제대로 하기
   const [codeCheck, setCodeCheck] = useState(true); // 코드 검사 후 결과창으로 이동
 
   useEffect(() => {
-    const timeoutExecute = setTimeout(() => searchOption(), 500);
+    const timeoutExecute = setTimeout(() => searchOption(), 300);
     return () => clearTimeout(timeoutExecute);
-  }, [keyword]);
+  }, [keyword, isSearch]);
 
   //전략 조회일 경우
   useEffect(() => {
@@ -129,41 +127,42 @@ const BlockCoding = (props) => {
       const res = await tacticSearchOption(keyword, isSearch);
       console.log(res);
       setOptionLikeList(res);
-    } else {
-      const defaultRes = [
-        {
-          optionCode: "000810",
-          optionName: "삼성화재",
-          like: false,
-        },
-        {
-          optionCode: "000815",
-          optionName: "삼성화재우",
-          like: false,
-        },
-        {
-          optionCode: "001360",
-          optionName: "삼성제약",
-          like: false,
-        },
-        {
-          optionCode: "005930",
-          optionName: "삼성전자",
-          like: false,
-        },
-        {
-          optionCode: "005935",
-          optionName: "삼성전자우",
-          like: false,
-        },
-        {
-          optionCode: "006400",
-          optionName: "삼성SDI",
-          like: false,
-        },
-      ];
-      setOptionLikeList(defaultRes);
     }
+    //  else {
+    //   const defaultRes = [
+    //     {
+    //       optionCode: "000810",
+    //       optionName: "삼성화재",
+    //       like: false,
+    //     },
+    //     {
+    //       optionCode: "000815",
+    //       optionName: "삼성화재우",
+    //       like: false,
+    //     },
+    //     {
+    //       optionCode: "001360",
+    //       optionName: "삼성제약",
+    //       like: false,
+    //     },
+    //     {
+    //       optionCode: "005930",
+    //       optionName: "삼성전자",
+    //       like: false,
+    //     },
+    //     {
+    //       optionCode: "005935",
+    //       optionName: "삼성전자우",
+    //       like: false,
+    //     },
+    //     {
+    //       optionCode: "006400",
+    //       optionName: "삼성SDI",
+    //       like: false,
+    //     },
+    //   ];
+    //   setOptionLikeList(defaultRes);
+    // }
   };
 
   const editSetTrue = () => {
@@ -271,12 +270,14 @@ const BlockCoding = (props) => {
 
   //검색 모드 변경
   const setSearchTrue = () => {
+    console.log("setSearchTrue")
     setSearch(true);
     setKeyword("");
     handleOptionLikeList(true);
   };
 
   const setSearchFasle = () => {
+    console.log("setSearchFasle")
     setSearch(false);
     setKeyword("");
     handleOptionLikeList(false);
@@ -490,6 +491,8 @@ const BlockCoding = (props) => {
                               item={item}
                               setOption={setOption}
                               setViewOption={setViewOption}
+                              searchKeyword={searchKeyword}
+                              searchOption={searchOption}
                             ></OptionLikeListItem>
                           ))}
                         </>
@@ -501,6 +504,8 @@ const BlockCoding = (props) => {
                               item={item}
                               setOption={setOption}
                               setViewOption={setViewOption}
+                              searchKeyword={searchKeyword}
+                              searchOption={searchOption}
                             ></OptionLikeListItem>
                           ))}
                         </>

@@ -143,10 +143,10 @@ const TacticResult = (props) => {
     // ----------------아래가 실제 코드 ------------------
 
     const formData = new FormData();
-    formData.append("imgPath", props.tacticImg);
+    formData.append("imagePath", props.tacticImg);
     // const imgPath = await tacticImg(formData);
-    const imgPath =
-      "https://firebasestorage.googleapis.com/v0/b/pocket-sch.appspot.com/o/tmp_block.png?alt=media&token=01a14d47-374b-4c7f-93af-1b902bad2031&_gl=1*1w4ri8m*_ga*MjIwNzM4OS4xNjc2OTA3ODQ2*_ga_CW55HF8NVT*MTY5NjMxNjM2Ni41LjEuMTY5NjMxNjU1NS4zNi4wLjA.";
+    // const imgPath =
+    //   "https://firebasestorage.googleapis.com/v0/b/pocket-sch.appspot.com/o/tmp_block.png?alt=media&token=01a14d47-374b-4c7f-93af-1b902bad2031&_gl=1*1w4ri8m*_ga*MjIwNzM4OS4xNjc2OTA3ODQ2*_ga_CW55HF8NVT*MTY5NjMxNjM2Ni41LjEuMTY5NjMxNjU1NS4zNi4wLjA.";
 
     if (tacticId != null) {
       const requestProps: updateTacticProps = {
