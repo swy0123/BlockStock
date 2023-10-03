@@ -32,12 +32,14 @@ import { format } from "d3-format";
 import {
   saveTacticProps,
   tacticCreate,
+  tacticImg,
   tacticTest,
   tacticTestProps,
   tacticUpdate,
   updateTacticProps,
 } from "../../../api/Tactic/TacticTest";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const TacticResult = (props) => {
   const [componentRef, size] = useComponentSize();
@@ -71,7 +73,28 @@ const TacticResult = (props) => {
     // const res = dummyData;
     console.log("결과~~~~~~~~~~~~~");
     console.log(res);
-    setOptionHistory(res.optionHistory);
+    const curOptionHistory = res.optionHistory;
+    let cnt = 0;
+    let nextOptionHistory = [];
+    for (let i = 0; i < curOptionHistory.length; i++) {
+      if (i == 0) continue;
+      if (curOptionHistory[i].turn == curOptionHistory[i - 1].turn) {
+        cnt++;
+      }else{
+        cnt = 0;
+      }
+      const tmp = {
+        type:curOptionHistory[i].type,
+        turn:curOptionHistory[i].turn, // 몇 번째 턴
+        cost:curOptionHistory[i].cost, // 주식 가격
+        tradeCnt:curOptionHistory[i].tradeCnt, // 거래 수 ( 몇개 샀는지 )
+        profitAndLoss:curOptionHistory[i].profitAndLoss, // 실현손익
+        idx:cnt
+      };
+      nextOptionHistory.push(tmp);
+    }
+    setOptionHistory(nextOptionHistory);
+
     // let newChart: any[] = [];
     // res.chartInfos.forEach((element) => {
     //   newChart.push({
@@ -120,60 +143,63 @@ const TacticResult = (props) => {
     // ----------------아래가 실제 코드 ------------------
 
     const formData = new FormData();
-    
+    formData.append("imgPath", props.tacticImg);
+    // const imgPath = await tacticImg(formData);
+    const imgPath =
+      "https://firebasestorage.googleapis.com/v0/b/pocket-sch.appspot.com/o/tmp_block.png?alt=media&token=01a14d47-374b-4c7f-93af-1b902bad2031&_gl=1*1w4ri8m*_ga*MjIwNzM4OS4xNjc2OTA3ODQ2*_ga_CW55HF8NVT*MTY5NjMxNjM2Ni41LjEuMTY5NjMxNjU1NS4zNi4wLjA.";
+
     if (tacticId != null) {
       const requestProps: updateTacticProps = {
         id: tacticId,
         title: props.title,
         optionCode: props.optionCode,
-        tacticJsonCode: JSON.stringify(props.tacticJsonCode),
+        tacticJsonCode: props.tacticJsonCode,
         tacticPythonCode: props.tacticPythonCode,
-        customVariableBlockGroup: JSON.stringify(props.customVariableBlockGroup),
-        // tacticJsonSetCode: props.customVariableBlockGroup.settingArray,
-        // tacticJsonGetCode: props.customVariableBlockGroup.getArray,
-        // imgPath: "props.tacticImg",
+        imgPath: imgPath,
         testReturns: returnPercent,
       };
-      // console.log(requestProps);
-      formData.append(
-        "request",
-        new Blob([JSON.stringify(requestProps)], {
-          type: "application/json",
-        })
-      );
-      formData.append("imgPath", props.tacticImg);
-      // formData.append("imgPath", props.tacticImg, "img.svg");
-      const res = await tacticUpdate(formData);
+      const res = await tacticUpdate(requestProps);
       console.log(res);
     } else {
       const requestProps: saveTacticProps = {
         title: props.title,
         optionCode: props.optionCode,
-        tacticJsonCode: JSON.stringify(props.tacticJsonCode),
+        tacticJsonCode: props.tacticJsonCode,
         tacticPythonCode: props.tacticPythonCode,
-        customVariableBlockGroup: JSON.stringify(props.customVariableBlockGroup),
-        // tacticJsonSetCode: props.customVariableBlockGroup.settingArray,
-        // tacticJsonGetCode: props.customVariableBlockGroup.getArray,
-        // imgPath: "props.tacticImg",
+        imgPath: imgPath,
         testReturns: returnPercent,
       };
-      formData.append(
-        "request",
-        new Blob([JSON.stringify(requestProps)], {
-          type: "application/json",
-        })
-      );
-      formData.append("imgPath", props.tacticImg);
-      // formData.append("imgPath", props.tacticImg, "img.svg");
-      // console.log(requestProps);
-      const res = await tacticCreate(formData);
+      const res = await tacticCreate(requestProps);
       console.log(res);
     }
   };
 
   const saveTactic = async () => {
-    await uploadData();
-    navigate("/maketactic");
+    Swal.fire({
+      title: "전략 저장",
+      text: "전략을 저장하시겠습니까?",
+      // icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "전략 저장",
+      cancelButtonText: "취소",
+    })
+      .then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            "저장 중입니다.",
+            "잠시만 기다려주세요",
+            "success"
+            // '확인',
+          );
+          uploadData();
+        }
+      })
+      .then(() => {
+        navigate("/maketactic");
+      });
+
     // console.log(requestProps);
   };
 

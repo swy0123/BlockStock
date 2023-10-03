@@ -136,7 +136,7 @@ const CandleChart = (props) => {
   };
 
   const returnNum = (d) => {
-    // console.log(xAccessor)
+    console.log(d)
     let cur = d.datum.open > d.datum.close ? d.datum.low : d.datum.high;
     let curMax = d.yScale.domain()[1];
     let curMin = d.yScale.domain()[0];
