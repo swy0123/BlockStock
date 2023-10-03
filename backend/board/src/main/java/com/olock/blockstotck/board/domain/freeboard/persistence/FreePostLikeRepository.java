@@ -9,4 +9,6 @@ public interface FreePostLikeRepository extends JpaRepository<FreePostLike, Long
     void deleteAllByFreePostId(Long freePostId);
 
     Optional<FreePostLike> findByMemberIdAndFreePostId(Long memberId, Long freePostId);
+
+    long countByFreePostId(Long freePostId);
 }
