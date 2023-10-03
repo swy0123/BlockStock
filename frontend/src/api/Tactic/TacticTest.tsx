@@ -80,16 +80,16 @@ export const tacticCreate = async (data: saveTacticProps) => {
   }
 };
 
-// export const tacticCreate = async (data:FormData) => {
-//   console.log(data)
-//   const res = await privateApi.post(`/tactic`, data, {
-//     headers: {
-//       "Content-Type": "multipart/form-data",
-//     },
-//   });
-//   console.log(res.data);
-//   return res.data;
-// };
+export const tacticImg = async (data:FormData) => {
+  console.log(data)
+  const res = await privateApi.post(`/tactic/img`, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  console.log(res.data);
+  return res.data;
+};
 
 // 전략 조회
 export const tacticImport = async (params: number) => {
@@ -103,6 +103,9 @@ export const tacticImport = async (params: number) => {
 };
 
 
+// defArray:JSON.parse(res.tacticJsonDefCode),
+// settingArray:JSON.parse(res.tacticJsonSetCode),
+// getArray:JSON.parse(res.tacticJsonGetCode)
 export interface updateTacticProps {
   id: number;
   title: string;
