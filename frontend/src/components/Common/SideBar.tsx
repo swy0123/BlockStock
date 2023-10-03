@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import RightArrowSrc from "../../assets/img/MakeTactic/rightarrow.png";
+// import RightArrowSrc from "../../assets/img/MakeTactic/rightarrow.png";
 // import Swal from 'sweetalert2'
 
 const Container = styled.div` 
@@ -86,14 +86,14 @@ const Close = styled.img`
 
 function SideBar(){
   const navigate = useNavigate();
-  if (window.location.pathname === '/login') return null;
-  if (window.location.pathname === '/signup') return null;
-  if (window.location.pathname === '/findpw') return null;
-
   const [showContestMenu, setShowContestMenu] = useState(false);
   const [showBoardMenu, setShowBoardMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showSideWrapper, setShowSideWrapper] = useState(true);
+  
+  if (window.location.pathname === '/login') return null;
+  if (window.location.pathname === '/signup') return null;
+  if (window.location.pathname === '/findpw') return null;
 
   const toggleContestMenu = () => {
     setShowContestMenu(!showContestMenu);
@@ -182,13 +182,13 @@ function SideBar(){
               )}
             </SideWrapper>
             )}
-             <Close 
+             {/* <Close 
              src={RightArrowSrc}
              onClick={toggleSideWrapper}
              style={{
               position: "absolute",
               bottom: showSideWrapper ? "50%" : "-400px",
-              right: showSideWrapper? "10%": ""}} />
+              right: showSideWrapper? "10%": ""}} /> */}
         </Container>
     );
 }
