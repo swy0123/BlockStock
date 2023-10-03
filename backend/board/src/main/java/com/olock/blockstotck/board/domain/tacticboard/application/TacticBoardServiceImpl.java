@@ -54,7 +54,7 @@ public class TacticBoardServiceImpl implements TacticBoardService {
         Tactic tactic = null;
 
         try {
-            String url = String.format("https://j9b210.p.ssafy.io:8443/api/tactic/%s", tacticPostRequest.getTacticId());
+            String url = String.format("https://seal-striking-presumably.ngrok-free.app/api/tactic/%s", tacticPostRequest.getTacticId());
             tactic = webClientUtil.get(
                     url,
                     memberId,
@@ -63,6 +63,7 @@ public class TacticBoardServiceImpl implements TacticBoardService {
         } catch (TacticRequestException e) {
             throw new TacticRequestException("Tactic 정보 요청 실패");
         }
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>" + tactic.toString());
 
 //      optionName: 종목 검색 API에서 가지고 올까?
         String optionName = "";
