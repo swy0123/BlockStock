@@ -18,7 +18,7 @@ public class TacticConsumer {
     public void consumeMemberTopic(String message){
         try {
             TacticTopicMessage tacticTopicMessage = objectMapper.readValue(message, TacticTopicMessage.class);
-            tacticService.updateContestResult(tacticTopicMessage.getContestTitle(), tacticTopicMessage.getMemberIds(), tacticTopicMessage.getResults());
+            tacticService.updateContestResult(tacticTopicMessage.getContestId(), tacticTopicMessage.getContestTitle(), tacticTopicMessage.getMemberIds(), tacticTopicMessage.getResults());
 
         } catch (Exception e) {
             e.printStackTrace();
