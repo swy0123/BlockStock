@@ -5,6 +5,7 @@ import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostLikeRequ
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostRequestParam;
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreeboardPostRequest;
 import com.olock.blockstotck.board.domain.freeboard.dto.response.FreePostListCntResponse;
+import com.olock.blockstotck.board.domain.freeboard.dto.response.FreePostListResponse;
 import com.olock.blockstotck.board.domain.freeboard.dto.response.FreePostResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,4 +35,6 @@ public interface FreeboardService{
     FreePostResponse getFreePost(Long memberId, Long freePostId);
 
     FreePostListCntResponse getFreePostList(Long memberId, FreePostRequestParam freePostRequestParam);
+
+    List<FreePostListResponse> getFreePostMy(Long memberId, Long userId, Integer page, Integer size);
 }

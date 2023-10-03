@@ -214,4 +214,18 @@ public class FreeboardServiceImpl implements FreeboardService{
         return new FreePostListCntResponse(freePostListResponse, totalCnt);
     }
 
+    @Override
+    public List<FreePostListResponse> getFreePostMy(Long memberId, Long userId, Integer page, Integer size) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+
+        Page<FreePost> findFreePostList = freePostRepository.findByMemberId(userId, pageable);
+
+        return findFreePostList.stream()
+                .map(findFreePost -> {
+                    Member member = memberService.getMember(findFreePost.getMemberId());
+                    return new FreePostListResponse(findFreePost, member.getId(), member.getNickname());
+                }).collect(Collectors.toList());
+    }
+
 }
