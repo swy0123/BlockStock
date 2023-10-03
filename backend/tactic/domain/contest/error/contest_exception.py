@@ -5,6 +5,7 @@ class StatusCode:
     CONTEST_ENROLL_START_END_ERROR_CODE = status.HTTP_403_FORBIDDEN
     ALREADY_EXIST_PARTICIPATE_ERROR_CODE = status.HTTP_403_FORBIDDEN
     MAXIMUM_JOIN_PEOPLE_ERROR_CODE = status.HTTP_403_FORBIDDEN
+    LESS_TICKET_ERROR_CODE = status.HTTP_403_FORBIDDEN
 
 class Message:
     CONTEST_NOT_EXIST_ERROR_MSG = "해당 번호의 대회가 없습니다."
@@ -12,3 +13,4 @@ class Message:
     CONTEST_ENROLL_START_END_ERROR_MSG="대회 종료날짜는 시작 날짜 이후로 입력해주세요."
     ALREADY_EXIST_PARTICIPATE_ERROR_MSG= "이미 대회 참가를 진행했습니다."
     MAXIMUM_JOIN_PEOPLE_ERROR_MSG= "참여 인원 수를 초과했습니다."
+    LESS_TICKET_ERROR_MSG = "티켓이 부족합니다."
