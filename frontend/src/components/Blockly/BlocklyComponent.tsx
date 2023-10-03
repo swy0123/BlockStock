@@ -444,17 +444,22 @@ function BlocklyComponent(props: any) {
     if (!props.codeCheck) {
       if (primaryWorkspace.current != undefined) {
         props.writeTacticJsonCode(
-          JSON.stringify(Blockly.serialization.workspaces.save(primaryWorkspace.current))
+          JSON.stringify({
+            tacticCode: Blockly.serialization.workspaces.save(primaryWorkspace.current),
+            defArray: defArray,
+            settingArray: settingArray,
+            getArray: getArray,
+          })
         );
         // .replace(/\s/g, '\\u0020').replace(/\n/g, '\\n')
         props.writeTacticPythonCode(pythonGenerator.workspaceToCode(primaryWorkspace.current));
         props.writeTacticImg(exportImageAsPNG);
         // CustomVariableBlockGroup
-        props.writeCustomVariableBlockGroup({
-          defArray: JSON.stringify(defArray),
-          settingArray: JSON.stringify(settingArray),
-          getArray: JSON.stringify(getArray),
-        });
+        // props.writeCustomVariableBlockGroup({
+        //   defArray: JSON.stringify(defArray),
+        //   settingArray: JSON.stringify(settingArray),
+        //   getArray: JSON.stringify(getArray),
+        // });
       }
 
       props.setCodeCheckTrue();
@@ -471,10 +476,10 @@ function BlocklyComponent(props: any) {
     if (props.tacticId != null && props.tacticJsonCode !== undefined) {
       load(
         false,
-        props.tacticJsonCode,
-        props.customVariableBlockGroup.defArray,
-        props.customVariableBlockGroup.settingArray,
-        props.customVariableBlockGroup.getArray
+        props.tacticJsonCode.tacticCode,
+        props.tacticJsonCode.defArray,
+        props.tacticJsonCode.settingArray,
+        props.tacticJsonCode.getArray
       );
     }
   }, [props.tacticId]);
