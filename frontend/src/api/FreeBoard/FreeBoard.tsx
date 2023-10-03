@@ -2,11 +2,11 @@ import { privateApi } from "../index";
 
 // 자유게시판 게시글리스트
 export const freeBoardListt = async (Params:Params) => {
-  console.log(Params)
+  console.log("try", Params)
   const res = await privateApi.get(`/free-board`,{
     params:{Params}
   });
-  console.log(res.data);
+  console.log(res);
   return res.data
 };
 
