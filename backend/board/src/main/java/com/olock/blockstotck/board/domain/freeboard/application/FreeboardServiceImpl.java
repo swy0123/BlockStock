@@ -4,10 +4,7 @@ import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostCommentR
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostLikeRequest;
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostRequestParam;
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreeboardPostRequest;
-import com.olock.blockstotck.board.domain.freeboard.dto.response.FileResponse;
-import com.olock.blockstotck.board.domain.freeboard.dto.response.FreePostListCntResponse;
-import com.olock.blockstotck.board.domain.freeboard.dto.response.FreePostListResponse;
-import com.olock.blockstotck.board.domain.freeboard.dto.response.FreePostResponse;
+import com.olock.blockstotck.board.domain.freeboard.dto.response.*;
 import com.olock.blockstotck.board.domain.freeboard.exception.validator.FreePostCommentValidator;
 import com.olock.blockstotck.board.domain.freeboard.exception.validator.FreePostValidator;
 import com.olock.blockstotck.board.domain.freeboard.persistence.*;
@@ -226,6 +223,22 @@ public class FreeboardServiceImpl implements FreeboardService{
                     Member member = memberService.getMember(findFreePost.getMemberId());
                     return new FreePostListResponse(findFreePost, member.getId(), member.getNickname());
                 }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<FreePostCommentResponse> getFreePostCommentList(Long freePostId) {
+
+        Optional<FreePost> tmpFreePost = freePostRepository.findById(freePostId);
+        freePostValidator.checkFreePostExist(tmpFreePost);
+
+        List<FreePostComment> freePostCommentList = freePostCommentRepository.findAllByFreePostId(freePostId);
+
+        return freePostCommentList.stream()
+                .map(freePostComment -> {
+                    Member member = memberService.getMember(freePostComment.getMemberId());
+                    return new FreePostCommentResponse(freePostComment, member.getNickname());
+                })
+                .collect(Collectors.toList());
     }
 
 }
