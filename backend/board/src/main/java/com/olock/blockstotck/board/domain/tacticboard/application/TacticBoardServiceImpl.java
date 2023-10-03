@@ -158,8 +158,6 @@ public class TacticBoardServiceImpl implements TacticBoardService {
 
         Member member = memberService.getMember(tacticPost.getMemberId());
 
-        if(member == null) memberService.saveMember(tacticPost.getMemberId());
-
         String nickName = member.getNickname();
 
         boolean isLike = true;
