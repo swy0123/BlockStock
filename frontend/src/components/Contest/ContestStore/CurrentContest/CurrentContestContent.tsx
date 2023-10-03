@@ -3,7 +3,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import KeyboardControlKeyIcon from '@mui/icons-material/KeyboardControlKey';
 
 import { useRecoilValue } from 'recoil';
-import { currentContestListState, searchKeywordState } from '../../../../recoil/Contest/CurrentContest';
+import { searchKeywordState } from '../../../../recoil/Contest/CurrentContest';
 
 import {
   Container,
@@ -18,7 +18,9 @@ import {
   Term,
   Button,
   Notexist,
-  Box
+  Box,
+  NotRegisted,
+  Registed
 } from './CurrentContestContent.style'
 
 import { useNavigate } from "react-router-dom";
@@ -27,7 +29,7 @@ import TablePagination from '@mui/material/TablePagination';
  // 날짜 변환
  import dayjs from "dayjs";
 // api 통신
-// import {currentContestList} from '../../../../api/Contest/ContestStore'
+import {currentContestList} from '../../../../api/Contest/ContestStore'
 
 
 function CurrentContestContent(){
@@ -40,16 +42,6 @@ function CurrentContestContent(){
   const [rowsPerPage, setRowsPerPage] = React.useState(7);
   const [ currentContestListItem, setCurrentContestListItem] = useState([])
   const [count, setCount] = useState(0)
-
-
-  // api 통신 이후 삭제 =======================================================================
-  // // 리코일에서 불러온 더미 데이터
-  // const currentContestListItem = useRecoilValue(currentContestListState);
-  // // 검색어로 title 일치하는 것만 다시 리스트로 배열을 만들어 준다
-  // const filteredContestList = currentContestListItem.filter((contest) =>
-  // contest.title.includes(searchKeyword)
-  // );
-  // api 통신 이후 삭제 =======================================================================
 
 
   // api 통신 =============================================================
@@ -92,6 +84,7 @@ function CurrentContestContent(){
     } else {
       setSelectedContest(null);
     }
+    console.log(selectedContest)
   };
   // 해당 페이지 내용 열기 ==============================================================
 
@@ -140,9 +133,16 @@ function CurrentContestContent(){
                 <Box>
                   <ContestBox onClick={() => toggleContent(index)}>
                     <div style={{margin:'16px 50% 16px 50px'}}>
+                      <div style={{display:'flex'}}>
                         <Title> [경진대회] {contest.title}</Title>
+                        {contest.isRegisted ? (
+                          <NotRegisted>참여</NotRegisted>
+                        ) : (
+                        <Registed>미참여</Registed>
+                        )}
+                      </div>
                         <Schedule>
-                        {dayjs(contest.startTime).format('MM/DD HH:mm')} 부터 ~ {dayjs(contest.endTime).format('MM/DD HH:mm')} 까지
+                        {dayjs(contest.startTime).format('YYYY/MM/DD HH:mm')} 부터 ~ {dayjs(contest.endTime).format('YYYY/MM/DD HH:mm')} 까지
                         </Schedule>
                     </div>
                       {showContent[index] ? (
@@ -162,16 +162,16 @@ function CurrentContestContent(){
                     maxHeight: showContent[index] ? '1200px' : '0', // 최대 높이 설정
                   }}
                 >
-                  <Stock>종목 {contest.code}</Stock>
-                  <StartAsset>시작 자산 {contest.startAsset}</StartAsset>
-                  <Term>전략 실행 주기  {contest.term}</Term>
+                  <Stock>종목 {contest.optionCode}</Stock>
+                  <StartAsset>티켓 수 {contest.ticket}개</StartAsset>
+                  <Term>전략 실행 주기  {contest.term}s</Term>
                    {/* 줄바꿈 적용 넘어갈 경우 다음 줄로 */}
                    <Content style={{ whiteSpace: 'pre-line',wordWrap: 'break-word' }}>
                      {contest.content}
                    </Content>
                   <Button onClick={()=>navigate('/contestprogress',{ state: { selectedContest } })}>진행 현황</Button>  
                 </ContentBox>
-                <hr style={{margin:'0px 0px 0px 0px'}}/>
+                <hr style={{margin:'0px 0px 0px 0px', border:'1px solid #D3D3D3'}}/>
 
               </div>
           ))}

@@ -12,6 +12,7 @@ import {
   Content,
   Personnel,
 } from './ContestCancelModal.style'
+import Swal from 'sweetalert2';
 
 import {contestCancel} from '../../../../api/Contest/Participant'
 
@@ -31,9 +32,17 @@ function ContestCancelModal( {selectedContest, onClose}){
   }
 
   const cancel = async () => {
-        const contest = await contestCancel(contestId.contestId)
-        console.log(contest)
-      }
+    const contest = await contestCancel(contestId.contestId)
+    console.log(contest)
+    onClose()
+    Swal.fire({
+      title: '취소되었습니다.',
+      icon:'success',
+      timer: 1000, // 2초 후에 자동으로 사라집니다 (밀리초 단위)
+      showConfirmButton: false, // 확인 버튼을 표시하지 않음
+      showCancelButton: false, // 취소 버튼을 표시하지 않음
+    })
+  }
 
   return(
     <Container>

@@ -34,7 +34,6 @@ background: #555; /* 스크롤바 hover 시 색상 변경 */
 `;
 
 export const Title = styled.div`
-width: 410px;
 height: 30px;
 font-weight: 600;
 font-size: 20px;
@@ -136,6 +135,41 @@ export const Notexist = styled.div`
 color: #ABABAB;
 `;
 
-
+export const Registed = styled.div`
+margin: 2px 0px 0px 10px;
+width: 60px;
+height: 20px;
+font-weight: 600;
+font-size: 8px;
+background-color: #676767;
+border-radius: 6px;
+color: #FFFFFF;
+display: flex;
+align-items: center;
+justify-content: center;
+&:hover{
+  background-color: #676767;
+border-radius: 6px;
+color: #FFFFFF;
+}
+`;
+export const NotRegisted = styled.div`
+margin: 2px 0px 0px 10px;
+width: 60px;
+height: 20px;
+font-weight: 600;
+font-size: 8px;
+background-color: #676767;
+border-radius: 6px;
+color: #FFFFFF;
+display: flex;
+align-items: center;
+justify-content: center;
+&:hover{
+  background-color: #676767;
+border-radius: 6px;
+color: #FFFFFF;
+}
+`;
 
 

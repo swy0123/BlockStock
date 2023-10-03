@@ -99,7 +99,7 @@ function ExpectedContest({contest}){
                         )}
                     </ContestHeader>
                     <ContestPeriod>
-                      {dayjs(item.startTime).format('MM/DD HH:mm')} 부터 ~ {dayjs(item.endTime).format('MM/DD HH:mm')} 까지
+                      {dayjs(item.startTime).format('YYYY/MM/DD HH:mm')} 부터 ~ {dayjs(item.endTime).format('YYYY/MM/DD HH:mm')} 까지
                     </ContestPeriod>
                   </ContestBox>
     

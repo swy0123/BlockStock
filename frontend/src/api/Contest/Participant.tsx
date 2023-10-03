@@ -11,7 +11,7 @@ export const contestParticipant = async (info:info) => {
         tacticId:info.tacticId
     });
     console.log(res);
-    return res.data;
+    return res
   }
   catch(err){
     console.log('대회 참가 api', err)
@@ -25,7 +25,7 @@ export const contestCancel = async ( contestId ) => {
     console.log(contestId)
     const res = await privateApi.delete(`/contest/participate/${contestId}`);
     console.log(res);
-    return res.data;
+    return res
   }
   catch(err){
     console.log('대회 취소 api',err)

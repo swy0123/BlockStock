@@ -4,7 +4,8 @@ export const Container = styled.div`
 width: 99%;
 `;
 export const CurrentContestBox = styled.div`
-  width: 80%;
+  /* width: 100%; */
+  min-width: 1190px;
   height: 350px;
   border: 1px solid #D4D4D4;
   margin-bottom: 50px;
@@ -62,9 +63,7 @@ export const Contestperiod = styled.div`
 `;
 
 export const CurrentContestList = styled.div`
-  /* width: 1200px; */
-  width: 100%;
-  height: 100%;
+  width: 1200px;
   margin: 0px 0px 0px 40px;
 `;
 
@@ -105,7 +104,7 @@ export const NoRankImage = styled.img`
 `;
 
 export const RankUser = styled.div`
-width: 55%;
+width: 53%;
 height: 100%;
 /* margin: 0px 50px 0px 0px; */
 `;
@@ -143,3 +142,17 @@ border: 1px solid #D3D3D3;
 margin: 0px 50px 0px 30px;
 `;
 
+export const Prev = styled.div`
+position: absolute;
+min-width: 30px;
+top:170px;
+left: 10px;
+color: #E1E1E1;
+`;
+export const Next = styled.div`
+position: absolute;
+min-width: 30px;
+top:150px;
+right: -10px;
+color: #E1E1E1;
+`;
