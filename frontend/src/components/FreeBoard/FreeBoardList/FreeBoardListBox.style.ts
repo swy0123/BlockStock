@@ -13,6 +13,7 @@ export const Container = styled.div`
 `;
 export const Wrapper = styled.div`
   height: 100%;
+  width: 85%;
   margin-top: 2%;
   margin-bottom: 2%;
   background-color: white;
@@ -58,7 +59,7 @@ export const CreateBtn = styled.button`
 
 export const FreeBoardListTitle = styled.div`
   display: flex;
-  width: 1000px;
+  width: 100%;
   height: 40px;
   background: #f4f6f8;
   font-size: 13px;
@@ -73,60 +74,65 @@ const commonStyles = `
 `;
 
 export const ListNumber = styled.div`
-  width: 150px;
+  width: 17%;
   ${commonStyles}
 `;
 export const ListTitle = styled.div`
-  width: 600px;
+  width: 30%;
   ${commonStyles}
 `;
 export const ListWriter = styled.div`
-  width: 250px;
+  width: 20%;
   ${commonStyles}
 `;
 export const ListTime = styled.div`
-  width: 200px;
+  width: 20%;
   ${commonStyles}
 `;
 export const ListHit = styled.div`
-  width: 150px;
+  width: 20%;
   ${commonStyles}
 `;
 export const FreeBoardBox = styled.div`
   border: 1px solid #F0F0F0;
-  width: 1000px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: 100%;
   min-height: 450px;
   border-radius: 8px;
   margin-bottom: 5px;
 `;
 
 const list = `
-display: flex;
-justify-content: center;
-align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin: 0px 0px 0px 0px;
   height: 35px;
-  font-size: 13px
+  font-size: 13px;
+  // text-align: center;
 `;
 export const ItemNumber = styled.div`
-  width: 150px;
+  width: 17%;
   ${list}
 `;
 export const ItemTitle = styled.div`
-  width: 600px;
+  width: 30%;
   ${list}
 `;
 export const ItemWriter = styled.div`
-  width: 200px;
+  width: 35%;
+  padding: 0px 0px 0px 100px;
   ${list}
 `;
 export const ItemTime = styled.div`
-  width: 200px;
-  /* padding: 0px 0px 0px 200px; */
+  width: 20%;
+  padding: 0px 0px 0px 120px;
   ${list}
 `;
 export const ItemtHit = styled.div`
-  width: 150px;
+  width: 20%;
   ${list}
 `;
 
