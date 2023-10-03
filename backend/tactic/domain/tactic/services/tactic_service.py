@@ -1,5 +1,7 @@
+from fastapi import UploadFile, File
 from sqlalchemy import and_
 
+import infra.s3.s3_uploader as s3
 from common.conn import engineconn
 from datetime import datetime
 
@@ -12,6 +14,11 @@ from domain.tactic.schemas.tactic_modify_request import TacticModifyRequest
 
 engine = engineconn()
 session = engine.sessionmaker()
+
+
+async def create_tactic_img(file: UploadFile = File(...)):
+    file_name = s3.upload_tactic_image(file)
+    return {"imagePath": "https://s3.ap-northeast-2.amazonaws.com/blockstock.bucket/tactic/" + file_name}
 
 
 async def create_tactic(member_id: int, tactic_add_request: TacticAddRequest):
