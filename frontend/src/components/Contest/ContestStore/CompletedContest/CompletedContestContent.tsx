@@ -17,7 +17,9 @@ import {
   Term,
   Button,
   Notexist,
-  Box
+  Box,
+  NotRegisted,
+  Registed
 } from "./CompletedContestContent.style";
 
 // 날짜 변환
@@ -161,9 +163,16 @@ function CompletedContestContent() {
                   <Box>
                     <ContestBox onClick={() => toggleContent(index)}>
                     <div style={{margin:'16px 50% 16px 50px'}}>
-                        <Title> [경진대회] {contest.title}</Title>
+                      <div style={{display:'flex'}}>
+                          <Title> [경진대회] {contest.title}</Title>
+                          {contest.isRegisted ? (
+                            <NotRegisted>참여</NotRegisted>
+                          ) : (
+                          <Registed>미참여</Registed>
+                          )}
+                        </div>
                         <Schedule>
-                          {dayjs(contest.startTime).format('MM/DD HH:mm')} 부터 ~ {dayjs(contest.endTime).format('MM/DD HH:mm')} 까지
+                          {dayjs(contest.startTime).format('YYYY/MM/DD HH:mm')} 부터 ~ {dayjs(contest.endTime).format('YYYY/MM/DD HH:mm')} 까지
                         </Schedule>
                       </div>
                       {showContent[index] ? (
@@ -201,7 +210,7 @@ function CompletedContestContent() {
                     </Content>
                     <Button onClick={()=>OpenModal(contest.id)}>결과보기</Button>
                   </ContentBox>
-                  <hr style={{margin:'0px 0px 0px 0px'}}/>
+                  <hr style={{margin:'0px 0px 0px 0px', border:'1px solid #D3D3D3'}}/>
                 </div>
               ))}
             </>

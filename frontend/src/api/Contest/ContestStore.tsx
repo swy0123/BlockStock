@@ -82,7 +82,7 @@ export const tacticList = async ( data: data ) => {
     console.log(data)
     const res = await privateApi.get(`/tactic`, {
       params:{
-        optionCode:data.optionCode
+        code:data.optionCode
       }
     });
     console.log(res.data);

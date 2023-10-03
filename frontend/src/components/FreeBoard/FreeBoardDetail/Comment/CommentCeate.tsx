@@ -23,8 +23,6 @@ import {commentCreate, likeCreate, likeDelete} from '../../../../api/FreeBoard/C
 
 // tacticBoard api
 import {tacticcommentList, tacticcommentCreate, tacticlikeCreate, tacticlikeDelete} from '../../../../api/TacticBoard/Comment'
-// 게시글 불러오기
-import {tacticBoardDetail} from '../../../../api/TacticBoard/TacticBoard'
 // 리코일 댓글 리스트
 import { useRecoilState } from "recoil";
 import {commentlist} from '../../../../recoil/FreeBoard/Comment'
@@ -135,22 +133,30 @@ function CommentCreate(props){
     console.log(like,'좋아요 취소')
     const res = await tacticlikeDelete(id);
     console.log(res,'좋아요 취소')
-    detailpage()
+    console.log(boardList,'좋아요 취소')
+    const updatedBoardList = {
+      ...boardList, // 기존 상태 복사
+      isLike: !boardList.isLike, // isLike 업데이트
+      likeCnt: boardList.likeCnt - 1, // likeCnt 업데이트
+    };
+    setBoardList(updatedBoardList)
+    console.log(boardList,'좋아요 취소')
   }
   // 좋아요 
   const likecheck = async (likeId)=>{
     console.log(like,'좋아요 확인')
     const res = await tacticlikeCreate(likeId);
     console.log(res,'좋아요 확인')
-    detailpage()
+    console.log(boardList,'좋아요 확인')
+    const updatedBoardList = {
+      ...boardList, // 기존 상태 복사
+      isLike: !boardList.isLike, // isLike 업데이트
+      likeCnt: boardList.likeCnt + 1, // likeCnt 업데이트
+    };
+    setBoardList(updatedBoardList)
+    console.log(boardList,'좋아요 확인')
   }
-  //게시글 불러오기
-  const detailpage = async ()=>{
-    const res = await tacticBoardDetail(id)
-    console.log(res, '게시글 불러오기')
-    setBoardList(res.data)
-    // setLike(res.isLike)
-  }
+
 
   return(
     <>
