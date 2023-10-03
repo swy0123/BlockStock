@@ -8,6 +8,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import TablePagination from '@mui/material/TablePagination';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 // import './style.css'
 
 import { useRecoilValue } from "recoil";
@@ -31,6 +32,12 @@ import {
   LikeBox,
   Like,
   Hit,
+  Missile,
+  Boom,
+  BoomVideo,
+  Speech,
+  MeBox,
+  Mes
 } from './TacticBoardBox.style'
 
 // 게시글 조회 api
@@ -44,6 +51,7 @@ function TacticBoardBox() {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [boardList, setBoardList] = useState([])
 
 
   // 검색
@@ -54,55 +62,30 @@ function TacticBoardBox() {
 
 
   // api 통신 =============================================================
-  // const params = {
-  //   sort: menu,
-  //   page: page,
-  //   size: rowsPerPage,
-  //   keyWord: searchKeyword,
-  // };
-  // useEffect(()=>{
-  //   freeboard()
-  // },[page,rowsPerPage,searchKeyword])
+  const params = {
+    sort: menu,
+    page: page,
+    size: rowsPerPage,
+    keyword: searchKeyword,
+  };
+  useEffect(()=>{
+    tacticboardapi()
+  },[page,rowsPerPage,searchKeyword,menu])
 
-  // const freeboard = async () => {
-  //   const freeBoard = await tacticBoardList(params)
-  //   console.log(freeBoard)
-  // }
+  const tacticboardapi = async () => {
+    const res = await tacticBoardList(params)
+    console.log(res)
+    if(res.status===200){
+      setBoardList(res.data)
+    }
+  }
   // api 통신 =================
-
-
-
-  // 더미데이터 ============================================
-  const BoardList = useRecoilValue(TacticBoardList);
-
-
-  // 더미데이터를 사용하여 직접 조건에 맞게 다시 배열을 만들기
-  // useEffect(() => {
-  //   // Sort the BoardList in "최신순" order when the component mounts
-  //   const sortedListCopy = [...BoardList].sort((a, b) =>
-  //     new Date(b.freeboard.modifiedAt) - new Date(a.freeboard.modifiedAt)
-  //   );
-  //   setBoardList(sortedListCopy);
-  // }, []);
 
 
   const handleChange = (event: SelectChangeEvent) => {
     const selectedMenu = event.target.value as string;
     setMenu(selectedMenu);
-
-    // let sortedListCopy = [...BoardList];
-
-    // if (selectedMenu === "최신순") {
-    //   sortedListCopy.sort((a, b) =>
-    //     new Date(b.freeboard.modifiedAt) - new Date(a.freeboard.modifiedAt)
-    //   );
-    // } else if (selectedMenu === "조회수") {
-    //   sortedListCopy.sort((a, b) => b.freeboard.hit - a.freeboard.hit);
-    // }
-
-    // setBoardList(sortedListCopy);
   };
-  // 더미데이터 ============================================
 
 
 
@@ -127,13 +110,46 @@ function TacticBoardBox() {
 
   const startIndex = page * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
-  const itemsToDisplay = BoardList.slice(startIndex, endIndex);
+  const itemsToDisplay = boardList.slice(startIndex, endIndex);
   const filteredItems = itemsToDisplay.filter((item) =>
     item.title.includes(searchKeyword)
   );
   // 페이지네이션 ============================================
 
+  // 미사일 
+  const [isHovered, setIsHovered] = useState(false);
+  const [boomimg, setBoomimg] = useState(false)
+  const [boomvideo, setBoomvideo] = useState(false)
+  const [isClicked, setIsClicked] = useState(false);
 
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  const handleClick = () => {
+    setIsClicked(true);
+  };
+  const handleTime = ()=>{
+    setTimeout(() => {
+      setBoomimg(true);
+      setBoomvideo(true);
+      // setTimeout(() => {
+      //   setIsClicked(false);
+      //   setBoomimg(false);
+      // }, 4000);
+      setTimeout(() => {
+        setIsClicked(false);
+        setBoomvideo(false);
+      }, 20000);
+    }, 1700); // 2초(2000 밀리초) 후에 실행
+  };
+
+  const z = 'zzzzzzz'
+  
   return (
     <Container>
       <Wrapper>
@@ -158,7 +174,7 @@ function TacticBoardBox() {
               >
                 <MenuItem sx={{fontSize:'12px'}} value="createdAt">최신순</MenuItem>
                 <MenuItem sx={{fontSize:'12px'}} value="likes">좋아요</MenuItem>
-                <MenuItem sx={{fontSize:'12px'}} value="hits">조회수</MenuItem>
+                <MenuItem sx={{fontSize:'12px'}} value="hit">조회수</MenuItem>
               </Select>
             </FormControl>
           </Box>
@@ -170,17 +186,18 @@ function TacticBoardBox() {
         </Header>
 
         <ItemBox style={{display:'flex', flexWrap: 'wrap',}}>
-          {filteredItems.map((item, index)=>(
-              <Card>
+          {boardList.map((item, index)=>(
+              <Card
+              onClick={() => {
+                navigate(`/tacticboarddetail`, {
+                  state: { post: item } // URL 매개변수 설정
+                });
+              }}
+              >
                 <div key={index}>
 
                 <TitleBox>
-                  <Title
-                  onClick={() => {
-                    navigate(`/tacticboarddetail`, {
-                      state: { postId: item.tacticPostId } // URL 매개변수 설정
-                    });
-                  }}>
+                  <Title>
                     {item.title}
                   </Title>
                 </TitleBox>
@@ -193,7 +210,7 @@ function TacticBoardBox() {
                     테스트 수익률
                     </div>
                     <div style={{margin: '0px 0px 0px 60px'}}>
-                    {item.testReturns}%
+                      {item.testReturns}%
                     </div>
                     </Testreturn>
                   <Contestreturn>
@@ -201,7 +218,15 @@ function TacticBoardBox() {
                     대 회 수익률
                     </div>
                     <div style={{margin: '0px 0px 0px 72px'}}>
-                    {item.contestReturns}%
+                      {item.contestReturnStatus ? (
+                        <>
+                        {item.contestReturns}%
+                        </>
+                      ) : (
+                        <>
+                        {'-'}
+                        </>
+                      )}
                     </div>
                     </Contestreturn>
                 </ReturnBox>
@@ -209,14 +234,18 @@ function TacticBoardBox() {
                 <LikeBox>
 
                   <Like>
-                    <FavoriteBorderIcon style={{width:'18px', margin:'0px 0px 0px 0px'}}/>
+                    {item.isLike ? (
+                      <FavoriteIcon style={{width:'18px', margin:'0px 0px 0px 0px', color:'red'}}/>
+                      ) : (
+                      <FavoriteBorderIcon style={{width:'18px', margin:'0px 0px 0px 0px'}}/>
+                    )}
                     <div style={{margin:'3px 0px 0px 3px'}}>
                     {item.likeCnt}
                     </div>
                   </Like>
 
                   <Hit>
-                    <VisibilityIcon style={{width:'18px', margin:'0px 0px 0px 0px'}}/>
+                    <VisibilityIcon style={{width:'18px', margin:'0px 0px 0px 0px', color:'black'}}/>
                     <div style={{margin:'3px 0px 0px 3px'}}>
                     {item.hit}
                     </div>
@@ -229,19 +258,41 @@ function TacticBoardBox() {
           ))}
           
         </ItemBox>
-
-
+        <MeBox 
+        onClick={handleTime}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        >
+            {isHovered && (
+            <Mes>
+              절대 누르지 마시오! {/* 경고 메시지 */}
+            </Mes>
+          )}
+            <Missile 
+              src="/icon/미사일new.png" 
+              onClick={handleClick}
+              style={{
+                width:'20px',
+                left: isClicked ? "600px" : "300px",
+                top: isClicked ? "300px" : "800px",
+                minWidth: isClicked ? "100px" : "20px",
+              }}
+            />
+          </MeBox>
         <TablePagination
           component="div"
-          count={BoardList.length}
+          count={boardList.length}
           page={page}
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          rowsPerPageOptions={rowsPerPageOptions}
+          onRowsPerPageChange={() => {}}
+          rowsPerPageOptions={[]}
           style={{margin:'0px 50px 0px 0px'}}
         />
       </Wrapper>
+      {boomimg && <Boom src="/icon/폭발.webp"/>}
+      {boomimg && <Speech>{z * 2}</Speech>}
+      {/* {boomvideo && <BoomVideo src="/icon/차르붐바.mp4" autoPlay playbackRate={2} />} */}
     </Container>
   )
 }

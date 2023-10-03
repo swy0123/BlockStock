@@ -17,18 +17,17 @@ import {
   Term,
   Button,
   Notexist,
-  Box
+  Box,
+  NotRegisted,
+  Registed
 } from "./CompletedContestContent.style";
 
 // 날짜 변환
 import dayjs from "dayjs";
 import TablePagination from '@mui/material/TablePagination';
-// 리코일 더미데이터
-import { useRecoilState } from 'recoil';
-import {currentContestListState} from '../../../../recoil/Contest/CurrentContest'
 
 // api 통신
-// import { completedContestList, contestResult  } from '../../../../api/Contest/ContestStore'
+import { completedContestList, contestResult  } from '../../../../api/Contest/ContestStore'
 
 
 function CompletedContestContent() {
@@ -38,12 +37,10 @@ function CompletedContestContent() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(3);
 
-  // const [completedContestItem, setCompletedContestItem] = useState([])
+  const [completedContestItem, setCompletedContestItem] = useState([])
   const [ count, setCount] = useState(0)
   const [ userRank, setUserRank] = useState([])
   
-    //더미데이터
-    const [completedContestItem, setCompletedContestItem] = useRecoilState(currentContestListState);
 
   // api 통신 =============================================================
   const params = {
@@ -166,9 +163,16 @@ function CompletedContestContent() {
                   <Box>
                     <ContestBox onClick={() => toggleContent(index)}>
                     <div style={{margin:'16px 50% 16px 50px'}}>
-                        <Title> [경진대회] {contest.title}</Title>
+                      <div style={{display:'flex'}}>
+                          <Title> [경진대회] {contest.title}</Title>
+                          {contest.isRegisted ? (
+                            <NotRegisted>참여</NotRegisted>
+                          ) : (
+                          <Registed>미참여</Registed>
+                          )}
+                        </div>
                         <Schedule>
-                          {dayjs(contest.startTime).format('MM/DD HH:mm')} 부터 ~ {dayjs(contest.endTime).format('MM/DD HH:mm')} 까지
+                          {dayjs(contest.startTime).format('YYYY/MM/DD HH:mm')} 부터 ~ {dayjs(contest.endTime).format('YYYY/MM/DD HH:mm')} 까지
                         </Schedule>
                       </div>
                       {showContent[index] ? (
@@ -206,7 +210,7 @@ function CompletedContestContent() {
                     </Content>
                     <Button onClick={()=>OpenModal(contest.id)}>결과보기</Button>
                   </ContentBox>
-                  <hr style={{margin:'0px 0px 0px 0px'}}/>
+                  <hr style={{margin:'0px 0px 0px 0px', border:'1px solid #D3D3D3'}}/>
                 </div>
               ))}
             </>

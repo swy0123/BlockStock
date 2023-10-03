@@ -8,7 +8,8 @@ import RecentContestResults from '../../components/Contest/Main/RecentContestRes
 import { contestMain } from '../../api/Contest/Main';
   // 스타일드 컴포넌트를 함수 내부에 정의
   const ContestBox = styled.div`
-    max-width: 100%;
+    /* max-width: 100%; */
+    max-width: 1200px;
     overflow: hidden;
   `;
 
@@ -23,17 +24,20 @@ function Contest() {
   const [currentContest, setCurrentContest] = useState([])
   const [expectedContest, setExpectedContest] = useState([])
   const [recentContestResults, setRecentContestResults] = useState([])
+
   // 대회 메인 api ==========================================
   useEffect(()=>{
     contestApi()
-  },[currentContest, expectedContest, recentContestResults])
+  },[])
+
   const contestApi = async()=>{
     const res = await contestMain()
     console.log('대회 메인', res)
-    setCurrentContest(res.data.currentContestResultList)
-    setExpectedContest(res.data.nextContestList)
-    setRecentContestResults(res.data.prevContestResult)
+    setCurrentContest(res.currentContestResultList)
+    setExpectedContest(res.nextContestList)
+    setRecentContestResults(res.prevContestResult)
   }
+
   // 대회 메인 api ==========================================
   return (
     <>

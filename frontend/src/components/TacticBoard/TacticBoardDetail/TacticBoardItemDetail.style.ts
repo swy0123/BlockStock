@@ -21,6 +21,14 @@ export const Header = styled.div`
 display: flex;
 margin: 20px 0px 0px 60px;
 `;
+export const UserInfo = styled.div`
+display: flex;
+min-width: 300px;
+margin: 0px 15% 0px 0px;
+@media(max-width:1000px){
+  margin: 0px 3% 0px 0px;
+}
+`;
 export const UserImg = styled.img`
 height: 23px;
 `;
@@ -64,7 +72,7 @@ margin: 0px 0px 0px 10px;
 display: flex;
 `;
 export const Line = styled.div`
-border: 1px solid #D6D4D4;
+border: 1px solid #EAEAEA;
 width: 100%;
 margin: 15px 0px 0px 0px;
 `;
@@ -88,6 +96,9 @@ display: flex;
   justify-content: center; /* 수평 가운데 정렬 */
   align-items: center; /* 수직 가운데 정렬 */
   background-color: #EAEAEA;
+  @media(max-width: 1000px){
+    width: 100%;
+}
 `;
 export const ImgBox = styled.div`
 width: 90%;
@@ -136,28 +147,56 @@ color: #6D6D6D;
 export const BtnBox = styled.div`
 width: 100%;
 min-height: 80px;
-display: flex;
 `;
 export const DeleteBtn = styled.div`
-width: 70px;
-height: 28px;
+width: 60px;
+height: 24px;
 background: #EC4275;
 border-radius: 6px;
-font-weight: 600;
-font-size: 12px;
+font-size: 11px;
 display: flex;
 justify-content: center; /* 수평 가운데 정렬 */
 align-items: center;
 color: #FFFFFF;
 position: relative;
 top: 40px;
-left: 88%;
+left: 93%;
+@media(max-width:1000px){
+  left: 83%;
+}
 &:hover{
   background-color: #B61E35;
 }
 `;
 
-
+export const DownloadBtn = styled.div`
+border: 1px solid black;
+border-radius: 3px;
+padding: 3px;
+height: 25px;
+position: absolute;
+top:650px;
+left: 770px;
+&:hover{
+  background-color: #EAEAEA;
+  &::before {
+      content: 'Download'; /* 호버 상태일 때 표시할 텍스트 */
+      position: absolute;
+      font-size: 8px;
+      top: 40px; /* 텍스트를 버튼 위로 올립니다 */
+      left: 50%; /* 가운데 정렬 */
+      transform: translateX(-50%); 
+      width: 55px;
+      height: 15px;
+      bottom: 62px;
+      background: #484848;
+      color: white;
+      border-radius: 3px;
+      text-align: center;
+      padding: 3px;
+    }
+  }
+`;
 
 
 
