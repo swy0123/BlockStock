@@ -6,6 +6,7 @@ import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostLikeRequ
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostRequestParam;
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreeboardPostRequest;
 import com.olock.blockstotck.board.domain.freeboard.dto.response.FreePostListCntResponse;
+import com.olock.blockstotck.board.domain.freeboard.dto.response.FreePostListResponse;
 import com.olock.blockstotck.board.domain.freeboard.dto.response.FreePostResponse;
 import com.olock.blockstotck.board.infra.awsS3.AwsS3Uploader;
 import lombok.RequiredArgsConstructor;
@@ -100,6 +101,15 @@ public class FreeboardController {
                                                                    @ModelAttribute FreePostRequestParam freePostRequestParam){
 
         return ResponseEntity.ok(freeboardService.getFreePostList(memberId, freePostRequestParam));
+    }
+
+    @GetMapping("/{memberId}/my")
+    public ResponseEntity<List<FreePostListResponse>> getFreePostMy(@RequestHeader("Member-id") Long memberId,
+                                                                    @PathVariable("memberId") Long userId,
+                                                                    @RequestParam Integer page,
+                                                                    @RequestParam Integer size){
+
+        return ResponseEntity.ok(freeboardService.getFreePostMy(memberId, userId, page, size));
     }
 
 }
