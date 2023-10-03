@@ -39,7 +39,7 @@ import { tacticList } from '../../../../api/Contest/ContestStore'
 
 function ContestTaticModal(props){
   // 전달 받은 데이터
-  const { selectedContest, tacticListItem, type, onClose } = props;
+  const { selectedContest, tacticListItem, type, onClose, onClosetactic } = props;
   
   // 리코일 대회 id 전략 id
   const [contestId, setContestId] = useRecoilState(ContestId);
@@ -173,7 +173,7 @@ function ContestTaticModal(props){
                     className='mySwiper'
                   >
                   {tacticListItems.map((contest, index) => (
-                    <SwiperSlide className='slide' key={contest.tacticId}>
+                    <SwiperSlide className='slide' key={index}>
                       <div>
                         <Card
                           onClick={() =>
@@ -253,6 +253,7 @@ function ContestTaticModal(props){
       tacticid = {tacticId} 
       selectedContest={tacticList} 
       onClose={CloseModal}
+      onClosetactic={onClosetactic}
       /> : null}
     </>
   )
