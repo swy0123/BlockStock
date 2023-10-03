@@ -54,7 +54,7 @@ public class MemberServiceImpl implements MemberService {
                 .email(memberJoinRequest.getEmail())
                 .password(passwordEncoder.encode(memberJoinRequest.getPassword()))
                 .nickname(memberJoinRequest.getNickname())
-                .imagePath("https://blockstock.bucket.s3.ap-northeast-2.amazonaws.com/member/5c8c4bfe-5496-435c-85ee-dec6c22e7071user4.png")
+                .imagePath("http://blockstock.bucket.s3.ap-northeast-2.amazonaws.com/member/5c8c4bfe-5496-435c-85ee-dec6c22e7071user4.png")
                 .role(Role.MEMBER.name())
                 .createdAt(LocalDateTime.now())
                 .createdAt(LocalDateTime.now())
@@ -134,13 +134,14 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public InputStreamResource getProfile(Long memberId) {
         String imageUrl = memberRepository.findByMemberId(memberId).get().getImagePath();
+        imageUrl = imageUrl.replaceAll("https", "http");
+        if (imageUrl.equals("/default")) imageUrl = "http://blockstock.bucket.s3.ap-northeast-2.amazonaws.com/member/5c8c4bfe-5496-435c-85ee-dec6c22e7071user4.png";
         URL url = null;
         InputStream in = null;
         try {
             url = new URL(imageUrl);
             URLConnection connection = url.openConnection();
             connection.setDoOutput(true);
-
             in = connection.getInputStream();
         } catch (Exception e) {
             throw new RuntimeException(e);
