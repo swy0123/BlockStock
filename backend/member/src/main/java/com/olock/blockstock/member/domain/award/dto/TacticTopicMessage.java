@@ -7,6 +7,8 @@ import java.util.List;
 @Getter
 public class TacticTopicMessage {
     private String message;
+    private Long contestId;
+    private String contestTitle;
     private List<Long> memberIds;
     private List<Long> results;
 }
