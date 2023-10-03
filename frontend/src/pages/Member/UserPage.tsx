@@ -25,7 +25,7 @@ import {
 
 function UserPage() {
   const [selectedMenu, setSelectedMenu] = useState("PROFILE"); // 기본 메뉴 선택
-  const memberId = 38 // 클릭 유저 아이디 가져오기
+  const memberId = 39 // 클릭 유저 아이디 가져오기
   const { data, isLoading, isError } = useQuery("userpage", getUserPage);
 
   const renderContent = () => {

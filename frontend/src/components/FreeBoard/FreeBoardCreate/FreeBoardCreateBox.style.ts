@@ -21,7 +21,7 @@ export const TitleInput = styled.textarea`
 `;
 
 export const ContentInput = styled.textarea`
-width: 970px;
+width: 90%;
 height: 400px;
 resize: none;
 font-size: 17px;
@@ -36,7 +36,7 @@ display: none;
 export const FileBtn = styled.label`
   display: inline-block;
   padding: 5px 10px;
-  min-width: 55px;
+  min-width: 60px;
   height: 25px;
   font-size: 13px;
   background-color: #e6e5e7;

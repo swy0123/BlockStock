@@ -19,9 +19,14 @@ import { useNavigate } from "react-router-dom";
 import { freeBoardCreate } from "../../../api/FreeBoard/FreeBoard";
 import swal from "sweetalert";
 
+// import {freeBoardCreate} from '../../../api/FreeBoard/FreeBoard'
+
+// const preventDefault = (event) => event.preventDefault();
 
 function FreeBoardCreateBox(){
+
   const navigate = useNavigate();
+  //파일 저장
   const [title, setTitle] = useState(''); 
   const [content, setContent] = useState(''); 
   const [file, setFile] = useState(null)
@@ -62,14 +67,15 @@ function FreeBoardCreateBox(){
     for (let i = 0; i < fileList.length; i++) {
       formData.append("files", fileList[i]);
     }
-  
-    // 파일 이름 배열 JSON 형태 문자열로 직렬화한 다음 추가하기!
+    // 파일 이름 배열JSON 형태의 문자열로 직렬화하여 FormData에 추가
     const fileNamesJSON = JSON.stringify(fileList);
     const fileNamesBlob = new Blob([fileNamesJSON], { type: "application/json" });
     formData.append("fileList", fileNamesBlob);
+  
+    // JSON 데이터를 Blob으로 변환하여 FormData에 추가
     const jsonBlob = new Blob([JSON.stringify(contentInfo)], { type: "application/json" });
     formData.append("postRequest", jsonBlob);
-    // console.log("Form Data:", formData);
+    console.log("Form Data:", formData);
   
     if (formData) {
         const response = await freeBoardCreate(formData);
@@ -79,7 +85,23 @@ function FreeBoardCreateBox(){
         }
       }
     }
-  
+    // const handleSubmit = async() => {
+    //   const formData = new FormData();
+    
+    //   for (let i = 0; i < fileList.length; i++) {
+    //     formData.append("files", fileList[i]); // "files"는 서버 측에서 받는 키 이름
+    //   }
+    //   const jsonBlob = new Blob([JSON.stringify(contentInfo)], { type: "application/json" });
+    //   formData.append("postRequest", jsonBlob);
+    
+    //   if (formData) {
+    //     const response = await freeBoardCreate(formData);
+    //     if (response?.status === 200) {
+    //       swal("", "게시글 작성 완료", "success");
+    //       navigate("/freeboard");
+    //     }
+    //   }
+    // }
   return(
     <>
     <Container>
@@ -87,12 +109,13 @@ function FreeBoardCreateBox(){
             placeholder="제목을 입력하세요."
             onChange={(e) => setTitle(e.target.value )}
           />
-      <hr/>
+      <hr />
       <ContentInput
           placeholder="내용을 입력하세요."
           onChange={(e) => setContent(e.target.value)}
         />
-      <hr/>
+      <hr />
+
       <Wrapper>
         <FileBtn>
           업로드
