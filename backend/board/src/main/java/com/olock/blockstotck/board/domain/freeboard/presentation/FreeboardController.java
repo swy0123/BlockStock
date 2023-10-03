@@ -5,6 +5,7 @@ import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostCommentR
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostLikeRequest;
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostRequestParam;
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreeboardPostRequest;
+import com.olock.blockstotck.board.domain.freeboard.dto.response.FreePostCommentResponse;
 import com.olock.blockstotck.board.domain.freeboard.dto.response.FreePostListCntResponse;
 import com.olock.blockstotck.board.domain.freeboard.dto.response.FreePostListResponse;
 import com.olock.blockstotck.board.domain.freeboard.dto.response.FreePostResponse;
@@ -110,6 +111,13 @@ public class FreeboardController {
                                                                     @RequestParam Integer size){
 
         return ResponseEntity.ok(freeboardService.getFreePostMy(memberId, userId, page, size));
+    }
+
+    @GetMapping("/comment/{freePostId}")
+    public ResponseEntity<List<FreePostCommentResponse>> getFreePostComment(@RequestHeader("Member-id") Long memberId,
+                                                                            @PathVariable Long freePostId){
+
+        return ResponseEntity.ok(freeboardService.getFreePostCommentList(freePostId));
     }
 
 }

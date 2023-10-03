@@ -4,6 +4,7 @@ import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostCommentR
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostLikeRequest;
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostRequestParam;
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreeboardPostRequest;
+import com.olock.blockstotck.board.domain.freeboard.dto.response.FreePostCommentResponse;
 import com.olock.blockstotck.board.domain.freeboard.dto.response.FreePostListCntResponse;
 import com.olock.blockstotck.board.domain.freeboard.dto.response.FreePostListResponse;
 import com.olock.blockstotck.board.domain.freeboard.dto.response.FreePostResponse;
@@ -37,4 +38,6 @@ public interface FreeboardService{
     FreePostListCntResponse getFreePostList(Long memberId, FreePostRequestParam freePostRequestParam);
 
     List<FreePostListResponse> getFreePostMy(Long memberId, Long userId, Integer page, Integer size);
+
+    List<FreePostCommentResponse> getFreePostCommentList(Long freePostId);
 }
