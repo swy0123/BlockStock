@@ -3,6 +3,8 @@ package com.olock.blockstotck.board.domain.freeboard.application;
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostCommentRequest;
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostLikeRequest;
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreeboardPostRequest;
+import com.olock.blockstotck.board.domain.freeboard.dto.response.FileResponse;
+import com.olock.blockstotck.board.domain.freeboard.dto.response.FreePostResponse;
 import com.olock.blockstotck.board.domain.freeboard.exception.validator.FreePostCommentValidator;
 import com.olock.blockstotck.board.domain.freeboard.exception.validator.FreePostValidator;
 import com.olock.blockstotck.board.domain.freeboard.persistence.FileRepository;
@@ -13,6 +15,8 @@ import com.olock.blockstotck.board.domain.freeboard.persistence.entity.File;
 import com.olock.blockstotck.board.domain.freeboard.persistence.entity.FreePost;
 import com.olock.blockstotck.board.domain.freeboard.persistence.entity.FreePostComment;
 import com.olock.blockstotck.board.domain.freeboard.persistence.entity.FreePostLike;
+import com.olock.blockstotck.board.domain.member.application.MemberServiceImpl;
+import com.olock.blockstotck.board.domain.member.persistance.Member;
 import com.olock.blockstotck.board.infra.awsS3.AwsS3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,6 +36,8 @@ public class FreeboardServiceImpl implements FreeboardService{
     private final FreePostCommentRepository freePostCommentRepository;
     private final AwsS3Uploader awsS3Uploader;
     private final FreePostLikeRepository freePostLikeRepository;
+
+    private final MemberServiceImpl memberService;
 
     private final FreePostValidator freePostValidator;
     private final FreePostCommentValidator freePostCommentValidator;
@@ -136,6 +142,36 @@ public class FreeboardServiceImpl implements FreeboardService{
         FreePostLike freePostLike = tmpFreePostLike.get();
 
         freePostLikeRepository.delete(freePostLike);
+    }
+
+    @Transactional
+    @Override
+    public FreePostResponse getFreePost(Long memberId, Long freePostId) {
+        Optional<FreePost> tmpFreePost = freePostRepository.findById(freePostId);
+        freePostValidator.checkFreePostExist(tmpFreePost);
+
+        freePostRepository.updateHit(freePostId);
+
+        FreePost freePost = tmpFreePost.get();
+
+        long likeCnt = freePostLikeRepository.countByFreePostId(freePostId);
+
+        Member member = memberService.getMember(freePost.getMemberId());
+        String nickName = member.getNickname();
+
+        boolean isLike = true;
+        if(freePostLikeRepository.findByMemberIdAndFreePostId(memberId, freePostId).isEmpty()){
+            isLike = false;
+        }
+
+        List<File> fileList = fileRepository.findAllByFreePostId(freePostId);
+        List<FileResponse> fileResponseList = new ArrayList<>();
+        for(File file : fileList){
+            FileResponse fr = new FileResponse(file.getImgOriginalName(), file.getImgPath(), file.getType());
+            fileResponseList.add(fr);
+        }
+
+        return new FreePostResponse(freePost, nickName, likeCnt, isLike, fileResponseList);
     }
 
 }

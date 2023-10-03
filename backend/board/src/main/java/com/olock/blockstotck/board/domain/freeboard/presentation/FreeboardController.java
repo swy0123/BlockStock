@@ -4,6 +4,7 @@ import com.olock.blockstotck.board.domain.freeboard.application.FreeboardService
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostCommentRequest;
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreePostLikeRequest;
 import com.olock.blockstotck.board.domain.freeboard.dto.request.FreeboardPostRequest;
+import com.olock.blockstotck.board.domain.freeboard.dto.response.FreePostResponse;
 import com.olock.blockstotck.board.infra.awsS3.AwsS3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -83,6 +84,13 @@ public class FreeboardController {
         freeboardService.unlikeFreePost(memberId, freePostId);
 
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{freePostId}")
+    public ResponseEntity<FreePostResponse> getFreePost(@RequestHeader("Member-id") Long memberId,
+                                                        @PathVariable Long freePostId){
+
+        return ResponseEntity.ok(freeboardService.getFreePost(memberId, freePostId));
     }
 
 }
