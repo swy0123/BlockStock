@@ -64,9 +64,7 @@ export interface saveTacticProps {
   optionCode: string;
   tacticJsonCode: string;
   tacticPythonCode: string;
-  tacticJsonDefCode: string;
-  tacticJsonSetCode: string;
-  tacticJsonGetCode: string;
+  customVariableBlockGroup: string;
   testReturns: number;
 }
 
@@ -114,9 +112,7 @@ export interface updateTacticProps {
   optionCode: string;
   tacticJsonCode: string;
   tacticPythonCode: string;
-  tacticJsonDefCode: string;
-  tacticJsonSetCode: string;
-  tacticJsonGetCode: string;
+  customVariableBlockGroup: string;
   testReturns: number;
 }
 
