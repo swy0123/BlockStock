@@ -242,3 +242,6 @@ def start_contest(contest_info: Contest,
 
         schedule.run_pending()
         time.sleep(15)  # 부하가 안생길 만큼의 초
+
+    # 대회 참가자들 정보는 participates에 있음!
+    print("대회 끝!!!!")
