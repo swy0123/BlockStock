@@ -49,6 +49,10 @@ align-items: center;
 export const Comment = styled.div`
 margin: 20px 0px 35px 50px;
 font-size: 13px;
+white-space: pre-line;
+word-wrap: break-word;
+max-width: 800px;
+min-height: 50px;
 `;
 
 export const Title = styled.div`

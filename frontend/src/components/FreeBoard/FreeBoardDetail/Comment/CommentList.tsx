@@ -137,7 +137,7 @@ function CommentList(props) {
                 <div style={{ display: 'flex', width: '500px' }}>
                   <UserImg src="/icon/user_purple.png" />
                   <NickName>{item.nickName}</NickName>|
-                  <Day> {dayjs(item.createdAt).format('YYYY.MM.DD HH:mm:ss')}</Day>
+                  <Day> {dayjs(item.createdAt).format('YYYY.MM.DD HH:mm')}</Day>
                 </div>
                 {item.memberId === userId ? (
                   <DeleteBtn onClick={() => handleDelete(item.id)}>삭제</DeleteBtn>
@@ -146,7 +146,7 @@ function CommentList(props) {
                 )}
               </Header>
                {/* 줄바꿈 적용 넘어갈 경우 다음 줄로 */}
-              <Comment style={{ whiteSpace: 'pre-line',wordWrap: 'break-word' }}>
+              <Comment>
                 {item.content}
               </Comment>
               <hr style={{ border: '1px solid #F4F1F1' }} />

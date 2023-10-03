@@ -32,7 +32,12 @@ import {
   LikeBox,
   Like,
   Hit,
-  Missile
+  Missile,
+  Boom,
+  BoomVideo,
+  Speech,
+  MeBox,
+  Mes
 } from './TacticBoardBox.style'
 
 // 게시글 조회 api
@@ -111,7 +116,39 @@ function TacticBoardBox() {
   );
   // 페이지네이션 ============================================
 
+  // 미사일 
+  const [isHovered, setIsHovered] = useState(false);
+  const [boomimg, setBoomimg] = useState(false)
+  const [boomvideo, setBoomvideo] = useState(false)
+  const [isClicked, setIsClicked] = useState(false);
 
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  const handleClick = () => {
+    setIsClicked(true);
+  };
+  const handleTime = ()=>{
+    setTimeout(() => {
+      setBoomimg(true);
+      setBoomvideo(true);
+      // setTimeout(() => {
+      //   setIsClicked(false);
+      //   setBoomimg(false);
+      // }, 4000);
+      setTimeout(() => {
+        setIsClicked(false);
+        setBoomvideo(false);
+      }, 20000);
+    }, 1700); // 2초(2000 밀리초) 후에 실행
+  };
+
+  const z = 'zzzzzzz'
   return (
     <Container>
       <Wrapper>
@@ -149,16 +186,17 @@ function TacticBoardBox() {
 
         <ItemBox style={{display:'flex', flexWrap: 'wrap',}}>
           {boardList.map((item, index)=>(
-              <Card>
+              <Card
+              onClick={() => {
+                navigate(`/tacticboarddetail`, {
+                  state: { post: item } // URL 매개변수 설정
+                });
+              }}
+              >
                 <div key={index}>
 
                 <TitleBox>
-                  <Title
-                  onClick={() => {
-                    navigate(`/tacticboarddetail`, {
-                      state: { post: item } // URL 매개변수 설정
-                    });
-                  }}>
+                  <Title>
                     {item.title}
                   </Title>
                 </TitleBox>
@@ -219,21 +257,41 @@ function TacticBoardBox() {
           ))}
           
         </ItemBox>
-
-        <Missile src="/icon/미사일new.png" 
-          style={{width:'20px'}}
-        />
+        <MeBox 
+        onClick={handleTime}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        >
+            {isHovered && (
+            <Mes>
+              절대 누르지 마시오! {/* 경고 메시지 */}
+            </Mes>
+          )}
+            <Missile 
+              src="/icon/미사일new.png" 
+              onClick={handleClick}
+              style={{
+                width:'20px',
+                left: isClicked ? "600px" : "300px",
+                top: isClicked ? "300px" : "800px",
+                minWidth: isClicked ? "100px" : "20px",
+              }}
+            />
+          </MeBox>
         <TablePagination
           component="div"
           count={boardList.length}
           page={page}
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          rowsPerPageOptions={rowsPerPageOptions}
+          onRowsPerPageChange={() => {}}
+          rowsPerPageOptions={[]}
           style={{margin:'0px 50px 0px 0px'}}
         />
       </Wrapper>
+      {boomimg && <Boom src="/icon/폭발.webp"/>}
+      {boomimg && <Speech>{z * 2}</Speech>}
+      {/* {boomvideo && <BoomVideo src="/icon/차르붐바.mp4" autoPlay playbackRate={2} />} */}
     </Container>
   )
 }

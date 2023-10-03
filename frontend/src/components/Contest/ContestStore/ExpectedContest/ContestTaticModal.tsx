@@ -8,8 +8,7 @@ import 'swiper/css/pagination';
 import "swiper/css/navigation";
 import { Pagination, Navigation } from "swiper/modules";
 import './Tactic.css';
-// import StarBorderIcon from '@mui/icons-material/StarBorder';
-// import StarIcon from '@mui/icons-material/Star';
+
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import { 
@@ -57,17 +56,13 @@ function ContestTaticModal(props){
   // 전략 게시글
   const [state, setState] = useRecoilState(tacticdata);
   const [tactic, setTactic] = useState({
-    tacticId: 0,
+    tacticId: -1,
     imgPath: null
   })
 
   useEffect(()=>{
-    // 전략 게시판 전략 불러오기
-    if(type==='tactic'){
-      tacticApi()
-    } else{
-      setTacticListItems(tacticListItem)
-    }
+    // 전략 불러오기
+    tacticApi()
   },[])
 
 
@@ -75,14 +70,25 @@ function ContestTaticModal(props){
     console.log('type',type);
     console.log('tactic',tactic);
     console.log('tacticListItem',tacticListItem);
+    console.log('selectedContest',selectedContest);
+    // setTacticListItems(tacticListItem)
   }, [tactic]);
+
 
   // api 전략불러오기 ============================================================
 
   const tacticApi = async()=>{
-    const data = {
-      optionCode:''
+    let data = {}
+    if(type==='tactic'){
+      data = {
+        optionCode:''
+      }
+    } else if (type==='contest'){
+      data = {
+        optionCode:selectedContest.optionCode
+      }
     }
+
     console.log('data', data)
     console.log('type', type)
     console.log('전략불러오기')
@@ -91,6 +97,7 @@ function ContestTaticModal(props){
     setTacticListItems(res)
   }
   // api 전략불러오기 ============================================================
+
 
   const handleCardClick = (e) => {
     console.log('tactic',tactic);
@@ -152,69 +159,75 @@ function ContestTaticModal(props){
           </Header>
 
           <Wrapper>
-            <Box>
-              <Swiper
-                slidesPerView={3}
-                spaceBetween={-85}
-                loop={true}
-                navigation={true}
-                modules={[Pagination, Navigation]}
-                className='mySwiper'
-              >
-              {tacticListItems.map((contest, index) => (
-                <SwiperSlide className='slide' key={contest.tacticId}>
-                  <div>
-                    <Card
-                      onClick={() =>
-                        handleCardClick({ i: index, t: contest.id, img: contest.imgPath })
-                      }
-                      style={{
-                        border:
-                          selectedTacticIndex === index ? "3.5px solid #a782ec" : "",
-                        boxShadow:
-                          selectedTacticIndex === index
-                            ? "rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset"
-                            : "",
-                      }}
-                    >
-                      <div style={{display:'flex'}}>
-                        <Icon>
-                          {selectedTacticIndex === index ? (
-                            <TaskAltIcon style={{ color: "green", margin: "10px", width:'20px' }} />
+            {tacticListItems.length === 0 ? (
+              <Box style={{textAlign:'center'}}>전략이 없습니다.</Box>
+            ) : (
+              <>
+                <Box>
+                  <Swiper
+                    slidesPerView={3}
+                    spaceBetween={-85}
+                    loop={true}
+                    navigation={true}
+                    modules={[Pagination, Navigation]}
+                    className='mySwiper'
+                  >
+                  {tacticListItems.map((contest, index) => (
+                    <SwiperSlide className='slide' key={contest.tacticId}>
+                      <div>
+                        <Card
+                          onClick={() =>
+                            handleCardClick({ i: index, t: contest.id, img: contest.imgPath })
+                          }
+                          style={{
+                            border:
+                              selectedTacticIndex === index ? "3.5px solid #a782ec" : "",
+                            boxShadow:
+                              selectedTacticIndex === index
+                                ? "rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset"
+                                : "",
+                          }}
+                        >
+                          <div style={{display:'flex'}}>
+                            <Icon>
+                              {selectedTacticIndex === index ? (
+                                <TaskAltIcon style={{ color: "green", margin: "10px", width:'20px' }} />
+                              ) : (
+                                <RadioButtonUncheckedIcon style={{ margin: "10px", width:'20px' }} />
+                              )}
+                            </Icon>
+                            <TaticTitle>
+                              <span>
+                                {contest.title.length > 10 ? (
+                                  <>
+                                  {contest.title.slice(0, 10) + "..."}
+                                  </>
+                                ) : (
+                                  <>
+                                  {contest.title}
+                                  </>
+                                )}
+                                </span>
+                                </TaticTitle>
+                          </div>
+                          <TaticTime>
+                            {dayjs(contest.createdAt).format('YYYY.MM.DD HH:mm:ss')} 
+                          </TaticTime>
+                          <hr style={{ width: "170px" }} />
+                          {contest.imgPath ? (
+                            <TaticImg src="/icon/전략블록.png" />
                           ) : (
-                            <RadioButtonUncheckedIcon style={{ margin: "10px", width:'20px' }} />
+                            <TaticImg src={contest.imgPath} />
                           )}
-                        </Icon>
-                        <TaticTitle>
-                          <span>
-                            {contest.title.length > 10 ? (
-                              <>
-                              {contest.title.slice(0, 10) + "..."}
-                              </>
-                            ) : (
-                              <>
-                              {contest.title}
-                              </>
-                            )}
-                            </span>
-                            </TaticTitle>
+                        </Card>
                       </div>
-                      <TaticTime>
-                        {dayjs(contest.createdAt).format('YYYY.MM.DD HH:mm:ss')} 
-                      </TaticTime>
-                      <hr style={{ width: "170px" }} />
-                      {contest.imgPath ? (
-                        <TaticImg src="/icon/전략블록.png" />
-                      ) : (
-                        <TaticImg src={contest.imgPath} />
-                      )}
-                    </Card>
-                  </div>
-                </SwiperSlide>
-              ))}
+                    </SwiperSlide>
+                  ))}
 
-              </Swiper>
-            </Box>
+                  </Swiper>
+                </Box>
+              </>
+            )}
           </Wrapper>
 
           {type === 'contest' ? (

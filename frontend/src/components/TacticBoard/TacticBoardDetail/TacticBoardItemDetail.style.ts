@@ -72,7 +72,7 @@ margin: 0px 0px 0px 10px;
 display: flex;
 `;
 export const Line = styled.div`
-border: 1px solid #D6D4D4;
+border: 1px solid #EAEAEA;
 width: 100%;
 margin: 15px 0px 0px 0px;
 `;
@@ -169,7 +169,34 @@ left: 93%;
 }
 `;
 
-
+export const DownloadBtn = styled.div`
+border: 1px solid black;
+border-radius: 3px;
+padding: 3px;
+height: 25px;
+position: absolute;
+top:650px;
+left: 770px;
+&:hover{
+  background-color: #EAEAEA;
+  &::before {
+      content: 'Download'; /* 호버 상태일 때 표시할 텍스트 */
+      position: absolute;
+      font-size: 8px;
+      top: 40px; /* 텍스트를 버튼 위로 올립니다 */
+      left: 50%; /* 가운데 정렬 */
+      transform: translateX(-50%); 
+      width: 55px;
+      height: 15px;
+      bottom: 62px;
+      background: #484848;
+      color: white;
+      border-radius: 3px;
+      text-align: center;
+      padding: 3px;
+    }
+  }
+`;
 
 
 
