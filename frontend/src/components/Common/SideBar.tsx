@@ -187,7 +187,7 @@ function SideBar(){
              onClick={toggleSideWrapper}
              style={{
               position: "absolute",
-              bottom: showSideWrapper ? "50%" : "-400px",
+              bottom: showSideWrapper ? "60%" : "-350px",
               right: showSideWrapper? "10%": ""}} />
         </Container>
     );
