@@ -51,7 +51,7 @@ const Img = styled.img`
     margin: 0px 20px;
 `;
 const Text = styled.p`
-  font-size  : 17px;
+  font-size  : 16px;
   color: #504b53;
 `;
 const Menu = styled.div`
@@ -117,11 +117,11 @@ function SideBar(){
                     <Text>홈</Text>
 								</ClickBox1>
 								<ClickBox onClick={()=> navigate("/maketactic")}>
-                    <Img src="/icon/circle.png"/>
+                    <Img src="/icon/circle.png" style={{opacity:"70%"}}/>
 										<Text>전략생성</Text>
                 </ClickBox>
 								<ClickBox>
-                    <Img src="/icon/circle.png"/>
+                    <Img src="/icon/circle.png" style={{opacity:"70%"}}/>
 										<Text>모의투자대회</Text>
                     <Icon src="/icon/down.png" onClick={toggleContestMenu}/>
                 </ClickBox>
@@ -142,7 +142,7 @@ function SideBar(){
               </>
              )}
 								<ClickBox>
-                    <Img src="/icon/circle.png"/>
+                    <Img src="/icon/circle.png" style={{opacity:"70%"}}/>
 										<Text>게시판</Text>
                     <Icon src="/icon/down.png" onClick={toggleBoardMenu}/>
                 </ClickBox>
