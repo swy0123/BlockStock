@@ -3,6 +3,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import SmsIcon from '@mui/icons-material/Sms';
+import DownloadIcon from '@mui/icons-material/Download';
+
 import Swal from 'sweetalert2';
 
 import CommentCreate from "../../FreeBoard/FreeBoardDetail/Comment/CommentCeate";
@@ -28,7 +30,8 @@ import {
     Line,
     ContentBox,
     BtnBox,
-    UserInfo
+    UserInfo,
+    DownloadBtn
   } from './TacticBoardItemDetail.style'
 
 // 상세페이지 api 호출
@@ -40,8 +43,9 @@ import {tacticBoardList} from '../../../recoil/TacticBoard/TacticBoardBox'
 // userId
 import { useRecoilValue } from 'recoil';
 import { CurrentUserAtom } from '../../../recoil/Auth';
- // 날짜 변환
- import dayjs from "dayjs";
+// 날짜 변환
+import dayjs from "dayjs";
+
 
 function TacticBoardItemDetail(){
 
@@ -130,6 +134,34 @@ function TacticBoardItemDetail(){
             })
     }
 
+    // 파일 다운 ==================================================
+    const jsonData = { // JSON 데이터 예시
+        name: 'John',
+        age: 30,
+        city: 'New York'
+      };
+    
+      // JSON 데이터를 문자열로 변환
+      const jsonString = JSON.stringify(jsonData, null, 2);
+    
+      // Blob 객체 생성
+      const blob = new Blob([jsonString], { type: 'application/json' });
+    
+      // 파일 다운로드 함수
+      const downloadFile = () => {
+        // Blob 객체를 URL로 변환
+        const url = window.URL.createObjectURL(blob);
+    
+        // 다운로드 링크 생성
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'data.json'; // 파일명 설정
+        a.click();
+    
+        // URL 객체 해제
+        window.URL.revokeObjectURL(url);
+      };
+      
     return(
         <>
             <Container>
@@ -140,11 +172,11 @@ function TacticBoardItemDetail(){
                         <Tooltip type={'detail'}>
                             <div style={{display:'flex'}}>
                             <UserImg src="/icon/user_purple.png"/>
-                            {/* <NickName>{data.nickname}</NickName> */}
+                            <NickName>{data.nickname}</NickName>
                             </div>
                         </Tooltip>
                         <Date>
-                            {dayjs(createdAt).format('YYYY.MM.DD')}
+                            {dayjs(createdAt).format('YYYY.MM.DD HH:mm')}
                         </Date>
                     </UserInfo>
 
@@ -183,6 +215,9 @@ function TacticBoardItemDetail(){
                     <ContentImg>
                         <ImgBox>
                             <Img src="/icon/전략블록.png"/>
+                            <DownloadBtn onClick={downloadFile}>
+                                <DownloadIcon/>
+                            </DownloadBtn>
                         </ImgBox>
                     </ContentImg>
                     {/* 줄바꿈 적용 넘어갈 경우 다음 줄로 */}
