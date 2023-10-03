@@ -2,6 +2,7 @@ package com.olock.blockstotck.board.domain.tacticboard.application;
 
 import com.olock.blockstotck.board.domain.member.application.MemberServiceImpl;
 import com.olock.blockstotck.board.domain.member.persistance.Member;
+import com.olock.blockstotck.board.domain.option.persistance.Option;
 import com.olock.blockstotck.board.domain.tactic.persistance.Tactic;
 import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostCommentRequest;
 import com.olock.blockstotck.board.domain.tacticboard.dto.request.TacticPostRequest;
@@ -63,17 +64,26 @@ public class TacticBoardServiceImpl implements TacticBoardService {
         } catch (TacticRequestException e) {
             throw new TacticRequestException("Tactic 정보 요청 실패");
         }
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>" + tactic.toString());
 
-//      optionName: 종목 검색 API에서 가지고 올까?
-        String optionName = "";
+        Option option = null;
+
+        try {
+            String url = String.format("https://seal-striking-presumably.ngrok-free.app/api/option/%s", tactic.getOptionCode());
+            option = webClientUtil.get(
+                    url,
+                    memberId,
+                    Option.class
+            );
+        } catch (TacticRequestException e) {
+            throw new TacticRequestException("Option 정보 요청 실패");
+        }
 
         TacticPost tacticPost = TacticPost.builder()
                 .memberId(memberId)
                 .tacticId(tacticPostRequest.getTacticId())
                 .title(tacticPostRequest.getTitle())
                 .content(tacticPostRequest.getContent())
-                .optionName(optionName)
+                .optionName(option.getOptionName())
                 .tacticPythonCode(tactic.getTacticPythonCode())
                 .tacticJsonCode(tactic.getTacticJsonCode())
                 .testReturns(tactic.getTestReturns())
