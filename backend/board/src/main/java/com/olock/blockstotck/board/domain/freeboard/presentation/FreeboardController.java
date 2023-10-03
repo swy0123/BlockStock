@@ -24,7 +24,7 @@ public class FreeboardController {
 
     @PostMapping("")
     public ResponseEntity<Void> postFreePost(@RequestHeader("Member-id") Long memberId,
-                                     @RequestPart(value = "fileList") List<MultipartFile> multipartFileList,
+                                     @RequestPart(value = "files") List<MultipartFile> multipartFileList,
                                      @RequestPart(value = "postRequest") FreeboardPostRequest freeboardPostRequest) throws IOException {
 
         long freePostId = freeboardService.postFreePost(memberId, freeboardPostRequest);
