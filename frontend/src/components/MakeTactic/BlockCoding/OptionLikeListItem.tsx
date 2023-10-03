@@ -13,6 +13,7 @@ import FillStarImgSrc from "../../../assets/img/MakeTactic/fillstar.png";
 import EmpthyStarImgSrc from "../../../assets/img/MakeTactic/emptystar.png";
 
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import { addLikedOption, deleteLikedOption } from "../../../api/Tactic/TacticTest";
 
 //     {item.cost}
 const OptionLikeListItem = (props) => {
@@ -26,22 +27,28 @@ const OptionLikeListItem = (props) => {
   };
 
   //종목 좋아요 버튼, axios 통신
-  const setLikeTrue = () => {
+  const setLikeTrue = async () => {
     // const req = (keyword);
-    console.log("FillStarImgSrc");
+    const req = {
+      optionCode: props.item.optionCode,
+    };
+    const res = await addLikedOption(req);
+    console.log("setLikeTrue setLikeTrue");
+    props.searchKeyword
   };
-  const setLikeFalse = () => {
-    // const req = (keyword);
-    console.log("EmpthyStarImgSrc");
+  const setLikeFalse = async () => {
+    const res = await deleteLikedOption(props.item.optionCode);
+    console.log("setLikeFalse setLikeFalse setLikeFalse");
+    props.searchKeyword
   };
 
   return (
     <ItemContainer>
-      {props.item.isLike !== undefined ? (
-        props.item.isLike ? (
-          <LikeImg src={FillStarImgSrc} onClick={setLikeTrue} alt="좋아요" />
+      {props.item.like !== undefined ? (
+        props.item.like ? (
+          <LikeImg src={FillStarImgSrc} onClick={setLikeFalse} alt="좋아요" />
         ) : (
-          <LikeImg src={EmpthyStarImgSrc} onClick={setLikeFalse} alt="싫어요" />
+          <LikeImg src={EmpthyStarImgSrc} onClick={setLikeTrue} alt="싫어요" />
         )
       ) : (
         <></>
