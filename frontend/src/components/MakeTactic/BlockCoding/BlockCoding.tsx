@@ -82,7 +82,8 @@ const BlockCoding = (props) => {
   const [repeatCnt, setRepeatCnt] = useState(50); //반복횟수 (scope)
   const [tacticPythonCode, setTacticPythonCode] = useState(undefined); //"""code"""
   const [tacticJsonCode, setTacticJsonCode] = useState(undefined); //json 객체 (직렬화해서 저장)
-  const [customVariableBlockGroup, setCustomVariableBlockGroup] = useState<CustomVariableBlockGroup>();
+  const [customVariableBlockGroup, setCustomVariableBlockGroup] =
+    useState<CustomVariableBlockGroup>();
   const [tacticImg, setTacticImg] = useState(undefined); //svg
   //코드 검사 제대로 하기
   const [codeCheck, setCodeCheck] = useState(true); // 코드 검사 후 결과창으로 이동
@@ -99,13 +100,12 @@ const BlockCoding = (props) => {
     }
   }, [props]);
 
-
   // export interface CustomVariableBlockGroup {
   //   defArray: any[];
   //   settingArray: any[];
   //   getArray: any[];
   // }
-  
+
   const importData = async (id: number) => {
     const res = await tacticImport(id);
     setOptionCode(res.optionCode);
@@ -113,24 +113,57 @@ const BlockCoding = (props) => {
     setTitle(res.title);
     setTacticPythonCode(res.tacticPythonCode);
     setTacticJsonCode(JSON.parse(res.tacticJsonCode));
-//      tactic_json_set_code
-//      tactic_json_get_code
-//      tactic_json_def_code
     setCustomVariableBlockGroup({
-      defArray:JSON.parse(res.tacticJsonDefCode),
-      settingArray:JSON.parse(res.tacticJsonSetCode),
-      getArray:JSON.parse(res.tacticJsonGetCode)
+      defArray: JSON.parse(res.customVariableBlockGroup.defArray),
+      settingArray: JSON.parse(res.customVariableBlockGroup.settingArray),
+      getArray: JSON.parse(res.customVariableBlockGroup.getArray),
     });
     setTacticImg(res.tacticImg);
   };
 
   // 검색
   const searchOption = async () => {
-    console.log(keyword);
-    console.log(isSearch);
-    const res = await tacticSearchOption(keyword, isSearch);
-    console.log(res);
-    setOptionLikeList(res);
+    if (keyword !== "") {
+      console.log(keyword);
+      console.log(isSearch);
+      const res = await tacticSearchOption(keyword, isSearch);
+      console.log(res);
+      setOptionLikeList(res);
+    } else {
+      const defaultRes = [
+        {
+          optionCode: "000810",
+          optionName: "삼성화재",
+          like: false,
+        },
+        {
+          optionCode: "000815",
+          optionName: "삼성화재우",
+          like: false,
+        },
+        {
+          optionCode: "001360",
+          optionName: "삼성제약",
+          like: false,
+        },
+        {
+          optionCode: "005930",
+          optionName: "삼성전자",
+          like: false,
+        },
+        {
+          optionCode: "005935",
+          optionName: "삼성전자우",
+          like: false,
+        },
+        {
+          optionCode: "006400",
+          optionName: "삼성SDI",
+          like: false,
+        },
+      ];
+      setOptionLikeList(defaultRes);
+    }
   };
 
   const editSetTrue = () => {
@@ -332,7 +365,7 @@ const BlockCoding = (props) => {
   useEffect(() => {
     console.log(curDate);
     if (curDate < new Date()) {
-      if(dayjs(curDate).isSame(dayjs(new Date()), "day")) return;
+      if (dayjs(curDate).isSame(dayjs(new Date()), "day")) return;
       setStartDate(curDate);
     }
   }, [curDate]);
@@ -364,11 +397,10 @@ const BlockCoding = (props) => {
     else if (now === 6) selectedDate = selectedDate.subtract(1, "d");
 
     console.log(selectedDate);
-    if(!selectedDate.isSame((curDate), "day")) {
+    if (!selectedDate.isSame(curDate, "day")) {
       setCurDate(selectedDate.toDate());
       return selectedDate.toDate();
-    }
-    else return curDate;
+    } else return curDate;
   };
 
   // 테스트 버튼 누르면 상위 컴포넌트로 값 전달 후 컴포넌트 교체
@@ -512,7 +544,7 @@ const BlockCoding = (props) => {
                 writeTacticJsonCode={(str) => {
                   writeTacticJsonCode(str);
                 }}
-                writeCustomVariableBlockGroup={(arrayGropup)=>{
+                writeCustomVariableBlockGroup={(arrayGropup) => {
                   writeCustomVariableBlockGroup(arrayGropup);
                 }}
                 writeTacticImg={(str) => {
@@ -596,7 +628,10 @@ const BlockCoding = (props) => {
                         // locale={"ko"}
                         dateFormat="yyyy-MM-dd"
                         selected={startDate}
-                        minDate={dayjs(new Date).subtract(2,"y").add(100*5/7+7, "d").toDate()}
+                        minDate={dayjs(new Date())
+                          .subtract(2, "y")
+                          .add((100 * 5) / 7 + 7, "d")
+                          .toDate()}
                         maxDate={curDate}
                         onChange={(date) => setStartDate(date)}
                       />
