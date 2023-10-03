@@ -16,4 +16,6 @@ public interface TacticPostRepository extends JpaRepository<TacticPost, Long>, J
     void updateHit(Long tacticPostId);
 
     Page<TacticPost> findByMemberId(Long userId, Pageable pageable);
+
+    boolean existsById(Long tacticPostId);
 }

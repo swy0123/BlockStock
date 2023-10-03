@@ -125,9 +125,8 @@ public class TacticBoardServiceImpl implements TacticBoardService {
 
     @Override
     public void likeTacticPost(Long memberId, Long tacticPostId) {
-
+        tacticPostValidator.checkTacticPostExist(tacticPostRepository, tacticPostId);
         Optional<TacticPost> tacticPost = tacticPostRepository.findById(tacticPostId);
-        tacticPostValidator.checkTacticPostExist(tacticPost);
 
         Optional<TacticPostLike> existTacticPostLike = tacticPostLikeRepository.findByMemberIdAndTacticPostId(memberId, tacticPostId);
         tacticPostValidator.checkAlreadyLike(existTacticPostLike);
@@ -138,8 +137,7 @@ public class TacticBoardServiceImpl implements TacticBoardService {
 
     @Override
     public void unLikeTacticPost(Long memberId, Long tacticPostId) {
-        Optional<TacticPost> tacticPost = tacticPostRepository.findById(tacticPostId);
-        tacticPostValidator.checkTacticPostExist(tacticPost);
+        tacticPostValidator.checkTacticPostExist(tacticPostRepository, tacticPostId);
 
         Optional<TacticPostLike> tacticPostLike = tacticPostLikeRepository.findByMemberIdAndTacticPostId(memberId, tacticPostId);
         tacticPostValidator.checkAlreadyUnLike(tacticPostLike);
@@ -149,12 +147,13 @@ public class TacticBoardServiceImpl implements TacticBoardService {
 
     @Override
     public TacticPostResponse getTacticPost(Long memberId, Long tacticPostId) {
-        Optional<TacticPost> findTacticPost = tacticPostRepository.findById(tacticPostId);
-        tacticPostValidator.checkTacticPostExist(findTacticPost);
+
+        tacticPostValidator.checkTacticPostExist(tacticPostRepository, tacticPostId);
+
         tacticPostRepository.updateHit(tacticPostId);
-
-        TacticPost tacticPost = findTacticPost.get();
-
+//
+        TacticPost tacticPost = tacticPostRepository.findById(tacticPostId).get();
+//
         long likeCnt = tacticPostLikeRepository.countByTacticPostId(tacticPostId);
 
         Member member = memberService.getMember(tacticPost.getMemberId());
@@ -176,10 +175,9 @@ public class TacticBoardServiceImpl implements TacticBoardService {
 
     @Override
     public void deleteTacticPost(Long memberId, Long tacticPostId) {
-        Optional<TacticPost> findTacticPost = tacticPostRepository.findById(tacticPostId);
-        tacticPostValidator.checkTacticPostExist(findTacticPost);
+        tacticPostValidator.checkTacticPostExist(tacticPostRepository, tacticPostId);
 
-        TacticPost tacticPost = findTacticPost.get();
+        TacticPost tacticPost = tacticPostRepository.findById(tacticPostId).get();
 
         tacticPostValidator.checkTacticPostWriter(tacticPost, memberId);
 
@@ -189,9 +187,7 @@ public class TacticBoardServiceImpl implements TacticBoardService {
 
     @Override
     public List<TacticPostCommentResponse> getTacticPostCommentList(Long tacticPostId) {
-
-        Optional<TacticPost> findTacticPost = tacticPostRepository.findById(tacticPostId);
-        tacticPostValidator.checkTacticPostExist(findTacticPost);
+        tacticPostValidator.checkTacticPostExist(tacticPostRepository, tacticPostId);
 
         List<TacticPostComment> tacticPostComments = tacticPostCommentRepository.findByTacticPostId(tacticPostId);
 
@@ -207,10 +203,9 @@ public class TacticBoardServiceImpl implements TacticBoardService {
     @Override
     public void writeTacticPostComment(Long memberId, TacticPostCommentRequest tacticPostCommentRequest) {
 
-        Optional<TacticPost> findTacticPost = tacticPostRepository.findById(tacticPostCommentRequest.getTacticBoardId());
-        tacticPostValidator.checkTacticPostExist(findTacticPost);
+        tacticPostValidator.checkTacticPostExist(tacticPostRepository, tacticPostCommentRequest.getTacticBoardId());
 
-        TacticPost tacticPost = findTacticPost.get();
+        TacticPost tacticPost = tacticPostRepository.findById(tacticPostCommentRequest.getTacticBoardId()).get();
 
         TacticPostComment tacticPostComment = new TacticPostComment(memberId, tacticPost, tacticPostCommentRequest);
         tacticPostCommentRepository.save(tacticPostComment);
