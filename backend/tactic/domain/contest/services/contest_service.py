@@ -63,13 +63,14 @@ def get_contests(member_id: int,
         join_people = (session.query(Participate).outerjoin(Contest, Contest.id == Participate.contest_id).
                        where(Contest.id == contest.id).count())
 
-        contest_result.append(ContestResponse(contest, is_registed, join_people))
+        option_name = ""
+        contest_result.append(ContestResponse(contest, is_registed, join_people, option_name))
 
     session.close()
     return ContestListResponse(contest_result, len(contest_result))
 
 
-def get_contest_result(contest_id: int):
+async def get_contest_result(contest_id: int):
     engine = engineconn()
     session = engine.sessionmaker()
     result = []
@@ -85,7 +86,7 @@ def get_contest_result(contest_id: int):
         Participate.result_money.desc())
 
     for participate in participates:
-        member = get_member_data(participate.member_id)
+        member = await get_member_data(participate.member_id)
 
         result.append(ContestRankingResponse(member_id=participate.member_id,
                                              nick_name=member.nickname,
