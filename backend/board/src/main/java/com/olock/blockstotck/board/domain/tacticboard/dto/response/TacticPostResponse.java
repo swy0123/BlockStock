@@ -19,6 +19,8 @@ public class TacticPostResponse {
     private Long hit;
     private LocalDateTime createdAt;
     private Boolean isLike;
+    private String tacticJsonCode;
+    private String tacticPythonCode;
 
     public TacticPostResponse(TacticPost tacticPost, String nickName, Long likeCnt, boolean isLike) {
         this.memberId = tacticPost.getMemberId();
@@ -33,5 +35,7 @@ public class TacticPostResponse {
         this.hit = tacticPost.getHit();
         this.createdAt = tacticPost.getCreatedAt();
         this.isLike = isLike;
+        this.tacticJsonCode = tacticPost.getTacticJsonCode();
+        this.tacticPythonCode = tacticPost.getTacticPythonCode();
     }
 }
