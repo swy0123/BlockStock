@@ -24,6 +24,7 @@ const OptionLikeListItem = (props) => {
     // return () => clearTimeout(timeoutExecute);
     if(isLike) setLikeTrue()
     else setLikeFalse()
+    props.returnSetSwitchLike();
   }, [isLike])
 
   useEffect(() => {
@@ -53,7 +54,6 @@ const OptionLikeListItem = (props) => {
     };
     const res = await addLikedOption(req);
     console.log("setLikeTrue setLikeTrue");
-    props.searchKeyword
   };
   const setLikeFalse = async () => {
     const res = await deleteLikedOption(props.item.optionCode);

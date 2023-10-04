@@ -55,7 +55,7 @@ const CandleChart = (props) => {
   );
   const height = props.curheight - 100 > 0 ? props.curheight - 100 : 0;
   const width = props.curwidth > 0 ? props.curwidth : 0;
-  const margin = { left: 0, right: 100, top: 0, bottom: 24 };
+  const margin = { left: 0, right: 80, top: 0, bottom: 24 };
 
   // 차트 x값 수정
   // const [dateTimeFormat, setDateTimeFormat] = useState("%d %b");

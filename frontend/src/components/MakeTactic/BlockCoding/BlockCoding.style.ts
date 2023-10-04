@@ -19,7 +19,7 @@ export const TopDiv = styled.div`
 export const TitleDiv = styled.div`
   width: fit-content;
   min-width: 100px;
-  height: 50px;
+  height: 40px;
   align-items: center;
   margin: 0 10px 0 25px;
 `;
@@ -88,6 +88,7 @@ export const IsSearchDiv = styled.div`
 export const SearchTypeDiv = styled.div`
   width: 90%;
   height: 6%;
+  margin-bottom: 5px;
   display: flex;
   flex-direction: row;
   text-align: center;
@@ -138,12 +139,12 @@ export const SearchItemList = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 80%;
+  height: 83%;
   margin-top: 2%;
   overflow-y: scroll;
   overflow-x: hidden;
   &::-webkit-scrollbar {
-    width: 3px;
+    width: 4px;
     border-radius: 6px;
     background: rgba(255, 255, 255, 0.4);
   }
@@ -180,7 +181,7 @@ export const BlockCodingDiv = styled.div`
 export const BlocklyDiv = styled.div`
   position: relative;
   width: 100%;
-  height: 80%;
+  height: 75%;
 `;
 export const InputDetailTitle = styled.div`
   display: flex;
@@ -318,7 +319,7 @@ export const ChoiceTitleBox = styled.div`
   flex-direction: row;
   color: #ababab;
   width: 100%;
-  margin-bottom: 10px;
+  margin: 10px 0;
 `;
 
 export const TestButton = styled.div`
