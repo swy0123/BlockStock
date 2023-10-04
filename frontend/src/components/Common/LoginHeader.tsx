@@ -12,7 +12,6 @@ import {
   Wrapper,
   InputBox,
   Input,
-  AlertImg,
   Img,
   DropBoxWrapper,
   DropBox,
@@ -54,11 +53,10 @@ function LoginHeader() {
             <Input type="text" placeholder="검색어를 입력하세요 🔎" />
           </InputBox>
           <InputBox>
-            <AlertImg src="/icon/isalert.png"></AlertImg>
             <DropBoxWrapper onClick={enterDropBox}>
               {isDropBox ? (
                 <DropBox>
-                  <Img src="/icon/user_purple.png"></Img>
+                  <Img src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${currentUser.userid}`}></Img>
                   <ClickBox>
                     <Content>{currentUser.nickname}</Content>
                     <Hr />
@@ -75,7 +73,7 @@ function LoginHeader() {
                   </ClickBox>
                 </DropBox>
               ) : (
-                <Img src="/icon/user_purple.png"></Img>
+                <Img src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${currentUser.userid}`}></Img>
               )}
             </DropBoxWrapper>
           </InputBox>

@@ -81,3 +81,14 @@ export const getTactic =async() => {
         console.log('err', error)
     }
 }
+
+// 전략 삭제
+export const deleteTactic = async (id: number) => {
+ try{
+    const response = await privateApi.delete(`/tactic/${id}`)
+    console.log("res", response)
+    return response
+ }catch(error){
+    console.log('err', error)
+ } 
+}

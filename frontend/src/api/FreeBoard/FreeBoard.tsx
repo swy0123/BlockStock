@@ -1,6 +1,7 @@
 import { privateApi } from "../index";
 
 // 자유게시판 게시글리스트
+
 export const freeBoardList = async (Params:Params) => {
   console.log(Params)
   const res = await privateApi.get(`/free-board`,{
