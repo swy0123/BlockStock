@@ -72,7 +72,7 @@ const TacticResult = (props: { contestId: number }) => {
 
     //테스트 데이터 id는 7
     // const propsTmp = props.contestId;
-    const propsTmp = 7;
+    const propsTmp = 66;
 
     const chartres = await contestChart(propsTmp);
     const traderes = await contestTrade(propsTmp);
