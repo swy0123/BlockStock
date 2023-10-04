@@ -48,6 +48,8 @@ function FreeBoardItemDetail(){
   const [commentlists, setCommentlists] = useRecoilState(commentlist)
   const [boardItem, setBoardItem] = useRecoilState(freeBoardList)
 
+  const [file, setFile] = useState([])
+
   // api 통신 ==================================
   // 게시글 번호
   const location = useLocation();
@@ -63,6 +65,15 @@ function FreeBoardItemDetail(){
     console.log(res)
     if (res.status===200){
       setBoardItem(res.data)
+      // 이미지 파일
+      for (let i = 0;i<=res.data.fileList.length;i++){
+        if (res.data.fileList[i].type === 'image/png'){
+          const img = res.data.fileList[i]
+          console.log(img)
+          setFile(...file, img)
+          console.log(file,'file')
+        }
+      }
     }
   }
 
@@ -164,6 +175,13 @@ function FreeBoardItemDetail(){
           <ContentBox>
             <Content>{boardItem.content}</Content>
           </ContentBox>
+          <div>
+            {boardItem.fileList?.map((item,index)=>(
+              <div key={index}>
+                <img src={item.path}/>
+              </div>
+            ))}
+          </div>
           {boardItem.memberId === userId ? (
             <>
             <BtnBox>
