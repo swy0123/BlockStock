@@ -62,7 +62,7 @@ const TacticResult = (props: { contestId: number }) => {
 
     if (count === 1) {
       setCount(15);
-      // axiosGetData();
+      axiosGetData();
       setUpdateTime(dayjs().format("YYYY.MM.DD HH:mm:ss"));
     }
     return () => clearInterval(cnt);
@@ -204,7 +204,7 @@ const TacticResult = (props: { contestId: number }) => {
                 </HistorySummaryContentsItem>
                 <HistorySummaryContentsItem>
                   <HistorySummaryContentsItemLeft>수수료</HistorySummaryContentsItemLeft>
-                  <HistorySummaryContentsItemRight>???</HistorySummaryContentsItemRight>
+                  <HistorySummaryContentsItemRight>0</HistorySummaryContentsItemRight>
                 </HistorySummaryContentsItem>
                 <HistorySummaryContentsItem>
                   <HistorySummaryContentsItemLeft>총 거래 횟수</HistorySummaryContentsItemLeft>

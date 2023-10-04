@@ -121,13 +121,16 @@ const BlockCoding = (props) => {
 
   // 검색
   const searchOption = async () => {
-    if (keyword !== "") {
+    // if (keyword !== "") {
       console.log(keyword);
       console.log(isSearch);
       const res = await tacticSearchOption(keyword, isSearch);
       console.log(res);
       setOptionLikeList(res);
-    }
+    // }
+    // else{
+    //   setOptionLikeList([])
+    // }
     //  else {
     //   const defaultRes = [
     //     {
@@ -332,27 +335,46 @@ const BlockCoding = (props) => {
       term: term,
       repeatCnt: repeatCnt,
     };
-
-    Swal.fire({
-      title: "테스트 실행",
-      text: "테스트를 실행하시겠습니까?",
-      // icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "테스트 실행",
-      cancelButtonText: "취소",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire(
-          "실행중입니다.",
-          "잠시만 기다려주세요",
-          "success"
-          // '확인',
-        );
-        setCodeCheck(false);
-      }
-    });
+    if(optionCode!=""){
+      Swal.fire({
+        title: "테스트 실행",
+        text: "테스트를 실행하시겠습니까?",
+        // icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "테스트 실행",
+        cancelButtonText: "취소",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            "실행중입니다.",
+            "잠시만 기다려주세요",
+            "success"
+            // '확인',
+          );
+          setCodeCheck(false);
+        }
+      });
+    }
+    else{
+      Swal.fire({
+        title: "종목을 선택해주세요",
+        text: "종목을 선택하시겠습니까?",
+        // icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "종목 선택",
+        cancelButtonText: "취소",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          
+          handleIsLeftOpen();
+        }
+      });
+    }
+    
   };
 
   useEffect(() => {
@@ -389,6 +411,7 @@ const BlockCoding = (props) => {
     } else if (term == "1w") {
       selectedDate = selectedDate.subtract(repeatCnt + 1, "w");
     }
+    selectedDate = selectedDate.subtract(7, "d");
     const now = selectedDate.get("d");
     if (now === 0) selectedDate = selectedDate.subtract(2, "d");
     else if (now === 6) selectedDate = selectedDate.subtract(1, "d");
@@ -492,7 +515,6 @@ const BlockCoding = (props) => {
                               setOption={setOption}
                               setViewOption={setViewOption}
                               searchKeyword={searchKeyword}
-                              searchOption={searchOption}
                             ></OptionLikeListItem>
                           ))}
                         </>
@@ -505,7 +527,6 @@ const BlockCoding = (props) => {
                               setOption={setOption}
                               setViewOption={setViewOption}
                               searchKeyword={searchKeyword}
-                              searchOption={searchOption}
                             ></OptionLikeListItem>
                           ))}
                         </>
