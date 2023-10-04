@@ -84,15 +84,15 @@ def contest_thread(participate: Participate):
     def buy(param: int):
 
         # param 들어온 개수만큼 살 수 있는지 확인
-        if param * real_data.iloc[0]['4'] < participate.result_money:
+        if param * real_data.iloc[0]['5'] < participate.result_money:
             db_trade = Trade(contest_id=participate.contest_id,
                              participate_id=participate.id,
-                             cost=real_data.iloc[0]['4'],
+                             cost=real_data.iloc[0]['5'],
                              trade_type="buy",
                              trade_at=datetime.now(),
                              trade_cnt=param,
                              profit_and_loss=0,
-                             trade_cost=real_data.iloc[0]['4'])
+                             trade_cost=real_data.iloc[0]['5'])
 
             if db_trade:
                 participate.result_money -= (db_trade.cost * db_trade.trade_cnt)
@@ -112,7 +112,7 @@ def contest_thread(participate: Participate):
 
         # param 들어온 수만큼 팔 수 있는지 확인
         if now_stock_cnt != 0 and param <= now_stock_cnt:
-            now_asset += param * real_data.iloc[-1]['4']
+            now_asset += param * real_data.iloc[-1]['5']
             sell_sum, buy_sum = cal_now_stock_cost()
             buy_avg = buy_sum / buy_cnt
             sell_avg = 0
@@ -122,12 +122,12 @@ def contest_thread(participate: Participate):
 
             db_trade = Trade(contest_id=participate.contest_id,
                              participate_id=participate.id,
-                             cost=real_data.iloc[0]['4'],
+                             cost=real_data.iloc[0]['5'],
                              trade_type="sell",
                              trade_at=datetime.now(),
                              trade_cnt=-param,
                              profit_and_loss=(buy_avg - sell_avg) * param,
-                             trade_cost=real_data.iloc[0]['4'])
+                             trade_cost=real_data.iloc[0]['5'])
 
         if db_trade:
             participate.result_money += (db_trade.cost * db_trade.trade_cnt)
@@ -141,11 +141,14 @@ def contest_thread(participate: Participate):
 
     def asset(percent):
         tmp_asset = math.ceil(participate.result_money / 100 * percent)
-        return math.ceil(tmp_asset / real_data.iloc[0]['4'])
+        return math.ceil(tmp_asset / real_data.iloc[0]['5'])
 
     def reserve(percent):
         now_stock_cnt = cal_now_stock_cnt()
         return math.ceil(now_stock_cnt / percent)
+
+    def stay():
+        return 0
 
     tactic_python_code = (session_thread.query(Tactic.tactic_python_code).
                           outerjoin(Participate, Participate.tactic_id == Tactic.id).
