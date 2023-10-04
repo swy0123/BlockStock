@@ -57,7 +57,7 @@ const Name = styled.p`
   margin-bottom: 0px;
 `;
 const EmptyBox = styled.div`
-  width: 70%;
+  width: 900px;
   height: 250px;
   background-color: white;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.08);

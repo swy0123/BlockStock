@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-// import { useHistory } from "react-router-dom";
 import { useQuery } from "react-query";
 import { deleteTactic, getTactic } from "../../api/MyPage/Mypage";
-import swal from "sweetalert";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Container = styled.div`
   justify-content: space-around;
@@ -15,9 +15,9 @@ const TacticCard = styled.div`
   width: 220px; // 각 슬라이드의 넓이
   /* height: 280px; */
   margin-bottom: 30px;
-  border-radius: 13px;
+  border-radius: 8px;
   background: #fff;
-  box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
+  box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,18 +28,20 @@ const Space = styled.div`
   display: flex;
 `;
 const Wrapper = styled.div`
-  /* width: 1000px; */
-  display: flex;
+  /* display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  /* margin-left: 30px; */
+  justify-content: space-between; */
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 10px; 
+
 `;
 
 const Title = styled.p`
   font-size: 17px;
 `;
 const EmptyBox = styled.div`
-  width: 75%;
+  width: 900px;
   height: 250px;
   background-color: white;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.08);
@@ -89,13 +91,14 @@ const Btn2 = styled.button`
   width: 70px;
   height: 30px;
   border-radius: 6px;
-  background: #ffffff;
-  border: solid 1.8px;
-  color: gray;
+  background: #faf8fe;
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.25);
+  border: 0;
+  color: #9155fd;
   transition: 0.5s;
   cursor: pointer;
   &:hover {
-    background-color: #faf8fe;
+    background-color: #d8c9f5;
     transition: 0.5s;
     color: #9155fd;
   }
@@ -108,15 +111,15 @@ const Btn0 = styled.button`
   height: 30px;
   font-size: 13px;
   border-radius: 6px;
+  color: white;
   border: 0;
-  background: #dfd1f8;
-  color: #3d3c3e;
-  box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
   border-radius: 6px;
+  background: #9155fd;
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.25);
   cursor: pointer;
-  transition: 0.5s; // 자연스럽게 호버 효과 주려고 넣음(필수)
+  margin: 0px 20px;
   &:hover {
-    background: #9155fd;
+    background: #d8c9f5;
     color: white;
     transition: 0.5s;
   }
@@ -138,16 +141,7 @@ const Text1 = styled.p`
 `;
 function TacticList() {
   const { data, isLoading, isError } = useQuery("mytactic", getTactic);
-  // const history = useHistory();
-
-  const settings = {
-    dots: false,
-    infinite: true,
-    speed: 400,
-    slidesToShow: 5, // 슬라이드를 3개로 줄임
-    slidesToScroll: 1,
-    // centerPadding: '20px', // centerPadding을 제거
-  };
+  const navigate = useNavigate();
 
   const formatDate = (dateString: string) => {
     const datePart = dateString.split("T")[0];
@@ -158,18 +152,31 @@ function TacticList() {
     return Number(returns).toFixed(2);
   };
   
-  // const handleEdit = (tacticId: number) => {
-  //   history.push({
-  //     pathname: "/maketactic",
-  //     state: { tacticId },
-  //   });
-  // };
+  const handleEdit = (tacticId: number) => {
+    navigate(`/maketactic/${tacticId}`);
+  };
 
-  const handleDelete = async(tacticId: number) => {
+  const handleDelete = async(tacticId: number, title: string) => {
     console.log("Deleting tactic with ID:", tacticId);
     const response = await deleteTactic(tacticId);
     if(response?.status == 200){
-      swal("전략이 삭제되었습니다‼")
+      Swal.fire({
+        title: '전략 삭제',
+        text: `${title}을 삭제하시겠습니까?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '삭제하기'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            '',
+            '삭제완료!',
+            'success'
+          )
+        }
+      })
     }
   };
 
@@ -205,8 +212,8 @@ function TacticList() {
                   <Date>{formatDate(item.createdAt)}</Date>
                 </Box1>
                 <Box1>
-                  <Btn0>수정</Btn0>
-                  <Btn2 onClick={() => handleDelete(item.id)}>삭제</Btn2>
+                  <Btn0 onClick={()=> handleEdit(item.id)}>수정</Btn0>
+                  <Btn2 onClick={() => handleDelete(item.id, item.title)}>삭제</Btn2>
                 </Box1>
               </TacticCard>
             </Space>
