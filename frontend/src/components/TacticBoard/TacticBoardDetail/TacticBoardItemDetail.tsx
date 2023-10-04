@@ -168,7 +168,13 @@ function TacticBoardItemDetail(){
 
                 <Header>
                     <UserInfo>
-                        <Tooltip type={'detail'}>
+                        <Tooltip type={'detail'}
+                            state={{
+                                memberId: data.memberId,
+                                nickname: data.nickName,
+                                id: data.memberId,
+                            }}
+                            >
                             <div style={{display:'flex'}}>
                             {/* <UserImg src="/icon/user_purple.png"/> */}
                             <UserImg src="/icon/user_purple.png"/>
