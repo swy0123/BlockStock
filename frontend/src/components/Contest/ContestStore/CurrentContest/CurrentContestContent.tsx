@@ -25,7 +25,7 @@ import {
 
 import { useNavigate } from "react-router-dom";
 
-import TablePagination from '@mui/material/TablePagination';
+import Pagination from "@mui/material/Pagination";
  // 날짜 변환
  import dayjs from "dayjs";
 // api 통신
@@ -38,16 +38,20 @@ function CurrentContestContent(){
   // 리코일에서 불러온 검색어
   const searchKeyword  = useRecoilValue(searchKeywordState);
   
-  const [page, setPage] = React.useState(0);
+  const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(7);
   const [ currentContestListItem, setCurrentContestListItem] = useState([])
   const [count, setCount] = useState(0)
 
 
+  useEffect(()=>{
+    setPage(1)
+  },[searchKeyword])
+
   // api 통신 =============================================================
   const params = {
     status: 'proceed',
-    page: page,
+    page: page-1,
     size: rowsPerPage,
     keyWord: searchKeyword
   };
@@ -62,7 +66,11 @@ function CurrentContestContent(){
         setCurrentContestListItem([])
       } else {
         setCurrentContestListItem(contest.contestList)
-        setCount(contest.count)
+        if(Math.floor(contest.count % 7)){
+          setCount(Math.floor(contest.count / 7)+1);
+        }else{
+          setCount(Math.floor(contest.count / 7));
+        }
       }
     }
   // api 통신 =============================================================
@@ -91,28 +99,27 @@ function CurrentContestContent(){
 
 
   // 페이지 네이션=====================================================================
-  
-  const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number,
-    ) => {
-      setPage(newPage);
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage); // 페이지 변경 시 상태 변수 업데이트
   };
-  
-  // Handle rows per page change
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    ) => {
-      setRowsPerPage(parseInt(event.target.value, 10));
-      setPage(0);
-    };
-        
-  const startIndex = page * rowsPerPage;
-  const endIndex = startIndex + rowsPerPage;
-  const itemsToDisplay = currentContestListItem.slice(startIndex, endIndex);
-  const filteredItems = itemsToDisplay.filter((item) =>
-  item.title.includes(searchKeyword)
-  );
+  const paginationStyle = {
+    '& .MuiPagination-ul .MuiPaginationItem-root.Mui-selected': {
+      backgroundColor: '#F4F5FA', // 선택된 페이지 배경색을 연보라색으로 변경
+    },
+    '& .MuiPagination-ul .MuiPaginationItem-root.Mui-selected:hover': {
+      backgroundColor: '#F4F5FA', // 선택된 페이지 호버 시 배경색도 연보라색으로 변경
+    },
+    '& .MuiPagination-ul .MuiPaginationItem-root.MuiPaginationItem-page:hover': {
+      backgroundColor: '#F4F5FA', // 페이지 호버 시 배경색도 연보라색으로 변경
+    },
+  };
+  const combinedStyles = {
+    ...paginationStyle, // paginationStyle 객체
+    display:'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  };
+
   // 페이지 네이션=====================================================================
   
 
@@ -164,7 +171,7 @@ function CurrentContestContent(){
                 >
                   <Stock>종목 {contest.optionCode}</Stock>
                   <StartAsset>티켓 수 {contest.ticket}개</StartAsset>
-                  <Term>전략 실행 주기  {contest.term}s</Term>
+                  <Term>전략 실행 주기  {contest.term} 초</Term>
                    {/* 줄바꿈 적용 넘어갈 경우 다음 줄로 */}
                    <Content style={{ whiteSpace: 'pre-line',wordWrap: 'break-word' }}>
                      {contest.content}
@@ -180,15 +187,12 @@ function CurrentContestContent(){
       </Wrapper>
         {currentContestListItem.length > 0 && (
           <>
-          <TablePagination
-            component="div"
-            count={count}
-            page={page}
-            onPageChange={handleChangePage}
-            rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={() => {}}
-            rowsPerPageOptions={[]}
-            style={{margin:'0px 50px 0px 0px'}}
+          <Pagination 
+          count={count} 
+          showFirstButton showLastButton
+          page={page}
+          onChange={handlePageChange}
+          sx={combinedStyles}
           />
           </>
         )}

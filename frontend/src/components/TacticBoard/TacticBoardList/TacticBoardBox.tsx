@@ -5,7 +5,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import TablePagination from '@mui/material/TablePagination';
+import Pagination from "@mui/material/Pagination";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -49,14 +49,15 @@ function TacticBoardBox() {
 
   const [menu, setMenu] = useState("createdAt");
   const [searchKeyword, setSearchKeyword] = useState("");
-  const [page, setPage] = React.useState(0);
+  const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [boardList, setBoardList] = useState([])
-
+  const [count, setCount] = useState(0)
 
   // 검색
   const handleSearchInputChange = (event) => {
     setSearchKeyword(event.target.value);
+    setPage(1)
   };
 
 
@@ -64,7 +65,7 @@ function TacticBoardBox() {
   // api 통신 =============================================================
   const params = {
     sort: menu,
-    page: page,
+    page: page-1,
     size: rowsPerPage,
     keyword: searchKeyword,
   };
@@ -76,11 +77,19 @@ function TacticBoardBox() {
     const res = await tacticBoardList(params)
     console.log(res)
     if(res.status===200){
-      setBoardList(res.data)
+      setBoardList(res.data.tacticPostListResponseList)
+      if(Math.floor(res.data.totalCnt % 10)){
+        setCount(Math.floor(res.data.totalCnt / 10)+1);
+      }else{
+        setCount(Math.floor(res.data.totalCnt / 10));
+      }
     }
   }
   // api 통신 =================
 
+  useEffect(()=>{
+    tacticboardapi()
+  },[])
 
   const handleChange = (event: SelectChangeEvent) => {
     const selectedMenu = event.target.value as string;
@@ -90,30 +99,26 @@ function TacticBoardBox() {
 
 
   // 페이지네이션 ============================================
-
-  const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number,
-  ) => {
-    setPage(newPage);
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage); // 페이지 변경 시 상태 변수 업데이트
   };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+  const paginationStyle = {
+    '& .MuiPagination-ul .MuiPaginationItem-root.Mui-selected': {
+      backgroundColor: '#F4F5FA', // 선택된 페이지 배경색을 연보라색으로 변경
+    },
+    '& .MuiPagination-ul .MuiPaginationItem-root.Mui-selected:hover': {
+      backgroundColor: '#F4F5FA', // 선택된 페이지 호버 시 배경색도 연보라색으로 변경
+    },
+    '& .MuiPagination-ul .MuiPaginationItem-root.MuiPaginationItem-page:hover': {
+      backgroundColor: '#F4F5FA', // 페이지 호버 시 배경색도 연보라색으로 변경
+    },
   };
-
-  const rowsPerPageOptions = [5, 6, 7, 8];
-
-
-  const startIndex = page * rowsPerPage;
-  const endIndex = startIndex + rowsPerPage;
-  const itemsToDisplay = boardList.slice(startIndex, endIndex);
-  const filteredItems = itemsToDisplay.filter((item) =>
-    item.title.includes(searchKeyword)
-  );
+  const combinedStyles = {
+    ...paginationStyle, // paginationStyle 객체
+    display:'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  };
   // 페이지네이션 ============================================
 
   // 미사일 
@@ -201,8 +206,8 @@ function TacticBoardBox() {
                     {item.title}
                   </Title>
                 </TitleBox>
-
-                <Img src="/icon/전략블록.png"/>
+                
+                <Img src={item.imgPath}/>
 
                 <ReturnBox>
                   <Testreturn>
@@ -279,16 +284,13 @@ function TacticBoardBox() {
               }}
             />
           </MeBox>
-        <TablePagination
-          component="div"
-          count={boardList.length}
-          page={page}
-          onPageChange={handleChangePage}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={() => {}}
-          rowsPerPageOptions={[]}
-          style={{margin:'0px 50px 0px 0px'}}
-        />
+          <Pagination 
+        count={count} 
+        showFirstButton showLastButton
+        page={page}
+        onChange={handlePageChange}
+        sx={combinedStyles}
+         />
       </Wrapper>
       {boomimg && <Boom src="/icon/폭발.webp"/>}
       {boomimg && <Speech>{z * 2}</Speech>}

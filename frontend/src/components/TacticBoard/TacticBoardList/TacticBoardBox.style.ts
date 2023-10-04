@@ -106,6 +106,7 @@ width: 80%;
 height: 130px;
 display: block; 
 margin: 0 auto; 
+object-fit: contain
 `;
 export const ReturnBox = styled.div`
 max-width: 100%;
