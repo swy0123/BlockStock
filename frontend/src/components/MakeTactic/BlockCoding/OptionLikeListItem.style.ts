@@ -2,11 +2,11 @@ import styled from "styled-components";
 
 export const ItemContainer = styled.div`
   width: 90%;
-  height: 8%;
+  /* height: 10%; */
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 1%;
+  padding: 5%;
 `;
 
 export const LikeImg = styled.img`

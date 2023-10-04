@@ -63,6 +63,7 @@ export interface OptionItemProps {
 
 const BlockCoding = (props) => {
   const [isSearch, setSearch] = useState(true); //검색 타입
+  const [switchLike, setSwitchLike] = useState(false); //좋아요 누르면 상태 변환
 
   const [isLeftOpen, setIsLeftOpen] = useState(false); //왼쪽 창 활성화 여부
 
@@ -89,8 +90,18 @@ const BlockCoding = (props) => {
   useEffect(() => {
     const timeoutExecute = setTimeout(() => searchOption(), 300);
     return () => clearTimeout(timeoutExecute);
-  }, [keyword, isSearch]);
+  }, [keyword]);
+  useEffect(() => {
+    console.log("되나??????????")
+    searchOption()
+    setSwitchLike(false)
+  }, [switchLike, isSearch]);
 
+  const returnSetSwitchLike = () => {
+    
+    console.log("되나!!!!!!!!!!!??????????")
+    setSwitchLike(true);
+  }
   //전략 조회일 경우
   useEffect(() => {
     if (props.tacticId != null) {
@@ -122,8 +133,8 @@ const BlockCoding = (props) => {
   // 검색
   const searchOption = async () => {
     // if (keyword !== "") {
-      console.log(keyword);
-      console.log(isSearch);
+      console.log("optionLikeLi--------------------");
+      console.log(keyword + " " + isSearch);
       const res = await tacticSearchOption(keyword, isSearch);
       console.log(res);
       setOptionLikeList(res);
@@ -464,6 +475,7 @@ const BlockCoding = (props) => {
             <TitleInput
               type="text"
               value={title}
+              placeholder="눌러서 입력"
               onChange={(e) => handleTitleField(e)}
               onKeyDown={handleKeyDown}
             />
@@ -514,7 +526,7 @@ const BlockCoding = (props) => {
                               item={item}
                               setOption={setOption}
                               setViewOption={setViewOption}
-                              searchKeyword={searchKeyword}
+                              returnSetSwitchLike={()=>returnSetSwitchLike()}
                             ></OptionLikeListItem>
                           ))}
                         </>
@@ -526,7 +538,7 @@ const BlockCoding = (props) => {
                               item={item}
                               setOption={setOption}
                               setViewOption={setViewOption}
-                              searchKeyword={searchKeyword}
+                              returnSetSwitchLike={()=>returnSetSwitchLike()}
                             ></OptionLikeListItem>
                           ))}
                         </>
