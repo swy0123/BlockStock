@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class TacticTopicMessage {
+public class ContestEndMessage {
     private String message;
     private Long contestId;
     private String contestTitle;
