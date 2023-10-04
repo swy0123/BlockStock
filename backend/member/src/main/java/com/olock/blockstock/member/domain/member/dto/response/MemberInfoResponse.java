@@ -17,15 +17,16 @@ public class MemberInfoResponse {
     private Long money;
     private int followerCnt;
     private int followingCnt;
-    private List<String> award = new ArrayList<>(List.of("제1회 우승", "제2회 우승"));
+    private List<String> award;
     private LocalDateTime createdAt;
 
-    public MemberInfoResponse(Member member, boolean isFollowing, int followerCnt, int followingCnt) {
+    public MemberInfoResponse(Member member, List<String> award, boolean isFollowing, int followerCnt, int followingCnt) {
         this.id = member.getId();
         this.email = member.getEmail();
         this.nickname = member.getNickname();
         this.ticketCnt = member.getTicketCount();
         this.money = member.getMoney();
+        this.award = award;
         this.isFollowing = isFollowing;
         this.followerCnt = followerCnt;
         this.followingCnt = followingCnt;
