@@ -21,7 +21,7 @@ export const TradingHistoryContents = styled.div`
   width: 100%;
   height: 95%;
   overflow: hidden;
-  padding-bottom: 50px;
+  padding-bottom: 40px;
 `;
 
 export const LeftDiv = styled.div`

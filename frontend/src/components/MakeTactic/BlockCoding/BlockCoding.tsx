@@ -41,6 +41,8 @@ import {
   SearchDivOpenImg,
   TopDiv,
   TitleSpan,
+  OptionDetail,
+  OptionDetailItem,
 } from "./BlockCoding.style";
 import { ThemeProvider, createTheme } from "@mui/system";
 import { ToggleButtonGroup, ToggleButton } from "@mui/material";
@@ -48,6 +50,7 @@ import OptionLikeListItem from "./OptionLikeListItem";
 import "react-datepicker/dist/react-datepicker.css";
 import {
   tacticImport,
+  tacticOptionDetail,
   tacticSearchOption,
   tacticTest,
   tacticTestProps,
@@ -63,16 +66,20 @@ export interface OptionItemProps {
 
 const BlockCoding = (props) => {
   const [isSearch, setSearch] = useState(true); //검색 타입
+  const [switchLike, setSwitchLike] = useState(false); //좋아요 누르면 상태 변환
 
   const [isLeftOpen, setIsLeftOpen] = useState(false); //왼쪽 창 활성화 여부
 
   const [viewOptionCode, setViewOptionCode] = useState("");
+  const [viewOptionName, setViewOptionName] = useState("");
+  const [todayClose, setTodayClose] = useState(0);
+  const [diffRate, setDiffRate] = useState(0);
 
   const ref = useRef(null);
   const [title, setTitle] = useState(""); //제목
   const [editable, setEditable] = useState(false); //제목 수정가능여부
   const [keyword, setKeyword] = useState(""); //검색 키워드
-  const [optionLikeList, setOptionLikeList] = useState<OptionItemProps[]>([]); //종목검색결과
+  const [optionLikeList, setOptionLikeList] = useState<OptionItemProps[]>(undefined); //종목검색결과
   const [optionCode, setOptionCode] = useState(""); //종목코드
   const [optionName, setOptionName] = useState(""); //종목이름
   const [startAsset, setStartAsset] = useState(10000000); //초기자본
@@ -89,8 +96,18 @@ const BlockCoding = (props) => {
   useEffect(() => {
     const timeoutExecute = setTimeout(() => searchOption(), 300);
     return () => clearTimeout(timeoutExecute);
-  }, [keyword, isSearch]);
+  }, [keyword]);
 
+  useEffect(() => {
+    console.log("되나??????????");
+    searchOption();
+    setSwitchLike(false);
+  }, [switchLike, isSearch]);
+
+  const returnSetSwitchLike = () => {
+    console.log("되나!!!!!!!!!!!??????????");
+    setSwitchLike(true);
+  };
   //전략 조회일 경우
   useEffect(() => {
     if (props.tacticId != null) {
@@ -105,7 +122,7 @@ const BlockCoding = (props) => {
   // }
 
   const importData = async (id: number) => {
-    if(id>=0){
+    if (id >= 0) {
       const res = await tacticImport(id);
       setOptionCode(res.optionCode);
       setOptionName(res.optionName);
@@ -113,8 +130,7 @@ const BlockCoding = (props) => {
       setTacticPythonCode(res.tacticPythonCode);
       setTacticJsonCode(JSON.parse(res.tacticJsonCode));
       setTacticImg(res.tacticImg);
-    }
-    else{
+    } else {
       setTacticJsonCode(JSON.parse(props.tacticJsonCode));
     }
   };
@@ -122,11 +138,11 @@ const BlockCoding = (props) => {
   // 검색
   const searchOption = async () => {
     // if (keyword !== "") {
-      console.log(keyword);
-      console.log(isSearch);
-      const res = await tacticSearchOption(keyword, isSearch);
-      console.log(res);
-      setOptionLikeList(res);
+    console.log("optionLikeLi--------------------");
+    console.log(keyword + " " + isSearch);
+    const res = await tacticSearchOption(keyword, isSearch);
+    console.log(res);
+    setOptionLikeList(res);
     // }
     // else{
     //   setOptionLikeList([])
@@ -273,14 +289,14 @@ const BlockCoding = (props) => {
 
   //검색 모드 변경
   const setSearchTrue = () => {
-    console.log("setSearchTrue")
+    console.log("setSearchTrue");
     setSearch(true);
     setKeyword("");
     handleOptionLikeList(true);
   };
 
   const setSearchFasle = () => {
-    console.log("setSearchFasle")
+    console.log("setSearchFasle");
     setSearch(false);
     setKeyword("");
     handleOptionLikeList(false);
@@ -306,10 +322,20 @@ const BlockCoding = (props) => {
     console.log("setOption" + curOptionCode + curOptionName);
   };
 
+
+  const getOptionDetail = async (curOptionCode:string) => {
+    const res = await tacticOptionDetail(curOptionCode);
+    setViewOptionCode(res.optionCode)
+    setViewOptionName(res.optionName)
+    setTodayClose(res.todayClose)
+    setDiffRate(res.diffRate)
+  }
+
   const setViewOption = (curOptionCode: string) => {
-    setViewOptionCode(curOptionCode.replace(/\D/g, ""));
+    getOptionDetail(curOptionCode.replace(/\D/g, ""));
     console.log("setOption" + curOptionCode);
   };
+
   const clearViewOption = () => {
     setViewOptionCode("");
   };
@@ -335,7 +361,7 @@ const BlockCoding = (props) => {
       term: term,
       repeatCnt: repeatCnt,
     };
-    if(optionCode!=""){
+    if (optionCode != "") {
       Swal.fire({
         title: "테스트 실행",
         text: "테스트를 실행하시겠습니까?",
@@ -356,8 +382,7 @@ const BlockCoding = (props) => {
           setCodeCheck(false);
         }
       });
-    }
-    else{
+    } else {
       Swal.fire({
         title: "종목을 선택해주세요",
         text: "종목을 선택하시겠습니까?",
@@ -369,12 +394,10 @@ const BlockCoding = (props) => {
         cancelButtonText: "취소",
       }).then((result) => {
         if (result.isConfirmed) {
-          
           handleIsLeftOpen();
         }
       });
     }
-    
   };
 
   useEffect(() => {
@@ -464,6 +487,7 @@ const BlockCoding = (props) => {
             <TitleInput
               type="text"
               value={title}
+              placeholder="눌러서 입력"
               onChange={(e) => handleTitleField(e)}
               onKeyDown={handleKeyDown}
             />
@@ -513,8 +537,8 @@ const BlockCoding = (props) => {
                               key={index}
                               item={item}
                               setOption={setOption}
-                              setViewOption={setViewOption}
-                              searchKeyword={searchKeyword}
+                              setViewOption={(res)=>setViewOption(res)}
+                              returnSetSwitchLike={() => returnSetSwitchLike()}
                             ></OptionLikeListItem>
                           ))}
                         </>
@@ -525,8 +549,8 @@ const BlockCoding = (props) => {
                               key={index}
                               item={item}
                               setOption={setOption}
-                              setViewOption={setViewOption}
-                              searchKeyword={searchKeyword}
+                              setViewOption={(res)=>setViewOption(res)}
+                              returnSetSwitchLike={() => returnSetSwitchLike()}
                             ></OptionLikeListItem>
                           ))}
                         </>
@@ -538,10 +562,28 @@ const BlockCoding = (props) => {
                 </SearchItemList>
               </>
             ) : (
-              <>
+              <OptionDetail>
                 {/* 종목상세보기 */}
-                <button onClick={clearViewOption}> 돌아가기 </button>
-              </>
+                {/*
+                  "optionCode": "A049080",
+                  "optionName": "기가레인",
+                  "todayClose": 1370,
+                  "diffRate": -1.481
+                */}
+                <OptionDetailItem>
+                  <span>종목명 : {viewOptionName}</span>
+                </OptionDetailItem>
+                <OptionDetailItem>
+                  <span>종목코드 : {viewOptionCode}</span>
+                </OptionDetailItem>
+                <OptionDetailItem>
+                  <span>현재가 : {todayClose}</span>
+                </OptionDetailItem>
+                <OptionDetailItem>
+                  <span>전일대비 : {diffRate}</span>
+                </OptionDetailItem>
+                <TestButton onClick={clearViewOption}> 돌아가기 </TestButton>
+              </OptionDetail>
             )}
           </IsSearchDiv>
         </LeftDiv>
