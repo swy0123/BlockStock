@@ -20,7 +20,11 @@ import {
   BtnBox,
   ImgBox,
   Img,
-  DownloadBox
+  DownloadBox,
+  Down,
+  DownImg,
+  DownBox
+
 } from './FreeBoardItemDetail.style'
 
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -203,11 +207,11 @@ function FreeBoardItemDetail(){
 
         <Header>
           <div style={{display:'flex', minWidth:'500px'}}>
-            <UserImg src="/icon/user_purple.png"/>
+            <UserImg src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${boardItem.memberId}`}
+              />
             <NickName>{boardItem.nickName}</NickName>
             <Date> {dayjs(boardItem.createdAt).format('YYYY.MM.DD HH:mm')}</Date>
           </div>
-
           <Box>
             <Hit>
               <div style={{margin:'2px 5px 0px 0px'}}>
@@ -236,7 +240,26 @@ function FreeBoardItemDetail(){
           </Box>
         </Header>
         <Line />
-
+        <DownloadBox>
+            {file.map((item,index)=>(
+              <DownBox key={index}>
+                <DownImg src="/icon/download.png"/>
+                <Down href={item.path}
+                // onClick={handleDownload}
+                onClick={()=>downloadImage(item)}
+                download
+                target="_blank"
+                rel="noopener noreferrer"
+                >{item.fileName}</Down>
+                {/* <a
+                  href={item.path}
+                  download // 이걸 적어야 파일을 다운받을 수 있다.
+                  target='_blank' //링크된 문서를 새로운 윈도우나 탭(tab)에서 오픈함.
+                  rel='noreferrer'
+                >{item.fileName}</a> */}
+              </DownBox>
+            ))}
+          </DownloadBox>
         <Wrapper>
           <ContentBox>
             <Content>{boardItem.content}</Content>
@@ -250,26 +273,6 @@ function FreeBoardItemDetail(){
               </div>
             ))}
           </ImgBox>
-          <DownloadBox>
-            {file.map((item,index)=>(
-              <div key={index}>
-                <div href={item.path}
-                // onClick={handleDownload}
-                onClick={()=>downloadImage(item)}
-                download
-                target="_blank"
-                rel="noopener noreferrer"
-                >{item.fileName}</div>
-                <a
-                  href={item.path}
-                  download // 이걸 적어야 파일을 다운받을 수 있다.
-                  target='_blank' //링크된 문서를 새로운 윈도우나 탭(tab)에서 오픈함.
-                  rel='noreferrer'
-                >{item.fileName}</a>
-              </div>
-            ))}
-
-          </DownloadBox>
           {boardItem.memberId === userId ? (
             <>
             <BtnBox>
@@ -280,7 +283,6 @@ function FreeBoardItemDetail(){
           ) : (
             <></>
           )}
-
         </Wrapper>
         <Line />
         <CommentCreate state={{ id:state.postId, type:'free' }} />
