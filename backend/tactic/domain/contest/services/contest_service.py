@@ -40,18 +40,21 @@ def get_contests(member_id: int,
     if status == ContestType.PROCEED:
         result = (session.query(Contest).where(Contest.start_time <= datetime.now()).
                   where(datetime.now() <= Contest.end_time).filter((Contest.title.ilike(f'%%{key_word}%%'))).
-                  order_by(desc(Contest.created_at)).
-                  offset(offset).limit(size).all())
+                  order_by(desc(Contest.created_at)))
 
     elif status == ContestType.EXPECTED:
         result = (session.query(Contest).where(datetime.now() < Contest.start_time).
                   filter(Contest.title.like(f'%%{key_word}%%')).
-                  order_by(desc(Contest.created_at)).offset(offset).limit(size).all())
+                  order_by(desc(Contest.created_at)))
 
     elif status == ContestType.FINISH:
         result = (session.query(Contest).where(Contest.end_time < datetime.now()).
                   filter(Contest.title.ilike(f'%%{key_word}%%')).
-                  order_by(desc(Contest.created_at)).offset(offset).limit(size).all())
+                  order_by(desc(Contest.created_at)))
+
+    total_cnt = result.count()
+
+    result = result.offset(offset).limit(size).all()
 
     for contest in result:
         if (session.query(Participate).outerjoin(Contest, Participate.contest_id == Contest.id).
@@ -67,7 +70,7 @@ def get_contests(member_id: int,
         contest_result.append(ContestResponse(contest, is_registed, join_people, option_name))
 
     session.close()
-    return ContestListResponse(contest_result, len(contest_result))
+    return ContestListResponse(contest_result, total_cnt)
 
 
 async def get_contest_result(contest_id: int):
