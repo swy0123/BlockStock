@@ -461,7 +461,7 @@ function BlocklyComponent(props: any) {
         //   getArray: JSON.stringify(getArray),
         // });
       }
-
+      save();
       props.setCodeCheckTrue();
       console.log(props.codeCheck);
       console.log("codeCheck low component");
