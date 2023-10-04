@@ -4,7 +4,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import TablePagination from "@mui/material/TablePagination";
+import Pagination from "@mui/material/Pagination";
 import "./style.css";
 
 import { useNavigate } from "react-router-dom";
@@ -31,7 +31,8 @@ import {
   Hr,
   Posting,
 } from "./FreeBoardListBox.style";
-
+ // 날짜 변환
+ import dayjs from "dayjs";
 // api
 import {freeBoardList} from '../../../api/FreeBoard/FreeBoard'
 
@@ -40,37 +41,48 @@ function FreeBoardListBox() {
 
   const [menu, setMenu] = useState("createdAt");
   const [searchKeyword, setSearchKeyword] = useState("");
-  const [page, setPage] = React.useState(0);
+  const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(8);
 
   // 글 리스트
   const [ boardList, setBoardList] = useState([])
-  // 전체 글의 수
+  // 전체 글의 수, 페이지 수
   const [count, setCount] = useState(0)
+  const [ itemCount, setItemCount] = useState(0)
 
   // api 통신 =============================================================
   const params = {
     sort: menu,
-    page: page,
+    page: page-1,
     size: rowsPerPage,
     keyWord: searchKeyword,
   };
 
+  const handleChangeSearch = (e)=>{
+    setSearchKeyword(e.target.value)
+    setPage(1)
+  }
   useEffect(()=>{
     freeboard()
-  },[page,rowsPerPage,searchKeyword])
+  },[page,rowsPerPage,searchKeyword,menu])
 
   // 자유게시판 리스트 api
   const freeboard = async () => {
     const res = await freeBoardList(params)
     console.log(res)
+    setItemCount(res.data.totalCnt)
     if (res.status===200){
-      setBoardList(res.data)
-      // setCount()
+      setBoardList(res.data.freeePostListResponseList)
+      if(Math.floor(res.data.totalCnt % 8)){
+        setCount(Math.floor(res.data.totalCnt / 8)+1);
+      }else{
+        setCount(Math.floor(res.data.totalCnt / 8));
+      }
     }
   }
   // api 통신 =================
 
+  
   // 삭제시 다시 한번 갱신
   useEffect(()=>{
     freeboard()
@@ -83,37 +95,35 @@ function FreeBoardListBox() {
     setMenu(selectedMenu);
   };
 
-
-  // 페이지네이션 ============================================
-  const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => {
-    setPage(newPage);
+  // 페이지 네이션 2==============================================
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage); // 페이지 변경 시 상태 변수 업데이트
   };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  }
-
-
-  const startIndex = page * rowsPerPage;
-  const endIndex = startIndex + rowsPerPage;
-  const itemsToDisplay = boardList.slice(startIndex, endIndex);
-  const filteredItems = itemsToDisplay.filter((item) =>
-    item.freeboard.title.includes(searchKeyword)
-  );
-  // 페이지네이션 ============================================
-
+  const paginationStyle = {
+    '& .MuiPagination-ul .MuiPaginationItem-root.Mui-selected': {
+      backgroundColor: '#F4F5FA', // 선택된 페이지 배경색을 연보라색으로 변경
+    },
+    '& .MuiPagination-ul .MuiPaginationItem-root.Mui-selected:hover': {
+      backgroundColor: '#F4F5FA', // 선택된 페이지 호버 시 배경색도 연보라색으로 변경
+    },
+    '& .MuiPagination-ul .MuiPaginationItem-root.MuiPaginationItem-page:hover': {
+      backgroundColor: '#F4F5FA', // 페이지 호버 시 배경색도 연보라색으로 변경
+    },
+  };
+  const combinedStyles = {
+    ...paginationStyle, // paginationStyle 객체
+    display:'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  };
+  // 페이지 네이션 2==============================================
+  
   return (
     <Container>
       <Wrapper>
         <Header>
           <DivBox>
-          <Search placeholder="  검색" onChange={(e)=>setSearchKeyword(e.target.value)} />
+          <Search placeholder="  검색" onChange={handleChangeSearch} />
           <Box sx={{ maxWidth: "130px" }}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label"></InputLabel>
@@ -159,43 +169,40 @@ function FreeBoardListBox() {
           {boardList.map((item, index) => (
             <Posting key={`boardItem_${index}`}>
               <div style={{ display: "flex", cursor: "pointer" }}>
-                <ItemNumber>{item.freeboard.id}</ItemNumber>
+                <ItemNumber>{(itemCount - (page - 1) * 8)- index}</ItemNumber>
                 <ItemTitle
                   onClick={() => {
                     navigate(`/freeboarddetail`, {
-                      state: { postId: item.freeboard.id }, // URL 매개변수 설정
+                      state: { postId: item.freePostId }, // URL 매개변수 설정
                     });
                   }}
                 >
-                  {item.freeboard.title}
+                  {item.title}
                 </ItemTitle>
 
                 <Tooltip
                   state={{
-                    nickname: item.freeboard.nickname,
-                    id: item.freeboard.id,
+                    nickname: item.nickname,
+                    id: item.freePostId,
                   }}
                 >
-                  <ItemWriter>{item.freeboard.nickname}</ItemWriter>
+                  <ItemWriter>{item.nickname}</ItemWriter>
                 </Tooltip>
 
-                <ItemTime>{item.freeboard.modifiedAt}</ItemTime>
-                <ItemtHit>{item.freeboard.hit}</ItemtHit>
+                <ItemTime>{dayjs(item.updatedAt).format('YYYY/MM/DD HH:mm')}</ItemTime>
+                <ItemtHit>{item.hit}</ItemtHit>
               </div>
               <Hr/>
             </Posting>
           ))}
         </FreeBoardBox>
-        <TablePagination
-          component="div"
-          count={count}
-          page={page}
-          onPageChange={handleChangePage}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={()=>{}}
-          rowsPerPageOptions={[]}
-          style={{ margin: "0px 15px 0px 0px" }}
-        />
+        <Pagination 
+        count={count} 
+        showFirstButton showLastButton
+        page={page}
+        onChange={handlePageChange}
+        sx={combinedStyles}
+         />
       </Wrapper>
     </Container>
   );

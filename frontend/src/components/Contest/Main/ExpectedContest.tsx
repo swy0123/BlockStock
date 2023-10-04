@@ -95,6 +95,7 @@ function ExpectedContest({contest}){
                           <ExpandMoreIcon style={{ 
                           fontSize: '50px',
                           margin: '0px 0px 0px 35%',
+                          color:'#D4D4D4'
                          }} />
                         )}
                     </ContestHeader>
@@ -115,13 +116,13 @@ function ExpectedContest({contest}){
                 >
                   <div style={{ padding: '10px 0px 0px 37px' }}>
                     <Participants>
-                      현재 참가 인원 수 : {item.joinPeople} / {item.maxCapacity}
+                      현재 참가 인원 수 : {item.joinPeople} / {item.maxCapacity} (명)
                     </Participants>
                     <Ticket>
                       필요 티켓 개수 : {item.ticket} 개
                     </Ticket>
                     <Term>
-                      전략 실행 주기 : {item.term}
+                      전략 실행 주기 : {item.term} 초
                     </Term>
                     {/* 줄바꿈 적용 넘어갈 경우 다음 줄로 */}
                     <ContestContent style={{ whiteSpace: 'pre-line',wordWrap: 'break-word' }}>

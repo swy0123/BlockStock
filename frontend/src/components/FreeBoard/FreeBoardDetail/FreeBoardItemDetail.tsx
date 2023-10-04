@@ -33,8 +33,16 @@ import { useRecoilState } from "recoil";
 import {commentlist} from '../../../recoil/FreeBoard/Comment'
 import { freeBoardList } from "../../../recoil/FreeBoard/FreeBoardList";
 import Swal from 'sweetalert2';
+// userId
+import { useRecoilValue } from 'recoil';
+import { CurrentUserAtom } from '../../../recoil/Auth';
+// 날짜 변환
+import dayjs from "dayjs";
+function FreeBoardItemDetail(){
 
-function FreeBoardItemDetail({}){
+  // userId
+  const currentUser = useRecoilValue(CurrentUserAtom);
+  const userId = currentUser.userid;
 
   const navigate = useNavigate();
   const [commentlists, setCommentlists] = useRecoilState(commentlist)
@@ -119,8 +127,8 @@ function FreeBoardItemDetail({}){
         <Header>
           <div style={{display:'flex', minWidth:'500px'}}>
             <UserImg src="/icon/user_purple.png"/>
-            <NickName>{boardItem.nickname}</NickName>
-            <Date>{boardItem.modifiedAt}</Date>
+            <NickName>{boardItem.nickName}</NickName>
+            <Date> {dayjs(boardItem.createdAt).format('YYYY.MM.DD HH:mm')}</Date>
           </div>
 
           <Box>
@@ -129,7 +137,7 @@ function FreeBoardItemDetail({}){
                 <VisibilityIcon style={{fontSize:'16px'}}/>
               </div>
               <div>
-                {boardItem.hit}
+                {boardItem.hit + 1}
               </div>
             </Hit>
             <Like>
@@ -137,7 +145,7 @@ function FreeBoardItemDetail({}){
                 <FavoriteBorderIcon style={{fontSize:'16px'}}/>
               </div>
               <div>
-                {boardItem.likes}
+                {boardItem.likeCnt}
               </div>
             </Like>
             <Comment>
@@ -156,15 +164,21 @@ function FreeBoardItemDetail({}){
           <ContentBox>
             <Content>{boardItem.content}</Content>
           </ContentBox>
-          <BtnBox>
-            <UpdateBtn onClick={() => navigate('/freeboardupdate')}>수정</UpdateBtn>
-            <DeleteBtn onClick={handleDelete}>삭제</DeleteBtn>
-          </BtnBox>
+          {boardItem.memberId === userId ? (
+            <>
+            <BtnBox>
+              <UpdateBtn onClick={() => navigate('/freeboardupdate')}>수정</UpdateBtn>
+              <DeleteBtn onClick={handleDelete}>삭제</DeleteBtn>
+            </BtnBox>
+            </>
+          ) : (
+            <></>
+          )}
         </Wrapper>
         <Line />
-        <CommentCreate state={{ id:boardItem.id, type:'free' }} />
+        <CommentCreate state={{ id:state.postId, type:'free' }} />
         <Line />
-        <CommentList state={{  id:boardItem.id, type:'free' }}/>
+        <CommentList state={{  id:state.postId, type:'free' }}/>
 
       </Container>
     </>

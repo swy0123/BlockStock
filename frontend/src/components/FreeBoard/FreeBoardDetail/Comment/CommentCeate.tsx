@@ -44,7 +44,7 @@ function CommentCreate(props){
 
   useEffect(()=>{
     if(type==='free'){
-      setLike(freeboardList.isLike)
+      setLike(freeboardList.like)
     } else if (type==='tactic'){
       setLike(boardList.isLike)
     }
@@ -65,7 +65,7 @@ function CommentCreate(props){
   // 자유 댓글 작성=======================================
   const freecomment = async ()=>{
     const data = {
-      "freeboardId": id,
+      "freeBoardId": id,
       'content':content
     }
     const res = await commentCreate(data)
@@ -86,6 +86,11 @@ function CommentCreate(props){
     console.log('좋아요 boardList.isLike', boardList.isLike)
     setLike(boardList.isLike)
   },[boardList.isLike])
+
+  useEffect(()=>{
+    console.log('좋아요 freeboardList.isLike', freeboardList.like)
+    setLike(freeboardList.like)
+  },[freeboardList.like])
 
 
   // 전략 댓글 작성 ======================================
@@ -128,7 +133,7 @@ function CommentCreate(props){
     let likeId = {};
     if (type==='free'){      
       likeId = {
-        "freeboardId": id,
+        "freePostId": id,
       }
     } else {
       likeId = {
@@ -159,7 +164,7 @@ function CommentCreate(props){
     if(res.status===200){
       const updatedBoardList = {
         ...freeboardList, // 기존 상태 복사
-        isLike: !freeboardList.isLike, // isLike 업데이트
+        like: !freeboardList.like, // isLike 업데이트
         likeCnt: freeboardList.likeCnt + 1, // likeCnt 업데이트
       };
       setFreeBoardList(updatedBoardList)
@@ -172,7 +177,7 @@ function CommentCreate(props){
     if(res.status===200){
       const updatedBoardList = {
         ...freeboardList, // 기존 상태 복사
-        isLike: !freeboardList.isLike, // isLike 업데이트
+        like: !freeboardList.like, // isLike 업데이트
         likeCnt: freeboardList.likeCnt - 1, // likeCnt 업데이트
       };
       setFreeBoardList(updatedBoardList)
