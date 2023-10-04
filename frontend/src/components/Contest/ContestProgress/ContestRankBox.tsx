@@ -123,7 +123,7 @@ function ContestRankBox(props:{contestId:number}) {
               <UserImg src='/icon/user_purple.png' />
               <UserNickName>{item.nickName}</UserNickName>
               <UserReturnBox>
-                <UserReturnIcon>0.33%</UserReturnIcon>
+                <UserReturnIcon>{item.returns}</UserReturnIcon>
                 <UserReturn $isPositive={item.returns[0]=="+"?true:false}>{item.returns}</UserReturn>
               </UserReturnBox>
             </RankBox>
