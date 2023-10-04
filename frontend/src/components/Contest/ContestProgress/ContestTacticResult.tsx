@@ -33,6 +33,7 @@ import { format } from "d3-format";
 import { contestChart, contestRanking, contestTrade } from "../../../api/Contest/ContestProgress";
 import dayjs from "dayjs";
 import ContestRankBox from "./ContestRankBox";
+import Spinner from "../../Util/Spinner";
 
 const TacticResult = (props: { contestId: number }) => {
   const [componentRef, size] = useComponentSize();
@@ -72,7 +73,7 @@ const TacticResult = (props: { contestId: number }) => {
 
     //테스트 데이터 id는 7
     // const propsTmp = props.contestId;
-    const propsTmp = 7;
+    const propsTmp = 66;
 
     const chartres = await contestChart(propsTmp);
     const traderes = await contestTrade(propsTmp);
@@ -158,7 +159,7 @@ const TacticResult = (props: { contestId: number }) => {
                 chartInfos={chartInfos}
               ></CandleChart>
             ) : (
-              <></>
+              <Spinner></Spinner>
             )}
           </HistoryChartDiv>
         </CenterDiv>
