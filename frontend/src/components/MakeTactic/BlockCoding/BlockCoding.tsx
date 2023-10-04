@@ -373,13 +373,9 @@ const BlockCoding = (props) => {
         cancelButtonText: "취소",
       }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire(
-            "실행중입니다.",
-            "잠시만 기다려주세요",
-            "success"
-            // '확인',
-          );
+          
           setCodeCheck(false);
+          
         }
       });
     } else {
@@ -475,8 +471,22 @@ const BlockCoding = (props) => {
       props.returnTacticImg(tacticImg);
       console.log("---------------------------------");
 
+      Swal.fire(
+        "실행중입니다.",
+        "잠시만 기다려주세요",
+        "success"
+        // '확인',
+      );
       props.toggleFlag();
     }
+    // else{
+    //   Swal.fire(
+    //     "빈 전략입니다.",
+    //     "코드를 입력해주세요",
+    //     "success"
+    //     // '확인',
+    //   );
+    // }
   }, [codeCheck]);
 
   return (
