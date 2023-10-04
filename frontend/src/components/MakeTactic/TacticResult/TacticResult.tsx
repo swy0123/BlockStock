@@ -156,12 +156,14 @@ const TacticResult = (props) => {
 
     // ----------------아래가 실제 코드 ------------------
 
-    const formData = new FormData();
-    formData.append("imagePath", props.tacticImg);
-    // const imgPath = await tacticImg(formData);
+    let data = new FormData();
+    const file = new Blob([props.tacticImg], { type: 'image/svg+xml' })
+    data.append("file", file);
+    // data.append("file", props.tacticImg);
+    const response = await tacticImg(data);
     // const imgPath =
     //   "https://firebasestorage.googleapis.com/v0/b/pocket-sch.appspot.com/o/tmp_block.png?alt=media&token=01a14d47-374b-4c7f-93af-1b902bad2031&_gl=1*1w4ri8m*_ga*MjIwNzM4OS4xNjc2OTA3ODQ2*_ga_CW55HF8NVT*MTY5NjMxNjM2Ni41LjEuMTY5NjMxNjU1NS4zNi4wLjA.";
-
+    console.log(response)
     if (tacticId != null) {
       const requestProps: updateTacticProps = {
         id: tacticId,
@@ -169,7 +171,7 @@ const TacticResult = (props) => {
         optionCode: props.optionCode,
         tacticJsonCode: props.tacticJsonCode,
         tacticPythonCode: props.tacticPythonCode,
-        imgPath: imgPath,
+        imgPath: response.imagePath,
         testReturns: returnPercent,
       };
       const res = await tacticUpdate(requestProps);
@@ -180,7 +182,7 @@ const TacticResult = (props) => {
         optionCode: props.optionCode,
         tacticJsonCode: props.tacticJsonCode,
         tacticPythonCode: props.tacticPythonCode,
-        imgPath: imgPath,
+        imgPath: response.imagePath,
         testReturns: returnPercent,
       };
       const res = await tacticCreate(requestProps);
@@ -348,7 +350,7 @@ const TacticResult = (props) => {
             {/* 버튼 */}
             <HistorySaveButton onClick={saveTactic}>저장하기</HistorySaveButton>
             {/* <HistorySaveButton onClick={downloadImg}>이미지</HistorySaveButton> */}
-            {/* {props.tacticImg ? <img src={props.tacticImg} /> : <></>} */}
+            {props.tacticImg ? <img src={props.tacticImg} /> : <></>}
           </HistorySummary>
         </RightDiv>
       </TradingHistoryContents>
