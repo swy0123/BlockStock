@@ -32,14 +32,16 @@ function CommentList(props) {
 
   const [commentlists, setCommentlists] = useRecoilState(commentlist)
 
-  const [comment, setComment] = useState<any[]>([])
+  const [comment, setComment] = useState([])
 
   const { id, type } = props.state
 
   // 댓글 리스트 api 호출
   useEffect(()=>{
     comments()
-    console.log(type)
+    console.log('댓글 리스트')
+    console.log(type,'type')
+    console.log(id,'id')
   },[])
   
   // 댓글 작성시 recoil에 저장 후 다시 불러오기
@@ -61,13 +63,13 @@ function CommentList(props) {
   const freecommentapi = async ()=>{
     const res = await freecommentList(id)
     console.log(res)
-    setComment(res)
-    setCommentlists(res)
+    setComment(res.data)
+    setCommentlists(res.data)
   }
 
   // api 자유 게시판 댓글 삭제 =======================
-  const freecommentdelete = async()=>{
-    const res = await commentDelete(id)
+  const freecommentdelete = async(commentId)=>{
+    const res = await commentDelete(commentId)
     console.log(res)
     if(res.status===200){
       comments()
@@ -83,9 +85,9 @@ function CommentList(props) {
     setCommentlists(res)
   }
   // api 전략 게시판 댓글 삭제 ===============================
-  const commentdeleteapi = async (id)=>{
-    console.log(id, '댓글 id')
-    const res = await tacticcommentDelete(id)
+  const commentdeleteapi = async (commentId)=>{
+    console.log(commentId, '댓글 id')
+    const res = await tacticcommentDelete(commentId)
     console.log(res)
     if(res.status===200){
       comments()
@@ -94,7 +96,7 @@ function CommentList(props) {
 
 
   // 댓글 삭제 id는 댓글 id
-  const handleDelete = (id) => {
+  const handleDelete = (commentId) => {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -115,11 +117,11 @@ function CommentList(props) {
     }).then((result) => {
       if (result.isConfirmed) {
         if (type==='free'){
-          console.log(id);
-          freecommentdelete(id);
+          console.log(commentId);
+          freecommentdelete(commentId);
         }else if (type==='tactic'){
-          console.log(id);
-          commentdeleteapi(id)
+          console.log(commentId);
+          commentdeleteapi(commentId)
         }
         swalWithBootstrapButtons.fire({
           title: '삭제되었습니다',
@@ -157,10 +159,22 @@ function CommentList(props) {
                   <NickName>{item.nickname}</NickName>|
                   <Day> {dayjs(item.createdAt).format('YYYY.MM.DD HH:mm')}</Day>
                 </div>
-                {item.memberId === userId ? (
-                  <DeleteBtn onClick={() => handleDelete(item.id)}>삭제</DeleteBtn>
-                  ) : (
-                  <></>
+                {type === 'free' ? (
+                  <>
+                  {item.memberId === userId ? (
+                    <DeleteBtn onClick={() => handleDelete(item.commentId)}>삭제</DeleteBtn>
+                    ) : (
+                      <></>
+                      )}
+                  </>
+                      ) : (
+                        <>
+                    {item.memberId === userId ? (
+                      <DeleteBtn onClick={() => handleDelete(item.id)}>삭제</DeleteBtn>
+                      ) : (
+                        <></>
+                        )}
+                        </>
                 )}
               </Header>
                {/* 줄바꿈 적용 넘어갈 경우 다음 줄로 */}
