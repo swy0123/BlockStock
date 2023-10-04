@@ -86,3 +86,22 @@ font-size: 13px;
 margin: 5.5px 0px 0px 12px;
 /* font-weight: bold; */
 `;
+
+export const BackBtn = styled.div`
+  padding: 10px 10px;
+  border-radius: 50%;
+  width: 30px;
+  font-size: 13px;
+  background: #9155FD;
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  text-align: center;
+  color: #FFFFFF;
+  margin: 360px 0px 0px 20px;
+`;
+
+
+
+
+
