@@ -71,6 +71,7 @@ function FreeBoardListBox() {
     const res = await freeBoardList(params)
     console.log(res)
     setItemCount(res.data.totalCnt)
+    //페이지네이션
     if (res.status===200){
       setBoardList(res.data.freeePostListResponseList)
       if(Math.floor(res.data.totalCnt % 8)){
@@ -135,7 +136,7 @@ function FreeBoardListBox() {
               >
                 <MenuItem value="createdAt">최신순</MenuItem>
                 <MenuItem value="likes">좋아요</MenuItem>
-                <MenuItem value="hits">조회수</MenuItem>
+                <MenuItem value="hit">조회수</MenuItem>
               </Select>
             </FormControl>
           </Box>
