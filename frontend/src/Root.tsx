@@ -7,9 +7,10 @@ import LoginHeader from "./components/Common/LoginHeader";
 import styled from "styled-components";
 import { useRecoilValue } from "recoil";
 import { LoginState } from "./recoil/Auth";
-
+import "./components/Font/Font.css"
 
 const Container = styled.div`
+  font-family: 'Pretendard-Regular';  
   display: flex;
   flex-direction: column;
 `
