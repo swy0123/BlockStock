@@ -92,3 +92,35 @@ export const deleteTactic = async (id: number) => {
     console.log('err', error)
  } 
 }
+
+// 내 자유게시글
+export const getmyfreeBoard = async () => {
+    const res = await privateApi.get(`/free-board`,{
+      params:{
+        sort: "createdAt",
+        page: 0,
+        size: 100,
+        keyword: "",
+        my: true,
+        like: false,
+      }
+    });
+    return res.data
+  };
+
+  // 내 좋아요 게시글
+export const getlikefreeBoard = async () => {
+    console.log("내 좋아요 게시판 try")
+    const res = await privateApi.get(`/free-board`,{
+      params:{
+        sort: "createdAt",
+        page: 0,
+        size: 100,
+        keyword: "",
+        my: false,
+        like: true,
+      }
+    });
+    console.log("먀먀먀", res.data);
+    return res.data
+  };
