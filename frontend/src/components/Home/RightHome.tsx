@@ -5,19 +5,20 @@ const Container = styled.div`
   /* width: 100%; */
   align-items: center;
   margin-top: 50px;
+  margin-left: -70px;
 `;
 const PersonImg = styled.img`
   position: absolute;
   width: 300px;
   height: 450px;
-  left: 930px;
+  left: 990px;
   top: 150px;
 `;
 const MenuBtn = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
   /* padding: 0px 10px; */
   width: 190px;
   height: 54px;
@@ -75,7 +76,7 @@ const Circle = styled.div`
 const Text = styled.p`
   color: white;
   font-size: 17px;
-  /* margin: 0px 10px; */
+  margin: 0px 10px;
 `;
 const Img = styled.img`
   width: 40px;

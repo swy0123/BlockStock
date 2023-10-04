@@ -3,8 +3,9 @@ import { privateApi } from "../index";
 
 // 주식 검색
 export const tacticSearchOption = async (keyword: string, isSearch:boolean) => {
+  console.log(keyword + " " + isSearch)
   try {
-    const res = await privateApi.get(`/option`, {params:{keyword:keyword, like:!isSearch}});
+    const res = await privateApi.get(`/option`, {params:{like:!isSearch, keyword:keyword}});
     return res.data;
   } catch (err) {
     console.log(err);
@@ -12,14 +13,14 @@ export const tacticSearchOption = async (keyword: string, isSearch:boolean) => {
 };
 
 // 관심 종목 추가
-export const addLikedOption = async (code: string) => {
+export const addLikedOption = async (code: any) => {
   console.log(code)
   try {
     const res = await privateApi.post(`/option/like`, code);
-    console.log(res.data);
-    return res.data;
+    console.log(res);
+    return res;
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 };
 
@@ -28,10 +29,10 @@ export const deleteLikedOption = async (code: string) => {
   console.log(code)
   try {
     const res = await privateApi.delete(`/option/like/`+code);
-    console.log(res.data);
-    return res.data;
+    console.log(res);
+    return res;
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 };
 
