@@ -49,6 +49,8 @@ const TacticResult = (props) => {
   const [endAsset, setEndAssets] = useState(0);
   const [returnPercent, setReturnPercent] = useState(0);
   const [tacticId, setTacticId] = useState(null);
+  const [saveValidation, setSaveValidation] = useState(false);
+
 
   const navigate = useNavigate();
   // const [title, setTitle] = useState("");
@@ -77,7 +79,19 @@ const TacticResult = (props) => {
     let cnt = 0;
     let nextOptionHistory = [];
     for (let i = 0; i < curOptionHistory.length; i++) {
-      if (i == 0) continue;
+      if (i == 0){
+        const tmp = {
+          type:curOptionHistory[i].type,
+          turn:curOptionHistory[i].turn, // 몇 번째 턴
+          cost:curOptionHistory[i].cost, // 주식 가격
+          tradeCnt:curOptionHistory[i].tradeCnt, // 거래 수 ( 몇개 샀는지 )
+          profitAndLoss:curOptionHistory[i].profitAndLoss, // 실현손익
+          idx:cnt
+        };
+        nextOptionHistory.push(tmp);
+        continue;
+      };
+
       if (curOptionHistory[i].turn == curOptionHistory[i - 1].turn) {
         cnt++;
       }else{
@@ -143,10 +157,10 @@ const TacticResult = (props) => {
     // ----------------아래가 실제 코드 ------------------
 
     const formData = new FormData();
-    formData.append("imgPath", props.tacticImg);
+    formData.append("imagePath", props.tacticImg);
     // const imgPath = await tacticImg(formData);
-    const imgPath =
-      "https://firebasestorage.googleapis.com/v0/b/pocket-sch.appspot.com/o/tmp_block.png?alt=media&token=01a14d47-374b-4c7f-93af-1b902bad2031&_gl=1*1w4ri8m*_ga*MjIwNzM4OS4xNjc2OTA3ODQ2*_ga_CW55HF8NVT*MTY5NjMxNjM2Ni41LjEuMTY5NjMxNjU1NS4zNi4wLjA.";
+    // const imgPath =
+    //   "https://firebasestorage.googleapis.com/v0/b/pocket-sch.appspot.com/o/tmp_block.png?alt=media&token=01a14d47-374b-4c7f-93af-1b902bad2031&_gl=1*1w4ri8m*_ga*MjIwNzM4OS4xNjc2OTA3ODQ2*_ga_CW55HF8NVT*MTY5NjMxNjM2Ni41LjEuMTY5NjMxNjU1NS4zNi4wLjA.";
 
     if (tacticId != null) {
       const requestProps: updateTacticProps = {
@@ -258,8 +272,8 @@ const TacticResult = (props) => {
             chartInfos !== undefined &&
             chartInfos.length > 0 ? (
               <CandleChart
-                curwidth={size.width - 10}
-                curheight={size.height - 10}
+                curwidth={size.width - 30}
+                curheight={size.height - 30}
                 optionHistory={optionHistory}
                 chartInfos={chartInfos}
                 term={props.term}
@@ -321,7 +335,7 @@ const TacticResult = (props) => {
               </HistorySummaryContentsItem>
               <HistorySummaryContentsItem>
                 <HistorySummaryContentsItemLeft>수수료</HistorySummaryContentsItemLeft>
-                <HistorySummaryContentsItemRight>???</HistorySummaryContentsItemRight>
+                <HistorySummaryContentsItemRight>0</HistorySummaryContentsItemRight>
               </HistorySummaryContentsItem>
               <HistorySummaryContentsItem>
                 <HistorySummaryContentsItemLeft>총 거래 횟수</HistorySummaryContentsItemLeft>
@@ -343,131 +357,3 @@ const TacticResult = (props) => {
 };
 
 export default TacticResult;
-
-// const dummyData = {
-//   optionHistory: [
-//     {
-//       type: "buy",
-//       turn: 2, // 몇 번째 턴
-//       cost: 8000, // 주식 가격
-//       tradeCnt: 350, // 거래 수
-//       profitAndLoss: 12, // 실현손익 : (매도 평균 - 매수 평균) * 매도 수량
-//     },
-//     {
-//       type: "sell",
-//       turn: 4,
-//       cost: 7000,
-//       tradeCnt: 300,
-//       profitAndLoss: 12,
-//     },
-//     {
-//       type: "buy",
-//       turn: 2, // 몇 번째 턴
-//       cost: 8000, // 주식 가격
-//       tradeCnt: 350, // 거래 수
-//       profitAndLoss: 12, // 실현손익 : (매도 평균 - 매수 평균) * 매도 수량
-//     },
-//     {
-//       type: "sell",
-//       turn: 4,
-//       cost: 7000,
-//       tradeCnt: 300,
-//       profitAndLoss: 12,
-//     },
-//     {
-//       type: "buy",
-//       turn: 2, // 몇 번째 턴
-//       cost: 8000, // 주식 가격
-//       tradeCnt: 350, // 거래 수
-//       profitAndLoss: 12, // 실현손익 : (매도 평균 - 매수 평균) * 매도 수량
-//     },
-//     {
-//       type: "sell",
-//       turn: 4,
-//       cost: 7000,
-//       tradeCnt: 300,
-//       profitAndLoss: 12,
-//     },{
-//       type: "buy",
-//       turn: 2, // 몇 번째 턴
-//       cost: 8000, // 주식 가격
-//       tradeCnt: 350, // 거래 수
-//       profitAndLoss: 12, // 실현손익 : (매도 평균 - 매수 평균) * 매도 수량
-//     },
-//     {
-//       type: "sell",
-//       turn: 4,
-//       cost: 7000,
-//       tradeCnt: 300,
-//       profitAndLoss: 12,
-//     },
-//   ],
-//   chartInfos: [
-//     // "opens": [],   // 시가
-//     // "highs": [],   // 고가
-//     // "lows": [],    // 저가
-//     // "closes": [],  // 종가
-//     // "vols": [],    // 거래량
-//     // "dates": [],    // 일자
-//     // "tiems": [],    // 시간
-//     {
-//       date: "20210202",
-//       time: "1600",
-//       open: 134.9307,
-//       low: 134.9105,
-//       high: 135.0215,
-//       close: 135.0087,
-//       volume: 73591581,
-//     },
-//     {
-//       date: "20210202",
-//       time: "1545",
-//       open: 134.9707,
-//       low: 134.9307,
-//       high: 134.9707,
-//       close: 134.9307,
-//       volume: 67639193,
-//     },
-//     {
-//       date: "20210202",
-//       time: "1530",
-//       open: 134.6608,
-//       low: 134.6608,
-//       high: 134.975,
-//       close: 134.975,
-//       volume: 64815258,
-//     },
-//     {
-//       date: "20210202",
-//       time: "1515",
-//       open: 134.8585,
-//       low: 134.6237,
-//       high: 134.9716,
-//       close: 134.6608,
-//       volume: 66869896,
-//     },
-//     {
-//       date: "20210202",
-//       time: "1500",
-//       open: 134.2585,
-//       low: 134.1237,
-//       high: 134.2716,
-//       close: 134.1968,
-//       volume: 82892896,
-//     },
-//     {
-//       date: "20210202",
-//       time: "1445",
-//       open: 134.8585,
-//       low: 134.6237,
-//       high: 134.9716,
-//       close: 134.6608,
-//       volume: 77892896,
-//     },
-//   ],
-//   startAsset: 10000000, // 초기 자산
-//   endAsset: 143001230, // 최종 자산
-//   returnPercent: 1.7, // 수익률
-// };
-
-// useEffect(() => {
