@@ -1,13 +1,19 @@
 import { privateApi } from "../index";
 
 // 자유게시판 게시글리스트
-export const freeBoardListt = async (Params:Params) => {
-  console.log("try", Params)
+
+export const freeBoardList = async (Params:Params) => {
+  console.log(Params)
   const res = await privateApi.get(`/free-board`,{
-    params:{Params}
+    params:{
+      keyword:Params.keyWord,
+      page:Params.page,
+      size:Params.size,
+      sort:Params.sort
+    }
   });
   console.log(res);
-  return res.data
+  return res
 };
 
 // 자유게시판 게시글 생성
@@ -26,17 +32,17 @@ export const freeBoardCreate = async (formData: FormData) => {
 export const freeBoardDetail = async (postId:postId) => {
   console.log(postId)
   const res = await privateApi.get(`/free-board/${postId}`);
-  console.log(res.data);
-  return res.data;
+  console.log(res);
+  return res;
 };
 
 
 // 자유게시판 게시글 삭제
 export const freeBoardDelete = async (postId:postId) => {
   console.log(postId)
-  const res = await privateApi.get(`/free-board/${postId}`);
-  console.log(res.data);
-  return res.data;
+  const res = await privateApi.delete(`/free-board/${postId}`);
+  console.log(res);
+  return res;
 };
 
 
@@ -48,7 +54,7 @@ export const freeBoardUpdate = async (formData:formData) => {
       "Content-Type": "multipart/form-data",
     },
   });
-  console.log(res.data);
-  return res.data;
+  console.log(res);
+  return res;
 };
 

@@ -4,12 +4,8 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import TablePagination from "@mui/material/TablePagination";
+import Pagination from "@mui/material/Pagination";
 import "./style.css";
-import { useRecoilValue } from "recoil";
-import { useRecoilState } from "recoil";
-import { freeBoardList } from "../../../recoil/FreeBoard/FreeBoardList";
-import { postidState } from "../../../recoil/FreeBoard/Post";
 
 import { useNavigate } from "react-router-dom";
 import Tooltip from "../../Tooltip/Tooltip";
@@ -35,106 +31,99 @@ import {
   Hr,
   Posting,
 } from "./FreeBoardListBox.style";
-
+ // 날짜 변환
+ import dayjs from "dayjs";
 // api
-// import {freeBoardListt} from '../../../api/FreeBoard/FreeBoard'
+import {freeBoardList} from '../../../api/FreeBoard/FreeBoard'
 
 function FreeBoardListBox() {
   const navigate = useNavigate();
 
   const [menu, setMenu] = useState("createdAt");
   const [searchKeyword, setSearchKeyword] = useState("");
-  const [page, setPage] = React.useState(0);
+  const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(8);
 
-  // api 통신 =============================================================
-  // const params = {
-  //   sort: menu,
-  //   page: page,
-  //   size: rowsPerPage,
-  //   keyWord: searchKeyword,
-  // };
-  // useEffect(()=>{
-  //   freeboard()
-  // },[page,rowsPerPage,searchKeyword])
+  // 글 리스트
+  const [ boardList, setBoardList] = useState([])
+  // 전체 글의 수, 페이지 수
+  const [count, setCount] = useState(0)
+  const [ itemCount, setItemCount] = useState(0)
 
-  // const freeboard = async () => {
-  //   const freeBoard = await freeBoardListt(params)
-  //   console.log(freeBoard)
-  // }
+  // api 통신 =============================================================
+  const params = {
+    sort: menu,
+    page: page-1,
+    size: rowsPerPage,
+    keyWord: searchKeyword,
+  };
+
+  const handleChangeSearch = (e)=>{
+    setSearchKeyword(e.target.value)
+    setPage(1)
+  }
+  useEffect(()=>{
+    freeboard()
+  },[page,rowsPerPage,searchKeyword,menu])
+
+  // 자유게시판 리스트 api
+  const freeboard = async () => {
+    const res = await freeBoardList(params)
+    console.log(res)
+    setItemCount(res.data.totalCnt)
+    if (res.status===200){
+      setBoardList(res.data.freeePostListResponseList)
+      if(Math.floor(res.data.totalCnt % 8)){
+        setCount(Math.floor(res.data.totalCnt / 8)+1);
+      }else{
+        setCount(Math.floor(res.data.totalCnt / 8));
+      }
+    }
+  }
   // api 통신 =================
 
-  // 더미데이터 ============================================
-  const [postid, setPostid] = useRecoilState(postidState);
-  const BoardList = useRecoilValue(freeBoardList);
-  const [sortedList, setBoardList] = useState([]);
+  
+  // 삭제시 다시 한번 갱신
+  useEffect(()=>{
+    freeboard()
+  },[])
+  
 
-  // 더미데이터를 사용하여 직접 조건에 맞게 다시 배열을 만들기
-  useEffect(() => {
-    // Sort the BoardList in "최신순" order when the component mounts
-    const sortedListCopy = [...BoardList].sort(
-      (a, b) =>
-        new Date(b.freeboard.modifiedAt) - new Date(a.freeboard.modifiedAt)
-    );
-    setBoardList(sortedListCopy);
-  }, []);
-
+  // sort
   const handleChange = (event: SelectChangeEvent) => {
     const selectedMenu = event.target.value as string;
     setMenu(selectedMenu);
-
-    let sortedListCopy = [...BoardList];
-
-    if (selectedMenu === "최신순") {
-      sortedListCopy.sort(
-        (a, b) =>
-          new Date(b.freeboard.modifiedAt) - new Date(a.freeboard.modifiedAt)
-      );
-    } else if (selectedMenu === "조회수") {
-      sortedListCopy.sort((a, b) => b.freeboard.hit - a.freeboard.hit);
-    }
-
-    setBoardList(sortedListCopy);
-  };
-  // 더미데이터 ============================================
-
-  // 페이지네이션 ============================================
-
-  const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => {
-    setPage(newPage);
   };
 
-  // Handle rows per page change
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+  // 페이지 네이션 2==============================================
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage); // 페이지 변경 시 상태 변수 업데이트
   };
-
-  const rowsPerPageOptions = [5, 6, 7, 8];
-
-  const handleSearchInputChange = (event) => {
-    setSearchKeyword(event.target.value);
+  const paginationStyle = {
+    '& .MuiPagination-ul .MuiPaginationItem-root.Mui-selected': {
+      backgroundColor: '#F4F5FA', // 선택된 페이지 배경색을 연보라색으로 변경
+    },
+    '& .MuiPagination-ul .MuiPaginationItem-root.Mui-selected:hover': {
+      backgroundColor: '#F4F5FA', // 선택된 페이지 호버 시 배경색도 연보라색으로 변경
+    },
+    '& .MuiPagination-ul .MuiPaginationItem-root.MuiPaginationItem-page:hover': {
+      backgroundColor: '#F4F5FA', // 페이지 호버 시 배경색도 연보라색으로 변경
+    },
   };
-
-  const startIndex = page * rowsPerPage;
-  const endIndex = startIndex + rowsPerPage;
-  const itemsToDisplay = sortedList.slice(startIndex, endIndex);
-  const filteredItems = itemsToDisplay.filter((item) =>
-    item.freeboard.title.includes(searchKeyword)
-  );
-  // 페이지네이션 ============================================
-
+  const combinedStyles = {
+    ...paginationStyle, // paginationStyle 객체
+    display:'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  };
+  // 페이지 네이션 2==============================================
+  
   return (
     <Container>
       <Wrapper>
         <Header>
           <DivBox>
-          <Search placeholder="  검색" onChange={handleSearchInputChange} />
+          <Search placeholder="  검색" onChange={handleChangeSearch} />
           <Box sx={{ maxWidth: "130px" }}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label"></InputLabel>
@@ -176,47 +165,44 @@ function FreeBoardListBox() {
             </ListHit>
           </FreeBoardListTitle>
 
-          {filteredItems.map((item, index) => (
+        
+          {boardList.map((item, index) => (
             <Posting key={`boardItem_${index}`}>
               <div style={{ display: "flex", cursor: "pointer" }}>
-                <ItemNumber>{item.freeboard.id}</ItemNumber>
+                <ItemNumber>{(itemCount - (page - 1) * 8)- index}</ItemNumber>
                 <ItemTitle
                   onClick={() => {
-                    setPostid(item.freeboard.id);
                     navigate(`/freeboarddetail`, {
-                      state: { postId: item.freeboard.id }, // URL 매개변수 설정
+                      state: { postId: item.freePostId }, // URL 매개변수 설정
                     });
                   }}
                 >
-                  {item.freeboard.title}
+                  {item.title}
                 </ItemTitle>
 
                 <Tooltip
                   state={{
-                    nickname: item.freeboard.nickname,
-                    id: item.freeboard.id,
+                    nickname: item.nickname,
+                    id: item.freePostId,
                   }}
                 >
-                  <ItemWriter>{item.freeboard.nickname}</ItemWriter>
+                  <ItemWriter>{item.nickname}</ItemWriter>
                 </Tooltip>
 
-                <ItemTime>{item.freeboard.modifiedAt}</ItemTime>
-                <ItemtHit>{item.freeboard.hit}</ItemtHit>
+                <ItemTime>{dayjs(item.updatedAt).format('YYYY/MM/DD HH:mm')}</ItemTime>
+                <ItemtHit>{item.hit}</ItemtHit>
               </div>
               <Hr/>
             </Posting>
           ))}
         </FreeBoardBox>
-        <TablePagination
-          component="div"
-          count={sortedList.length}
-          page={page}
-          onPageChange={handleChangePage}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          rowsPerPageOptions={rowsPerPageOptions}
-          style={{ margin: "0px 15px 0px 0px" }}
-        />
+        <Pagination 
+        count={count} 
+        showFirstButton showLastButton
+        page={page}
+        onChange={handlePageChange}
+        sx={combinedStyles}
+         />
       </Wrapper>
     </Container>
   );

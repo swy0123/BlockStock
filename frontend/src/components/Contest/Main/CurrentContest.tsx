@@ -127,87 +127,89 @@ function CurrentContest({contest}){
                     <CurrentContestLink onClick={()=>toggleContent(index)}>현재 현황 조회</CurrentContestLink>
                   </CurrentContestLinkBox>
 
+                  {contest.ranking.length > 0 ? (
+                    <>
                   <CurrentContestRankBox>
 
-                  <RankUser>
-                  <div className="carousel" style={{margin:'20px 0px 0px 0px'}}>
-                    <div className="carousel-content">
-                      <div className="carousel-item" style={{width:'150px', height:'190px'}}>
-                        {contest.ranking[0] ? (
-                          <>
-                          <RankImage src={
-                              // contest.ranking[0].profileImage ||
-                              '/icon/user_purple.png'} />
-                              <h2 style={{textAlign: 'center', margin: '5px 0px 0px 0px', fontSize:'18px'}}>1등</h2>
-                              <RankUserNickName>
-                                  {contest.ranking[0].nickName}
-                              </RankUserNickName>
-                              <div style={{textAlign: 'center', display:'flex',  fontSize:'12px'}}>
-                                <div style={{color:'#8A8A8A', margin:'8px 5px 0px 30px'}}>
-                                  수익률 :
-                                </div>
-                                <ContestReturn style={{ color: contest.ranking[0].returns[0] === '-' ? 'blue' : 'red' }}>
-                                  {Math.round(contest.ranking[0].returns * 10) / 10}%
-                                </ContestReturn>
-                              </div>
-                          </>
-                        ) : (
-                          <div>유저가 없습니다.</div>
-                        )}
-                        </div>
-                      <div className="carousel-item" style={{width:'150px', height:'190px'}}>
-                        {contest.ranking[1] ? (
-                          <>
-                          <RankImage src={
-                              // contest.ranking[1].profileImage ||
-                              '/icon/user_purple.png'} />
-                              <h2 style={{textAlign: 'center', margin: '5px 0px 0px 0px', fontSize:'18px'}}>2등</h2>
-                              <RankUserNickName>
-                                  {contest.ranking[1].nickName}
-                              </RankUserNickName>
-
-                              <div style={{textAlign: 'center', display:'flex',  fontSize:'12px'}}>
-                                <div style={{color:'#8A8A8A', margin:'8px 5px 0px 30px'}}>
-                                  수익률 :
-                                </div>
-                                <ContestReturn style={{ color: contest.ranking[1].returns[0] === '-' ? 'blue' : 'red' }}>
-                                  {Math.round(contest.ranking[1].returns * 10) / 10}%
-                                </ContestReturn>
-                              </div>
-                          </>
-                        ) : (
-                          <div>유저가 없습니다.</div>
-                        )}
-                            
-                      </div>
-                        {/*  유저가 없을 시 없다는 표시를 해줘야 오류가 나지 않음 1위 2위 3위 동일하게 작성 */}
-                      <div className="carousel-item" style={{width:'150px', height:'190px'}}>
-                      {contest.ranking[2] ? (
-                        <>
-                          <RankImage src={
-                            // contest.ranking[2].profileImage || 
-                            '/icon/user_purple.png'} />
-                          <h2 style={{ textAlign: 'center', margin: '5px 0px 0px 0px', fontSize: '18px' }}>3등</h2>
-                          <RankUserNickName>
-                            {contest.ranking[2].nickName}
-                          </RankUserNickName>
-                          <div style={{ textAlign: 'center', display: 'flex', fontSize: '12px' }}>
-                            <div style={{ color: '#8A8A8A', margin: '8px 5px 0px 30px' }}>
-                              수익률 :
+                      <RankUser>
+                      <div className="carousel" style={{margin:'20px 0px 0px 0px'}}>
+                        <div className="carousel-content">
+                          <div className="carousel-item" style={{width:'150px', height:'190px'}}>
+                            {contest.ranking[0] ? (
+                              <>
+                              <RankImage src={
+                                  // contest.ranking[0].profileImage ||
+                                  '/icon/user_purple.png'} />
+                                  <h2 style={{textAlign: 'center', margin: '5px 0px 0px 0px', fontSize:'18px'}}>1등</h2>
+                                  <RankUserNickName>
+                                      {contest.ranking[0].nickName}
+                                  </RankUserNickName>
+                                  <div style={{textAlign: 'center', display:'flex',  fontSize:'12px'}}>
+                                    <div style={{color:'#8A8A8A', margin:'8px 5px 0px 30px'}}>
+                                      수익률 :
+                                    </div>
+                                    <ContestReturn style={{ color: contest.ranking[0].returns[0] === '-' ? 'blue' : 'red' }}>
+                                      {Math.round(contest.ranking[0].returns * 10) / 10}%
+                                    </ContestReturn>
+                                  </div>
+                              </>
+                            ) : (
+                              <div>유저가 없습니다.</div>
+                            )}
                             </div>
-                            <ContestReturn style={{ color: contest.ranking[2].returns[0] === '-' ? 'blue' : 'red' }}>
-                              {Math.round(contest.ranking[2].returns * 10) / 10}%
-                            </ContestReturn>
-                          </div>
-                        </>
-                      ) : (
-                        <div>유저가 없습니다</div>
-                      )}
+                          <div className="carousel-item" style={{width:'150px', height:'190px'}}>
+                            {contest.ranking[1] ? (
+                              <>
+                              <RankImage src={
+                                  // contest.ranking[1].profileImage ||
+                                  '/icon/user_purple.png'} />
+                                  <h2 style={{textAlign: 'center', margin: '5px 0px 0px 0px', fontSize:'18px'}}>2등</h2>
+                                  <RankUserNickName>
+                                      {contest.ranking[1].nickName}
+                                  </RankUserNickName>
 
+                                  <div style={{textAlign: 'center', display:'flex',  fontSize:'12px'}}>
+                                    <div style={{color:'#8A8A8A', margin:'8px 5px 0px 30px'}}>
+                                      수익률 :
+                                    </div>
+                                    <ContestReturn style={{ color: contest.ranking[1].returns[0] === '-' ? 'blue' : 'red' }}>
+                                      {Math.round(contest.ranking[1].returns * 10) / 10}%
+                                    </ContestReturn>
+                                  </div>
+                              </>
+                            ) : (
+                              <div>유저가 없습니다.</div>
+                            )}
+                                
+                          </div>
+                            {/*  유저가 없을 시 없다는 표시를 해줘야 오류가 나지 않음 1위 2위 3위 동일하게 작성 */}
+                          <div className="carousel-item" style={{width:'150px', height:'190px'}}>
+                          {contest.ranking[2] ? (
+                            <>
+                              <RankImage src={
+                                // contest.ranking[2].profileImage || 
+                                '/icon/user_purple.png'} />
+                              <h2 style={{ textAlign: 'center', margin: '5px 0px 0px 0px', fontSize: '18px' }}>3등</h2>
+                              <RankUserNickName>
+                                {contest.ranking[2].nickName}
+                              </RankUserNickName>
+                              <div style={{ textAlign: 'center', display: 'flex', fontSize: '12px' }}>
+                                <div style={{ color: '#8A8A8A', margin: '8px 5px 0px 30px' }}>
+                                  수익률 :
+                                </div>
+                                <ContestReturn style={{ color: contest.ranking[2].returns[0] === '-' ? 'blue' : 'red' }}>
+                                  {Math.round(contest.ranking[2].returns * 10) / 10}%
+                                </ContestReturn>
+                              </div>
+                            </>
+                          ) : (
+                            <div>유저가 없습니다</div>
+                          )}
+
+                            </div>
                         </div>
-                    </div>
-                  </div>
-                  </RankUser>
+                      </div>
+                      </RankUser>
 
                   <Line/>
 
@@ -239,6 +241,12 @@ function CurrentContest({contest}){
                   </Participant>
 
                   </CurrentContestRankBox>
+                    </>
+                    ) : (
+                      <>
+                        참여자가 없습니다.
+                      </>
+                    )}
                   
                 </div>
               </SwiperSlide>
