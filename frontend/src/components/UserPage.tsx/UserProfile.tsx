@@ -1,4 +1,8 @@
+import React, { useState } from "react";
 import { useQuery } from "react-query";
+import { useLocation } from 'react-router-dom';
+import Message from "../Message/Message";
+import style from "../../components/Tooltip/Tooltip.module.css"
 import { getUserPage } from "../../api/MyPage/Userpage";
 import { 
     Container,
@@ -23,14 +27,26 @@ import {
    
 
 function UserProfile() {
-  // const { data } = props;
-  const {data, isLoading, isError} = useQuery("userpage", getUserPage);
+  const location = useLocation();
+  const memberId = location.state?.memberId;
+  console.log("유저페이지 id", memberId)
+
+  const { data, isLoading, isError } = useQuery("userpage", () => getUserPage(memberId));
+  const [isMessageVisible, setMessageVisible] = useState(false);
 
   // 숫자 금액 형태로 변환
   function formatKoreanCurrency(amount: number): string {
     return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
   
+  const showMessage = () => {
+    setMessageVisible(!isMessageVisible);
+  };
+
+  const hideMessage = () => {
+    setMessageVisible(false);
+  };
+
   const formattedMoney = formatKoreanCurrency(data.money); // "10,000"으로 변환됨
   if (isLoading) {
     return <div>Loading...</div>; // 데이터가 로드 중일 때 표시할 내용
@@ -73,8 +89,21 @@ function UserProfile() {
         <Circle>
           <MailImg src="/icon/plane_white.png" />
         </Circle>
-        <Mailbtn>쪽지보내기 → </Mailbtn>
+        <Mailbtn onClick={() => showMessage()}>쪽지보내기 → </Mailbtn>
       </MailWrapper>
+      {isMessageVisible && (
+        <div className={`${style.messageLayer}`} onClick={hideMessage}>
+          <div
+            className={`${style.message}`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Message
+              state={{ nickname: data.nickname, id: data.id }}
+              onClose={hideMessage}
+            />
+          </div>
+        </div>
+      )}
     </Container>
   );
 }

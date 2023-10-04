@@ -33,8 +33,7 @@ const Wrapper = styled.div`
   justify-content: space-between; */
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  grid-gap: 10px; 
-
+  grid-gap: 10px;
 `;
 
 const Title = styled.p`
@@ -150,35 +149,27 @@ function TacticList() {
   const formatReturns = (returns: number) => {
     return Number(returns).toFixed(2);
   };
-  
-  const handleEdit = (tacticId: number) => {
-    navigate(`/maketactic/${tacticId}`);
-  };
 
-  const handleDelete = async(tacticId: number, title: string) => {
+
+  const handleDelete = async (tacticId: number, title: string) => {
     console.log("Deleting tactic with ID:", tacticId);
     const response = await deleteTactic(tacticId);
-    if(response?.status == 200){
+    if (response?.status == 200) {
       Swal.fire({
-        title: '전략 삭제',
+        title: "전략 삭제",
         text: `${title}을 삭제하시겠습니까?`,
-        icon: 'warning',
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: '삭제하기'
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "삭제하기",
       }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire(
-            '',
-            '삭제완료!',
-            'success'
-          )
+          Swal.fire("", "삭제완료!", "success");
         }
-      })
+      });
     }
   };
-
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -211,8 +202,10 @@ function TacticList() {
                   <Date>{formatDate(item.createdAt)}</Date>
                 </Box1>
                 <Box1>
-                  <Btn0 onClick={()=> handleEdit(item.id)}>수정</Btn0>
-                  <Btn2 onClick={() => handleDelete(item.id, item.title)}>삭제</Btn2>
+                  <Btn0 onClick={() => navigate("/maketactic", { state: { selectedTacticId : item.id }})}>수정</Btn0>
+                  <Btn2 onClick={() => handleDelete(item.id, item.title)}>
+                    삭제
+                  </Btn2>
                 </Box1>
               </TacticCard>
             </Space>

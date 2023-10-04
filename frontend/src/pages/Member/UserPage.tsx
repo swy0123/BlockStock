@@ -2,9 +2,11 @@
 import React, { useState } from "react";
 import UserProfile from "../../components/UserPage.tsx/UserProfile";
 import MyBoard from "../../components/MyPage/MyBoard";
-import FollowListModal from "../../components/MyPage/FollowModal/FollowListModal";
-import { useQuery } from "react-query";
+import UserFollowList from "../../components/MyPage/FollowModal/UserFollowList";
+import { useQuery, useQueryClient } from "react-query";
+import { useLocation } from "react-router-dom";
 import { getUserPage } from "../../api/MyPage/Userpage";
+
 import {
   Container,
   Wrapper,
@@ -22,16 +24,26 @@ import {
   ContentContainer,
   MailIcon,
 } from "./Mypage.style";
+import { goFollow, unFollow } from "../../api/MyPage/Follow";
 
 function UserPage() {
   const [selectedMenu, setSelectedMenu] = useState("PROFILE"); // 기본 메뉴 선택
-  const memberId = 39 // 클릭 유저 아이디 가져오기
-  const { data, isLoading, isError } = useQuery("userpage", getUserPage);
+  const location = useLocation();
+  const memberId = location.state?.memberId;
+  console.log("유저페이지 id", memberId);
+  const { data, isLoading, isError } = useQuery("userpage", () =>
+    getUserPage(memberId)
+  );
+  const queryClient = useQueryClient();
+
+  const refetchData = async () => {
+    await queryClient.refetchQueries("userpage");
+  };
 
   const renderContent = () => {
     switch (selectedMenu) {
       case "PROFILE":
-        return <UserProfile />;
+        return <UserProfile/>;
       case "작성 게시글":
         return <MyBoard />;
       default:
@@ -53,18 +65,32 @@ function UserPage() {
   const closeFollowModal = () => {
     setIsFollowModalOpen(false);
   };
+
+  //팔로우
+  const handleFollow = async (following : boolean) => {
+    if (following == false) {
+      const response = await goFollow(memberId);
+      console.log(response);
+    }
+    else {
+      const response = await unFollow(memberId);
+      console.log(response);
+    }
+    refetchData();
+  };
+
   if (isLoading) {
-    return <div>Loading...</div>; // 데이터가 로드 중일 때 표시할 내용
+    return <div>Loading...</div>;
   }
 
   if (isError) {
-    return <div>Error loading data.</div>; // 데이터 로드 중 오류가 발생한 경우 처리
+    return <div>Error loading data.</div>;
   }
   return (
     <Container>
       <Wrapper>
         <ColorBox>
-          <FollowBox>
+          {/* <FollowBox>
             <Follow onClick={openFollowerModal}>
               <Text1>{data.followerCnt}</Text1>
               <Text1>팔로워</Text1>
@@ -73,13 +99,14 @@ function UserPage() {
               <Text1>{data.followingCnt}</Text1>
               <Text1>팔로잉</Text1>
             </Follow>
-          </FollowBox>
+          </FollowBox> */}
         </ColorBox>
-        <FollowListModal
+        {/* <UserFollowList
           isOpen={isFollowModalOpen}
           onClose={closeFollowModal}
           text={isFollowType}
-        />
+          memberId = {memberId}
+        /> */}
         <InfoBox>
           <Box>
             <Img
@@ -92,8 +119,8 @@ function UserPage() {
               <Text>{data.email}</Text>
             </InfoBox>
           </Box>
-          <FollowBtn following={data.following}>
-            {data.following ? "✅팔로잉" : "팔로우"}
+          <FollowBtn onClick={()=> handleFollow(data.following)} following={data.following}>
+            {data.following ? "팔로잉" : "팔로우"}
           </FollowBtn>
         </InfoBox>
       </Wrapper>
