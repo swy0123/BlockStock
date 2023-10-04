@@ -5,11 +5,15 @@ export const ItemContainer = styled.div`
   flex-direction: row;
   position: relative;
   width: 100%;
-  height: 70px;
+  height: 60px;
   font-size: 15px;
   display: flex;
   flex-direction: column;
-  padding-bottom: 10px;
+  border-style: solid;
+  border-width: 1px 0 0 0;
+  padding-top: 5px;
+  margin-bottom: 5px;
+  color: #9c9c9c;
 `;
 
 export const TermImg = styled.img`
@@ -26,7 +30,7 @@ export const TermContainer = styled.div`
   border-radius: 20px;
   margin-left: 10px;
   height: 20px;
-  width: 60px;
+  width: 75px;
   margin-right: 15px;
   border-style: solid;
   border-width: 1px;

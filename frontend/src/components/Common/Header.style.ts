@@ -24,9 +24,12 @@ export const Loupe = styled.img`
     height: 15px;
 `;
 export const Img = styled.img`
-    width: 35px;
-    height: 35px;
-    margin: 0px 50px 0px 10px;
+    width: 37px;
+    height: 37px;
+    margin: 3px 60px 0px 5px;
+    border-radius: 50%;
+    border: 2px solid;
+    border-color: #C1BAEE;
 `;
 export const AlertImg = styled.img`
     width: 30px;
