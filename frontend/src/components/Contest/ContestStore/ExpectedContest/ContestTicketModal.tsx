@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import CloseIcon from '@mui/icons-material/Close';
 import Swal from 'sweetalert2';
 
@@ -25,6 +25,9 @@ import { ContestId } from '../../../../recoil/Contest/ExpectedContest'
 
 function ContestTicketModal({tacticid ,selectedContest, onClose, onClosetactic}){
   
+  useEffect(()=>{
+    console.log('selectedContest', selectedContest)
+  },[])
 
   // 리코일 대회 id 전략 id
   const [contestId, setContestId] = useRecoilState(ContestId);

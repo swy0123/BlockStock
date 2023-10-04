@@ -43,6 +43,9 @@ function ContestStoreSearch(){
         component="form"
         sx={{
           '& > :not(style)': { m: '0px 0px 15px 0px', width: '30ch' },
+          '& input:focus': { 
+            color: 'purple', 
+          },
         }}
         noValidate
         autoComplete="off"

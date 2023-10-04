@@ -48,7 +48,7 @@ function MakeTactic() {
         setCurrentPath(location.pathname);
     }, [location]);
 
-    //마이페이지에서 전략 조회를 통해 이동
+    //마이페이지에서 전략 조회를 통해 이동 & 전략게시판에서 가져오기(id==-1)
     useEffect(() => {
         if (currentPath === location.pathname) {
             setFlag(true);
@@ -91,7 +91,6 @@ function MakeTactic() {
     const returnTacticJsonCode = (ret) => {
         setTacticJsonCode(ret);
     }
-
     const returnTacticImg = (ret) => {
         setTacticImg(ret);
     }

@@ -17,8 +17,7 @@ import {
   Img,
 } from './TacticBoardCreateBox.style'
 import { useNavigate } from "react-router-dom";
-
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { tacticdata } from '../../../recoil/TacticBoard/TacticBoardBox'
 
 import ContestTaticModal from "../../Contest/ContestStore/ExpectedContest/ContestTaticModal";
@@ -31,6 +30,7 @@ function TacticBoardCreateBox(){
 
   // 전략 이미지
   const {tacticId, imgPath}  = useRecoilValue(tacticdata);
+  const [tacticImg, setTacticImg] = useRecoilState(tacticdata)
 
   const navigate = useNavigate();
   const [title, setTitle] = useState(''); 
@@ -78,6 +78,8 @@ function TacticBoardCreateBox(){
     
     if (res.status===200){
       navigate('/tacticboard')
+      const updata = {...tacticImg, imgPath:''}
+      setTacticImg(updata)
       Swal.fire({
         icon: 'success',
         title: '글 작성 완료!',
