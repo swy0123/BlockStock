@@ -25,8 +25,8 @@ async def get_contest_outline(request: Request):
 
 
 @router.get("/result/{contest_id}")
-def get_contest_result(contest_id: int):
-    return contest_service.get_contest_result(contest_id)
+async def get_contest_result(contest_id: int):
+    return await contest_service.get_contest_result(contest_id)
 
 
 @router.post("")
