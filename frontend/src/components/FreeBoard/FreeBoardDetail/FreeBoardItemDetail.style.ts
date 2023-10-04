@@ -64,11 +64,7 @@ width: 100%;
 min-height: 100px;
 /* border: 1px solid black; */
 `;
-export const ContentBox = styled.div`
-width: 90%;
-min-height: 100px;
-padding: 60px;
-`;
+
 export const Content = styled.div`
 font-size: 16px;
 `;
@@ -133,6 +129,25 @@ margin: 30px 0px 0px 750px;
   background-color: #0050A0;
 }
 `;
+export const ContentBox = styled.div`
+width: 88%;
+min-height: 100px;
+padding: 60px;
+border: 1px solid black;
+`;
+export const ImgBox = styled.div`
+border: 1px solid black;
+width: 100%;
+min-height: 10%;
+`;
 
-
+export const Img = styled.img`
+/* width: 100px; */
+object-fit: contain;
+`;
+export const DownloadBox = styled.div`
+width: 100%;
+height: 50px;
+border: 1px solid black;
+`;
 
