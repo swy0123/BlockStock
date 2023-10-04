@@ -110,7 +110,7 @@ function ContestTaticModal(props){
 
     setTactic({
       ...tactic,
-      tacticId: e.i,
+      tacticId: e.t,
       imgPath: e.img
     });
     setTacticId(e.t)
@@ -251,7 +251,7 @@ function ContestTaticModal(props){
       {isModalOpen ? 
       <ContestTicketModal 
       tacticid = {tacticId} 
-      selectedContest={tacticList} 
+      selectedContest={selectedContest} 
       onClose={CloseModal}
       onClosetactic={onClosetactic}
       /> : null}

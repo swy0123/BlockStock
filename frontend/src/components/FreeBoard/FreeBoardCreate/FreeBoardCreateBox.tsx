@@ -63,7 +63,6 @@ function FreeBoardCreateBox(){
 // Blob 활용
   const handleSubmit = async() => {
     const formData = new FormData();
-
     for (let i = 0; i < fileList.length; i++) {
       formData.append("files", fileList[i]);
     }

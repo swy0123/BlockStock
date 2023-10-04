@@ -1,13 +1,5 @@
-import React, {useEffect} from "react";
-import { useLocation } from 'react-router-dom';
-  // 더미데이터 =======================================================================
-import { useRecoilValue } from "recoil";
-import { postidState } from "../../../recoil/FreeBoard/Post";
-import { freeBoardList } from '../../../recoil/FreeBoard/FreeBoardList'
-import { post } from '../../../recoil/FreeBoard/FreeBoardList'
-  // 더미데이터 =======================================================================
-
-import { useNavigate } from "react-router-dom";
+import React, {useState, useEffect} from "react";
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Container,
   PostTitle,
@@ -34,13 +26,27 @@ import SmsIcon from '@mui/icons-material/Sms';
 
 import CommentCreate from "./Comment/CommentCeate";
 import CommentList from "./Comment/CommentList";
+// 게시글 상세, 삭제
+import {freeBoardDetail, freeBoardDelete} from '../../../api/FreeBoard/FreeBoard'
+// 리코일 댓글 리스트
+import { useRecoilState } from "recoil";
+import {commentlist} from '../../../recoil/FreeBoard/Comment'
+import { freeBoardList } from "../../../recoil/FreeBoard/FreeBoardList";
+import Swal from 'sweetalert2';
+// userId
+import { useRecoilValue } from 'recoil';
+import { CurrentUserAtom } from '../../../recoil/Auth';
+// 날짜 변환
+import dayjs from "dayjs";
+function FreeBoardItemDetail(){
 
-// import {freeBoardDetail, freeBoardDelete} from '../../../api/FreeBoard/FreeBoard'
-
-function FreeBoardItemDetail({}){
+  // userId
+  const currentUser = useRecoilValue(CurrentUserAtom);
+  const userId = currentUser.userid;
 
   const navigate = useNavigate();
-  
+  const [commentlists, setCommentlists] = useRecoilState(commentlist)
+  const [boardItem, setBoardItem] = useRecoilState(freeBoardList)
 
   // api 통신 ==================================
   // 게시글 번호
@@ -48,42 +54,81 @@ function FreeBoardItemDetail({}){
   const state = location.state;
 
   useEffect(()=>{
-    // detailApi()
+    detailApi()
   },[])
   // api 통신 =================================
 
-  // const detailApi = ()=>{
-    // freeBoardDetail(state.postId)
-  // }
+  const detailApi = async()=>{
+    const res = await freeBoardDetail(state.postId)
+    console.log(res)
+    if (res.status===200){
+      setBoardItem(res.data)
+    }
+  }
 
   // 게시글 삭제
   const handleDelete =()=> {
-    // freeBoardDelete(state.postId)
-    // navigate('/freeboard')
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+    
+    swalWithBootstrapButtons.fire({
+      // title: '삭제?',
+      // text: "You won't be able to revert this!",
+      text: '정말 삭제하시겠습니까?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: `<span>삭제</span>`,
+      cancelButtonText: '<span>취소</span>',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+          itemDelete()
+      } else if (
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire({
+          title: '취소되었습니다',
+          icon:'error',
+          timer: 1000, // 2초 후에 자동으로 사라집니다 (밀리초 단위)
+          showConfirmButton: false, // 확인 버튼을 표시하지 않음
+          showCancelButton: false, // 취소 버튼을 표시하지 않음
+        })
+        }
+      })
   }
-
-  // 더미데이터 =======================================================================
-  const postId = useRecoilValue(postidState);
-  const boardList = useRecoilValue(freeBoardList);
-  const postList = useRecoilValue(post);
-  const selectedItem = boardList.find(item => item.freeboard.id === postId);
-  const postListItem = postList.find(item => item.memberId === postId);
-  const { title, nickname, modifiedAt, hit, id } = selectedItem.freeboard;
-  const { likes, content, isLike } = postListItem;
-  // 더미데이터 =======================================================================
   
+  // 삭제 api
+  const itemDelete = async ()=>{
+    const res = await freeBoardDelete(state.postId)
+    console.log(res)
+    if(res.status===200){
+      navigate('/freeboard')
+      Swal.fire({
+        title: '삭제되었습니다',
+        icon:'success',
+        timer: 1000, // 2초 후에 자동으로 사라집니다 (밀리초 단위)
+        showConfirmButton: false, // 확인 버튼을 표시하지 않음
+        showCancelButton: false, // 취소 버튼을 표시하지 않음
+      })
+    }
+  }
 
 
   return(
     <>
       <Container>
-        <PostTitle>{title}</PostTitle>
+        <PostTitle>{boardItem.title}</PostTitle>
 
         <Header>
           <div style={{display:'flex', minWidth:'500px'}}>
             <UserImg src="/icon/user_purple.png"/>
-            <NickName>{nickname}</NickName>
-            <Date>{modifiedAt}</Date>
+            <NickName>{boardItem.nickName}</NickName>
+            <Date> {dayjs(boardItem.createdAt).format('YYYY.MM.DD HH:mm')}</Date>
           </div>
 
           <Box>
@@ -92,7 +137,7 @@ function FreeBoardItemDetail({}){
                 <VisibilityIcon style={{fontSize:'16px'}}/>
               </div>
               <div>
-                {hit}
+                {boardItem.hit + 1}
               </div>
             </Hit>
             <Like>
@@ -100,7 +145,7 @@ function FreeBoardItemDetail({}){
                 <FavoriteBorderIcon style={{fontSize:'16px'}}/>
               </div>
               <div>
-                {likes}
+                {boardItem.likeCnt}
               </div>
             </Like>
             <Comment>
@@ -108,7 +153,7 @@ function FreeBoardItemDetail({}){
                 <SmsIcon style={{fontSize:'16px'}}/>
               </div>
               <div>
-                10
+                {commentlists.length}
               </div>
             </Comment>
           </Box>
@@ -117,17 +162,23 @@ function FreeBoardItemDetail({}){
 
         <Wrapper>
           <ContentBox>
-            <Content>{content}</Content>
+            <Content>{boardItem.content}</Content>
           </ContentBox>
-          <BtnBox>
-            <UpdateBtn onClick={() => navigate('/freeboardupdate', { state: { 'id':id, 'title':title, 'content':content } })}>수정</UpdateBtn>
-            <DeleteBtn onClick={handleDelete}>삭제</DeleteBtn>
-          </BtnBox>
+          {boardItem.memberId === userId ? (
+            <>
+            <BtnBox>
+              <UpdateBtn onClick={() => navigate('/freeboardupdate')}>수정</UpdateBtn>
+              <DeleteBtn onClick={handleDelete}>삭제</DeleteBtn>
+            </BtnBox>
+            </>
+          ) : (
+            <></>
+          )}
         </Wrapper>
         <Line />
-        <CommentCreate state={{ id, isLike, type:'free' }} />
+        <CommentCreate state={{ id:state.postId, type:'free' }} />
         <Line />
-        <CommentList state={{ id, type:'free' }}/>
+        <CommentList state={{  id:state.postId, type:'free' }}/>
 
       </Container>
     </>

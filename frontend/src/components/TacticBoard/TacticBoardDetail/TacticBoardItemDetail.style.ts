@@ -112,6 +112,9 @@ display: flex;
   align-items: center; /* 수직 가운데 정렬 */
 `;
 export const Img = styled.img`
+width: 70%;
+height: 90%;
+object-fit: contain
 `;
 
 export const Content = styled.div`
