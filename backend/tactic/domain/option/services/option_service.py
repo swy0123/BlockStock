@@ -29,16 +29,13 @@ if bConnect == 0:
 kis.auth()
 
 
-
 def get_main_stock_info():
-
     stocks = (session.query(Option.option_code, Option.option_name).
               order_by(func.random()).limit(5).all())
 
     result = []
 
     for stock in stocks:
-
         res = kis.get_current_price(stock[0])
 
         priceChange = res["prdy_ctrt"]
@@ -133,3 +130,8 @@ def unlike_option(member_id: int, option_code: str):
     if db_option_like:
         session.delete(db_option_like)
         session.commit()
+
+
+def get_option_name(option_code: str):
+    option_name = session.query(Option.option_name).filter(Option.option_code == option_code).first()[0]
+    return option_name

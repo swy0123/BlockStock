@@ -19,6 +19,7 @@ from domain.contest.models.contest import Contest, Participate, ContestRealTime
 from domain.contest.error.contest_exception import StatusCode, Message
 from common.conn import engineconn
 from datetime import datetime
+from domain.option.services import option_service
 
 from domain.option.models.option import Option
 
@@ -66,7 +67,7 @@ def get_contests(member_id: int,
         join_people = (session.query(Participate).outerjoin(Contest, Contest.id == Participate.contest_id).
                        where(Contest.id == contest.id).count())
 
-        option_name = ""
+        option_name = option_service.get_option_name(contest.option_code)
         contest_result.append(ContestResponse(contest, is_registed, join_people, option_name))
 
     session.close()
