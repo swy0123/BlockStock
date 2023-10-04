@@ -7,13 +7,17 @@ export const Container = styled.div`
   /* width: 70%; */
   /* margin-left: 50px; */
   margin-right: 250px;
+  margin-top: 60px;
 `;
 export const InputBox = styled.div`
   display: flex;
   text-align: center;
   align-items: center;
+  margin-top: 5px;
+  margin-bottom: 20px;
 `;
 export const Title = styled.span`
+  margin-top: 10px;
   font-size: 40px;
   font-weight: 700;
   color: ${(props) => props.color || "black"};

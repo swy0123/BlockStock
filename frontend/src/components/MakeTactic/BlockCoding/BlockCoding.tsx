@@ -82,16 +82,14 @@ const BlockCoding = (props) => {
   const [repeatCnt, setRepeatCnt] = useState(50); //반복횟수 (scope)
   const [tacticPythonCode, setTacticPythonCode] = useState(undefined); //"""code"""
   const [tacticJsonCode, setTacticJsonCode] = useState(undefined); //json 객체 (직렬화해서 저장)
-  const [customVariableBlockGroup, setCustomVariableBlockGroup] =
-    useState<CustomVariableBlockGroup>();
   const [tacticImg, setTacticImg] = useState(undefined); //svg
   //코드 검사 제대로 하기
   const [codeCheck, setCodeCheck] = useState(true); // 코드 검사 후 결과창으로 이동
 
   useEffect(() => {
-    const timeoutExecute = setTimeout(() => searchOption(), 500);
+    const timeoutExecute = setTimeout(() => searchOption(), 300);
     return () => clearTimeout(timeoutExecute);
-  }, [keyword]);
+  }, [keyword, isSearch]);
 
   //전략 조회일 경우
   useEffect(() => {
@@ -123,47 +121,51 @@ const BlockCoding = (props) => {
 
   // 검색
   const searchOption = async () => {
-    if (keyword !== "") {
+    // if (keyword !== "") {
       console.log(keyword);
       console.log(isSearch);
       const res = await tacticSearchOption(keyword, isSearch);
       console.log(res);
       setOptionLikeList(res);
-    } else {
-      const defaultRes = [
-        {
-          optionCode: "000810",
-          optionName: "삼성화재",
-          like: false,
-        },
-        {
-          optionCode: "000815",
-          optionName: "삼성화재우",
-          like: false,
-        },
-        {
-          optionCode: "001360",
-          optionName: "삼성제약",
-          like: false,
-        },
-        {
-          optionCode: "005930",
-          optionName: "삼성전자",
-          like: false,
-        },
-        {
-          optionCode: "005935",
-          optionName: "삼성전자우",
-          like: false,
-        },
-        {
-          optionCode: "006400",
-          optionName: "삼성SDI",
-          like: false,
-        },
-      ];
-      setOptionLikeList(defaultRes);
-    }
+    // }
+    // else{
+    //   setOptionLikeList([])
+    // }
+    //  else {
+    //   const defaultRes = [
+    //     {
+    //       optionCode: "000810",
+    //       optionName: "삼성화재",
+    //       like: false,
+    //     },
+    //     {
+    //       optionCode: "000815",
+    //       optionName: "삼성화재우",
+    //       like: false,
+    //     },
+    //     {
+    //       optionCode: "001360",
+    //       optionName: "삼성제약",
+    //       like: false,
+    //     },
+    //     {
+    //       optionCode: "005930",
+    //       optionName: "삼성전자",
+    //       like: false,
+    //     },
+    //     {
+    //       optionCode: "005935",
+    //       optionName: "삼성전자우",
+    //       like: false,
+    //     },
+    //     {
+    //       optionCode: "006400",
+    //       optionName: "삼성SDI",
+    //       like: false,
+    //     },
+    //   ];
+    //   setOptionLikeList(defaultRes);
+    // }
   };
 
   const editSetTrue = () => {
@@ -271,12 +273,14 @@ const BlockCoding = (props) => {
 
   //검색 모드 변경
   const setSearchTrue = () => {
+    console.log("setSearchTrue")
     setSearch(true);
     setKeyword("");
     handleOptionLikeList(true);
   };
 
   const setSearchFasle = () => {
+    console.log("setSearchFasle")
     setSearch(false);
     setKeyword("");
     handleOptionLikeList(false);
@@ -331,27 +335,46 @@ const BlockCoding = (props) => {
       term: term,
       repeatCnt: repeatCnt,
     };
-
-    Swal.fire({
-      title: "테스트 실행",
-      text: "테스트를 실행하시겠습니까?",
-      // icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "테스트 실행",
-      cancelButtonText: "취소",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire(
-          "실행중입니다.",
-          "잠시만 기다려주세요",
-          "success"
-          // '확인',
-        );
-        setCodeCheck(false);
-      }
-    });
+    if(optionCode!=""){
+      Swal.fire({
+        title: "테스트 실행",
+        text: "테스트를 실행하시겠습니까?",
+        // icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "테스트 실행",
+        cancelButtonText: "취소",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            "실행중입니다.",
+            "잠시만 기다려주세요",
+            "success"
+            // '확인',
+          );
+          setCodeCheck(false);
+        }
+      });
+    }
+    else{
+      Swal.fire({
+        title: "종목을 선택해주세요",
+        text: "종목을 선택하시겠습니까?",
+        // icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "종목 선택",
+        cancelButtonText: "취소",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          
+          handleIsLeftOpen();
+        }
+      });
+    }
+    
   };
 
   useEffect(() => {
@@ -388,6 +411,7 @@ const BlockCoding = (props) => {
     } else if (term == "1w") {
       selectedDate = selectedDate.subtract(repeatCnt + 1, "w");
     }
+    selectedDate = selectedDate.subtract(7, "d");
     const now = selectedDate.get("d");
     if (now === 0) selectedDate = selectedDate.subtract(2, "d");
     else if (now === 6) selectedDate = selectedDate.subtract(1, "d");
@@ -490,6 +514,7 @@ const BlockCoding = (props) => {
                               item={item}
                               setOption={setOption}
                               setViewOption={setViewOption}
+                              searchKeyword={searchKeyword}
                             ></OptionLikeListItem>
                           ))}
                         </>
@@ -501,6 +526,7 @@ const BlockCoding = (props) => {
                               item={item}
                               setOption={setOption}
                               setViewOption={setViewOption}
+                              searchKeyword={searchKeyword}
                             ></OptionLikeListItem>
                           ))}
                         </>

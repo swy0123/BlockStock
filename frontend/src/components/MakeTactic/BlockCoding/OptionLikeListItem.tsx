@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ItemContainer,
   LikeImg,
@@ -13,9 +13,29 @@ import FillStarImgSrc from "../../../assets/img/MakeTactic/fillstar.png";
 import EmpthyStarImgSrc from "../../../assets/img/MakeTactic/emptystar.png";
 
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import { addLikedOption, deleteLikedOption } from "../../../api/Tactic/TacticTest";
 
 //     {item.cost}
 const OptionLikeListItem = (props) => {
+  const [isLike, setIsLike] = useState<boolean>();
+
+  useEffect(() => {
+    // const timeoutExecute = setTimeout(() =>{ isLike ? setLikeTrue() : setLikeFalse()}, 200);
+    // return () => clearTimeout(timeoutExecute);
+    if(isLike) setLikeTrue()
+    else setLikeFalse()
+  }, [isLike])
+
+  useEffect(() => {
+    // const timeoutExecute = setTimeout(() =>{ isLike ? setLikeTrue() : setLikeFalse()}, 200);
+    // return () => clearTimeout(timeoutExecute);
+    setIsLike(props.item.like)
+  }, [props.item.like])
+
+  const handleIsLike = () => {
+    setIsLike(!isLike);
+  }
+
   const clickViewDetail = () => {
     console.log(props);
     props.setViewOption(props.item.optionCode);
@@ -26,22 +46,27 @@ const OptionLikeListItem = (props) => {
   };
 
   //종목 좋아요 버튼, axios 통신
-  const setLikeTrue = () => {
+  const setLikeTrue = async () => {
     // const req = (keyword);
-    console.log("FillStarImgSrc");
+    const req = {
+      optionCode: props.item.optionCode,
+    };
+    const res = await addLikedOption(req);
+    console.log("setLikeTrue setLikeTrue");
+    props.searchKeyword
   };
-  const setLikeFalse = () => {
-    // const req = (keyword);
-    console.log("EmpthyStarImgSrc");
+  const setLikeFalse = async () => {
+    const res = await deleteLikedOption(props.item.optionCode);
+    console.log("setLikeFalse setLikeFalse setLikeFalse");
   };
 
   return (
     <ItemContainer>
-      {props.item.isLike !== undefined ? (
-        props.item.isLike ? (
-          <LikeImg src={FillStarImgSrc} onClick={setLikeTrue} alt="좋아요" />
+      {isLike !== null ? (
+        isLike ? (
+          <LikeImg src={FillStarImgSrc} onClick={handleIsLike} alt="좋아요" />
         ) : (
-          <LikeImg src={EmpthyStarImgSrc} onClick={setLikeFalse} alt="싫어요" />
+          <LikeImg src={EmpthyStarImgSrc} onClick={handleIsLike} alt="싫어요" />
         )
       ) : (
         <></>

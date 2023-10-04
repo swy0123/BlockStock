@@ -17,13 +17,13 @@ const HistoryCard = styled.div`
   flex-direction: column;
   align-items: center;
   text-align: center;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.08);
+  box-shadow: 2px 4px 4px 2px rgba(0, 0, 0, 0.08);
   margin-bottom: 25px;
 `;
 const TitleBox = styled.div`
   width: 100%;
   border-radius: 6px 6px 0px 0px;
-  background-color: #ebebeb;
+  background-color: #F4F6F8;
 `
 const Title = styled.p`
   font-size: 17px;
@@ -57,7 +57,7 @@ const Name = styled.p`
   margin-bottom: 0px;
 `;
 const EmptyBox = styled.div`
-  width: 70%;
+  width: 900px;
   height: 250px;
   background-color: white;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.08);
@@ -76,31 +76,45 @@ const Noneimg = styled.img`
 const HistoryBtn = styled.button`
   width: 49%;
   height: 35px;
-  margin-right: 5px;
-  cursor: pointer;
+  font-size: 13px;
   border-radius: 6px;
-  border: 0px;
-  background-color: #f4f4f4;
-  &:hover{
-    background: #9862fd;
-    transition: 0.5s;
+  color: white;
+  border: 0;
+  border-radius: 6px;
+  background: #9155fd;
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  &:hover {
+    background: #ab80fb;
     color: white;
+    transition: 0.5s;
   }
-`
+  margin-top: 5px;
+  margin-right: 5px;
+  margin-bottom: 10px;
+`;
+
 const TacticBtn = styled.button`
+  border: 0px;
   width: 49%;
   height: 35px;
-  margin-left: 5px;
-  cursor: pointer;
   border-radius: 6px;
-  border: 0px;
-  background-color: #f4f4f4;
-  &:hover{
-    background: #9862fd;
+  background: #faf8fe;
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.25);
+  border: 0;
+  color: #9155fd;
+  transition: 0.5s;
+  cursor: pointer;
+  &:hover {
+    background-color: #f4f0fd;
     transition: 0.5s;
-    color: white;
+    color: #9155fd;
   }
-`
+  margin-top: 5px;
+  margin-left: 5px;
+  margin-bottom: 10px;
+`;
+
 function RecodeList() {
   const { data, isLoading, isError } = useQuery("history", getRecodeList);
   // console.log('기록관리 데이터',data)
