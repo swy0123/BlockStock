@@ -154,6 +154,29 @@ export const SearchItemList = styled.div`
   }
 `;
 
+export const OptionDetail = styled.div`
+  width: 90%;
+  height: 90%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ececec;
+  border-radius: 10px;
+`;
+export const OptionDetailItem = styled.div`
+  width: 90%;
+  height: 20%;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ececec;
+  border-radius: 10px;
+`;
+
 //-----------------------------------------------
 
 export const RightDiv = styled.div<{ $isLeftOpen: boolean }>`

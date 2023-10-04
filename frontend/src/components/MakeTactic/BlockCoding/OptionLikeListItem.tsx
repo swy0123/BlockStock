@@ -18,24 +18,20 @@ import { addLikedOption, deleteLikedOption } from "../../../api/Tactic/TacticTes
 //     {item.cost}
 const OptionLikeListItem = (props) => {
   const [isLike, setIsLike] = useState<boolean>();
-
-  useEffect(() => {
-    // const timeoutExecute = setTimeout(() =>{ isLike ? setLikeTrue() : setLikeFalse()}, 200);
-    // return () => clearTimeout(timeoutExecute);
-    if(isLike) setLikeTrue()
-    else setLikeFalse()
-    props.returnSetSwitchLike();
-  }, [isLike])
-
-  useEffect(() => {
-    // const timeoutExecute = setTimeout(() =>{ isLike ? setLikeTrue() : setLikeFalse()}, 200);
-    // return () => clearTimeout(timeoutExecute);
+  useEffect(()=>{
     setIsLike(props.item.like)
   }, [props.item.like])
 
-  const handleIsLike = () => {
-    setIsLike(!isLike);
-  }
+  const handleLikeAdd = () => {
+    setLikeTrue();
+    setIsLike(true);
+    props.item.returnSetSwitchLike
+  };
+  const handleLikeDelete = () => {
+    setLikeFalse();
+    setIsLike(false);
+    props.item.returnSetSwitchLike
+  };
 
   const clickViewDetail = () => {
     console.log(props);
@@ -53,20 +49,20 @@ const OptionLikeListItem = (props) => {
       optionCode: props.item.optionCode,
     };
     const res = await addLikedOption(req);
-    console.log("setLikeTrue setLikeTrue");
+    console.log(props.item.optionName + " : setLikeTrue setLikeTrue");
   };
   const setLikeFalse = async () => {
     const res = await deleteLikedOption(props.item.optionCode);
-    console.log("setLikeFalse setLikeFalse setLikeFalse");
+    console.log(props.item.optionName + " : setLikeFalse setLikeFalse setLikeFalse");
   };
 
   return (
     <ItemContainer>
       {isLike !== null ? (
         isLike ? (
-          <LikeImg src={FillStarImgSrc} onClick={handleIsLike} alt="좋아요" />
+          <LikeImg src={FillStarImgSrc} onClick={handleLikeDelete} alt="좋아요" />
         ) : (
-          <LikeImg src={EmpthyStarImgSrc} onClick={handleIsLike} alt="싫어요" />
+          <LikeImg src={EmpthyStarImgSrc} onClick={handleLikeAdd} alt="싫어요" />
         )
       ) : (
         <></>
