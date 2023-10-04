@@ -227,7 +227,7 @@ const TacticResult = (props) => {
   return (
     <TradingHistoryContainer>
       {/* 전략 이름 */}
-      <TradingHistoryTitle style={{ fontSize: "22px" }}>{props.title}</TradingHistoryTitle>
+      <TradingHistoryTitle style={{ fontSize: "20px" }}>{props.title}</TradingHistoryTitle>
       {/* {props.tacticImg ? <img src={props.tacticImg}/>:<></>} */}
 
       <TradingHistoryContents>
@@ -272,7 +272,7 @@ const TacticResult = (props) => {
             chartInfos !== undefined &&
             chartInfos.length > 0 ? (
               <CandleChart
-                curwidth={size.width - 30}
+                curwidth={size.width - 20}
                 curheight={size.height - 30}
                 optionHistory={optionHistory}
                 chartInfos={chartInfos}
