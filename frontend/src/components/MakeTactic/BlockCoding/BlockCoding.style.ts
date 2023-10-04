@@ -87,7 +87,7 @@ export const IsSearchDiv = styled.div`
 
 export const SearchTypeDiv = styled.div`
   width: 90%;
-  height: 5%;
+  height: 6%;
   display: flex;
   flex-direction: row;
   text-align: center;
@@ -134,6 +134,9 @@ export const SearchInput = styled.input`
   font-size: 15px;
 `;
 export const SearchItemList = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
   height: 80%;
   margin-top: 2%;
@@ -219,7 +222,7 @@ export const InputOptionDiv = styled.div`
   width: 100%;
   height: 25px;
   font-size: 15px;
-  margin-top: 20px;
+  margin-top: 10px;
 `;
 
 export const Input = styled.input`
@@ -315,6 +318,7 @@ export const ChoiceTitleBox = styled.div`
   flex-direction: row;
   color: #ababab;
   width: 100%;
+  margin-bottom: 10px;
 `;
 
 export const TestButton = styled.div`

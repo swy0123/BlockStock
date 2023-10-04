@@ -79,8 +79,8 @@ export const TradingHistoryTitle = styled.div`
 
 export const OptionHistoryItemList = styled.div`
   width: 90%;
-  height: 90%;
-  /* margin-bottom: 2%; */
+  height: 88%;
+  margin-top: 2%;
   display: flex;
   border: 1px solid #d4d4d4;
   border-radius: 10px;
@@ -95,7 +95,13 @@ export const ItemList = styled.div`
   overflow-y: scroll;
   overflow-x: hidden;
   &::-webkit-scrollbar {
-    display: none;
+    width: 4px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.4);
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
   }
 `;
 
@@ -122,14 +128,14 @@ export const OptionHistoryItemPosCenter = styled.div`
   position: absolute;
   display: flex;
   flex-direction: column;
-  left: 40%;
+  left: 50%;
   font-size: 15px;
   transform: translate(-50%, 0%);
 `;
 export const OptionHistoryItemPosRight = styled.div`
   position: absolute;
   font-size: 15px;
-  right: 10%;
+  right: 5%;
 `;
 export const OptionHistoryItemPosUp = styled.div`
   font-size: 15px;
@@ -148,9 +154,8 @@ export const HistoryChartDiv = styled.div`
   box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
   border: 1px solid #d4d4d4;
   border-radius: 10px;
-  height: 98%;
-  width: 98%;
-  padding: 1%;
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -203,9 +208,9 @@ export const HistorySummaryContentsResult = styled.div`
 // `;
 export const HistorySummaryContentsItem = styled.div`
   position: relative;
-  margin-top: 10px;
+  margin-top: 20px;
   width: 100%;
-  height: 16%;
+  height: 5%;
 `;
 export const HistorySummaryContentsItemLeft = styled.span`
   position: absolute;

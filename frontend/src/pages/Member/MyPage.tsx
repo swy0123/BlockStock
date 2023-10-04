@@ -93,7 +93,6 @@ function MyPage() {
       const file: File = event.target.files[0]; // 파일 형식으로 명시
       const formData = new FormData();
       formData.append("file", file);
-      // setSelectedFile(`https://j9b210.p.ssafy.io:8443/api/member/profile/${currentUser.userid}`);
       setSelectedFile(file);
       console.log("폼데이터 보자",formData)
   
