@@ -17,7 +17,7 @@ export const addLikedOption = async (code: any) => {
   console.log(code)
   try {
     const res = await privateApi.post(`/option/like`, code);
-    console.log(res.data);
+    console.log(res);
     return res;
   } catch (err) {
     console.error(err);
@@ -29,7 +29,7 @@ export const deleteLikedOption = async (code: string) => {
   console.log(code)
   try {
     const res = await privateApi.delete(`/option/like/`+code);
-    console.log(res.data);
+    console.log(res);
     return res;
   } catch (err) {
     console.error(err);
