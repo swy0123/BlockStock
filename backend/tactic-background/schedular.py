@@ -16,11 +16,11 @@ from domain.contest.models.contest import Contest, Participate, Tactic, ContestR
 sched = BackgroundScheduler(timezone='Asia/Seoul')
 
 engine = engineconn()
-session = engine.sessionmaker()
 
 
 def contest_thread(participate: Participate):
-    engine = engineconn()
+    print("=============contest_thread===============", participate.member_id)
+
     session_thread = engine.sessionmaker()
 
     real_data = (session_thread.query(ContestRealTime.open,
@@ -32,6 +32,7 @@ def contest_thread(participate: Participate):
                  order_by(desc(ContestRealTime.created_at)))
 
     real_data = pd.DataFrame(real_data.all(), columns=['2', '3', '4', '5', '6'])
+
 
     def cal_now_stock_cnt():
         # 이제까지 매매한 내용 보면서 buy일 때는 trade_cnt 더해주기
@@ -48,11 +49,11 @@ def contest_thread(participate: Participate):
         return sell_cnt, buy_cnt
 
     def cal_now_stock_cost():
-        sell_sum = (session.query(func.sum(Trade.trade_cnt * Trade.trade_cost))
+        sell_sum = (session_thread.query(func.sum(Trade.trade_cnt * Trade.trade_cost))
                     .filter(Trade.participate_id == participate.id, Trade.trade_type == "sell")
                     .one()[0] or 0)
 
-        buy_sum = (session.query(func.sum(Trade.trade_cnt * Trade.trade_cost))
+        buy_sum = (session_thread.query(func.sum(Trade.trade_cnt * Trade.trade_cost))
                    .filter(Trade.participate_id == participate.id, Trade.trade_type == "buy")
                    .one()[0] or 0)
 
@@ -99,8 +100,8 @@ def contest_thread(participate: Participate):
                 (session_thread.query(Participate).filter(Participate.id == participate.id).
                  update({'result_money': participate.result_money}))
 
-                session_thread.add(db_trade)
-                session_thread.commit()
+            session_thread.add(db_trade)
+            session_thread.commit()
 
     def sell(param: int):
         now_asset = session_thread.get(Participate, participate.member_id).result_money
@@ -128,15 +129,15 @@ def contest_thread(participate: Participate):
                              profit_and_loss=(buy_avg - sell_avg) * param,
                              trade_cost=real_data.iloc[0]['4'])
 
-            if db_trade:
-                participate.result_money += (db_trade.cost * db_trade.trade_cnt)
+        if db_trade:
+            participate.result_money += (db_trade.cost * db_trade.trade_cnt)
 
-                (session_thread.query(Participate).
-                 filter(Participate.id == participate.id).
-                 update({'result_money': participate.result_money}))
+            (session_thread.query(Participate).
+             filter(Participate.id == participate.id).
+             update({'result_money': participate.result_money}))
 
-                session_thread.add(db_trade)
-                session_thread.commit()
+            session_thread.add(db_trade)
+            session_thread.commit()
 
     def asset(percent):
         tmp_asset = math.ceil(participate.result_money / 100 * percent)
@@ -153,11 +154,16 @@ def contest_thread(participate: Participate):
 
     exec(tactic_python_code)
 
+    session_thread.close()
+
 
 # 9시부터 15시까지 1분 마다 실행하는 것으로 바꾸기
 @sched.scheduled_job('interval', seconds=60, id='remove_inactive_image')
 def check_contest():
-    now_formatted = (datetime.now() + timedelta(minutes=30)).strftime('%Y-%m-%d %H:%M')
+    session = engine.sessionmaker()
+    
+    # 임시로 0으로 함 (30으로 바꿔야 됨)
+    now_formatted = (datetime.now() + timedelta(minutes=0)).strftime('%Y-%m-%d %H:%M')
 
     contest = session.query(Contest).where(
         func.date_format(Contest.start_time, '%Y-%m-%d %H:%i') == now_formatted).all()
@@ -168,7 +174,8 @@ def check_contest():
         # 참여하는 사람들
         participates = session.query(Participate).filter(Participate.contest_id == cur_contest.id).all()
 
-        start_contest(contest_info=cur_contest,
+        start_contest(session,
+                      contest_info=cur_contest,
                       participates=participates)
 
         session.commit()
@@ -178,7 +185,8 @@ def check_contest():
 sched.start()
 
 
-def start_contest(contest_info: Contest,
+def start_contest(session,
+                  contest_info: Contest,
                   participates: Participate):
     headers = {"content-type": "application/json"}
     body = {"grant_type": "client_credentials",
@@ -225,19 +233,19 @@ def start_contest(contest_info: Contest,
     while datetime.now() < contest_info.end_time:
         current_data = get_real_time_stock(URL, headers, params)
 
-        session_real_data = engine.sessionmaker()
-        session_real_data.add(ContestRealTime(contest_id=contest_info.id,
-                                              open=current_data['2'],
-                                              high=current_data['3'],
-                                              low=current_data['4'],
-                                              close=current_data['5'],
-                                              vol=current_data['6']))
+        session.add(ContestRealTime(contest_id=contest_info.id,
+                                    open=current_data['2'],
+                                    high=current_data['3'],
+                                    low=current_data['4'],
+                                    close=current_data['5'],
+                                    vol=current_data['6']))
 
-        session_real_data.commit()
-        session_real_data.close()
+        session.commit()
 
         # 멀티스레드
         for participate in participates:
+            print(">>>>>>>>>>>>>>", participate.member_id)
+
             _thread.start_new_thread(contest_thread, (participate,))
 
         schedule.run_pending()
