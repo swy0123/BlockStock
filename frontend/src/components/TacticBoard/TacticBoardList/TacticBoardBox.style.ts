@@ -84,6 +84,7 @@ margin: 60px 0px 0px 20px;
 z-index: 5;
 &:hover{
   background-color: #F4F6F8;
+  cursor: pointer;
 }
 `;
 

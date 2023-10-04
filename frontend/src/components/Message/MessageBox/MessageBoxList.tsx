@@ -24,7 +24,8 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-
+ // 날짜 변환
+ import dayjs from "dayjs";
 // 경고창 
 import Swal from 'sweetalert2';
 // api 통신
@@ -118,7 +119,11 @@ function MessageBoxList({name, onButtonClick, message}){
   const messageListApi = async(name)=>{
     const res = await messageList(name)
     console.log(res)
-    setData(res)
+    if (res===undefined){
+      setData([])
+    } else{
+      setData(res)
+    }
   }
 
   const handleButtonClick = (buttonType) => {
@@ -207,49 +212,51 @@ function MessageBoxList({name, onButtonClick, message}){
       <Line/>
       
       <Wrapper>
-        {data.map((item, index) => {
-          const formatDateTime = (dateTimeString) => {
-            const date = new Date(dateTimeString);
-            const formattedDate = `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}시${date.getMinutes().toString().padStart(2, '0')}분`;
-            return formattedDate;
-          };
+        {data && data.length > 0 ? (
+          <>
+            {data.map((item, index) => (
+                <div key={index}>
+                  <MessageItem>
+                    <Box>
+                      {/* 쪽지 삭제 체크박스 */}
+                      <div onClick={() => handleItemCheck(item.id)} style={{ cursor: 'pointer' }}>
+                        {checkItems.includes(item.id) ? (
+                          <CheckBox style={{ color: 'black' }} />
+                        ) : (
+                          <CheckBoxOutlineBlankIcon style={{ color: '#929292' }} />
+                        )}
+                      </div>
+                      {/* 쪽지 보관 */}
+                      <div onClick={() => toggleBookmark(item.id)}>
+                        {item.marked ? (
+                          <BookmarkIcon
+                            style={{ margin: '0px 0px 0px 5px', cursor: 'pointer', color: '#FFC700' }}
+                          />
+                        ) : (
+                          <BookmarkBorderIcon style={{ margin: '0px 0px 0px 5px', cursor: 'pointer', color: '#929292' }} />
+                        )}
+                      </div>
 
-          return (
-            <div key={index}>
-              <MessageItem>
-                <Box>
-                  {/* 쪽지 삭제 체크박스 */}
-                  <div onClick={() => handleItemCheck(item.id)} style={{ cursor: 'pointer' }}>
-                    {checkItems.includes(item.id) ? (
-                      <CheckBox style={{ color: 'black' }} />
-                    ) : (
-                      <CheckBoxOutlineBlankIcon style={{ color: '#929292' }} />
-                    )}
-                  </div>
-                  {/* 쪽지 보관 */}
-                  <div onClick={() => toggleBookmark(item.id)}>
-                    {item.marked ? (
-                      <BookmarkIcon
-                        style={{ margin: '0px 0px 0px 5px', cursor: 'pointer', color: '#FFC700' }}
-                      />
-                    ) : (
-                      <BookmarkBorderIcon style={{ margin: '0px 0px 0px 5px', cursor: 'pointer', color: '#929292' }} />
-                    )}
-                  </div>
+                      <ItemContentBox onClick={() => handleButtonClick(item.id)}>
+                        <MessageItemTitle>{item.content}</MessageItemTitle>
+                        <MessageItemSchedule>
+                          {dayjs(item.createdAt).format('YYYY/MM/DD HH:mm:ss')}
+                        </MessageItemSchedule>
+                      </ItemContentBox>
 
-                  <ItemContentBox onClick={() => handleButtonClick(item.id)}>
-                    <MessageItemTitle>{item.content}</MessageItemTitle>
-                    <MessageItemSchedule>{formatDateTime(item.createdAt)}</MessageItemSchedule>
-                  </ItemContentBox>
-
-                  <MessageItemImg src='/icon/user_purple.png' />
-                  <MessageItemNickName>{item.senderNickname}</MessageItemNickName>
-                </Box>
-              </MessageItem>
-              <Line />
-            </div>
-          );
-        })}
+                      <MessageItemImg src='/icon/user_purple.png' />
+                      <MessageItemNickName>{item.senderNickname}</MessageItemNickName>
+                    </Box>
+                  </MessageItem>
+                  <Line />
+                </div>
+              ))}
+          </>
+        ) : (
+          <>
+          메시지가 없습니다
+          </>
+        )}
       </Wrapper>
 
     </Container>
