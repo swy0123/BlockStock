@@ -136,3 +136,20 @@ export const StoreBtn = styled.button`
     transition: 0.5s;
   }
 `;
+
+export const Noneimg = styled.img`
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+`;
+
+export const Text0 = styled.p`
+  font-size: 17px;
+`;
+
+export const Box1 = styled.div`
+  margin-top: 30px;
+  margin-left: 35px;
+  display: flex;
+  align-items: center;
+`

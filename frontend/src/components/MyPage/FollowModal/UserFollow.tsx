@@ -1,6 +1,5 @@
 import { useQuery, useQueryClient } from "react-query";
-import { getFollower } from "../../../api/MyPage/Follow";
-import { goFollow, unFollow } from "../../../api/MyPage/Follow";
+import { getUserFollower, goFollow, unFollow } from "../../../api/MyPage/Follow";
 import {
   Container,
   UserBox,
@@ -12,12 +11,12 @@ import {
   Box,
 } from "./Follow.style";
 
-function Follower() {
-  const { data, isLoading, isError } = useQuery("myfollower", getFollower);
-  const queryClient = useQueryClient();
+function UserFollower(memberId:number) {
+    const { data, isLoading, isError } = useQuery("getUserFollower", () => getUserFollower(memberId));
+    const queryClient = useQueryClient();
 
   const refetchData = async () => {
-    await queryClient.refetchQueries("myfollower");
+    await queryClient.refetchQueries("getUserFollower");
   };
 
   //팔로우
@@ -71,4 +70,4 @@ function Follower() {
   );
 }
 
-export default Follower;
+export default UserFollower;

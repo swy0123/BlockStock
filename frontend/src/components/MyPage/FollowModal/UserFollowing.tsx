@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from "react-query";
-import { getFollower } from "../../../api/MyPage/Follow";
+import { getUserFollowing } from "../../../api/MyPage/Follow";
 import { goFollow, unFollow } from "../../../api/MyPage/Follow";
 import {
   Container,
@@ -12,16 +12,17 @@ import {
   Box,
 } from "./Follow.style";
 
-function Follower() {
-  const { data, isLoading, isError } = useQuery("myfollower", getFollower);
+function UserFollowing() {
+  const { data, isLoading, isError } = useQuery("getUserFollowing", getUserFollowing);
   const queryClient = useQueryClient();
 
   const refetchData = async () => {
-    await queryClient.refetchQueries("myfollower");
+    await queryClient.refetchQueries("getUserFollowing");
   };
 
   //팔로우
   const handleFollow = async (following: boolean, id: number) => {
+    console.log("여부", following, "id", id);
     if (following == false) {
       const response = await goFollow(id);
       console.log(response);
@@ -47,19 +48,16 @@ function Follower() {
               <Img src="/icon/user_purple.png"></Img>
               <Name>{info.nickname}</Name>
               <Box>
-                {info.following ? (
-                  <FollowingBtn
-                    onClick={() => handleFollow(info.following, info.id)}
-                  >
-                    팔로잉
-                  </FollowingBtn>
-                ) : (
-                  <FollowBtn
-                    onClick={() => handleFollow(info.following, info.id)}
-                  >
-                    팔로우
-                  </FollowBtn>
-                )}
+                <FollowBtn
+                  onClick={() => handleFollow(info.following, info.id)}
+                >
+                  {data.following ? "팔로잉" : "팔로우"}
+                </FollowBtn>
+                {/* {info.following ? (
+                                <FollowingBtn onClick={() => handleFollow(info.following, info.id)}>팔로잉</FollowingBtn>
+                                ) : (
+                                <FollowBtn onClick={() => handleFollow(info.following, info.id)}>팔로우</FollowBtn>
+                            )} */}
                 <Info> …</Info>
               </Box>
             </Box>
@@ -71,4 +69,4 @@ function Follower() {
   );
 }
 
-export default Follower;
+export default UserFollowing;

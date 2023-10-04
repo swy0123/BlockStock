@@ -74,15 +74,15 @@ const commonStyles = `
 `;
 
 export const ListNumber = styled.div`
-  width: 17%;
+  width: 20%;
   ${commonStyles}
 `;
 export const ListTitle = styled.div`
-  width: 30%;
+  width: 33%;
   ${commonStyles}
 `;
 export const ListWriter = styled.div`
-  width: 20%;
+  width: 30%;
   ${commonStyles}
 `;
 export const ListTime = styled.div`
@@ -90,7 +90,7 @@ export const ListTime = styled.div`
   ${commonStyles}
 `;
 export const ListHit = styled.div`
-  width: 20%;
+  width: 17%;
   ${commonStyles}
 `;
 export const FreeBoardBox = styled.div`
@@ -110,29 +110,48 @@ const list = `
   align-items: center;
   margin: 0px 0px 0px 0px;
   height: 35px;
-  font-size: 13px;
+  font-size: 14px;
   // text-align: center;
 `;
 export const ItemNumber = styled.div`
-  width: 17%;
+  width: 21%;
+  padding: 0px 20px 0px 0px;
   ${list}
 `;
 export const ItemTitle = styled.div`
   width: 30%;
+  padding: 0px 40px 0px 20px;
   ${list}
 `;
+export const Box1 = styled.div`
+  width: 150px;
+  margin-top: 5px;
+  padding: 0px 0px 0px 110px;
+  display: flex;
+  align-items: center;
+  /* ${list} */
+` 
+export const Img = styled.img`
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  margin-right: 10px;
+  /* align-items: center; */
+`
 export const ItemWriter = styled.div`
-  width: 35%;
-  padding: 0px 0px 0px 100px;
-  ${list}
+  font-size: 14px;
+  /* width: 120px;
+  padding: 0px 0px 0px 170px;
+  ${list} */
 `;
 export const ItemTime = styled.div`
-  width: 20%;
-  padding: 0px 0px 0px 120px;
+  width: 25%;
+  text-align: start;
+  padding: 0px 0px 0px 20px;
   ${list}
 `;
 export const ItemtHit = styled.div`
-  width: 20%;
+  width: 17%;
   ${list}
 `;
 
