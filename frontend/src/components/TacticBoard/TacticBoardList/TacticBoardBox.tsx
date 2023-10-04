@@ -190,7 +190,7 @@ function TacticBoardBox() {
           </CreateBtn>
         </Header>
 
-        <ItemBox style={{display:'flex', flexWrap: 'wrap',}}>
+        <ItemBox style={{display:'flex', flexWrap: 'wrap',justifyContent:'center',alignItems:'center'}}>
           {boardList.map((item, index)=>(
               <Card
               onClick={() => {
