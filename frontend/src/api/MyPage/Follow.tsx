@@ -1,7 +1,29 @@
 import { privateApi } from "..";
+// 팔로우하기
+export const goFollow = async(id: number) => {
+    try{
+        // console.log('yyertgdfxc')
+        const response = await privateApi.post("/member/follow", {
+            targetId: id
+        });
+        // console.log('팔로우 성공?', response);
+    }catch(error){
+        console.log(error)
+    }
+}
 
+// 언팔
+export const unFollow = async(id: number) => {
+    try{
+        console.log('언팔하게따')
+        const response = await privateApi.delete(`/member/unfollow/${id}`);
+        console.log('언팔 성공?', response);
+    }catch(error){
+        console.log(error)
+    }
+}
 
-// 팔로워
+// 내 팔로워
 export const getFollower = async() => {
     try {
         console.log('팔로우 가져오기 시도')
@@ -12,7 +34,7 @@ export const getFollower = async() => {
     }
 };
 
-// 팔로잉
+// 내 팔로잉
 export const getFollowing = async() => {
     try {
         console.log('팔로잉 가져오기 시도')

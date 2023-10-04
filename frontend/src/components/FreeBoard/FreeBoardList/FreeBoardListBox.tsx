@@ -30,6 +30,8 @@ import {
   DivBox,
   Hr,
   Posting,
+  Img,
+  Box1
 } from "./FreeBoardListBox.style";
  // 날짜 변환
  import dayjs from "dayjs";
@@ -110,6 +112,11 @@ function FreeBoardListBox() {
       backgroundColor: '#F4F5FA', // 페이지 호버 시 배경색도 연보라색으로 변경
     },
   };
+  const formatDate = (dateString: string) => {
+    const datePart = dateString.split("T")[0];
+    return datePart;
+  };
+
   const combinedStyles = {
     ...paginationStyle, // paginationStyle 객체
     display:'flex',
@@ -182,14 +189,17 @@ function FreeBoardListBox() {
 
                 <Tooltip
                   state={{
+                    memberId: item.memberId,
                     nickname: item.nickname,
                     id: item.freePostId,
                   }}
-                >
+                > <Box1>
+                  <Img src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${item.memberId}`}/>
                   <ItemWriter>{item.nickname}</ItemWriter>
+                  </Box1>
                 </Tooltip>
 
-                <ItemTime>{dayjs(item.updatedAt).format('YYYY/MM/DD HH:mm')}</ItemTime>
+                <ItemTime>{formatDate(item.updatedAt)}</ItemTime>
                 <ItemtHit>{item.hit}</ItemtHit>
               </div>
               <Hr/>
