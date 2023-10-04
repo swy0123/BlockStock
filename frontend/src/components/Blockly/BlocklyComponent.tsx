@@ -585,48 +585,48 @@ function BlocklyComponent(props: any) {
         {toolboxCollapsed ? "도구상자 닫기" : "도구상자 열기"}
       </CollapseToolBoxButton>
       {/* 아래는 임시 버튼 */}
-      <CollapseToolBoxButton
-        style={{ left: "128px", width: "100px" }}
+      {/* <CollapseToolBoxButton
+        style={{ left: "528px", width: "100px" }}
         $toolboxCollapsed={toolboxCollapsed}
         onClick={generateCode}
       >
         Convert
-      </CollapseToolBoxButton>
+      </CollapseToolBoxButton> */}
       <CollapseToolBoxButton
-        style={{ left: "228px", width: "100px" }}
+        style={{ left: "128px", width: "100px" }}
         $toolboxCollapsed={toolboxCollapsed}
         onClick={generateVar}
       >
         Generate
       </CollapseToolBoxButton>
       <CollapseToolBoxButton
-        style={{ left: "328px", width: "100px" }}
+        style={{ left: "228px", width: "100px" }}
         $toolboxCollapsed={toolboxCollapsed}
         onClick={reset}
       >
         reset
       </CollapseToolBoxButton>
       <CollapseToolBoxButton
-        style={{ left: "428px", width: "100px" }}
+        style={{ left: "328px", width: "100px" }}
         $toolboxCollapsed={toolboxCollapsed}
         onClick={save}
       >
         save
       </CollapseToolBoxButton>
       <CollapseToolBoxButton
-        style={{ left: "528px", width: "100px" }}
+        style={{ left: "428px", width: "100px" }}
         $toolboxCollapsed={toolboxCollapsed}
         onClick={() => load(true)}
       >
         load
       </CollapseToolBoxButton>
-      <CollapseToolBoxButton
+      {/* <CollapseToolBoxButton
         style={{ left: "628px", width: "100px" }}
         $toolboxCollapsed={toolboxCollapsed}
         onClick={() => exportImageAsPNG()}
       >
         이미지
-      </CollapseToolBoxButton>
+      </CollapseToolBoxButton> */}
 
       {/* <div style={{width:"98%", height:"98%"}} id="blocklyArea"></div> */}
       <BlocklyDiv ref={blocklyDiv} id="blocklyDiv" />
