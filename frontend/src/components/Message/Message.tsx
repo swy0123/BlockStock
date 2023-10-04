@@ -37,8 +37,8 @@ function Message({state,onClose }){
   const { vertical, horizontal, open } = snackbarState;
 
   const data={
-    // receiverId:state.id,
-    receiverId:9,
+    receiverId:state.id,
+    // receiverId:9,
     content:content
   }
 

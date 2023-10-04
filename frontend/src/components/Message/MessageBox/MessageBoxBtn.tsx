@@ -10,15 +10,18 @@ import {
   SendTitle,
   KeepStyleBox,
   KeepBox,
-  KeepTitle
+  KeepTitle,
+  BackBtn
 } from './MessageBoxBtn.style'
-
+import { useNavigate } from "react-router-dom";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 // 받은 쪽지 아이콘
 import MailOutlineIcon from '@mui/icons-material/MailOutline';// 보낸 쪽지 아이콘
 import SendIcon from '@mui/icons-material/Send';
 // 보관함 아이콘
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 function MessageBoxBtn({onButtonClick}){
+  const navigate = useNavigate();
   const [btn, setBtn] = useState('receive');
 
   const handleButtonClick = (buttonType) => {
@@ -78,6 +81,9 @@ function MessageBoxBtn({onButtonClick}){
             <KeepTitle>쪽지 보관함</KeepTitle>
           </KeepStyleBox>
         </Wrapper>
+        <BackBtn onClick={()=>navigate(-1)}>
+          <ArrowBackIcon/>
+        </BackBtn>
       </Container>
     </>
   )

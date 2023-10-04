@@ -184,7 +184,7 @@ function FreeBoardListBox() {
                 <Tooltip
                   state={{
                     nickname: item.nickname,
-                    id: item.freePostId,
+                    id: item.memberId,
                   }}
                 >
                   <ItemWriter>{item.nickname}</ItemWriter>

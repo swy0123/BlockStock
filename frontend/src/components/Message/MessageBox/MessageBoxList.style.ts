@@ -66,7 +66,7 @@ font-size: 13px;
 border: 1px solid black; */
 `;
 export const MessageItemSchedule = styled.div`
-font-size: 8px;
+font-size: 10px;
 color: #A5A5A5;
 margin: 5px 0px 0px 30px;
 `;
@@ -76,7 +76,7 @@ height: 23px;
 margin: 0px 0px 0px 0px;
 `;
 export const MessageItemNickName = styled.div`
-font-size: 10px;
+font-size: 12px;
 color: #A5A5A5;
 margin: 4px 0px 0px 10px;
 `;
