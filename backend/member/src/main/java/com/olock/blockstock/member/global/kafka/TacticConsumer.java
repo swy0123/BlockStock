@@ -17,8 +17,11 @@ public class TacticConsumer {
     @KafkaListener(topics = "tactic-topic", groupId = "member-consumer")
     public void consumeMemberTopic(String message){
         try {
-            TacticTopicMessage tacticTopicMessage = objectMapper.readValue(message, TacticTopicMessage.class);
-            tacticService.updateContestResult(tacticTopicMessage.getContestId(), tacticTopicMessage.getContestTitle(), tacticTopicMessage.getMemberIds(), tacticTopicMessage.getResults());
+            objectMapper.readTree(message);
+            System.out.println(objectMapper.readTree(message).get("message").asText());
+//            if (objectMapper.readTree(message).get("message").asText())
+            //TacticTopicMessage tacticTopicMessage = objectMapper.readValue(message, TacticTopicMessage.class);
+            //tacticService.updateContestResult(tacticTopicMessage.getContestId(), tacticTopicMessage.getContestTitle(), tacticTopicMessage.getMemberIds(), tacticTopicMessage.getResults());
 
         } catch (Exception e) {
             e.printStackTrace();
