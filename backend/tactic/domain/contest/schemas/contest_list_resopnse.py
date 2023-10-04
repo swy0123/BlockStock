@@ -3,8 +3,8 @@ from domain.contest.schemas.contest_response import ContestResponse
 
 class ContestListResponse:
     contestList: list
-    count: int
+    totalCnt: int
 
-    def __init__(self, contest: ContestResponse, count: int):
+    def __init__(self, contest: ContestResponse, total_cnt: int):
         self.contestList = contest
-        self.count = count
+        self.totalCnt = total_cnt

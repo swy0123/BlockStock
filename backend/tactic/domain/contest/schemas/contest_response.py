@@ -15,8 +15,9 @@ class ContestResponse:
     joinPeople: int
     isRegisted: bool
     optionCode: str
+    optionName: str
 
-    def __init__(self, contest: Contest, is_registed: bool, join_people: int):
+    def __init__(self, contest: Contest, is_registed: bool, join_people: int, option_name: str):
         self.id = contest.id
         self.title = contest.title
         self.startTime = contest.start_time
@@ -28,3 +29,4 @@ class ContestResponse:
         self.joinPeople = join_people
         self.isRegisted = is_registed
         self.optionCode = contest.option_code
+        self.optionName = option_name;

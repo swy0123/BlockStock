@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Query, Header, Request
+from fastapi import APIRouter, Query, Request
 from domain.contest.schemas.contest_request import ContestRequest
 from domain.contest.schemas.info_request import InfoRequest
 from domain.contest.services import contest_service
