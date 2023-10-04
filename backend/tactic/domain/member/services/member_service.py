@@ -7,7 +7,11 @@ import httpx
 rd = redis_config()
 
 
-def get_member_data(member_id):
+async def get_member_data(member_id):
+    if not is_key_exists(member_id):
+        member = await req_member_data(member_id)
+        save_member_data(member)
+
     redis_key = f"member:{member_id}"
     redis_value = rd.get(redis_key)
 

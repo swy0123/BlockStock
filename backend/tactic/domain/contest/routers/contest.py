@@ -19,9 +19,9 @@ def get_contest(request: Request,
 
 
 @router.get("/outline")
-def get_contest_outline(request: Request):
+async def get_contest_outline(request: Request):
     member_id = request.headers.get("Member-id")
-    return contest_service.get_contest_outine(member_id)
+    return await contest_service.get_contest_outline(member_id)
 
 
 @router.get("/result/{contest_id}")
@@ -37,9 +37,9 @@ def enroll_contest(contest_create: ContestRequest):
 
 
 @router.post("/participate")
-def participate_contest(request: Request, info_create: InfoRequest):
+async def participate_contest(request: Request, info_create: InfoRequest):
     member_id = request.headers.get("Member-id")
-    contest_service.participate_contest(member_id, info_create)
+    await contest_service.participate_contest(member_id, info_create)
 
 
 @router.delete("/participate/{contest_id}")
