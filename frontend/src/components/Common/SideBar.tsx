@@ -11,6 +11,7 @@ const Container = styled.div`
     background-color: #F4F5FA;
     margin-right: 200px;
     /* margin-top: 80px; */
+    transition: all 0.5s;
 `;
 const SideWrapper = styled.div`
     padding-top: 10px;
@@ -24,6 +25,7 @@ const ClickBox1 = styled.div`
   align-items: center;
 	border-radius: 0px 50px 50px 0px;
 	background-color: rgba(235, 236, 242, 0.81);
+  transition: all 0.5s;
 	&:hover {
 		background: linear-gradient(270deg, #AC85F4 0%, #9256FD 0.01%, #D3BBFF 100%);
 		background-blend-mode: multiply;
@@ -37,12 +39,12 @@ const ClickBox = styled.div`
   display: flex;
   align-items: center;
 	border-radius: 0px 50px 50px 0px;
-	transition: 0.5s;
+	transition: all 0.5s;
 	&:hover {
 		background: linear-gradient(270deg, #AC85F4 0%, #9256FD 0.01%, #D3BBFF 100%);
 		background-blend-mode: multiply;
     color: white;
-    transition: 0.5s;
+    transition: all 0.5s;
   }
 `;
 const Img = styled.img`
@@ -90,6 +92,7 @@ function SideBar(){
   const [showBoardMenu, setShowBoardMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showSideWrapper, setShowSideWrapper] = useState(true);
+  // const [isLogin, setIsLogin] = useRecoilState(LoginState);
 
   if (window.location.pathname === '/login') return null;
   if (window.location.pathname === '/signup') return null;

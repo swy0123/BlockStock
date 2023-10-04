@@ -88,7 +88,7 @@ const Date = styled.p`
 `;
 const Btn2 = styled.button`
   border: 0px;
-  width: 70px;
+  width: 75px;
   height: 30px;
   border-radius: 6px;
   background: #faf8fe;
@@ -98,7 +98,7 @@ const Btn2 = styled.button`
   transition: 0.5s;
   cursor: pointer;
   &:hover {
-    background-color: #d8c9f5;
+    background-color: #f4f0fd;
     transition: 0.5s;
     color: #9155fd;
   }
@@ -107,7 +107,7 @@ const Btn2 = styled.button`
   margin-bottom: 10px;
 `;
 const Btn0 = styled.button`
-  width: 70px;
+  width: 75px;
   height: 30px;
   font-size: 13px;
   border-radius: 6px;
@@ -117,9 +117,8 @@ const Btn0 = styled.button`
   background: #9155fd;
   box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.25);
   cursor: pointer;
-  margin: 0px 20px;
   &:hover {
-    background: #d8c9f5;
+    background: #ab80fb;
     color: white;
     transition: 0.5s;
   }
@@ -135,8 +134,8 @@ const Box1 = styled.div`
   margin: 4px;
 `;
 const Text1 = styled.p`
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 600;
   margin: 0px;
 `;
 function TacticList() {

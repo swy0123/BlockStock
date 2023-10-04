@@ -33,7 +33,7 @@ function App() {
     <Container>
       {isLogIn? <LoginHeader/> : <Header/>}
       <Wrapper>
-        <SideBar />
+      {isLogIn? <SideBar /> : null}
         <OutletBox>
         {/* 여기에서 페이지 끼워짐 */}
           <Outlet />

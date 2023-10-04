@@ -10,8 +10,8 @@ export const StockBox = styled.div`
   width: 100%;
 `;
 export const Card = styled.div`
-  width: 90px;
-  height: 130px;
+  width: 93px;
+  height: 133px;
   background-color: white;
   border-radius: 8px;
   box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
@@ -39,19 +39,29 @@ export const Price = styled.div`
   border-radius: 6px;
 `;
 export const Circle = styled.img`
-  border-radius: 50%;
+  /* border-radius: 50%; */
+  border-radius: 6px;
   background-color: #ffffff;
   border: 2px solid #f5cdcf;
   width: 30px;
+  margin-top: 3px;
 `
 export const Circle1 = styled.img`
-  border-radius: 50%;
+  /* border-radius: 50%; */
+  border-radius: 6px;
   background-color: #ffffff;
   border: 2px solid #b1bff8;
   width: 30px;
+  margin-top: 3px;
 `
-function formatPrice(price) {
+function formatPrice(price: string) {
   return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+function truncateString(str, maxLength) {
+  if (str.length > maxLength) {
+    return str.slice(0, maxLength) + '...';
+  }
+  return str;
 }
 
 function StockList(){
@@ -73,7 +83,7 @@ function StockList(){
     {item.comparePrevious.startsWith('-') ? (
       <>
       <Circle1 src="/icon/low.png" alt="img" />
-      <Name>{item.optionName}</Name>
+      <Name>{truncateString(item.optionName, 5)}</Name>
       <Text style={{color: "#718CEA"}}>{item.comparePrevious}%</Text>
       <Price>{formatPrice(item.currentPrice)}₩</Price>
       </>
