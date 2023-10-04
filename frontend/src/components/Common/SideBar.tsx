@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import RightArrowSrc from "../../assets/img/MakeTactic/rightarrow.png";
 // import Swal from 'sweetalert2'
-
+import { useRecoilState } from "recoil";
+import { contesttype } from '../../recoil/Contest/ContestList'
 const Container = styled.div` 
     width: 250px;
     position: fixed;
@@ -111,6 +112,11 @@ function SideBar(){
     setShowSideWrapper(!showSideWrapper);
   };
 
+  const [type, setType] = useRecoilState(contesttype)
+  const handleNav = ()=>{
+    setType('expected')
+    navigate('./contestlist')
+  }
     return(
         <Container>
           {showSideWrapper && (
@@ -133,15 +139,15 @@ function SideBar(){
                 <ClickBox onClick={() => navigate("/contest")}>
                   <Menu>개요</Menu>
                 </ClickBox>
-                <ClickBox onClick={() => navigate("/currentcontest")}>
-                  <Menu>진행중인 대회</Menu>
+                <ClickBox onClick={handleNav}>
+                  <Menu>대회 목록</Menu>
                 </ClickBox>
-                <ClickBox onClick={() => navigate("/expectedcontest")}>
+                {/* <ClickBox onClick={() => navigate("/expectedcontest")}>
                   <Menu>예정 대회</Menu>
                 </ClickBox>
                 <ClickBox onClick={() => navigate("/completedcontest")}>
                   <Menu>종료 대회</Menu>
-                </ClickBox>
+                </ClickBox> */}
               </>
              )}
 								<ClickBox>

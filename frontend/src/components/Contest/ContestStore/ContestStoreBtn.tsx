@@ -7,46 +7,51 @@ import {
   PastContestBtn,
   StoreBox,
 } from './ContestStoreBtn.style'
+import { useRecoilState } from "recoil";
+import { contesttype } from '../../../recoil/Contest/ContestList'
 
 function ContestStoreBtn(props){
   const navigate = useNavigate();
-  const [selectedButton, setSelectedButton] = useState<string>("진행"); // 초기 선택값 설정
+  const [selectedButton, setSelectedButton] = useState<string>("expected"); // 초기 선택값 설정
+
+  const [type, setType] = useRecoilState(contesttype)
 
   useEffect(()=>{
-    console.log(props.name)
-    setSelectedButton(props.name)
+    console.log(type)
+    setSelectedButton(type)
   },[])
   
   const handleButtonClick = (e: string) =>{
-    navigate(e)
+    console.log(e)
+    setType(e)
   };
 
   return(
     <div style={{display:'flex',alignItems: 'center'}}>
       <StoreBox>
         <CurrentContestBtn
-          onClick={() => handleButtonClick("/currentcontest")}
+          onClick={() => handleButtonClick("proceed")}
           style={{
-            backgroundColor: selectedButton === "진행" ? "#E2CCED" : "initial", 
-            color: selectedButton === "진행" ? "white" : "initial", 
+            backgroundColor: type === "proceed" ? "#E2CCED" : "initial", 
+            color: type === "proceed" ? "white" : "initial", 
           }}
         >
           진행중
         </CurrentContestBtn>
         <ExpectedContestBtn
-          onClick={() => handleButtonClick("/expectedcontest")}
+          onClick={() => handleButtonClick("expected")}
           style={{
-            backgroundColor: selectedButton === "예정" ? "#E2CCED" : "initial",
-            color: selectedButton === "예정" ? "white" : "initial",
+            backgroundColor: type === "expected" ? "#E2CCED" : "initial",
+            color: type === "expected" ? "white" : "initial",
           }}
         >
           예정
         </ExpectedContestBtn>
         <PastContestBtn
-          onClick={() => handleButtonClick("/completedcontest")}
+          onClick={() => handleButtonClick("finish")}
           style={{
-            backgroundColor: selectedButton === "완료" ? "#E2CCED" : "initial",
-            color: selectedButton === "완료" ? "white" : "initial",
+            backgroundColor: type === "finish" ? "#E2CCED" : "initial",
+            color: type === "finish" ? "white" : "initial",
           }}
         >
           완료
