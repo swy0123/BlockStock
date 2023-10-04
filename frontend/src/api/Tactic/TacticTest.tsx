@@ -12,6 +12,17 @@ export const tacticSearchOption = async (keyword: string, isSearch:boolean) => {
   }
 };
 
+// 주식 검색
+export const tacticOptionDetail = async (optionCode:string) => {
+  console.log(optionCode)
+  try {
+    const res = await privateApi.get(`/option/`+optionCode);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 // 관심 종목 추가
 export const addLikedOption = async (code: any) => {
   console.log(code)
@@ -83,7 +94,7 @@ export const tacticCreate = async (data: saveTacticProps) => {
 
 export const tacticImg = async (data:FormData) => {
   console.log(data)
-  const res = await privateApi.post(`/tactic/img`, data, {
+  const res = await privateApi.post(`/tactic/image`, data, {
     headers: {
       "Content-Type": "multipart/form-data",
     },

@@ -33,6 +33,7 @@ import { format } from "d3-format";
 import { contestChart, contestRanking, contestTrade } from "../../../api/Contest/ContestProgress";
 import dayjs from "dayjs";
 import ContestRankBox from "./ContestRankBox";
+import Spinner from "../../Util/Spinner";
 
 const TacticResult = (props: { contestId: number }) => {
   const [componentRef, size] = useComponentSize();
@@ -158,7 +159,7 @@ const TacticResult = (props: { contestId: number }) => {
                 chartInfos={chartInfos}
               ></CandleChart>
             ) : (
-              <></>
+              <Spinner></Spinner>
             )}
           </HistoryChartDiv>
         </CenterDiv>
