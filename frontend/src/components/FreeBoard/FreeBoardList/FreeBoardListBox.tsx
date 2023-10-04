@@ -10,7 +10,7 @@ import { useRecoilValue } from "recoil";
 import { useRecoilState } from "recoil";
 import { freeBoardList } from "../../../recoil/FreeBoard/FreeBoardList";
 import { postidState } from "../../../recoil/FreeBoard/Post";
-import { freeBoardListt } from "../../../api/FreeBoard/FreeBoard";
+
 import { useNavigate } from "react-router-dom";
 import Tooltip from "../../Tooltip/Tooltip";
 import {
@@ -48,22 +48,20 @@ function FreeBoardListBox() {
   const [rowsPerPage, setRowsPerPage] = React.useState(8);
 
   // api 통신 =============================================================
-  const params = {
-    sort: menu,
-    page: page,
-    size: rowsPerPage,
-    keyWord: searchKeyword,
-    my: false,
-    like: false,
-  };
-  useEffect(()=>{
-    freeboard()
-  },[page,rowsPerPage,searchKeyword])
+  // const params = {
+  //   sort: menu,
+  //   page: page,
+  //   size: rowsPerPage,
+  //   keyWord: searchKeyword,
+  // };
+  // useEffect(()=>{
+  //   freeboard()
+  // },[page,rowsPerPage,searchKeyword])
 
-  const freeboard = async () => {
-    const freeBoard = await freeBoardListt(params)
-    console.log(freeBoard)
-  }
+  // const freeboard = async () => {
+  //   const freeBoard = await freeBoardListt(params)
+  //   console.log(freeBoard)
+  // }
   // api 통신 =================
 
   // 더미데이터 ============================================
@@ -74,7 +72,7 @@ function FreeBoardListBox() {
   // 더미데이터를 사용하여 직접 조건에 맞게 다시 배열을 만들기
   useEffect(() => {
     // Sort the BoardList in "최신순" order when the component mounts
-    const sortedListCopy = [...freeBoard].sort(
+    const sortedListCopy = [...BoardList].sort(
       (a, b) =>
         new Date(b.freeboard.modifiedAt) - new Date(a.freeboard.modifiedAt)
     );
@@ -85,7 +83,7 @@ function FreeBoardListBox() {
     const selectedMenu = event.target.value as string;
     setMenu(selectedMenu);
 
-    let sortedListCopy = [...freeBoard];
+    let sortedListCopy = [...BoardList];
 
     if (selectedMenu === "최신순") {
       sortedListCopy.sort(
