@@ -18,6 +18,9 @@ import {
   Line,
   ContentBox,
   BtnBox,
+  ImgBox,
+  Img,
+  DownloadBox
 } from './FreeBoardItemDetail.style'
 
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -65,15 +68,15 @@ function FreeBoardItemDetail(){
     console.log(res)
     if (res.status===200){
       setBoardItem(res.data)
+      setFile(res.data.fileList)
       // 이미지 파일
-      for (let i = 0;i<=res.data.fileList.length;i++){
-        if (res.data.fileList[i].type === 'image/png'){
-          const img = res.data.fileList[i]
-          console.log(img)
-          setFile(...file, img)
-          console.log(file,'file')
-        }
-      }
+      // for (let i = 0;i<=res.data.fileList.length;i++){
+      //   if (res.data.fileList[i].type === 'image/png'){
+      //     const img = res.data.fileList[i]
+      //     console.log(img)
+      //     console.log(file,'file')
+      //   }
+      // }
     }
   }
 
@@ -129,6 +132,69 @@ function FreeBoardItemDetail(){
     }
   }
 
+  // file 다운로드
+  // const downloadImage = (file: PostFilesType) => {
+  //   console.log(file.path)
+  //   fetch(`${file.path}`, {method: 'GET', mode: 'no-cors'})
+  //   .then(res => {
+  //     return res.blob();
+  //   })
+  //   .then(blob => {
+  //     console.log(blob, 'blob')
+  //     const url = window.URL.createObjectURL(blob);
+  //     const a = document.createElement('a');
+  //     a.href = url;
+  //     console.log(url, 'url')
+  //     a.download = `${file.filename}`;
+  //     document.body.appendChild(a); 
+  //     a.click();  
+  //     setTimeout(
+  //       (_: any) => { window.URL.revokeObjectURL(url); }, 
+  //       60000); 
+  //     a.remove(); 
+  //   })
+  //   .catch(err => {
+  //     console.error('err: ', err);
+  //   })
+  // };
+
+  // const downloadImage = (file: PostFilesType) => {
+  //   fetch(`${file.path}`, { method: 'GET', mode: 'no-cors' })
+  //     .then((response) => response.arrayBuffer())
+  //     .then((arrayBuffer) => {
+  //       const blob = new Blob([arrayBuffer]);
+  //       const url = window.URL.createObjectURL(blob);
+  //       const a = document.createElement('a');
+  //       a.href = url;
+  //       a.download = `${file.fileName}`;
+  //       document.body.appendChild(a);
+  //       a.click();
+  //       window.URL.revokeObjectURL(url);
+  //     })
+  //     .catch((error) => {
+  //       console.error('이미지 다운로드 오류:', error);
+  //     });
+  // };
+
+
+  const downloadImage = (file) => {
+    fetch(file.path, { method: "GET", mode: "cors" })
+      .then((response) => response.blob())
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = file.fileName;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      })
+      .catch((error) => {
+        console.error("이미지 다운로드 오류:", error);
+      });
+  };
+
 
   return(
     <>
@@ -175,13 +241,35 @@ function FreeBoardItemDetail(){
           <ContentBox>
             <Content>{boardItem.content}</Content>
           </ContentBox>
-          <div>
-            {boardItem.fileList?.map((item,index)=>(
+          <ImgBox>
+            {file.map((item,index)=>(
               <div key={index}>
-                <img src={item.path}/>
+                <Img 
+                src={item.path} 
+                />
               </div>
             ))}
-          </div>
+          </ImgBox>
+          <DownloadBox>
+            {file.map((item,index)=>(
+              <div key={index}>
+                <div href={item.path}
+                // onClick={handleDownload}
+                onClick={()=>downloadImage(item)}
+                download
+                target="_blank"
+                rel="noopener noreferrer"
+                >{item.fileName}</div>
+                <a
+                  href={item.path}
+                  download // 이걸 적어야 파일을 다운받을 수 있다.
+                  target='_blank' //링크된 문서를 새로운 윈도우나 탭(tab)에서 오픈함.
+                  rel='noreferrer'
+                >{item.fileName}</a>
+              </div>
+            ))}
+
+          </DownloadBox>
           {boardItem.memberId === userId ? (
             <>
             <BtnBox>
@@ -192,6 +280,7 @@ function FreeBoardItemDetail(){
           ) : (
             <></>
           )}
+
         </Wrapper>
         <Line />
         <CommentCreate state={{ id:state.postId, type:'free' }} />
