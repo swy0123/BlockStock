@@ -46,10 +46,10 @@ export const Img = styled.img`
 function LeftHome() {
   return (
     <Container>
-      <Title>Get The</Title>
       <Title color="#9556C7"> Block Stock</Title>
+      <Title> 과 함께하는</Title>
       <Br />
-      <Title>You Deserve</Title>
+      <Title>자산 로드맵 생성</Title>
       <Br />
       <InputBox>
         <Input placeholder="search"></Input>

@@ -59,9 +59,10 @@ const Tooltip = ({ state, children, type }) => {
             left: type === 'detail' ? '-100px' : '-20px'
           }}
         >
-          <Box onClick={() => navigate(`/userpage/${39}`)}>
+          <Box onClick={() => navigate(`/userpage/${state.memberId}`, { state: { memberId: state.memberId }})}>
+
             <Img
-              src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${39}`}
+              src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${state.memberId}`}
               alt="profile"
             />
             <div className={style.my} style={{ margin: "5px 0px 5px 0px" }}>
