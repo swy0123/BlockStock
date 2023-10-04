@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ItemContainer,
   LikeImg,
@@ -17,6 +17,25 @@ import { addLikedOption, deleteLikedOption } from "../../../api/Tactic/TacticTes
 
 //     {item.cost}
 const OptionLikeListItem = (props) => {
+  const [isLike, setIsLike] = useState<boolean>();
+
+  useEffect(() => {
+    // const timeoutExecute = setTimeout(() =>{ isLike ? setLikeTrue() : setLikeFalse()}, 200);
+    // return () => clearTimeout(timeoutExecute);
+    if(isLike) setLikeTrue()
+    else setLikeFalse()
+  }, [isLike])
+
+  useEffect(() => {
+    // const timeoutExecute = setTimeout(() =>{ isLike ? setLikeTrue() : setLikeFalse()}, 200);
+    // return () => clearTimeout(timeoutExecute);
+    setIsLike(props.item.like)
+  }, [props.item.like])
+
+  const handleIsLike = () => {
+    setIsLike(!isLike);
+  }
+
   const clickViewDetail = () => {
     console.log(props);
     props.setViewOption(props.item.optionCode);
@@ -39,16 +58,15 @@ const OptionLikeListItem = (props) => {
   const setLikeFalse = async () => {
     const res = await deleteLikedOption(props.item.optionCode);
     console.log("setLikeFalse setLikeFalse setLikeFalse");
-    props.searchKeyword
   };
 
   return (
     <ItemContainer>
-      {props.item.like !== undefined ? (
-        props.item.like ? (
-          <LikeImg src={FillStarImgSrc} onClick={setLikeFalse} alt="좋아요" />
+      {isLike !== null ? (
+        isLike ? (
+          <LikeImg src={FillStarImgSrc} onClick={handleIsLike} alt="좋아요" />
         ) : (
-          <LikeImg src={EmpthyStarImgSrc} onClick={setLikeTrue} alt="싫어요" />
+          <LikeImg src={EmpthyStarImgSrc} onClick={handleIsLike} alt="싫어요" />
         )
       ) : (
         <></>

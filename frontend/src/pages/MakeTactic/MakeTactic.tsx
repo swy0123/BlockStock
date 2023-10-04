@@ -36,7 +36,6 @@ function MakeTactic() {
     const [tacticImg, setTacticImg] = useState(undefined);
     const [tacticId, setTacticId] = useState(null);
 
-
     let location = useLocation();
     //차트에서 사이드바로 전략테스트로 이동
     const [currentPath, setCurrentPath] = useState("");
@@ -56,6 +55,9 @@ function MakeTactic() {
         if (location.state != null && location.state.selectedTacticId != null) {
             console.log(location.state)
             setTacticId(location.state.selectedTacticId)
+            if(location.state.selectedTacticId < 0){
+                setTacticJsonCode(location.state.selectedTactiJsonCode);
+            }
         }
         console.log(location.pathname)
         setCurrentPath(location.pathname);
