@@ -66,10 +66,10 @@ function CurrentContestContent(){
         setCurrentContestListItem([])
       } else {
         setCurrentContestListItem(contest.contestList)
-        if(Math.floor(contest.count % 7)){
-          setCount(Math.floor(contest.count / 7)+1);
+        if(Math.floor(contest.totalCnt % 7)){
+          setCount(Math.floor(contest.totalCnt / 7)+1);
         }else{
-          setCount(Math.floor(contest.count / 7));
+          setCount(Math.floor(contest.totalCnt / 7));
         }
       }
     }
@@ -171,6 +171,7 @@ function CurrentContestContent(){
                 >
                   <Stock>종목 {contest.optionCode}</Stock>
                   <StartAsset>티켓 수 {contest.ticket}개</StartAsset>
+                  <StartAsset>종목 : {contest.optionName}</StartAsset>
                   <Term>전략 실행 주기  {contest.term} 초</Term>
                    {/* 줄바꿈 적용 넘어갈 경우 다음 줄로 */}
                    <Content style={{ whiteSpace: 'pre-line',wordWrap: 'break-word' }}>

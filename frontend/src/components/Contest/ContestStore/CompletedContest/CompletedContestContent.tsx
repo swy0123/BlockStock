@@ -60,10 +60,10 @@ function CompletedContestContent() {
       const contest = await completedContestList(params)
       console.log(contest)
       setCompletedContestItem(contest.contestList)
-      if(Math.floor(contest.count % 7)){
-        setCount(Math.floor(contest.count / 7)+1);
+      if(Math.floor(contest.totalCnt % 7)){
+        setCount(Math.floor(contest.totalCnt / 7)+1);
       }else{
-        setCount(Math.floor(contest.count / 7));
+        setCount(Math.floor(contest.totalCnt / 7));
       }
     }
   // api 통신 =============================================================
@@ -211,6 +211,7 @@ function CompletedContestContent() {
                   >
                     <Stock>현재 인원: {contest.joinPeople} / {contest.maxCapacity} (명)</Stock>
                     <StartAsset>필요 티켓: {contest.ticket} 개</StartAsset>
+                    <StartAsset>종목 : {contest.optionName}</StartAsset>
                     <Term>전략 실행 주기 : {contest.term} 초</Term>
                     {/* 줄바꿈 적용 넘어갈 경우 다음 줄로 */}
                     <Content style={{ whiteSpace: 'pre-line',wordWrap: 'break-word' }}>

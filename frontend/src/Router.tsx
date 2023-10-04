@@ -25,6 +25,7 @@ import ContestManagement from "./pages/Admin/ContestManagement";
 import MessageBox from "./pages/Message/MessageBox";
 import ContestProgress from "./pages/Contest/ContestProgress";
 import UserPage from "./pages/Member/UserPage";
+import ContestList from "./pages/Contest/ContestList";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -138,6 +139,12 @@ const router = createBrowserRouter([
             {
               path: "/userpage/:memberId",
               element: <UserPage/>,
+              errorElement: <ErrorComponent/>,
+              
+            },
+            {
+              path: "/contestlist",
+              element: <ContestList/>,
               errorElement: <ErrorComponent/>,
               
             },
