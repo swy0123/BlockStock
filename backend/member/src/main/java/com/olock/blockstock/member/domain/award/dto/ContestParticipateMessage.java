@@ -7,8 +7,7 @@ import java.util.List;
 @Getter
 public class ContestParticipateMessage {
     private String message;
+    private Long memberId;
     private Long contestId;
-    private String contestTitle;
-    private List<Long> memberIds;
-    private List<Long> results;
+    private Integer tickerCnt;
 }
