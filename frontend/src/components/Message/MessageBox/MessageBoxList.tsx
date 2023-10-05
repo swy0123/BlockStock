@@ -243,9 +243,17 @@ function MessageBoxList({name, onButtonClick, message}){
                           {dayjs(item.createdAt).format('YYYY/MM/DD HH:mm:ss')}
                         </MessageItemSchedule>
                       </ItemContentBox>
-
-                      <MessageItemImg src='/icon/user_purple.png' />
-                      <MessageItemNickName>{item.senderNickname}</MessageItemNickName>
+                        {name==='send' ? (
+                          <>
+                            <MessageItemImg src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${item.receiverId}`} />
+                            <MessageItemNickName>{item.receiverNickname}</MessageItemNickName>
+                          </>
+                          ) : (
+                            <>
+                            <MessageItemImg src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${item.senderId}`} />
+                            <MessageItemNickName>{item.senderNickname}</MessageItemNickName>
+                            </>
+                          )}
                     </Box>
                   </MessageItem>
                   <Line />
