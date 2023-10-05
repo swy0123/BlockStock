@@ -27,6 +27,8 @@ position: fixed;
 `;
 export const Header = styled.div`
 display: flex;
+align-items: center;
+justify-content: center;
 `;
 export const CloseBtn = styled.div`
 position: absolute;
@@ -37,10 +39,9 @@ position: absolute;
 `;
  
 export const Title = styled.div`
-margin: 20px 0px 0px 320px;
+margin: 20px 0px 0px 0px;
 font-size: 25px;
 font-weight: 600;
-text-align: center;
 `;
 export const TicketImg = styled.img`
 margin: 20px 0px 0px 280px;

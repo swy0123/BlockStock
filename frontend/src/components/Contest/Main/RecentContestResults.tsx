@@ -58,7 +58,7 @@ function RecentContestResults({contest}) {
                 {item.profileImage ? (
                   <RankImage src={item.profileImage} />
                   ) : (
-                    <RankImage src={"./icon/user_purple.png"} />
+                    <RankImage src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${item.memberId}`} />
                 )}
                 <RankContent>
                   {item.nickName === '' ? (
