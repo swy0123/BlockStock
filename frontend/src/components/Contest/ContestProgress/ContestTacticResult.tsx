@@ -352,7 +352,7 @@ const TacticResult = (props: { contestId: number }) => {
               {/* 
               랭킹창
               */}
-              <ContestRankBox contestId={props.contestId}></ContestRankBox>
+              <ContestRankBox contestId={props.contestId} isRunning={isRunning}></ContestRankBox>
             </ContestRankinigItem>
           </ContestRankinig>
         </RightDiv>
