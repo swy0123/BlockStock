@@ -132,34 +132,6 @@ function TacticBoardItemDetail(){
               }
             })
     }
-
-    // 파일 다운 ==================================================
-    const jsonData = { // JSON 데이터 예시
-        name: 'John',
-        age: 30,
-        city: 'New York'
-      };
-    
-      // JSON 데이터를 문자열로 변환
-      const jsonString = JSON.stringify(jsonData, null, 2);
-    
-      // Blob 객체 생성
-      const blob = new Blob([jsonString], { type: 'application/json' });
-    
-      // 파일 다운로드 함수
-      const downloadFile = () => {
-        // Blob 객체를 URL로 변환
-        const url = window.URL.createObjectURL(blob);
-    
-        // 다운로드 링크 생성
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'data.json'; // 파일명 설정
-        a.click();
-    
-        // URL 객체 해제
-        window.URL.revokeObjectURL(url);
-      };
       
     return(
         <>
@@ -221,8 +193,12 @@ function TacticBoardItemDetail(){
                     <ContentImg>
                         <ImgBox>
                             <Img src={data.imgPath}/>
-                            <DownloadBtn onClick={downloadFile}>
-                                <DownloadIcon/>
+                            <DownloadBtn onClick={()=>navigate('/maketactic',{
+                                state:{
+                                    selectedTactiJsonCode:data.tacticJsonCode
+                                }
+                            })}>
+                                <img src="/icon/내보내기.png"/>
                             </DownloadBtn>
                         </ImgBox>
                     </ContentImg>
