@@ -122,7 +122,7 @@ align-items: center;
 text-align: center;
 color: #FFFFFF;
 border: none;
-margin: 50px 0px 20px 88%;
+margin: 50px 0px 20px 20px;
 &:hover{
   background-color: #dfd1f8;
   transition: background-color 0.6s ease;
@@ -175,5 +175,28 @@ position: relative;
 top:12px;
 left: 9%;
 height: 30px;
+`;
+export const CompletedBtn = styled.div`
+padding: 10px 15px;
+border-radius: 6px;
+background-color: #9155FD;
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 19px;
+align-items: center;
+text-align: center;
+color: #FFFFFF;
+border: none;
+margin: 50px 0px 20px 10px;
+&:hover{
+  background-color: #dfd1f8;
+  transition: background-color 0.6s ease;
+}
+`;
+export const BtnBox = styled.div`
+display: flex;
+margin: 50px 0px 20px 78%;
 `;
 
