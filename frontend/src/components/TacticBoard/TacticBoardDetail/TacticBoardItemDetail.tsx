@@ -110,15 +110,7 @@ function TacticBoardItemDetail(){
             reverseButtons: true
           }).then((result) => {
             if (result.isConfirmed) {
-                tacticBoardDelete(tacticPostId)
-                navigate('/tacticboard')
-              swalWithBootstrapButtons.fire({
-                title: '삭제되었습니다',
-                icon:'success',
-                timer: 1000, // 2초 후에 자동으로 사라집니다 (밀리초 단위)
-                showConfirmButton: false, // 확인 버튼을 표시하지 않음
-                showCancelButton: false, // 취소 버튼을 표시하지 않음
-              })
+                deleteApi(tacticPostId)
             } else if (
               result.dismiss === Swal.DismissReason.cancel
             ) {
@@ -131,6 +123,21 @@ function TacticBoardItemDetail(){
               })
               }
             })
+    }
+
+    const deleteApi = async (tacticPostId)=>{
+        const res = await tacticBoardDelete(tacticPostId)
+        console.log(res, '게시글 상세 컴포넌트')
+        if (res.status===200){
+            Swal.fire({
+                title: '삭제되었습니다',
+                icon:'success',
+                timer: 1000, // 2초 후에 자동으로 사라집니다 (밀리초 단위)
+                showConfirmButton: false, // 확인 버튼을 표시하지 않음
+                showCancelButton: false, // 취소 버튼을 표시하지 않음
+              })
+        navigate('/tacticboard')
+        }
     }
       
     return(
@@ -204,10 +211,10 @@ function TacticBoardItemDetail(){
                     </ContentImg>
                     {/* 줄바꿈 적용 넘어갈 경우 다음 줄로 */}
                     <Content style={{ whiteSpace: 'pre-line',wordWrap: 'break-word' }}>
-                        {/* {data.content} */}
+                        {data.content}
                     </Content>
                 </ContentBox>
-                <Line style={{margin:'0px 0px 0px 0px'}}/>
+                {/* <Line style={{margin:'0px 0px 0px 0px'}}/> */}
 
                 {data.memberId === userId ? (
                     <BtnBox>
@@ -217,7 +224,7 @@ function TacticBoardItemDetail(){
                     <></>
                 )}
                 </Wrapper>
-                <Line />
+                <Line style={{margin:'0px 0px 0px 0px'}}/>
                     <CommentCreate state={{ id :tacticPostId, isLike:isLike , type:'tactic' }}/>
                 <Line />
                 <CommentList state={{ id :tacticPostId, type:'tactic' }}/>

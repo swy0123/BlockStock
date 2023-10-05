@@ -32,12 +32,6 @@ import {
   LikeBox,
   Like,
   Hit,
-  Missile,
-  Boom,
-  BoomVideo,
-  Speech,
-  MeBox,
-  Mes
 } from './TacticBoardBox.style'
 
 // 게시글 조회 api
@@ -120,40 +114,6 @@ function TacticBoardBox() {
     justifyContent: 'center'
   };
   // 페이지네이션 ============================================
-
-  // 미사일 
-  const [isHovered, setIsHovered] = useState(false);
-  const [boomimg, setBoomimg] = useState(false)
-  const [boomvideo, setBoomvideo] = useState(false)
-  const [isClicked, setIsClicked] = useState(false);
-
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
-
-  const handleClick = () => {
-    setIsClicked(true);
-  };
-  const handleTime = ()=>{
-    setTimeout(() => {
-      setBoomimg(true);
-      setBoomvideo(true);
-      // setTimeout(() => {
-      //   setIsClicked(false);
-      //   setBoomimg(false);
-      // }, 4000);
-      setTimeout(() => {
-        setIsClicked(false);
-        setBoomvideo(false);
-      }, 20000);
-    }, 1700); // 2초(2000 밀리초) 후에 실행
-  };
-
-  const z = 'zzzzzzz'
   
   return (
     <Container>
@@ -207,7 +167,9 @@ function TacticBoardBox() {
                   </Title>
                 </TitleBox>
                 
-                <Img src={item.imgPath}/>
+                <Img src={item.imgPath} 
+                style={{margin: item.imgPath === 'img_path' || item.imgPath === null ? '0px 0px 0px 36px' : '0px 0px 0px 23px' }}
+                />
 
                 <ReturnBox>
                   <Testreturn>
@@ -263,27 +225,6 @@ function TacticBoardBox() {
           ))}
           
         </ItemBox>
-        <MeBox 
-        onClick={handleTime}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        >
-            {isHovered && (
-            <Mes>
-              절대 누르지 마시오! {/* 경고 메시지 */}
-            </Mes>
-          )}
-            <Missile 
-              src="/icon/미사일new.png" 
-              onClick={handleClick}
-              style={{
-                width:'20px',
-                left: isClicked ? "600px" : "300px",
-                top: isClicked ? "300px" : "800px",
-                minWidth: isClicked ? "100px" : "20px",
-              }}
-            />
-          </MeBox>
           <Pagination 
         count={count} 
         showFirstButton showLastButton
@@ -292,9 +233,6 @@ function TacticBoardBox() {
         sx={combinedStyles}
          />
       </Wrapper>
-      {boomimg && <Boom src="/icon/폭발.webp"/>}
-      {boomimg && <Speech>{z * 2}</Speech>}
-      {/* {boomvideo && <BoomVideo src="/icon/차르붐바.mp4" autoPlay playbackRate={2} />} */}
     </Container>
   )
 }
