@@ -42,7 +42,7 @@ import { contesttype } from "../../../recoil/Contest/ContestList";
 import CompletedContestModal from "../ContestStore/CompletedContest/CompletedContestModal";
 import { contestResult } from "../../../api/Contest/ContestStore";
 
-const TacticResult = (props: { contestId: number }) => {
+const TacticResult = (props: { contestId: number, type?:string }) => {
   const [componentRef, size] = useComponentSize();
   const [optionHistory, setOptionHistory] = useState<any>([]);
   const [chartInfos, setChartInfos] = useState<any[]>([]);
@@ -107,7 +107,8 @@ const TacticResult = (props: { contestId: number }) => {
     setChartInfos(chartres);
     console.log(traderes);
     const curTime = dayjs().format("YYYYMMDDHHmm");
-    if (curTime > traderes.endDate + traderes.endTime) {
+    
+    if (curTime > traderes.endDate + traderes.endTime && type==null) {
       //15초 반복 방지
       console.log("종료된 대회입니다", curTime);
       setIsRunning(false);
@@ -128,7 +129,7 @@ const TacticResult = (props: { contestId: number }) => {
           handleNav();
         }
       });
-    } else if (curTime === traderes.endDate + traderes.endTime) {
+    } else if (curTime === traderes.endDate + traderes.endTime && type==null) {
       //15초 반복 방지
       console.log("대회 종료", curTime);
       setIsRunning(false);
@@ -164,6 +165,7 @@ const TacticResult = (props: { contestId: number }) => {
     } else {
       setIsPlayer(traderes.isPlayer);
     }
+    if(type!=null) setIsRunning(false);
   };
 
   useEffect(() => {
@@ -218,7 +220,9 @@ const TacticResult = (props: { contestId: number }) => {
     <TradingHistoryContainer>
       {/* 전략 이름 */}
       <TradingHistoryTitle style={{ fontSize: "22px" }}>
-        "{title}" 대회 진행 현황
+        {
+          type==null ? <>"{title}" 대회 진행 현황</> : <>"{title}" 대회 결과</>
+        }
       </TradingHistoryTitle>
       {/* {props.tacticImg ? <img src={props.tacticImg}/>:<></>} */}
 
