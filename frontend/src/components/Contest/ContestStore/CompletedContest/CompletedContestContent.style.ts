@@ -139,14 +139,14 @@ width: 60px;
 height: 20px;
 font-weight: 600;
 font-size: 8px;
-background-color: #676767;
+background-color: #D4D4D4;
 border-radius: 6px;
 color: #FFFFFF;
 display: flex;
 align-items: center;
 justify-content: center;
 &:hover{
-  background-color: #676767;
+  background-color: #D4D4D4;
 border-radius: 6px;
 color: #FFFFFF;
 }

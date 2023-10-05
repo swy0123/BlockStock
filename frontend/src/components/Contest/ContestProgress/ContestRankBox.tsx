@@ -16,7 +16,7 @@ import {
 import { contestRanking, rankingBoxItem } from '../../../api/Contest/ContestProgress';
 import dayjs from 'dayjs';
 
-function ContestRankBox(props:{contestId:number}) {
+function ContestRankBox(props:{contestId:number, isRunning:boolean}) {
   const [curRank, setCurRank] = useState<rankingBoxItem[]>([]);
   const [count, setCount] = useState(0); // 남은 시간 (단위: 초)
   const [updateTime, setUpdateTime] = useState(dayjs().format("YYYY.MM.DD HH:mm:ss"));
@@ -24,17 +24,20 @@ function ContestRankBox(props:{contestId:number}) {
 
 
   useEffect(() => {
-    const cnt = setInterval(() => {
-      // 타이머 숫자가 하나씩 줄어들도록
-      setCount((count) => count - 1);
-    }, 1000);
-
-    if (count <= 0) {
-      setCount(14);
-      getCurRank();
-      setUpdateTime(dayjs().format("YYYY.MM.DD HH:mm:ss"));
+    if(props.isRunning){
+      const cnt = setInterval(() => {
+        // 타이머 숫자가 하나씩 줄어들도록
+        setCount((count) => count - 1);
+      }, 1000);
+  
+      if (count <= 0) {
+        setCount(14);
+        getCurRank();
+        setUpdateTime(dayjs().format("YYYY.MM.DD HH:mm:ss"));
+      }
+      return () => clearInterval(cnt);
     }
-    return () => clearInterval(cnt);
+    
   }, [count]);
 
   // useEffect(()=>{
@@ -58,11 +61,13 @@ function ContestRankBox(props:{contestId:number}) {
           {curRank.map((item, index) => (
             <RankBox key={index}>
               <RankNumber>{index+1}위</RankNumber>
-              <UserImg src='/icon/user_purple.png' />
+              <UserImg src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${item.memberId}`} />
               <UserNickName>{item.nickName}</UserNickName>
               <UserReturnBox>
-                <UserReturnIcon>{item.returns}</UserReturnIcon>
-                <UserReturn $isPositive={item.returns[0]=="+"?true:false}>{item.returns}</UserReturn>
+                {/* <UserReturnIcon>{item.returns}</UserReturnIcon> */}
+                <UserReturn $isPositive={item.returns[0]=="+"?true:false}>
+                  {Math.round(item.returns * 100) / 100}%
+                  </UserReturn>
               </UserReturnBox>
             </RankBox>
           ))}

@@ -144,17 +144,17 @@ function CompletedContestModal({onClose, selectedContest, rank}){
                             <NoRankImage src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${participant.memberId}`} />
                             <div style={{margin:'10px 15px 0px 0px', fontSize:'12px', fontWeight:'bold', width:'50px'}}>
                               {participant.nickName ? (
-                                <></>
-                              ) : (
                                 <>{participant.nickName}</>
-                              )}
+                                ) : (
+                                <>NickName이 없습니다.</>
+                                )}
                             </div>
                             <div style={{display:'flex', marginTop:'12px', fontSize:'10px'}}>
                               <div style={{color:'#8A8A8A', marginRight:'10px'}}>
                                 수익률 : 
                               </div>
                               <div style={{ color: participant.returns === '-' ? 'blue' : 'red', fontWeight:'bold', fontSize: '12px' }}>
-                                {Math.round(participant.returns * 10) / 10}%
+                                {Math.round(participant.returns * 100) / 100}%
                               </div>
                             </div>
                           </div>
