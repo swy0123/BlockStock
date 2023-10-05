@@ -138,6 +138,13 @@ pythonGenerator.forBlock['cur_data'] = function(block:any, generator:any) {
   return [code, Order.NONE];
 };
 
+pythonGenerator.forBlock['now_cnt'] = function(block:any, generator:any) {
+  var value_name = generator.valueToCode(block, 'NAME', Order.NONE).toString();
+  // TODO: Assemble python into code variable.
+  var code = 'now_repeat_cnt';
+  return [code, Order.NONE];
+};
+
 //현재 자산의 %
 pythonGenerator.forBlock['cnt_per_asset'] = function(block:any, generator:any) {
   var value_name = generator.valueToCode(block, 'NAME', Order.NONE).toString();
