@@ -650,7 +650,7 @@ function BlocklyComponent(props: any) {
 
         <Category name="반복" categorystyle="loop_category">
           <Block type="controls_repeat_ext" />
-          <Block type="controls_whileUntil" />
+          {/* <Block type="controls_whileUntil" /> */}
           <Block type="controls_for" />
           <Block type="controls_forEach" />
           {/* <Block type="controls_flow_statements" /> */}
