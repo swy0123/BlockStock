@@ -36,7 +36,7 @@ font-size: 12px;
 export const RankBox = styled.div`
   display: flex;
   max-height: 60px;
-  margin: 18px 0px 18px 23%;
+  margin: 21px 0px 21px 23%;
 `;
 
 export const Rank = styled.div`

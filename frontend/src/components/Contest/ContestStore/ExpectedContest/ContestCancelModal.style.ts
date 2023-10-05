@@ -1,3 +1,4 @@
+import { style } from "@mui/system";
 import styled from "styled-components";
 
 export const Modal = styled.div`
@@ -100,10 +101,16 @@ font-size: 13px;
 color: #B6ABBB;
 margin: 20px 0px 0px 30px;
 `;
+export const Term = styled.div`
+font-weight: 400;
+font-size: 13px;
+color: #B6ABBB;
+margin: 5px 0px 0px 30px;
 
+`;
 export const Box = styled.div`
 display: flex;
-margin: 30px 0px 0px 440px;
+margin: 30px 0px 0px 550px;
 `;
 export const Button1 = styled.div`
 width: 70px;
@@ -146,4 +153,12 @@ display: flex; /* Flex 컨테이너로 설정 */
     color: white;
     transition: background-color 0.7s ease;
   }
+`;
+
+export const Btn = styled.div`
+position: absolute;
+  top: 30px; /* Adjust the top position as needed */
+  right: 40px; /* Adjust the right position as needed */
+  cursor: pointer;
+  color: #B2B2B2;
 `;
