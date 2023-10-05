@@ -278,17 +278,23 @@ def get_real_contest_result(contest_id: int):
 def get_trade_contest(contest_id: int, member_id: int):
     engine = engineconn()
     session = engine.sessionmaker()
-    participate = session.query(Participate).filter(Participate.contest_id == contest_id,
-                                                    member_id == member_id).first()
-    contest = session.query(Contest).filter(Contest.id == contest_id).first()
-    trades = (session.query(Trade).outerjoin(Participate, Participate.id == Trade.participate_id).
-              filter(Participate.member_id == member_id).order_by(desc(Trade.trade_at)).all())
 
-    option_name = session.query(Option.option_name).filter(Option.option_code == contest.option_code).first()[0]
+    contest = session.query(Contest).filter(Contest.id == contest_id).first()
+
+    participate = session.query(Participate).filter(Participate.contest_id == contest_id,
+                                                    Participate.member_id == member_id).first()
 
     trade_response = []
-    for trade in trades:
-        trade_response.append(ContestTradeResponse(trade))
+    option_name = session.query(Option.option_name).filter(Option.option_code == contest.option_code).first()[0]
+
+    if participate is not None:
+        trades = (session.query(Trade).outerjoin(Participate, Participate.id == Trade.participate_id).
+                  filter(Participate.member_id == member_id).order_by(desc(Trade.trade_at)).all())
+        for trade in trades:
+            trade_response.append(ContestTradeResponse(trade))
+
+
+
     session.close()
     return ContestTradeInfoResponse(participate, contest, option_name, trade_response)
 

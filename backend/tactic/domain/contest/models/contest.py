@@ -48,7 +48,7 @@ class Tactic(Base):
     tactic_python_code = Column(TEXT, nullable=False)
     test_returns = Column(Float, nullable=True)
     contest_returns = Column(Float, nullable=True)
-    img_path = Column(String(400), nullable=False)
+    img_path = Column(TEXT, nullable=False)
     created_at = Column(DateTime, nullable=False)
     updated_at = Column(DateTime, nullable=False)
 

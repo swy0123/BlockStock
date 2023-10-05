@@ -166,7 +166,7 @@ def check_contest():
     session = engine.sessionmaker()
     
     # 임시로 0으로 함 (30으로 바꿔야 됨)
-    now_formatted = (datetime.now() + timedelta(minutes=0)).strftime('%Y-%m-%d %H:%M')
+    now_formatted = (datetime.now() + timedelta(minutes=30)).strftime('%Y-%m-%d %H:%M')
 
     contest = session.query(Contest).where(
         func.date_format(Contest.start_time, '%Y-%m-%d %H:%i') == now_formatted).all()

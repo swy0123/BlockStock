@@ -12,6 +12,9 @@ class ContestTradeInfoResponse:
     endAsset: int
     returnPercent: float
     returns: int
+    isPlayer: bool
+    endDate: str
+    endTime: str
 
     def __init__(self, participate: Participate, contest: Contest, option_name: str, trade: list):
         self.contestTradeHistory = trade.copy()
@@ -21,6 +24,10 @@ class ContestTradeInfoResponse:
         self.startDate = contest.start_time.strftime('%Y%m%d')
         self.startTime = contest.start_time.strftime('%H%M%S')
         self.startAsset = contest.ticket * 10000000
-        self.endAsset = participate.result_money
-        self.returnPercent = (participate.result_money - (10000000 * contest.ticket)) / (10000000 * contest.ticket) * 100
-        self.returns = participate.result_money - (contest.ticket * 10000000)
+        self.endAsset = None if participate is None else participate.result_money
+        self.returnPercent = None if participate is None else (participate.result_money - (
+                    10000000 * contest.ticket)) / (10000000 * contest.ticket) * 100
+        self.returns = None if participate is None else participate.result_money - (contest.ticket * 10000000)
+        self.isPlayer = False if participate is None else True
+        self.endDate = contest.end_time.strftime('%Y%m%d')
+        self.endTime = contest.end_time.strftime('%H%M%S')
