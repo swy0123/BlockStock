@@ -395,10 +395,13 @@ function BlocklyComponent(props: any) {
     svg.insertBefore(style, svg.firstChild);
 
     var svgAsXML = new XMLSerializer().serializeToString(svg);
-    svgAsXML = svgAsXML.replace(/&nbsp/g, "&#160");
-    var data = "data:image/svg+xml," + encodeURIComponent(svgAsXML);
-    return data;
+    // svgAsXML = svgAsXML.replace(/&nbsp/g, "&#160");
+    // var data = "data:image/svg+xml," + encodeURIComponent(svgAsXML);
+    // return data;
     // return svgToPng_(data, width, height);
+    const svgBlob = new Blob([svgAsXML], { type: 'image/svg+xml' });
+    const svgFile = new File([svgBlob], 'tmp.svg', { type: 'image/svg+xml' });
+    return svgFile;
   };
 
   const exportImageAsPNG = () => {
