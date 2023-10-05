@@ -1,11 +1,10 @@
 import { privateApi } from "../index";
 
-
 // 주식 검색
-export const tacticSearchOption = async (keyword: string, isSearch:boolean) => {
-  console.log(keyword + " " + isSearch)
+export const tacticSearchOption = async (keyword: string, isSearch: boolean) => {
+  console.log(keyword + " " + isSearch);
   try {
-    const res = await privateApi.get(`/option`, {params:{like:!isSearch, keyword:keyword}});
+    const res = await privateApi.get(`/option`, { params: { like: !isSearch, keyword: keyword } });
     return res.data;
   } catch (err) {
     console.log(err);
@@ -13,10 +12,10 @@ export const tacticSearchOption = async (keyword: string, isSearch:boolean) => {
 };
 
 // 주식 검색
-export const tacticOptionDetail = async (optionCode:string) => {
-  console.log(optionCode)
+export const tacticOptionDetail = async (optionCode: string) => {
+  console.log(optionCode);
   try {
-    const res = await privateApi.get(`/option/`+optionCode);
+    const res = await privateApi.get(`/option/` + optionCode);
     return res.data;
   } catch (err) {
     console.log(err);
@@ -25,7 +24,7 @@ export const tacticOptionDetail = async (optionCode:string) => {
 
 // 관심 종목 추가
 export const addLikedOption = async (code: any) => {
-  console.log(code)
+  console.log(code);
   try {
     const res = await privateApi.post(`/option/like`, code);
     console.log(res);
@@ -37,9 +36,9 @@ export const addLikedOption = async (code: any) => {
 
 // 관심 종목 삭제
 export const deleteLikedOption = async (code: string) => {
-  console.log(code)
+  console.log(code);
   try {
-    const res = await privateApi.delete(`/option/like/`+code);
+    const res = await privateApi.delete(`/option/like/` + code);
     console.log(res);
     return res;
   } catch (err) {
@@ -82,7 +81,7 @@ export interface saveTacticProps {
 
 // 전략 생성
 export const tacticCreate = async (data: saveTacticProps) => {
-  console.log(data)
+  console.log(data);
   try {
     const res = await privateApi.post(`/tactic`, data);
     console.log(res.data);
@@ -92,28 +91,33 @@ export const tacticCreate = async (data: saveTacticProps) => {
   }
 };
 
-export const tacticImg = async (data:FormData) => {
-  console.log(data)
-  const res = await privateApi.post(`/tactic/image`, data, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
-  console.log(res.data);
-  return res.data;
-};
-
-// 전략 조회
-export const tacticImport = async (params: number) => {
-  console.log(params)
+export const tacticImg = async (formData: FormData) => {
+  console.log(formData.get("file"));
   try {
-    const res = await privateApi.get(`/tactic`, {params});
+    const res = await privateApi.post(`/tactic/image`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    console.log(res.data);
     return res.data;
   } catch (err) {
     console.log(err);
   }
 };
 
+// 전략 조회
+export const tacticImport = async (param: number) => {
+  console.log(param);
+  try {
+    const res = await privateApi.get(`/tactic/`+param);
+    // const res = await privateApi.get(`/tactic`, { params: { id: param } });
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 // defArray:JSON.parse(res.tacticJsonDefCode),
 // settingArray:JSON.parse(res.tacticJsonSetCode),
@@ -130,7 +134,7 @@ export interface updateTacticProps {
 
 // 전략 수정
 export const tacticUpdate = async (data: updateTacticProps) => {
-  console.log(data)
+  console.log(data);
   try {
     const res = await privateApi.put(`/tactic`, data);
     console.log(res.data);
@@ -142,9 +146,9 @@ export const tacticUpdate = async (data: updateTacticProps) => {
 
 // 전략 삭제
 export const tacticDelete = async (params: number) => {
-  console.log(params)
+  console.log(params);
   try {
-    const res = await privateApi.delete(`/tactic`, {params});
+    const res = await privateApi.delete(`/tactic`, { params });
     return res;
   } catch (err) {
     console.log(err);
