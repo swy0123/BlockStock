@@ -34,17 +34,17 @@ height: 23px;
 `;
 export const NickName = styled.div`
 color: #B8B6B6;
-font-size: 13px;
-margin: 0px 0px 0px 10px;
+font-size: 14px;
+margin: 2px 0px 0px 10px;
 `;
 export const Date = styled.div`
 color: #B8B6B6;
-font-size: 13px;
-margin: 0px 0px 0px 10px;
+font-size: 12px;
+margin: 4px 0px 0px 10px;
 `;
 export const Box = styled.div`
 font-size: 13px;
-margin: 0px 0px 0px 40%;
+margin: 0px 0px 0px 45%;
 display: flex;
 @media(max-width: 1500px){
   margin: 0px 0px 0px 30%;
@@ -53,7 +53,7 @@ display: flex;
   margin: 0px 0px 0px 20%;
 }
 @media(max-width: 1000px){
-  margin: 0px 0px 0px 0%;
+  margin: 0px 0px 0px 5%;
 }
 `;
 export const Hit = styled.div`

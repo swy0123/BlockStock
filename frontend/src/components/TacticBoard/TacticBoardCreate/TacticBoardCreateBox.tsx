@@ -54,12 +54,24 @@ function TacticBoardCreateBox(){
   useEffect(()=>{
     console.log('id', tacticId)
     console.log('imgPath', imgPath)
+    const upData = {...tacticImg,tacticId:-1,imgPath:null}
+    setTacticImg(upData)
   },[])
   
 
   // 글 등록
   const handleSubmit = () => {
-    boardcreate()
+    if(tacticId===-1){
+      Swal.fire({
+        title: '전략을 선택하세요!',
+        icon:'error',
+        timer: 1000, // 2초 후에 자동으로 사라집니다 (밀리초 단위)
+        showConfirmButton: false, // 확인 버튼을 표시하지 않음
+        showCancelButton: false, // 취소 버튼을 표시하지 않음
+      })
+    }else{
+      boardcreate()
+    }
   };
 
   // 글 작성 api =====================================================
