@@ -180,6 +180,18 @@ Blockly.Blocks["cur_data"] = {
   },
 };
 
+Blockly.Blocks["now_cnt"] = {
+  init: function () {
+    this.appendDummyInput().appendField("현재 반복 횟수");
+    // this.setInputsInline(true);
+    this.setOutput(true, "Number");
+    this.setColour(360);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
+
 //현재 자산의 %
 Blockly.Blocks["cnt_per_asset"] = {
   init: function () {
