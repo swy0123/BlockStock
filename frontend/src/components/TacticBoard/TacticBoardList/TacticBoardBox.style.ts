@@ -18,7 +18,7 @@ width: 100%;
 }
 `;
 export const CreateBtn = styled.div`
-margin-left: 50%;
+margin-left: 53%;
 min-width: 90px;
 height: 30px;
 /* margin: 0px 0px 0px 53%; */
@@ -54,29 +54,25 @@ padding: 30px;
 width: 100%;
 `;
 export const Search = styled.input`
-margin: 0px 0px 0px 30px;
+margin: 0px 0px 0px 60px;
 font-size: 12px;
-  border-radius: 6px;
+border-radius: 6px;
 height: 28px;
 border: solid 1px lightgrey;
 width: 250px;
 outline: none;
-transition:  width 1s ease;
-&:focus {
-  width: 250px; 
-  }
 `;
 
 export const ItemBox = styled.div`
 background-color: #F4F6F8;
-min-height: 500px;
-min-width: 96%;
-padding: 10px 20px 50px 0px ;
-& > * {
+height: 600px;
+min-width: 88%;
+padding: 5px 20px 30px 60px ;
+/* & > * {
     display: flex;
     justify-items: center;
     align-items: center;
-  }
+  } */
 `;
 
 export const Card = styled.div`
@@ -85,7 +81,7 @@ height: 270px;
 background: #FFFFFF;
 box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
 border-radius: 8px;
-margin: 40px 10px 0px 30px;
+margin: 20px 10px 0px 30px;
 z-index: 5;
 display: flex;
 justify-content: center;

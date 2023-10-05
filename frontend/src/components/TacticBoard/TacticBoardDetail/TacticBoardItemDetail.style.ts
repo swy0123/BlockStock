@@ -1,25 +1,26 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-width: 99%;
+width: 88%;
 min-height: 1000px;
 background: #FFFFFF;
 box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
 border-radius: 8px;
-margin: 0px 0px 0px 5px;
+margin: 10px 0px 0px 5px;
+padding: 0 5%;
 `;
 
 export const PostTitle = styled.div`
 font-weight: 500;
 font-size: 25px;
 align-items: flex-end;
-padding: 40px 0px 0px 60px;
+padding: 40px 0px 0px 5px;
 color: #000000;
 `;
 
 export const Header = styled.div`
 display: flex;
-margin: 20px 0px 0px 60px;
+margin: 20px 0px 0px 5px;
 `;
 export const UserInfo = styled.div`
 display: flex;
@@ -44,7 +45,7 @@ margin: 4px 0px 0px 10px;
 `;
 export const Box = styled.div`
 font-size: 13px;
-margin: 0px 0px 0px 45%;
+margin: 0px 0px 0px 49%;
 display: flex;
 @media(max-width: 1500px){
   margin: 0px 0px 0px 30%;
@@ -64,7 +65,8 @@ display: flex;
 export const Like = styled.div`
 display: flex;
 color: #B8B6B6;
-margin: 0px 0px 0px 10px;
+margin: 0px 0px 0px 0px;
+max-width: 30px;
 `;
 export const Comment = styled.div`
 color: #B8B6B6;

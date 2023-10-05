@@ -129,10 +129,6 @@ margin: 50px 0px 20px 88%;
 
 export const Notexist = styled.div`
 color: #ABABAB;
-text-align: center;
-position: relative;
-top:30%;
-font-size: 25px;
 `;
 
 export const Registed = styled.div`
@@ -175,5 +171,6 @@ color: #FFFFFF;
 export const Icon = styled.div`
 position: relative;
 left: 9%;
-top:12px
+top:12px;
+height: 30px;
 `;

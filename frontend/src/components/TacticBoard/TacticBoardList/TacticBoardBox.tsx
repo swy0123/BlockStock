@@ -111,7 +111,8 @@ function TacticBoardBox() {
     ...paginationStyle, // paginationStyle 객체
     display:'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    minHeight:'90px'
   };
   // 페이지네이션 ============================================
   
@@ -134,7 +135,7 @@ function TacticBoardBox() {
                 onChange={handleChange}
                 sx={{
                   fontSize:'12px',
-                  height:'30px'
+                  height:'30px',
               }}
               >
                 <MenuItem sx={{fontSize:'12px'}} value="createdAt">최신순</MenuItem>
@@ -150,7 +151,7 @@ function TacticBoardBox() {
           </CreateBtn>
         </Header>
 
-        <ItemBox style={{display:'flex', flexWrap: 'wrap',justifyContent:'center',alignItems:'center'}}>
+        <ItemBox style={{display:'flex', flexWrap: 'wrap'}}>
           {boardList.map((item, index)=>(
               <Card
               onClick={() => {
@@ -177,7 +178,7 @@ function TacticBoardBox() {
                     테스트 수익률
                     </div>
                     <div style={{margin: '0px 0px 0px 60px'}}>
-                      {item.testReturns}%
+                      {(Math.round(item.testReturns * 100) / 100)}%
                     </div>
                     </Testreturn>
                   <Contestreturn>
@@ -187,7 +188,7 @@ function TacticBoardBox() {
                     <div style={{margin: '0px 0px 0px 72px'}}>
                       {item.contestReturnStatus ? (
                         <>
-                        {item.contestReturns}%
+                        {(Math.round(item.contestReturns * 100) / 100)}%
                         </>
                       ) : (
                         <>

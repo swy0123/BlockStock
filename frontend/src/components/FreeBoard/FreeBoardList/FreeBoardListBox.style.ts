@@ -31,14 +31,15 @@ export const Header = styled.div`
 export const Search = styled.input`
   font-size: 12px;
   border-radius: 6px;
-  height: 30px;
+  height: 28px;
   border: solid 1px lightgrey;
   width: 250px;
   padding-left: 20px;
+  outline: none;
 `;
 export const CreateBtn = styled.button`
-  width: 110px;
-  height: 33px;
+min-width: 90px;
+  height: 30px;
   font-size: 13px;
   border-radius: 6px;
   align-items: center;

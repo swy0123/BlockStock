@@ -202,7 +202,8 @@ function TacticBoardItemDetail(){
                             <Img src={data.imgPath}/>
                             <DownloadBtn onClick={()=>navigate('/maketactic',{
                                 state:{
-                                    selectedTactiJsonCode:data.tacticJsonCode
+                                    selectedTactiJsonCode:data.tacticJsonCode,
+                                    selectedTacticId:-1
                                 }
                             })}>
                                 <img src="/icon/내보내기.png"/>
@@ -214,7 +215,6 @@ function TacticBoardItemDetail(){
                         {data.content}
                     </Content>
                 </ContentBox>
-                {/* <Line style={{margin:'0px 0px 0px 0px'}}/> */}
 
                 {data.memberId === userId ? (
                     <BtnBox>
