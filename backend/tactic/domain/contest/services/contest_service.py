@@ -289,7 +289,7 @@ def get_trade_contest(contest_id: int, member_id: int):
 
     if participate is not None:
         trades = (session.query(Trade).outerjoin(Participate, Participate.id == Trade.participate_id).
-                  filter(Participate.member_id == member_id).order_by(desc(Trade.trade_at)).all())
+                  filter(Participate.member_id == member_id, Participate.id == participate.id).order_by(desc(Trade.trade_at)).all())
         for trade in trades:
             trade_response.append(ContestTradeResponse(trade))
 
