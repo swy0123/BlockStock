@@ -124,13 +124,18 @@ const BlockCoding = (props) => {
   const importData = async (id: number) => {
     if (id >= 0) {
       const res = await tacticImport(id);
+      console.log(res)
       setOptionCode(res.optionCode);
       setOptionName(res.optionName);
       setTitle(res.title);
       setTacticPythonCode(res.tacticPythonCode);
+      // setTacticJsonCode(res.tacticJsonCode);
+      console.log(res.tacticJsonCode)
+      console.log(typeof(res.tacticJsonCode))
       setTacticJsonCode(JSON.parse(res.tacticJsonCode));
       setTacticImg(res.tacticImg);
     } else {
+      console.log(props.tacticJsonCode)
       setTacticJsonCode(JSON.parse(props.tacticJsonCode));
     }
   };

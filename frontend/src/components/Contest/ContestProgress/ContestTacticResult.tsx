@@ -72,8 +72,8 @@ const TacticResult = (props: { contestId: number }) => {
   const axiosGetData = async () => {
 
     //테스트 데이터 id는 7
-    // const propsTmp = props.contestId;
-    const propsTmp = 66;
+    const propsTmp = props.contestId;
+    // const propsTmp = 66;
 
     const chartres = await contestChart(propsTmp);
     const traderes = await contestTrade(propsTmp);

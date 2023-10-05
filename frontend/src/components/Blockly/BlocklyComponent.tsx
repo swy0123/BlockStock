@@ -205,10 +205,10 @@ function BlocklyComponent(props: any) {
     console.log(getblocks);
     console.log("load- end--------------------");
     if (primaryWorkspace.current != undefined) {
-      const tmp = !isTest ? blockcode : localStorage.getItem("data");
-      const defblocksTmp = !isTest ? defblocks : localStorage.getItem("defblocks");
-      const settingblocksTmp = !isTest ? setblocks : localStorage.getItem("setblocks");
-      const getblocksTmp = !isTest ? getblocks : localStorage.getItem("getblocks");
+      const tmp = !isTest ? blockcode : JSON.parse(localStorage.getItem("data"));
+      const defblocksTmp = !isTest ? defblocks : JSON.parse(localStorage.getItem("defblocks"));
+      const settingblocksTmp = !isTest ? setblocks : JSON.parse(localStorage.getItem("setblocks"));
+      const getblocksTmp = !isTest ? getblocks : JSON.parse(localStorage.getItem("getblocks"));
 
       if (tmp != undefined) {
         if (
@@ -216,9 +216,12 @@ function BlocklyComponent(props: any) {
           settingblocksTmp != undefined &&
           getblocksTmp != undefined
         ) {
-          const defblocks = JSON.parse(defblocksTmp);
-          const settingblocks = JSON.parse(settingblocksTmp);
-          const getblocks = JSON.parse(getblocksTmp);
+          const defblocks = defblocksTmp;
+          const settingblocks = settingblocksTmp;
+          const getblocks = getblocksTmp;
+          // const defblocks = JSON.parse(defblocksTmp);
+          // const settingblocks = JSON.parse(settingblocksTmp);
+          // const getblocks = JSON.parse(getblocksTmp);
           console.log(defblocks);
           console.log(settingblocks);
           console.log(getblocks);
@@ -300,7 +303,7 @@ function BlocklyComponent(props: any) {
           setSettingArray(settingblocks);
           setGetArray(getblocks);
         }
-        const state = JSON.parse(tmp);
+        const state = tmp;
         Blockly.serialization.workspaces.load(state, primaryWorkspace.current);
       }
     }
@@ -473,6 +476,7 @@ function BlocklyComponent(props: any) {
   // (blockcode?:any, defblocks?:any, setblocks?:any, getblocks?:any)
   //전략 id 있는지 확인 === 불러온 전략인지 확인 + 코드 불러오기
   useEffect(() => {
+    console.log(props)
     if (props.tacticId != null && props.tacticJsonCode !== undefined) {
       load(
         false,
@@ -482,7 +486,7 @@ function BlocklyComponent(props: any) {
         props.tacticJsonCode.getArray
       );
     }
-  }, [props.tacticId]);
+  }, [props.tacticId, props.tacticJsonCode]);
 
   //도구상자 열고 닫기 기능
   useEffect(() => {
