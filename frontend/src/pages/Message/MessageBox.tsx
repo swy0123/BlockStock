@@ -69,7 +69,7 @@ function MessageBox(){
           {detail ? (
             <MessageBoxList name={type} onButtonClick={handleDetailButtonClick} message={messageListItem}/>
           ) : (
-            <MessageDetail onButtonClick={handleDetailButtonClick} data={messageItem} />
+            <MessageDetail onButtonClick={handleDetailButtonClick} name={type} data={messageItem} />
           )}
         </Container>
     </>

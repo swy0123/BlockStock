@@ -114,7 +114,7 @@ function CurrentContest({contestItem}){
 
                   <CurrentContestLinkBox>
                     <div onClick={handleSwitch}>현재 대회 정보</div>
-                    <CurrentContestLink onClick={() => navigate('/contestprogress', { state: { contestId: contest.id } })}>현재 현황 조회</CurrentContestLink>
+                    <CurrentContestLink onClick={() => navigate('/contestprogress', { state: { selectedContest: contest } })}>현재 현황 조회</CurrentContestLink>
                   </CurrentContestLinkBox>
 
                   {contest.ranking.length > 0 ? (
