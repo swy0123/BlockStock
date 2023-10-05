@@ -216,7 +216,7 @@ const TacticResult = (props) => {
         navigate("/maketactic");
       });
 
-    // console.log(requestProps);
+    console.log("saveTacti- alert");
   };
 
   //전략 조회일 경우

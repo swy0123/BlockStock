@@ -108,10 +108,11 @@ export const tacticImg = async (formData: FormData) => {
 };
 
 // 전략 조회
-export const tacticImport = async (params: number) => {
-  console.log(params);
+export const tacticImport = async (param: number) => {
+  console.log(param);
   try {
-    const res = await privateApi.get(`/tactic`, { params });
+    const res = await privateApi.get(`/tactic/`+param);
+    // const res = await privateApi.get(`/tactic`, { params: { id: param } });
     return res.data;
   } catch (err) {
     console.log(err);
