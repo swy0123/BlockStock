@@ -30,7 +30,7 @@ import {
 } from "./ContestTacticResult.style";
 import OptionHistoryItem from "./OptionHistoryItem";
 import { format } from "d3-format";
-import { contestChart, contestRanking, contestTrade } from "../../../api/Contest/ContestProgress";
+import { contestChart, contestTrade } from "../../../api/Contest/ContestProgress";
 import dayjs from "dayjs";
 import ContestRankBox from "./ContestRankBox";
 import Spinner from "../../Util/Spinner";
@@ -56,14 +56,16 @@ const TacticResult = (props: { contestId: number }) => {
   const [optionCode, setOptionCode] = useState("");
   const [startDate, setStartDate] = useState("");
   const [startTime, setStartTime] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [endTime, setEndTime] = useState("");
   const [updateTime, setUpdateTime] = useState(dayjs().format("YYYY.MM.DD HH:mm:ss"));
-  const [count, setCount] = useState(2); // 남은 시간 (단위: 초)
+  const [count, setCount] = useState(1); // 남은 시간 (단위: 초)
 
   const [isPlayer, setIsPlayer] = useState(false);
   const [isRunning, setIsRunning] = useState(true);
 
   //modal
-  const [ userRank, setUserRank] = useState([])
+  const [userRank, setUserRank] = useState([]);
 
   const pricesDisplayFormat = format(",.0f");
   const floatDisplayFormat = format(",.3f");
@@ -75,14 +77,14 @@ const TacticResult = (props: { contestId: number }) => {
     navigate("/contestlist");
   };
   useEffect(() => {
-    console.log(isRunning)
+    console.log(isRunning);
     if (isRunning) {
       const cnt = setInterval(() => {
         // 타이머 숫자가 하나씩 줄어들도록
         setCount((count) => count - 1);
       }, 1000);
 
-      if (count <= 1) {
+      if (count == 1) {
         setCount(15);
         axiosGetData();
         setUpdateTime(dayjs().format("YYYY.MM.DD HH:mm:ss"));
@@ -98,15 +100,16 @@ const TacticResult = (props: { contestId: number }) => {
 
     const chartres = await contestChart(contestId);
     const traderes = await contestTrade(contestId);
-
+    setEndDate(traderes.endDate);
+    setEndTime(traderes.endTime);
     console.log("결과~~~~~~~~~~~~~");
     console.log(chartres);
     setChartInfos(chartres);
     console.log(traderes);
-    const curTime = dayjs().format("YYYYMMDDHHmm")
-    console.log(curTime)
+    const curTime = dayjs().format("YYYYMMDDHHmm");
     if (curTime > traderes.endDate + traderes.endTime) {
       //15초 반복 방지
+      console.log("종료된 대회입니다", curTime);
       setIsRunning(false);
       Swal.fire({
         title: "종료된 대회입니다",
@@ -127,6 +130,7 @@ const TacticResult = (props: { contestId: number }) => {
       });
     } else if (curTime === traderes.endDate + traderes.endTime) {
       //15초 반복 방지
+      console.log("대회 종료", curTime);
       setIsRunning(false);
       Swal.fire({
         title: "대회 종료",
@@ -163,23 +167,34 @@ const TacticResult = (props: { contestId: number }) => {
   };
 
   useEffect(() => {
-    axiosGetData();
-    console.log("res useEffect");
-    console.log(chartInfos);
-    console.log("!!!!!!");
+    // axiosGetData();
+    // console.log("res useEffect");
+    // console.log(chartInfos);
+    // console.log("!!!!!!");
+    setModalProps();
     // console.log(typeof props.tacticImg);
   }, []);
 
+  const setModalProps = () => {
+    const selectedContest: any = {
+      title: title,
+      startTime: dayjs(startDate + startTime, "YYYYMMDDHHmm").format("YY.MM.DD HH:mm"),
+      endTime: dayjs(endDate + endTime, "YYYYMMDDHHmm").format("YY.MM.DD HH:mm"),
+      joinPeople: 0,
+      maxCapacity: 0,
+    };
 
+    setSelectedContest(selectedContest);
+  };
 
   // 선택한 대회 상세보기(모달) ======================================================
   const [selectedContest, setSelectedContest] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const OpenModal = (id) => {
-    console.log(id)
+    console.log(id);
     setIsModalOpen(!isModalOpen);
-    resultApi(id)
+    resultApi(id);
   };
 
   const CloseModal = () => {
@@ -188,18 +203,16 @@ const TacticResult = (props: { contestId: number }) => {
   // 선택한 대회 상세보기(모달) ======================================================
 
   // 상세 조회api ================================================================
-  const resultApi = async (id)=>{
-    const res =  await contestResult(id)
-    console.log(res, 'res')
-    if (res === undefined){
-      setUserRank([])
-    }else{
-      setUserRank(res)
+  const resultApi = async (id) => {
+    const res = await contestResult(id);
+    console.log(res, "res");
+    if (res === undefined) {
+      setUserRank([]);
+    } else {
+      setUserRank(res);
     }
-  }
+  };
   // api ================================================================
-  
-
 
   return (
     <TradingHistoryContainer>
@@ -344,7 +357,13 @@ const TacticResult = (props: { contestId: number }) => {
           </ContestRankinig>
         </RightDiv>
       </TradingHistoryContents>
-      {isModalOpen ? <CompletedContestModal selectedContest={selectedContest} onClose={CloseModal} rank={userRank}/> : null}
+      {isModalOpen ? (
+        <CompletedContestModal
+          selectedContest={selectedContest}
+          onClose={CloseModal}
+          rank={userRank}
+        />
+      ) : null}
     </TradingHistoryContainer>
   );
 };
