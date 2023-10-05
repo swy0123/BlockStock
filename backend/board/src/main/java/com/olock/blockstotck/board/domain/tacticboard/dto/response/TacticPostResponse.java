@@ -14,6 +14,7 @@ public class TacticPostResponse {
     private String optionName;
     private String imgPath;
     private Double testReturns;
+    private String content;
     private Double contestReturns;
     private Long likeCnt;
     private Long hit;
@@ -30,6 +31,7 @@ public class TacticPostResponse {
         this.optionName = tacticPost.getOptionName();
         this.imgPath = tacticPost.getImgPath();
         this.testReturns = tacticPost.getTestReturns();
+        this.content = tacticPost.getContent();
         this.contestReturns = tacticPost.getContestReturns();
         this.likeCnt = likeCnt;
         this.hit = tacticPost.getHit();
