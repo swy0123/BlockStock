@@ -176,7 +176,7 @@ function ExpectedContestContent(){
             <div key={contest.id} style={{margin:'0px 0px 0px 0px'}}>
               <Box>         
                 <ContestBox onClick={() => toggleContent(index)}>
-                  <div style={{margin:'16px 50% 16px 50px'}}>
+                  <div style={{margin:'16px 37% 16px 50px', width:'600px'}}>
                     <div style={{display:'flex'}}>
                         <Title> [경진대회] {contest.title}</Title>
                         {contest.isRegisted ? (
