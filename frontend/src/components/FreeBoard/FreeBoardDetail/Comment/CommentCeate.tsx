@@ -85,13 +85,17 @@ function CommentCreate(props){
 
   useEffect(()=>{
     console.log('좋아요 boardList.isLike', boardList.isLike)
-    setLike(boardList.isLike)
+    if(type==='tactic'){
+      setLike(boardList.isLike,like)
+    }
   },[boardList.isLike])
 
   useEffect(()=>{
     console.log('좋아요 freeboardList.isLike', freeboardList.like)
-    setLike(freeboardList.like)
-  },[freeboardList.like])
+    if (type === 'free') {
+      setLike(freeboardList.like)
+    }
+  },[freeboardList.like,like])
 
 
   // 전략 댓글 작성 ======================================

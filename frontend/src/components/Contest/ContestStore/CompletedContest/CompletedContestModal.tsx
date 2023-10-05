@@ -20,7 +20,8 @@ import {
     NoRankImage,
     NotUser
 } from './CompletedContestModal.style'
-
+// 날짜 변환
+import dayjs from "dayjs";
 function CompletedContestModal({onClose, selectedContest, rank}){
 
   const [userRank, setUserRank] = useState([])
@@ -36,8 +37,10 @@ function CompletedContestModal({onClose, selectedContest, rank}){
                     <Title>[경진대회] {selectedContest.title}</Title>
                     <CloseBtn onClick={onClose}><CloseIcon/></CloseBtn>
                 </Header>
-                <Schedule>대회 기간: {selectedContest.startTime} ~ {selectedContest.endTime}</Schedule>
+                <Schedule>대회 기간: {dayjs(selectedContest.startTime).format('YYYY/MM/DD HH:mm')}부터 ~ {dayjs(selectedContest.endTime).format('YYYY/MM/DD HH:mm')}까지</Schedule>
+                {selectedContest.maxCapacity > 0 && (
                 <Personnel>참가 인원 수 {selectedContest.joinPeople} / {selectedContest.maxCapacity} </Personnel>
+                )}
                 {userRank.length === 0 ? (
                   <NotUser>유저가 없습니다</NotUser>
                 ) : (
@@ -48,7 +51,7 @@ function CompletedContestModal({onClose, selectedContest, rank}){
                         <div className="carousel-item" style={{width: '170px', height: '220px'}}>
                           {userRank[0] ? (
                                 <>
-                                  <RankImage src={'/icon/user_purple.png'} />
+                                  <RankImage src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${userRank[0].memberId}`} />
                                   <h2 style={{textAlign: 'center', margin: '5px 0px 0px 0px', fontSize:'22px'}}>1등</h2>
                                   <RankUserNickName>
                                     {userRank[0]?.nickName ? (
@@ -67,16 +70,14 @@ function CompletedContestModal({onClose, selectedContest, rank}){
                                   </div>
                                 </>
                               ) : (
-                                <div>유저가 없습니다</div>
+                                <NotUser>유저가 없습니다</NotUser>
                               )}
                             </div>
 
                         <div className="carousel-item" style={{width: '170px', height: '220px'}}>
                               {userRank[1] ? (
                                   <>
-                                    <RankImage src={
-                                    // contest.ranking[1].profileImage ||
-                                    '/icon/user_purple.png'} />
+                                    <RankImage src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${userRank[1].memberId}`} />
                                     <h2 style={{textAlign: 'center', margin: '5px 0px 0px 0px', fontSize:'22px'}}>2등</h2>
                                     <RankUserNickName>
                                     {rank[1].nickName ? (
@@ -94,16 +95,14 @@ function CompletedContestModal({onClose, selectedContest, rank}){
                                     </div>
                                 </>
                                 ) : (
-                                  <div>유저가 없습니다</div>
+                                  <NotUser>유저가 없습니다</NotUser>
                               )}
                                 
                         </div>
                         <div className="carousel-item" style={{width: '170px', height: '220px'}}>
                           {userRank[2] ? (
                             <>
-                              <RankImage src={
-                                  // contest.ranking[2].profileImage ||
-                                  '/icon/user_purple.png'} />
+                              <RankImage src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${userRank[2].memberId}`} />
                                   <h2 style={{textAlign: 'center', margin: '5px 0px 0px 0px', fontSize:'22px' }}>3등</h2>
                                   <RankUserNickName>
                                     {rank[2]?.nickName ? (
@@ -121,7 +120,7 @@ function CompletedContestModal({onClose, selectedContest, rank}){
                                   </div>
                                 </>
                             ) : (
-                            <div>유저가 없습니다</div>
+                            <NotUser>유저가 없습니다</NotUser>
                               )}
 
                           </div>
@@ -142,15 +141,13 @@ function CompletedContestModal({onClose, selectedContest, rank}){
                             <div style={{width:'40px', margin:'10px 0px 5px 15px', color:'#8A8A8A', fontSize:'15px'}}>
                               {participantIndex+4}등
                             </div>
-                            <NoRankImage src={
-                              // participant.profileImage ||
-                              '/icon/user_purple.png'} />
+                            <NoRankImage src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${participant.memberId}`} />
                             <div style={{margin:'10px 15px 0px 0px', fontSize:'12px', fontWeight:'bold', width:'50px'}}>
-                              {/* {participant.nickName ? (
+                              {participant.nickName ? (
                                 <></>
                               ) : (
                                 <>{participant.nickName}</>
-                              )} */}
+                              )}
                             </div>
                             <div style={{display:'flex', marginTop:'12px', fontSize:'10px'}}>
                               <div style={{color:'#8A8A8A', marginRight:'10px'}}>

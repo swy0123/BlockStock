@@ -262,14 +262,16 @@ function FreeBoardItemDetail(){
           </DownloadBox>
         <Wrapper>
           <ContentBox>
-            <Content>{boardItem.content}</Content>
+            <Content style={{ whiteSpace: 'pre-line',wordWrap: 'break-word' }}>
+              {boardItem.content}
+            </Content>
           </ContentBox>
           <ImgBox>
             {file.map((item,index)=>(
               <div key={index}>
-                <Img 
-                src={item.path} 
-                />
+                {Array.isArray(["image/jpeg",'image/png']) && ["image/jpeg",'image/png'].includes(item.type) && (
+                  <Img src={item.path} />
+                )}
               </div>
             ))}
           </ImgBox>
