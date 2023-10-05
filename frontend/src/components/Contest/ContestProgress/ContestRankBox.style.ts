@@ -57,7 +57,7 @@ export const RankNumber = styled.div`
 `;
 export const UserImg = styled.img`
   width: 12%;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   margin: 0px 10px 0px 0px;
 `;
 export const UserNickName = styled.div`

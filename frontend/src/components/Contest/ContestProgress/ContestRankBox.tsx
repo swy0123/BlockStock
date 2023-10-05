@@ -18,7 +18,7 @@ import dayjs from 'dayjs';
 
 function ContestRankBox(props:{contestId:number}) {
   const [curRank, setCurRank] = useState<rankingBoxItem[]>([]);
-  const [count, setCount] = useState(15); // 남은 시간 (단위: 초)
+  const [count, setCount] = useState(0); // 남은 시간 (단위: 초)
   const [updateTime, setUpdateTime] = useState(dayjs().format("YYYY.MM.DD HH:mm:ss"));
   const pricesDisplayFormat = format(",");
 
@@ -29,85 +29,23 @@ function ContestRankBox(props:{contestId:number}) {
       setCount((count) => count - 1);
     }, 1000);
 
-    if (count === 1) {
-      setCount(15);
+    if (count <= 0) {
+      setCount(14);
       getCurRank();
       setUpdateTime(dayjs().format("YYYY.MM.DD HH:mm:ss"));
     }
     return () => clearInterval(cnt);
   }, [count]);
 
-  useEffect(()=>{
+  // useEffect(()=>{
 
-  },)
+  // },)
 
   const getCurRank = async () => {
     const res = await contestRanking(props.contestId);
     setCurRank(res);
   }
 
-  const rank = [
-    {
-      nickName: 'JohnDoe',
-      profileImage: 'john.jpg',
-      returns: '+15%',
-    },
-    {
-      nickName: 'AliceSmith',
-      profileImage: 'alice.jpg',
-      returns: '-8%',
-    },
-    {
-      nickName: 'BobJohnson',
-      profileImage: 'bob.jpg',
-      returns: '+20%',
-    },
-    {
-      nickName: 'JohnDoe',
-      profileImage: 'john.jpg',
-      returns: '+15%',
-    },
-    {
-      nickName: 'AliceSmith',
-      profileImage: 'alice.jpg',
-      returns: '-8%',
-    },
-    {
-      nickName: 'BobJohnson',
-      profileImage: 'bob.jpg',
-      returns: '+20%',
-    },
-    {
-      nickName: 'JohnDoe',
-      profileImage: 'john.jpg',
-      returns: '+15%',
-    },
-    {
-      nickName: 'AliceSmith',
-      profileImage: 'alice.jpg',
-      returns: '-8%',
-    },
-    {
-      nickName: 'BobJohnson',
-      profileImage: 'bob.jpg',
-      returns: '+20%',
-    },
-    {
-      nickName: 'JohnDoe',
-      profileImage: 'john.jpg',
-      returns: '+15%',
-    },
-    {
-      nickName: 'AliceSmith',
-      profileImage: 'alice.jpg',
-      returns: '-8%',
-    },
-    {
-      nickName: 'BobJohnson',
-      profileImage: 'bob.jpg',
-      returns: '+20%',
-    },
-  ];
 
   return (
     <>
