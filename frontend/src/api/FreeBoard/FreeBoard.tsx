@@ -17,6 +17,7 @@ export const freeBoardList = async (Params:Params) => {
 
 // 자유게시판 게시글 생성
 export const freeBoardCreate = async (formData: FormData) => {
+  console.log('들어왔땅')
   const res = await privateApi.post(`/free-board`, formData, {
     headers: {
       "Content-Type": "multipart/form-data",
