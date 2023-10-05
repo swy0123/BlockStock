@@ -278,7 +278,7 @@ function FreeBoardItemDetail(){
           {boardItem.memberId === userId ? (
             <>
             <BtnBox>
-              <UpdateBtn onClick={() => navigate('/freeboardupdate')}>수정</UpdateBtn>
+              {/* <UpdateBtn onClick={() => navigate('/freeboardupdate')}>수정</UpdateBtn> */}
               <DeleteBtn onClick={handleDelete}>삭제</DeleteBtn>
             </BtnBox>
             </>
