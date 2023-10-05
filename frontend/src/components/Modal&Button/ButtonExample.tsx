@@ -56,6 +56,5 @@ export const Btn2 =styled.button`
         background-color: #faf8fe;
         transition: 0.5s;
         color: #9155FD;
-        
     }
 `

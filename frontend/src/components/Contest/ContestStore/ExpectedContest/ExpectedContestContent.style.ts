@@ -2,9 +2,8 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
-  height: 650px;
+  height: 660px;
   background: #FFFFFF;
-  border: 1px solid #D4D4D4;
   box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
   border-radius: 10px;
   margin: 10px 0px 0px 0px;
@@ -46,7 +45,7 @@ height: 15px;
 font-family: 'Inter';
 font-style: normal;
 font-weight: 400;
-font-size: 10px;
+font-size: 12px;
 line-height: 15px;
 display: flex;
 align-items: center;
@@ -63,11 +62,11 @@ export const Box = styled.div`
 `;
 export const ContentBox = styled.div`
 margin: 0px 0px 0px 50px;
+font-size: 14px;
 `;
 
 export const Content = styled.div`
 font-weight: 400;
-font-size: 12px;
 display: flex;
 align-items: center;
 margin: 10px 0px 0px 0px;
@@ -77,7 +76,6 @@ export const StartAsset = styled.div`
 font-family: 'Inter';
 font-style: normal;
 font-weight: 400;
-font-size: 12px;
 line-height: 19px;
 display: flex;
 align-items: center;
@@ -89,7 +87,6 @@ export const Stock = styled.div`
 font-family: 'Inter';
 font-style: normal;
 font-weight: 400;
-font-size: 12px;
 line-height: 19px;
 display: flex;
 align-items: center;
@@ -101,7 +98,6 @@ export const Term = styled.div`
 font-family: 'Inter';
 font-style: normal;
 font-weight: 400;
-font-size: 12px;
 line-height: 19px;
 display: flex;
 align-items: center;
@@ -110,13 +106,13 @@ margin: 10px 0px 20px 0px;
 `;
 
 export const Button = styled.button`
-padding: 5px 10px;
-background: rgba(145, 85, 253, 0.8);
+padding: 10px 15px;
 border-radius: 6px;
+background-color: #9155FD;
 font-family: 'Inter';
 font-style: normal;
 font-weight: 500;
-font-size: 12px;
+font-size: 14px;
 line-height: 19px;
 align-items: center;
 text-align: center;
@@ -124,7 +120,7 @@ color: #FFFFFF;
 border: none;
 margin: 50px 0px 20px 88%;
 &:hover{
-  background-color: rgba(145, 85, 253, 2);
+  background-color: #dfd1f8;
   transition: background-color 0.6s ease;
 }
 `;
@@ -170,5 +166,10 @@ color: #FFFFFF;
 }
 `;
 
+export const Icon = styled.div`
+position: relative;
+left: 9%;
+top:12px
+`;
 
 

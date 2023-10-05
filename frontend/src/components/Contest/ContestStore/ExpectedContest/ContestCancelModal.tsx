@@ -1,4 +1,6 @@
 import React from "react";
+import CloseIcon from '@mui/icons-material/Close';
+
 import {
   Modal,
   Container,
@@ -11,9 +13,12 @@ import {
   Schedule,
   Content,
   Personnel,
+  Term,
+  Btn
 } from './ContestCancelModal.style'
 import Swal from 'sweetalert2';
-
+ // 날짜 변환
+ import dayjs from "dayjs";
 import {contestCancel} from '../../../../api/Contest/Participant'
 
 import { useRecoilState  } from "recoil";
@@ -47,12 +52,20 @@ function ContestCancelModal( {selectedContest, onClose}){
   return(
     <Container>
       <Modal>
-        <Title>참가 예정 대회</Title>
+        <div style={{display:'flex', margin:'0px 0px 0px 40%'}}>
+        <Title>참가 예정 대회</Title> 
+        <Btn onClick={() => {onClose()}}>
+          <CloseIcon style={{fontSize:'20px'}}/>
+        </Btn>
+        </div>
         <Wrapper>
           <ContestTitle>[경진대회] {selectedContest.title} 경진대회</ContestTitle>
-          <Schedule>대회기간 {selectedContest.startAt} ~ {selectedContest.endAt}</Schedule>
+          <Schedule>{dayjs(selectedContest.startTime).format('YYYY/MM/DD HH:mm')} 부터 ~ {dayjs(selectedContest.endTime).format('YYYY/MM/DD HH:mm')} 까지</Schedule>
           <hr style={{color:'#EBEBEB'}}/>
           <Personnel>현재 참가 인원 수 {selectedContest.joinPeople} / {selectedContest.maxCapacity}</Personnel>
+          <Term>티켓 수 : {selectedContest.ticket}개</Term>
+          <Term>종목 : {selectedContest.optionName} ({selectedContest.optionCode})</Term>
+          <Term>주기 : {selectedContest.term}초</Term>
 
           {/* 줄바꿈 적용 넘어갈 경우 다음 줄로 */}
           <Content style={{ whiteSpace: 'pre-line',wordWrap: 'break-word' }}>
@@ -62,7 +75,6 @@ function ContestCancelModal( {selectedContest, onClose}){
         </Wrapper>
         <Box>
             <Button1 onClick={handleCancel}>참가취소</Button1>
-            <Button2 onClick={() => {onClose()}}>목록으로</Button2>
           </Box>
       </Modal>
     </Container>

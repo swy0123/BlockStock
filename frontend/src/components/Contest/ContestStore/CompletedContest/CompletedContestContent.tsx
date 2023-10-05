@@ -19,7 +19,8 @@ import {
   Notexist,
   Box,
   NotRegisted,
-  Registed
+  Registed,
+  Icon
 } from "./CompletedContestContent.style";
 
 // 날짜 변환
@@ -183,24 +184,26 @@ function CompletedContestContent() {
                           {dayjs(contest.startTime).format('YYYY/MM/DD HH:mm')} 부터 ~ {dayjs(contest.endTime).format('YYYY/MM/DD HH:mm')} 까지
                         </Schedule>
                       </div>
-                      {showContent[index] ? (
-                        <KeyboardControlKeyIcon
-                          style={{
-                            fontSize: "50px",
-                            margin: '10px 80% 0px 0px'
-                          }}
-                        />
-                      ) : (
-                        <ExpandMoreIcon
-                          style={{
-                            fontSize: "50px",
-                          }}
-                        />
-                      )}
+                      <Icon>
+                        {showContent[index] ? (
+                          <KeyboardControlKeyIcon
+                            style={{
+                              fontSize: "50px",
+                              margin: '10px 80% 0px 0px'
+                            }}
+                          />
+                        ) : (
+                          <ExpandMoreIcon
+                            style={{
+                              fontSize: "50px",
+                            }}
+                          />
+                        )}
+                      </Icon>
                     </ContestBox>
                   </Box>
 
-                  <hr style={{ color: '#ebebeb', margin: '0px' , border:'1px solid #ebebeb'}} />
+                  {/* <hr style={{ color: '#ebebeb', margin: '0px' , border:'1px solid #ebebeb'}} /> */}
 
                   <ContentBox
                     style={{
@@ -209,17 +212,17 @@ function CompletedContestContent() {
                       maxHeight: showContent[index] ? '1200px' : '0', // 최대 높이 설정
                     }}
                   >
-                    <Stock>현재 인원: {contest.joinPeople} / {contest.maxCapacity} (명)</Stock>
-                    <StartAsset>필요 티켓: {contest.ticket} 개</StartAsset>
-                    <StartAsset>종목 : {contest.optionName}</StartAsset>
-                    <Term>전략 실행 주기 : {contest.term} 초</Term>
+                  <Stock>인원 : {contest.joinPeople}/{contest.maxCapacity} 명</Stock>
+                  <StartAsset>티켓 수 : {contest.ticket}개</StartAsset>
+                  <StartAsset>종목 : {contest.optionName} ({contest.optionCode})</StartAsset>
+                  <Term>전략 실행 주기 : {contest.term} 초</Term>
                     {/* 줄바꿈 적용 넘어갈 경우 다음 줄로 */}
                     <Content style={{ whiteSpace: 'pre-line',wordWrap: 'break-word' }}>
                       {contest.content}
                     </Content>
                     <Button onClick={()=>OpenModal(contest.id)}>결과보기</Button>
                   </ContentBox>
-                  <hr style={{margin:'0px 0px 0px 0px', border:'1px solid #D3D3D3'}}/>
+                  <hr style={{margin:'0px 0px 0px 0px', border:'1px solid #ebebeb'}}/>
                 </div>
               ))}
             </>
