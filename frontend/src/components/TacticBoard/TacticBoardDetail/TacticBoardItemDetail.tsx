@@ -156,7 +156,7 @@ function TacticBoardItemDetail(){
                             >
                             <div style={{display:'flex'}}>
                             {/* <UserImg src="/icon/user_purple.png"/> */}
-                            <UserImg src="/icon/user_purple.png"/>
+                            <UserImg src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${data.memberId}`}/>
                             <NickName>{data.nickName}</NickName>
                             </div>
                         </Tooltip>

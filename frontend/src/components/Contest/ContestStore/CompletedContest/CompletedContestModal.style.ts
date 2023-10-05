@@ -41,11 +41,11 @@ export const CloseBtn = styled.div`
   /* right: 40px;  */
   cursor: pointer;
   color: #B2B2B2;
-  margin: 0px 0px 0px 160px ;
+  margin: 0px 0px 0px 0px ;
 `;
 export const Title = styled.div`
-width: 533px;
-height: 32.9px;
+width: 700px;
+min-height: 32.9px;
 font-weight: 600;
 font-size: 25px;
 `;
