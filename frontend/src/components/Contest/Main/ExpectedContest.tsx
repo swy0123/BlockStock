@@ -26,9 +26,11 @@ import {
 
  // 날짜 변환
  import dayjs from "dayjs";
-
+ import { useRecoilState } from "recoil";
+ import { contesttype } from '../../../recoil/Contest/ContestList'
 function ExpectedContest({contest}){
   const navigate = useNavigate();
+  const [type, setType] = useRecoilState(contesttype)
   const [expectedContestItem, setExpectedContestItem] = useState([])
 
 
@@ -49,6 +51,10 @@ function ExpectedContest({contest}){
       setShowContent(updatedShowContent);
     };
 
+  const handleSwitch = ()=>{
+    setType('expected')
+    navigate('/contestlist')
+  }
   return(
     <Container>
 
@@ -56,7 +62,7 @@ function ExpectedContest({contest}){
         <ContestTitle>
           다음 대회 일정
         </ContestTitle>
-        <ContestLink onClick={()=>navigate('/expectedcontest')}>
+        <ContestLink onClick={handleSwitch}>
           전체 대회 일정 조회
         </ContestLink>
       </ContestTitleWrapper>
@@ -75,8 +81,7 @@ function ExpectedContest({contest}){
                   <ContestBox onClick={() => toggleContent(index)}>
                     <ContestHeader>
                       <Title>
-                        [경진대회] 
-                        {item.title.length > 10 ? `${item.title.slice(0, 10)}...` : item.title}
+                        [경진대회] {item.title.length > 10 ? `${item.title.slice(0, 10)}...` : item.title}
                       </Title>
     
                       {item.isRegisted ? (
@@ -120,6 +125,9 @@ function ExpectedContest({contest}){
                     </Participants>
                     <Ticket>
                       필요 티켓 개수 : {item.ticket} 개
+                    </Ticket>
+                    <Ticket>
+                      종목 : {item.optionName} ({item.optionCode})
                     </Ticket>
                     <Term>
                       전략 실행 주기 : {item.term} 초
