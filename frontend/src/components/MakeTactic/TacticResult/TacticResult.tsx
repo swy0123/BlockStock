@@ -352,7 +352,7 @@ const TacticResult = (props) => {
             {/* 버튼 */}
             <HistorySaveButton onClick={saveTactic}>저장하기</HistorySaveButton>
             {/* <HistorySaveButton onClick={downloadImg}>이미지</HistorySaveButton> */}
-            {props.tacticImg ? <img src={props.tacticImg} /> : <></>}
+            {/* {props.tacticImg ? <img src={props.tacticImg} /> : <></>} */}
           </HistorySummary>
         </RightDiv>
       </TradingHistoryContents>
