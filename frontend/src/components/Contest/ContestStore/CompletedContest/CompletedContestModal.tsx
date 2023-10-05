@@ -37,9 +37,9 @@ function CompletedContestModal({onClose, selectedContest, rank}){
                     <Title>[경진대회] {selectedContest.title}</Title>
                     <CloseBtn onClick={onClose}><CloseIcon/></CloseBtn>
                 </Header>
-                <Schedule>대회 기간: {dayjs(selectedContest.startTime).format('YYYY/MM/DD HH:mm')}부터 ~ {dayjs(selectedContest.endTime).format('YYYY/MM/DD HH:mm')}까지</Schedule>
+                <Schedule>대회 기간 : {dayjs(selectedContest.startTime).format('YYYY/MM/DD HH:mm')}부터 ~ {dayjs(selectedContest.endTime).format('YYYY/MM/DD HH:mm')}까지</Schedule>
                 {selectedContest.maxCapacity > 0 && (
-                <Personnel>참가 인원 수 {selectedContest.joinPeople} / {selectedContest.maxCapacity} </Personnel>
+                <Personnel>참가 인원 수 : {selectedContest.joinPeople} / {selectedContest.maxCapacity} </Personnel>
                 )}
                 {userRank.length === 0 ? (
                   <NotUser>유저가 없습니다</NotUser>

@@ -399,8 +399,8 @@ function BlocklyComponent(props: any) {
     // var data = "data:image/svg+xml," + encodeURIComponent(svgAsXML);
     // return data;
     // return svgToPng_(data, width, height);
-    const svgBlob = new Blob([svgAsXML], { type: 'image/svg+xml' });
-    const svgFile = new File([svgBlob], 'tmp.svg', { type: 'image/svg+xml' });
+    const svgBlob = new Blob([svgAsXML], { type: "image/svg+xml" });
+    const svgFile = new File([svgBlob], "tmp.svg", { type: "image/svg+xml" });
     return svgFile;
   };
 
@@ -449,14 +449,15 @@ function BlocklyComponent(props: any) {
   useEffect(() => {
     if (!props.codeCheck) {
       if (primaryWorkspace.current != undefined) {
-        props.writeTacticJsonCode(
-          JSON.stringify({
-            tacticCode: Blockly.serialization.workspaces.save(primaryWorkspace.current),
-            defArray: defArray,
-            settingArray: settingArray,
-            getArray: getArray,
-          })
-        );
+        const jsonCode = JSON.stringify({
+          tacticCode: Blockly.serialization.workspaces.save(primaryWorkspace.current),
+          defArray: defArray,
+          settingArray: settingArray,
+          getArray: getArray,
+        });
+        props.writeTacticJsonCode(jsonCode);
+
+        console.log(JSON.parse(jsonCode));
         // .replace(/\s/g, '\\u0020').replace(/\n/g, '\\n')
         props.writeTacticPythonCode(pythonGenerator.workspaceToCode(primaryWorkspace.current));
         props.writeTacticImg(exportImageAsPNG);
@@ -479,7 +480,7 @@ function BlocklyComponent(props: any) {
   // (blockcode?:any, defblocks?:any, setblocks?:any, getblocks?:any)
   //전략 id 있는지 확인 === 불러온 전략인지 확인 + 코드 불러오기
   useEffect(() => {
-    console.log(props)
+    console.log(props);
     if (props.tacticId != null && props.tacticJsonCode !== undefined) {
       load(
         false,
@@ -505,11 +506,32 @@ function BlocklyComponent(props: any) {
   }, [toolboxCollapsed]);
 
   // Returns an array of objects.
-  var coloursFlyoutCallback = function (workspace) {
-    var blockList = [];
-    blockList.push({});
+  // var coloursFlyoutCallback = function (workspace) {
+  //   var blockList = [];
+  //   blockList.push({});
 
-    return blockList;
+  //   return blockList;
+  // };
+
+  const generateGuideBlock = () => {
+    guideBlocks[0]
+    load(
+      false,
+      guideBlocks[0].tacticCode,
+      guideBlocks[0].defArray,
+      guideBlocks[0].settingArray,
+      guideBlocks[0].getArray
+    );
+  };
+  const generateBasicBlock = () => {
+    guideBlocks[0]
+    load(
+      false,
+      guideBlocks[1].tacticCode,
+      guideBlocks[1].defArray,
+      guideBlocks[1].settingArray,
+      guideBlocks[1].getArray
+    );
   };
 
   //블록리 화면 동적 주입
@@ -573,9 +595,11 @@ function BlocklyComponent(props: any) {
     primaryWorkspace.current.registerButtonCallback("generateblock", generateVar);
 
     // Associates the function with the string 'COLOUR_PALETTE'
-    primaryWorkspace.current.registerToolboxCategoryCallback("guide", coloursFlyoutCallback);
+    // primaryWorkspace.current.registerToolboxCategoryCallback("guide", coloursFlyoutCallback);
     // var category = primaryWorkspace.current.getToolbox().getToolboxItems()[6];
     // category.updateFlyoutContents(guideBlocks[0]);
+    primaryWorkspace.current.registerButtonCallback("generateRSIblock", generateGuideBlock);
+    primaryWorkspace.current.registerButtonCallback("generateBasicblock", generateBasicBlock);
 
     // console.log(array, cnt, toolbox.current, primaryWorkspace.current);
   }, [primaryWorkspace, toolbox, blocklyDiv, blocklyArea, props]);
@@ -592,13 +616,13 @@ function BlocklyComponent(props: any) {
         {toolboxCollapsed ? "도구상자 닫기" : "도구상자 열기"}
       </CollapseToolBoxButton>
       {/* 아래는 임시 버튼 */}
-      {/* <CollapseToolBoxButton
+      <CollapseToolBoxButton
         style={{ left: "528px", width: "100px" }}
         $toolboxCollapsed={toolboxCollapsed}
         onClick={generateCode}
       >
         Convert
-      </CollapseToolBoxButton> */}
+      </CollapseToolBoxButton>
       <CollapseToolBoxButton
         style={{ left: "128px", width: "100px" }}
         $toolboxCollapsed={toolboxCollapsed}
@@ -650,7 +674,7 @@ function BlocklyComponent(props: any) {
 
         <Category name="반복" categorystyle="loop_category">
           <Block type="controls_repeat_ext" />
-          <Block type="controls_whileUntil" />
+          {/* <Block type="controls_whileUntil" /> */}
           <Block type="controls_for" />
           <Block type="controls_forEach" />
           {/* <Block type="controls_flow_statements" /> */}
@@ -777,6 +801,7 @@ function BlocklyComponent(props: any) {
               </Shadow>
             </Value>
           </Block>
+          <Block type="now_cnt" />
           <Block type="cur_data">
             <Value name="OCHL">
               <Shadow type="ochlv_value" />
@@ -829,7 +854,10 @@ function BlocklyComponent(props: any) {
             return <Block key={index} type={item} />;
           })}
         </Category>
-        <Category name="가이드 블록" colour="#ffee04" custom="guide"></Category>
+        <Category name="가이드 블록" colour="#ffee04">
+          <button text="RSI 지표 예시" callbackkey="generateRSIblock"></button>
+          <button text="기본 예시" callbackkey="generateBasicblock"></button>
+        </Category>
       </div>
     </BlocklyWrapper>
   );

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {
   Container,
   Header,
@@ -15,6 +15,7 @@ import {
   BoxLine,
   ContentBox,
   Content,
+  KeepBox,
 } from './MessageDetail.style'
 
 // 보관함 아이콘
@@ -26,10 +27,16 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 // 쪽지 api
 import {messageKeep, messageDelete} from '../../../api/Message/Message'
 
-function MessageDetail({onButtonClick, data}){
+function MessageDetail({onButtonClick, name, data}){
 
   const [check, setCheck] = useState(data.marked)
   
+  useEffect(()=>{
+    console.log('쪽지 디테일')
+    console.log(data)
+    console.log(name)
+    console.log('쪽지 디테일')
+  },[data])
     // 쪽지 보관 api
     const messageKeepApi = async()=>{
       const message = await messageKeep(data.id)
@@ -65,8 +72,23 @@ function MessageDetail({onButtonClick, data}){
           <Box>
             <TitleBox>
               <UseBox>
-                <UseImg src='/icon/user_purple.png'/>
-                <UseNickName>{data.senderNickname}</UseNickName>
+                {name === 'send' ? (
+                  <>
+                  <div style={{margin:'10px 0px 0px 10px'}}>
+                    받는 사람 :
+                  </div>
+                    <UseImg src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${data.receiverId}`}/>
+                    <UseNickName>{data.receiverNickname}</UseNickName>
+                  </>
+                  ) : (
+                    <>
+                    <div style={{margin:'10px 0px 0px 10px'}}>
+                      보낸 사람 :
+                    </div>
+                      <UseImg src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${data.senderId}`}/>
+                      <UseNickName>{data.senderNickname}</UseNickName>
+                    </>
+                  )}
               </UseBox>
               <Schedule>
                 {(() => {
@@ -91,9 +113,20 @@ function MessageDetail({onButtonClick, data}){
             </TitleBox>
             <BoxLine/>
             <ContentBox>
-              <Content>
+              <Content style={{ whiteSpace: 'pre-line',wordWrap: 'break-word' }}>
                 {data.content}
               </Content>
+              {name==='keep' && (
+                <>
+                <KeepBox>
+                  <div style={{margin:'10px 0px 0px 10px', maxWidth:'80px'}}>
+                    받는 사람 :
+                  </div>
+                    <UseImg src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${data.receiverId}`}/>
+                    <UseNickName>{data.receiverNickname}</UseNickName>
+                </KeepBox>
+                </>
+              )}
             </ContentBox>
           </Box>
         </Wrapper>
