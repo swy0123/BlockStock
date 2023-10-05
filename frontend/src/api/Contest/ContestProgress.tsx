@@ -255,30 +255,30 @@ export interface rankingBoxItem {
 //대회 순위
 export const contestRanking = async (id: number) => {
   console.log(id);
-  // try {
-  //   const res = await privateApi.get(`/contest/result/`+id);
-  //   console.log(res.data);
-  //   return res.data;
-  // } catch (error) {
-  //   console.log('err', error);
-  // }
+  try {
+    const res = await privateApi.get(`/contest/result/`+id);
+    console.log(res.data);
+    return res.data;
+  } catch (error) {
+    console.log('err', error);
+  }
 
-  const res:rankingBoxItem[] = [
-    {
-      nickName: "first",
-      profileImage: "+61.97",
-      returns: "", // 수익률 +, - 붙여서 받는다
-    },
-    {
-      nickName: "second",
-      profileImage: "+21.55",
-      returns: "", // 수익률 +, - 붙여서 받는다
-    },
-    {
-      nickName: "third",
-      profileImage: "",
-      returns: "+12.57", // 수익률 +, - 붙여서 받는다
-    },
-  ];
-  return res;
+  // const res:rankingBoxItem[] = [
+  //   {
+  //     nickName: "first",
+  //     profileImage: "+61.97",
+  //     returns: "", // 수익률 +, - 붙여서 받는다
+  //   },
+  //   {
+  //     nickName: "second",
+  //     profileImage: "+21.55",
+  //     returns: "", // 수익률 +, - 붙여서 받는다
+  //   },
+  //   {
+  //     nickName: "third",
+  //     profileImage: "",
+  //     returns: "+12.57", // 수익률 +, - 붙여서 받는다
+  //   },
+  // ];
+  // return res;
 };
