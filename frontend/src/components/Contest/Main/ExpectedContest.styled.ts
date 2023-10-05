@@ -11,8 +11,8 @@ display: flex;
 `;
 
 export const ContestTitle = styled.div`
-  font-size: 20px;
-  margin-bottom: 10px;
+  font-size: 25px;
+  margin: 0px 0px 10px 10px;
   font-weight: bold;
 `;
 
@@ -25,11 +25,11 @@ cursor: pointer;
 export const Wrappe = styled.div`
 width: 40%;
 height: 250px;
-border: 1px solid #D4D4D4;
 overflow: auto;
 box-sizing: border-box;
 position: absolute;
 background: #FFFFFF;
+margin: 0px 0px 0px 5px;
 box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
 border-radius: 10px;
 /* 스크롤바 트랙 (배경) 스타일링 */
@@ -107,7 +107,7 @@ export const Box = styled.div`
 `;
 
 export const ContentBox = styled.div`
-font-size: 12px;
+font-size: 14px;
 `;
 
 export const Participants = styled.div`

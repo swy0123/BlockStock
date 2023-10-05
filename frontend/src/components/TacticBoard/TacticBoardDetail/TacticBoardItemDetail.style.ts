@@ -173,19 +173,18 @@ left: 93%;
 `;
 
 export const DownloadBtn = styled.div`
-border: 1px solid black;
 border-radius: 3px;
 padding: 3px;
 height: 25px;
-position: absolute;
-top:650px;
-left: 770px;
+position: relative;
+top:180px;
+left: 10%;
 &:hover{
   background-color: #EAEAEA;
   &::before {
-      content: 'Download'; /* 호버 상태일 때 표시할 텍스트 */
+      content: '테스트'; /* 호버 상태일 때 표시할 텍스트 */
       position: absolute;
-      font-size: 8px;
+      font-size: 12px;
       top: 40px; /* 텍스트를 버튼 위로 올립니다 */
       left: 50%; /* 가운데 정렬 */
       transform: translateX(-50%); 

@@ -46,6 +46,7 @@ function CommentCreate(props){
     if(type==='free'){
       setLike(freeboardList.like)
     } else if (type==='tactic'){
+      console.log(boardList.isLike, 'boardList.isLike')
       setLike(boardList.isLike)
     }
   },[])
@@ -85,7 +86,7 @@ function CommentCreate(props){
   useEffect(()=>{
     console.log('좋아요 boardList.isLike', boardList.isLike)
     setLike(boardList.isLike)
-  },[boardList.isLike])
+  },[boardList.isLike,like])
 
   useEffect(()=>{
     console.log('좋아요 freeboardList.isLike', freeboardList.like)

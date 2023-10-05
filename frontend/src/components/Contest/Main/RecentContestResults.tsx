@@ -14,9 +14,11 @@ import {
   RankReturn,
   Notexist
 } from './RecentContestResults.style';
-
+import { useRecoilState } from "recoil";
+import { contesttype } from '../../../recoil/Contest/ContestList'
 function RecentContestResults({contest}) {
   const navigate = useNavigate();
+  const [type, setType] = useRecoilState(contesttype)
   const [rank,setRank] = useState([])
   
   // api 통신 ==================================================
@@ -26,11 +28,16 @@ function RecentContestResults({contest}) {
   },[contest])
   // api 통신 ==================================================
   
+  const handleSwitch = ()=>{
+    setType('finish')
+    navigate('/contestlist')
+  }
+
   return (
     <Container>
       <ContestTitleWrapper>
         <ContestTitle>최근 대회 결과</ContestTitle>
-        <ContestLink onClick={() => navigate('/completedcontest')}>
+        <ContestLink onClick={handleSwitch}>
           자세히 보기
         </ContestLink>
       </ContestTitleWrapper>
@@ -59,13 +66,13 @@ function RecentContestResults({contest}) {
                   ) : (
                   <RankNickName>{item.nickName}</RankNickName>
                   )}
+                </RankContent>
                   <RankReturn>
-                    수익률 :{' '}
-                    <div style={{ color: item.returns[0] === '-' ? 'blue' : 'red' }}>
-                      {item.returns}
+                    수익률 : {' '}
+                    <div style={{ color: item.returns[0] === '-' ? 'blue' : 'red', margin:'0px 0px 0px 6px' }}>
+                      {item.returns.toFixed(0)} %
                     </div>
                   </RankReturn>
-                </RankContent>
               </RankBox>
               {index < rank.length - 1 && <hr style={{ color: '#D3D3D3', margin: '0px 0px 10px 0px' }} />}
             </div>

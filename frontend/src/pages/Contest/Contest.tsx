@@ -8,8 +8,8 @@ import RecentContestResults from '../../components/Contest/Main/RecentContestRes
 import { contestMain } from '../../api/Contest/Main';
   // 스타일드 컴포넌트를 함수 내부에 정의
   const ContestBox = styled.div`
-    /* max-width: 100%; */
-    max-width: 1200px;
+    max-width: 100%;
+    /* min-width: 1200px; */
     overflow: hidden;
   `;
 
@@ -42,7 +42,7 @@ function Contest() {
   return (
     <>
       <ContestBox>
-        <CurrentContest contest={currentContest}/>
+        <CurrentContest contestItem={currentContest}/>
         <ContestContent>
           <div style={{width:'50%', margin:'0px 15% 0px 0px' }}>
           <ExpectedContest contest={expectedContest}/>

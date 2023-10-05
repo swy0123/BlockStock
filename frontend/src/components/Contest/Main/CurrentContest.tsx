@@ -27,44 +27,33 @@ import {
   NotCurrentContestImage,
   ContestReturn,
   Prev,
-  Next
+  Next,
+  NotUser
  } from './CurrentContest.style'
 
  // 날짜 변환
  import dayjs from "dayjs";
-
-function CurrentContest({contest}){
+ import { useRecoilState } from "recoil";
+ import { contesttype } from '../../../recoil/Contest/ContestList'
+function CurrentContest({contestItem}){
 
   const navigate = useNavigate();
+  const [type, setType] = useRecoilState(contesttype)
   const [currentContestList, setCurrentContestList] = useState([]);
 
 
   // 현재 대회 ====================================================
   useEffect(()=>{
-    console.log(contest,'메인페이지 현재대회')
-    setCurrentContestList(contest)
-  },[contest])
+    console.log(contestItem,'메인페이지 현재대회')
+    setCurrentContestList(contestItem)
+  },[contestItem])
 
   // style 잡기 위한 더미 데이터 ====================================
 
-  // const [selectedContest, setSelectedContest] = useState(null);
-  // const [showContent, setShowContent] = useState(Array(currentContestList.length).fill(false));
-  // const toggleContent = (index) => {
-  //   const updatedShowContent = [...showContent];
-  //   console.log(updatedShowContent)
-  //   updatedShowContent[index] = !updatedShowContent[index];
-  //   setShowContent(updatedShowContent);
-
-  //   if (updatedShowContent[index]) {
-  //     console.log(currentContestList[index],'-----------------')
-  //     setSelectedContest(currentContestList[index]);
-  //   } else {
-  //     setSelectedContest(null);
-  //   }
-  //   console.log(selectedContest)
-  //   navigate('/contestprogress',{ state: { selectedContest.id } })
-  // };
-
+  const handleSwitch = ()=>{
+    setType('proceed')
+    navigate('/contestlist')
+  }
   return(
     <Container>
       <CurrentContestTitle>
@@ -104,27 +93,28 @@ function CurrentContest({contest}){
                 {
                   position:'relative',
                   margin:'0px 0px 0px 0px',
-                height:'350px',
+                height:'450px',
+                width:'100%'
               }}
             >
               <Prev className="swiper-button-prev"></Prev>
               <Next className="swiper-button-next"></Next>
               {currentContestList.map((contest, index) => (
                 <SwiperSlide style={{ margin: '0px', position:'relative',left:'10px' }}>
-                  <div key={index}>
+                  <div key={contest.id}>
 
                   <ContestHeader>
                     <ContestTitle>
                     {contest.title.length > 15 ? `${contest.title.slice(0, 15)}...` : contest.title}
                     </ContestTitle>
                     <Contestperiod>
-                      {dayjs(contest.startAt).format('YYYY/MM/DD HH:mm')} 부터 ~ {dayjs(contest.endAt).format('MM/DD HH:mm')} 까지
+                      {dayjs(contest.startAt).format('YYYY/MM/DD HH:mm')} 부터 ~ {dayjs(contest.endAt).format('YYYY/MM/DD HH:mm')} 까지
                     </Contestperiod>
                   </ContestHeader>
 
                   <CurrentContestLinkBox>
-                    <div onClick={()=>navigate('/currentcontest')}>현재 대회 정보</div>
-                    <CurrentContestLink onClick={()=>toggleContent(index)}>현재 현황 조회</CurrentContestLink>
+                    <div onClick={handleSwitch}>현재 대회 정보</div>
+                    <CurrentContestLink onClick={() => navigate('/contestprogress', { state: { contestId: contest.id } })}>현재 현황 조회</CurrentContestLink>
                   </CurrentContestLinkBox>
 
                   {contest.ranking.length > 0 ? (
@@ -134,18 +124,18 @@ function CurrentContest({contest}){
                       <RankUser>
                       <div className="carousel" style={{margin:'20px 0px 0px 0px'}}>
                         <div className="carousel-content">
-                          <div className="carousel-item" style={{width:'150px', height:'190px'}}>
+                          <div className="carousel-item" style={{width:'170px', height:'210px'}}>
                             {contest.ranking[0] ? (
                               <>
                               <RankImage src={
                                   // contest.ranking[0].profileImage ||
                                   '/icon/user_purple.png'} />
-                                  <h2 style={{textAlign: 'center', margin: '5px 0px 0px 0px', fontSize:'18px'}}>1등</h2>
+                                  <h2 style={{textAlign: 'center', margin: '8px 0px 0px 0px', fontSize:'20px'}}>1등</h2>
                                   <RankUserNickName>
                                       {contest.ranking[0].nickName}
                                   </RankUserNickName>
-                                  <div style={{textAlign: 'center', display:'flex',  fontSize:'12px'}}>
-                                    <div style={{color:'#8A8A8A', margin:'8px 5px 0px 30px'}}>
+                                  <div style={{textAlign: 'center', display:'flex',  fontSize:'12px',margin:'4px 0px 0px 0px'}}>
+                                    <div style={{color:'#8A8A8A', margin:'8px 5px 0px 30%'}}>
                                       수익률 :
                                     </div>
                                     <ContestReturn style={{ color: contest.ranking[0].returns[0] === '-' ? 'blue' : 'red' }}>
@@ -157,19 +147,19 @@ function CurrentContest({contest}){
                               <div>유저가 없습니다.</div>
                             )}
                             </div>
-                          <div className="carousel-item" style={{width:'150px', height:'190px'}}>
+                          <div className="carousel-item" style={{width:'170px', height:'210px'}}>
                             {contest.ranking[1] ? (
                               <>
                               <RankImage src={
                                   // contest.ranking[1].profileImage ||
                                   '/icon/user_purple.png'} />
-                                  <h2 style={{textAlign: 'center', margin: '5px 0px 0px 0px', fontSize:'18px'}}>2등</h2>
+                                  <h2 style={{textAlign: 'center', margin: '8px 0px 0px 0px', fontSize:'20px'}}>2등</h2>
                                   <RankUserNickName>
                                       {contest.ranking[1].nickName}
                                   </RankUserNickName>
 
-                                  <div style={{textAlign: 'center', display:'flex',  fontSize:'12px'}}>
-                                    <div style={{color:'#8A8A8A', margin:'8px 5px 0px 30px'}}>
+                                  <div style={{textAlign: 'center', display:'flex',  fontSize:'12px',margin:'4px 0px 0px 0px'}}>
+                                    <div style={{color:'#8A8A8A', margin:'8px 5px 0px 30%'}}>
                                       수익률 :
                                     </div>
                                     <ContestReturn style={{ color: contest.ranking[1].returns[0] === '-' ? 'blue' : 'red' }}>
@@ -183,18 +173,18 @@ function CurrentContest({contest}){
                                 
                           </div>
                             {/*  유저가 없을 시 없다는 표시를 해줘야 오류가 나지 않음 1위 2위 3위 동일하게 작성 */}
-                          <div className="carousel-item" style={{width:'150px', height:'190px'}}>
+                          <div className="carousel-item" style={{width:'170px', height:'210px'}}>
                           {contest.ranking[2] ? (
                             <>
                               <RankImage src={
                                 // contest.ranking[2].profileImage || 
                                 '/icon/user_purple.png'} />
-                              <h2 style={{ textAlign: 'center', margin: '5px 0px 0px 0px', fontSize: '18px' }}>3등</h2>
+                              <h2 style={{ textAlign: 'center', margin: '8px 0px 0px 0px', fontSize: '20px' }}>3등</h2>
                               <RankUserNickName>
                                 {contest.ranking[2].nickName}
                               </RankUserNickName>
-                              <div style={{ textAlign: 'center', display: 'flex', fontSize: '12px' }}>
-                                <div style={{ color: '#8A8A8A', margin: '8px 5px 0px 30px' }}>
+                              <div style={{ textAlign: 'center', display: 'flex', fontSize: '12px',margin:'4px 0px 0px 0px' }}>
+                                <div style={{ color: '#8A8A8A', margin: '8px 5px 0px 30%', }}>
                                   수익률 :
                                 </div>
                                 <ContestReturn style={{ color: contest.ranking[2].returns[0] === '-' ? 'blue' : 'red' }}>
@@ -216,26 +206,26 @@ function CurrentContest({contest}){
                   <Participant>
                     {contest.ranking.slice(3).map((participant, participantIndex) => (
                       <div key={participantIndex}>
-                        <div style={{margin:'5px 0px 5px 10px', display:'flex'}}>
-                          <div style={{width:'30px', margin:'10px 0px 5px 10px', color:'#8A8A8A', fontSize:'12px'}}>
+                        <div style={{margin:'15px 0px 5px 15%', display:'flex'}}>
+                          <div style={{width:'30px', margin:'10px 0px 5px 10px', color:'#8A8A8A', fontSize:'16px'}}>
                             {participantIndex+4}등
                           </div>
                           <NoRankImage src={
                             // participant.profileImage ||
                             '/icon/user_purple.png'} />
-                          <div style={{margin:'10px 15px 0px 0px', fontSize:'12px', fontWeight:'bold'}}>
+                          <div style={{margin:'10px 20px 0px 0px', fontSize:'14px', fontWeight:'bold'}}>
                             {participant.nickName}
                           </div>
-                          <div style={{display:'flex', marginTop:'9px', fontSize: '12px'}}>
-                            <div style={{color:'#8A8A8A', marginRight:'5px'}}>
+                          <div style={{display:'flex', marginTop:'9px', fontSize: '14px'}}>
+                            <div style={{color:'#8A8A8A', marginRight:'10px'}}>
                               수익률
                             </div>
-                            <div style={{ color: participant.returns[0] === '-' ? 'blue' : 'red', fontWeight:'bold' }}>
+                            <div style={{ color: participant.returns[0] === '-' ? 'blue' : 'red'}}>
                               {Math.round(participant.returns * 10) / 10}%
                             </div>
                           </div>
                         </div>
-                        <hr style={{width:'280px', margin:'0px'}}/>
+                        <hr style={{width:'380px', margin:'0px'}}/>
                       </div>
                     ))}
                   </Participant>
@@ -244,7 +234,9 @@ function CurrentContest({contest}){
                     </>
                     ) : (
                       <>
+                      <NotUser>
                         참여자가 없습니다.
+                      </NotUser>
                       </>
                     )}
                   
@@ -252,7 +244,8 @@ function CurrentContest({contest}){
               </SwiperSlide>
               ))}
             </Swiper>
-            </CurrentContestList>)}
+            </CurrentContestList>
+            )}
       </CurrentContestBox>
           
     </Container>
