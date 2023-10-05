@@ -20,18 +20,20 @@ import {
   Box,
   NotRegisted,
   Registed,
-  Icon
+  Icon,
+  CompletedBtn,
+  BtnBox
 } from "./CompletedContestContent.style";
-
+import { useNavigate } from "react-router-dom";
 // 날짜 변환
 import dayjs from "dayjs";
 import Pagination from "@mui/material/Pagination";
-
 // api 통신
 import { completedContestList, contestResult  } from '../../../../api/Contest/ContestStore'
 
 
 function CompletedContestContent() {
+  const navigate = useNavigate();
 
   // 검색어
   const searchKeyword = useRecoilValue(searchKeywordState);
@@ -73,22 +75,27 @@ function CompletedContestContent() {
     console.log(userRank, 'userRank')
   },[userRank])
 
-
   // 클릭한 대회 내용 ==========================================================
+  const [selectedContest, setSelectedContest] = useState(null);
   const [showContent, setShowContent] = useState(
     Array(completedContestItem.length).fill(false)
   );
 
   const toggleContent = (index) => {
     const updatedShowContent = [...showContent];
+    console.log(updatedShowContent)
     updatedShowContent[index] = !updatedShowContent[index];
     setShowContent(updatedShowContent);
 
     if (updatedShowContent[index]) {
+      console.log(completedContestItem[index],'-----------------')
+      setSelectedContests(completedContestItem[index]);
       setSelectedContest(completedContestItem[index]);
     } else {
+      setSelectedContests(null);
       setSelectedContest(null);
     }
+    console.log(selectedContest)
   };
   // 클릭한 대회 내용 ==========================================================
 
@@ -96,7 +103,7 @@ function CompletedContestContent() {
 
 
   // 선택한 대회 상세보기(모달) ======================================================
-  const [selectedContest, setSelectedContest] = useState(null);
+  const [selectedContests, setSelectedContests] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const OpenModal = (id) => {
@@ -221,7 +228,10 @@ function CompletedContestContent() {
                     <Content style={{ whiteSpace: 'pre-line',wordWrap: 'break-word' }}>
                       {contest.content}
                     </Content>
-                    <Button onClick={()=>OpenModal(contest.id)}>결과보기</Button>
+                    <BtnBox>
+                      <CompletedBtn onClick={()=>navigate('/contestprogress',{ state: { selectedContest, type:'finish' } })}>결과보기</CompletedBtn>
+                      <Button onClick={()=>OpenModal(contest.id)}>랭킹보기</Button>
+                    </BtnBox>
                   </ContentBox>
                   <hr style={{margin:'0px 0px 0px 0px', border:'1px solid #ebebeb'}}/>
                 </div>
@@ -229,7 +239,7 @@ function CompletedContestContent() {
             </>
           )}
 
-          {isModalOpen ? <CompletedContestModal selectedContest={selectedContest} onClose={CloseModal} rank={userRank}/> : null}
+          {isModalOpen ? <CompletedContestModal selectedContest={selectedContests} onClose={CloseModal} rank={userRank}/> : null}
         </Wrapper>
         {completedContestItem.length > 0 && (
           <>
