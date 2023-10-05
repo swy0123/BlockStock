@@ -59,31 +59,60 @@ function FreeBoardCreateBox(){
   };
   console.log('현재 파일 목록은?', fileList)
 
-
-// Blob 활용
-  const handleSubmit = async() => {
+  const handleSubmit = async () => {
     const formData = new FormData();
-    for (let i = 0; i < fileList.length; i++) {
-      formData.append("files", fileList[i]);
+    if (fileList.length > 0) {
+      console.log('파일 있음')
+      for (let i = 0; i < fileList.length; i++) {
+        formData.append("files", fileList[i]); // "files"는 서버 측에서 받는 키 이름
+      }
+      const jsonBlob = new Blob([JSON.stringify(contentInfo)], {
+        type: "application/json",
+      });
+      formData.append("postRequest", jsonBlob);
+    }else{
+      console.log('파일 빔')
+      // formData.append("files", fileList);
+      const jsonBlob = new Blob([JSON.stringify(contentInfo)], {
+        type: "application/json",
+      });
+      formData.append("postRequest", jsonBlob);
     }
-    // 파일 이름 배열JSON 형태의 문자열로 직렬화하여 FormData에 추가
-    const fileNamesJSON = JSON.stringify(fileList);
-    const fileNamesBlob = new Blob([fileNamesJSON], { type: "application/json" });
-    formData.append("fileList", fileNamesBlob);
   
-    // JSON 데이터를 Blob으로 변환하여 FormData에 추가
-    const jsonBlob = new Blob([JSON.stringify(contentInfo)], { type: "application/json" });
-    formData.append("postRequest", jsonBlob);
-    console.log("Form Data:", formData);
-  
+    // fileList의 길이에 따라 서버로 요청을 보냄
     if (formData) {
-        const response = await freeBoardCreate(formData);
-        if (response?.status == 200){
-          swal("", "게시글 작성 완료", "success")
-          navigate("/freeboard")
-        }
+      console.log('폼데이터 유유유')
+      const response = await freeBoardCreate(formData);
+      if (response?.status == 200) {
+        swal("", "게시글 작성 완료", "success");
+        navigate("/freeboard");
       }
     }
+  };
+// Blob 활용
+  // const handleSubmit = async() => {
+  //   const formData = new FormData();
+  //   for (let i = 0; i < fileList.length; i++) {
+  //     formData.append("files", fileList[i]);
+  //   }
+  //   // 파일 이름 배열JSON 형태의 문자열로 직렬화하여 FormData에 추가
+  //   const fileNamesJSON = JSON.stringify(fileList);
+  //   const fileNamesBlob = new Blob([fileNamesJSON], { type: "application/json" });
+  //   formData.append("fileList", fileNamesBlob);
+  
+  //   // JSON 데이터를 Blob으로 변환하여 FormData에 추가
+  //   const jsonBlob = new Blob([JSON.stringify(contentInfo)], { type: "application/json" });
+  //   formData.append("postRequest", jsonBlob);
+  //   console.log("Form Data:", formData);
+  
+  //   if (formData) {
+  //       const response = await freeBoardCreate(formData);
+  //       if (response?.status == 200){
+  //         swal("", "게시글 작성 완료", "success")
+  //         navigate("/freeboard")
+  //       }
+  //     }
+  //   }
     // const handleSubmit = async() => {
     //   const formData = new FormData();
     
