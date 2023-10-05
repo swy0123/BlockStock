@@ -34,6 +34,11 @@ import { contestChart, contestRanking, contestTrade } from "../../../api/Contest
 import dayjs from "dayjs";
 import ContestRankBox from "./ContestRankBox";
 import Spinner from "../../Util/Spinner";
+import Swal from "sweetalert2";
+
+import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { contesttype } from "../../../recoil/Contest/ContestList";
 
 const TacticResult = (props: { contestId: number }) => {
   const [componentRef, size] = useComponentSize();
@@ -43,32 +48,42 @@ const TacticResult = (props: { contestId: number }) => {
   const [title, setTitle] = useState("");
   const [startAsset, setStartAsset] = useState(0);
   const [endAsset, setEndAssets] = useState(0);
+  const [returns, setReturns] = useState(0);
   const [returnPercent, setReturnPercent] = useState(0);
   const [optionName, setOptionName] = useState("");
   const [optionCode, setOptionCode] = useState("");
   const [startDate, setStartDate] = useState("");
   const [startTime, setStartTime] = useState("");
   const [updateTime, setUpdateTime] = useState(dayjs().format("YYYY.MM.DD HH:mm:ss"));
-  const [count, setCount] = useState(15); // 남은 시간 (단위: 초)
+  const [count, setCount] = useState(2); // 남은 시간 (단위: 초)
 
   const [isPlayer, setIsPlayer] = useState(false);
+  const [isRunning, setIsRunning] = useState(true);
 
   const pricesDisplayFormat = format(",.0f");
   const floatDisplayFormat = format(",.3f");
 
+  const navigate = useNavigate();
+  const [type, setType] = useRecoilState(contesttype);
+  const handleNav = () => {
+    setType("finish");
+    navigate("contestlist");
+  };
   useEffect(() => {
-    const cnt = setInterval(() => {
-      // 타이머 숫자가 하나씩 줄어들도록
-      setCount((count) => count - 1);
-    }, 1000);
+    if (isRunning) {
+      const cnt = setInterval(() => {
+        // 타이머 숫자가 하나씩 줄어들도록
+        setCount((count) => count - 1);
+      }, 1000);
 
-    if (count === 1) {
-      setCount(15);
-      axiosGetData();
-      setUpdateTime(dayjs().format("YYYY.MM.DD HH:mm:ss"));
+      if (count <= 1) {
+        setCount(15);
+        axiosGetData();
+        setUpdateTime(dayjs().format("YYYY.MM.DD HH:mm:ss"));
+      }
+      return () => clearInterval(cnt);
     }
-    return () => clearInterval(cnt);
-  }, [count]);
+  }, [count, isRunning]);
 
   const axiosGetData = async () => {
     //테스트 데이터 id는 7
@@ -82,15 +97,52 @@ const TacticResult = (props: { contestId: number }) => {
     console.log(chartres);
     setChartInfos(chartres);
     console.log(traderes);
+    if (dayjs().format("YYYYMMDDHHmm") > traderes.endDate + traderes.endTime) {
+      //15초 반복 방지
+      setIsRunning(false);
+      Swal.fire({
+        title: "종료된 대회입니다",
+        // text: "수고하셨습니다.",
+        // icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: "확인",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "나가기",
+      }).then((result) => {
+        if (result.isConfirmed) {
 
-    if (traderes.isPlayer) {
+        } else {
+          handleNav();
+        }
+      });
+    } else if (dayjs().format("YYYYMMDDHHmm") === traderes.endDate + traderes.endTime) {
+      //15초 반복 방지
+      setIsRunning(false);
+      Swal.fire({
+        title: "대회 종료",
+        text: "수고하셨습니다.",
+        // icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: "확인",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "나가기",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // 결과 모달 띄울까 말까
+        } else {
+          handleNav();
+        }
+      });
+    } else if (traderes.isPlayer) {
       setIsPlayer(traderes.isPlayer);
       setOptionHistory(traderes.contestTradeHistory);
-
       setTitle(traderes.title);
       setStartAsset(traderes.startAsset);
       setEndAssets(traderes.endAsset);
       setReturnPercent(traderes.returnPercent);
+      setReturns(traderes.returns);
       setOptionName(traderes.optionName);
       setOptionCode(traderes.optionCode);
       setStartDate(traderes.startDate);
@@ -187,7 +239,7 @@ const TacticResult = (props: { contestId: number }) => {
                     <div>↓</div>
                     <div style={{ fontSize: "14px" }}>최종자산</div>
                     <div style={{ fontSize: "16px", color: "#F24822" }}>
-                      {pricesDisplayFormat(startAsset * returnPercent)}원
+                      {pricesDisplayFormat(endAsset)}원
                     </div>
                   </>
                 ) : (
@@ -220,7 +272,7 @@ const TacticResult = (props: { contestId: number }) => {
                     <HistorySummaryContentsItem>
                       <HistorySummaryContentsItemLeft>수익금</HistorySummaryContentsItemLeft>
                       <HistorySummaryContentsItemRight>
-                        {pricesDisplayFormat(startAsset * returnPercent - startAsset)}
+                        {pricesDisplayFormat(returns)}
                       </HistorySummaryContentsItemRight>
                     </HistorySummaryContentsItem>
                     <HistorySummaryContentsItem>
