@@ -99,13 +99,11 @@ const BlockCoding = (props) => {
   }, [keyword]);
 
   useEffect(() => {
-    console.log("되나??????????");
-    searchOption();
+    if (switchLike) searchOption();
     setSwitchLike(false);
   }, [switchLike, isSearch]);
 
   const returnSetSwitchLike = () => {
-    console.log("되나!!!!!!!!!!!??????????");
     setSwitchLike(true);
   };
   //전략 조회일 경우
@@ -124,19 +122,21 @@ const BlockCoding = (props) => {
   const importData = async (id: number) => {
     if (id >= 0) {
       const res = await tacticImport(id);
-      console.log(res)
+      console.log(res);
       setOptionCode(res.optionCode);
       setOptionName(res.optionName);
       setTitle(res.title);
       setTacticPythonCode(res.tacticPythonCode);
       // setTacticJsonCode(res.tacticJsonCode);
-      console.log(res.tacticJsonCode)
-      console.log(typeof(res.tacticJsonCode))
+      console.log(res.tacticJsonCode);
+      console.log(typeof res.tacticJsonCode);
       setTacticJsonCode(JSON.parse(res.tacticJsonCode));
       setTacticImg(res.tacticImg);
     } else {
-      console.log(props.tacticJsonCode)
-      setTacticJsonCode(JSON.parse(props.tacticJsonCode));
+      console.log(props.tacticJsonCode);
+      if (props.tacticJsonCode != undefined) {
+        setTacticJsonCode(JSON.parse(props.tacticJsonCode));
+      }
     }
   };
 
@@ -148,45 +148,6 @@ const BlockCoding = (props) => {
     const res = await tacticSearchOption(keyword, isSearch);
     console.log(res);
     setOptionLikeList(res);
-    // }
-    // else{
-    //   setOptionLikeList([])
-    // }
-    //  else {
-    //   const defaultRes = [
-    //     {
-    //       optionCode: "000810",
-    //       optionName: "삼성화재",
-    //       like: false,
-    //     },
-    //     {
-    //       optionCode: "000815",
-    //       optionName: "삼성화재우",
-    //       like: false,
-    //     },
-    //     {
-    //       optionCode: "001360",
-    //       optionName: "삼성제약",
-    //       like: false,
-    //     },
-    //     {
-    //       optionCode: "005930",
-    //       optionName: "삼성전자",
-    //       like: false,
-    //     },
-    //     {
-    //       optionCode: "005935",
-    //       optionName: "삼성전자우",
-    //       like: false,
-    //     },
-    //     {
-    //       optionCode: "006400",
-    //       optionName: "삼성SDI",
-    //       like: false,
-    //     },
-    //   ];
-    //   setOptionLikeList(defaultRes);
-    // }
   };
 
   const editSetTrue = () => {
@@ -327,14 +288,13 @@ const BlockCoding = (props) => {
     console.log("setOption" + curOptionCode + curOptionName);
   };
 
-
-  const getOptionDetail = async (curOptionCode:string) => {
+  const getOptionDetail = async (curOptionCode: string) => {
     const res = await tacticOptionDetail(curOptionCode);
-    setViewOptionCode(res.optionCode)
-    setViewOptionName(res.optionName)
-    setTodayClose(res.todayClose)
-    setDiffRate(res.diffRate)
-  }
+    setViewOptionCode(res.optionCode);
+    setViewOptionName(res.optionName);
+    setTodayClose(res.todayClose);
+    setDiffRate(res.diffRate);
+  };
 
   const setViewOption = (curOptionCode: string) => {
     getOptionDetail(curOptionCode.replace(/\D/g, ""));
@@ -378,9 +338,7 @@ const BlockCoding = (props) => {
         cancelButtonText: "취소",
       }).then((result) => {
         if (result.isConfirmed) {
-          
           setCodeCheck(false);
-          
         }
       });
     } else {
@@ -407,8 +365,9 @@ const BlockCoding = (props) => {
   }, [startDate, term, repeatCnt]);
   useEffect(() => {
     console.log(curDate);
-    if (curDate < new Date()) {
-      if (dayjs(curDate).isSame(dayjs(new Date()), "day")) return;
+    const newDate = new Date();
+    if (curDate < newDate) {
+      if (dayjs(curDate).isSame(dayjs(newDate), "day")) return;
       setStartDate(curDate);
     }
   }, [curDate]);
@@ -418,10 +377,6 @@ const BlockCoding = (props) => {
     //6시간 반 390
     //1440
     // date.subtract(1, "d").format();
-
-    // var date = dayjs("2021-10-09");
-    // date.isBefore("2021-10-09"); // false
-    // date.isBefore("2021-10-20"); // true
     let selectedDate = dayjs(new Date());
     console.log(selectedDate);
     console.log(term);
@@ -435,7 +390,7 @@ const BlockCoding = (props) => {
     } else if (term == "1w") {
       selectedDate = selectedDate.subtract(repeatCnt + 1, "w");
     }
-    selectedDate = selectedDate.subtract(7, "d");
+    selectedDate = selectedDate.subtract(8, "d");
     const now = selectedDate.get("d");
     if (now === 0) selectedDate = selectedDate.subtract(2, "d");
     else if (now === 6) selectedDate = selectedDate.subtract(1, "d");
@@ -552,7 +507,7 @@ const BlockCoding = (props) => {
                               key={index}
                               item={item}
                               setOption={setOption}
-                              setViewOption={(res)=>setViewOption(res)}
+                              setViewOption={(res) => setViewOption(res)}
                               returnSetSwitchLike={() => returnSetSwitchLike()}
                             ></OptionLikeListItem>
                           ))}
@@ -564,7 +519,7 @@ const BlockCoding = (props) => {
                               key={index}
                               item={item}
                               setOption={setOption}
-                              setViewOption={(res)=>setViewOption(res)}
+                              setViewOption={(res) => setViewOption(res)}
                               returnSetSwitchLike={() => returnSetSwitchLike()}
                             ></OptionLikeListItem>
                           ))}

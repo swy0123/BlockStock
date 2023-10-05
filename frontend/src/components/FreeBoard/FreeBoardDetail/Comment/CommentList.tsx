@@ -155,9 +155,11 @@ function CommentList(props) {
             <div key={index}>
               <Header>
                 <div style={{ display: 'flex', width: '500px' }}>
-                  <UserImg src="/icon/user_purple.png" />
+                  <UserImg src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${item.memberId}`} />
                   <NickName>{item.nickname}</NickName>|
-                  <Day> {dayjs(item.createdAt).format('YYYY.MM.DD HH:mm')}</Day>
+                  <Day>
+                    {dayjs(item.createdAt).format('YYYY.MM.DD HH:mm')} 
+                  </Day>
                 </div>
                 {type === 'free' ? (
                   <>

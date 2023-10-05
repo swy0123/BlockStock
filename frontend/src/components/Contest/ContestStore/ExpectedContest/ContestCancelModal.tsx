@@ -52,7 +52,7 @@ function ContestCancelModal( {selectedContest, onClose}){
   return(
     <Container>
       <Modal>
-        <div style={{display:'flex', margin:'0px 0px 0px 40%'}}>
+        <div style={{display:'flex', margin:'0px 0px 0px 38%'}}>
         <Title>참가 예정 대회</Title> 
         <Btn onClick={() => {onClose()}}>
           <CloseIcon style={{fontSize:'20px'}}/>

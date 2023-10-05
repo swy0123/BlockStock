@@ -40,7 +40,18 @@ function ContestTicketModal({tacticid ,selectedContest, onClose, onClosetactic})
   
   const handleClick = () =>{
     console.log('대회 참가', info)
-    participant()
+    if (contestId.tacticId === -1){
+      onClose()
+      Swal.fire({
+        title: '전략을 선택하세요!',
+        icon:'error',
+        timer: 1000, // 2초 후에 자동으로 사라집니다 (밀리초 단위)
+        showConfirmButton: false, // 확인 버튼을 표시하지 않음
+        showCancelButton: false, // 취소 버튼을 표시하지 않음
+      })
+    }else{
+      participant()
+    }
   }
   
   const participant = async () => {

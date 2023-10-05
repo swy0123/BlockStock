@@ -70,6 +70,7 @@ function ContestTaticModal(props){
     console.log('type',type);
     console.log('tactic',tactic);
     console.log('tacticListItem',tacticListItem);
+    console.log('tacticListItems',tacticListItems);
     console.log('selectedContest',selectedContest);
     // setTacticListItems(tacticListItem)
   }, [tactic]);
@@ -214,11 +215,11 @@ function ContestTaticModal(props){
                             {dayjs(contest.createdAt).format('YYYY.MM.DD HH:mm:ss')} 
                           </TaticTime>
                           <hr style={{ width: "170px" }} />
-                          {contest.imgPath ? (
+                          <TaticImg src={contest.imgPath} />
+                          {/* {contest.imgPath ? (
                             <TaticImg src="/icon/전략블록.png" />
                           ) : (
-                            <TaticImg src={contest.imgPath} />
-                          )}
+                          )} */}
                         </Card>
                       </div>
                     </SwiperSlide>

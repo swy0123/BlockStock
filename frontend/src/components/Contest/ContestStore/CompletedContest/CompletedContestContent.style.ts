@@ -58,6 +58,7 @@ export const ContestBox = styled.div`
 display: flex;
 `;
 export const Box = styled.div`
+width: 100%;
 & :hover{
   background-color: #f5f5f5;
 }
@@ -121,7 +122,7 @@ align-items: center;
 text-align: center;
 color: #FFFFFF;
 border: none;
-margin: 50px 0px 20px 88%;
+margin: 50px 0px 20px 20px;
 &:hover{
   background-color: #dfd1f8;
   transition: background-color 0.6s ease;
@@ -138,14 +139,14 @@ width: 60px;
 height: 20px;
 font-weight: 600;
 font-size: 8px;
-background-color: #676767;
+background-color: #D4D4D4;
 border-radius: 6px;
 color: #FFFFFF;
 display: flex;
 align-items: center;
 justify-content: center;
 &:hover{
-  background-color: #676767;
+  background-color: #D4D4D4;
 border-radius: 6px;
 color: #FFFFFF;
 }
@@ -171,7 +172,31 @@ color: #FFFFFF;
 
 export const Icon = styled.div`
 position: relative;
+top:12px;
 left: 9%;
-top:12px
+height: 30px;
+`;
+export const CompletedBtn = styled.div`
+padding: 10px 15px;
+border-radius: 6px;
+background-color: #9155FD;
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 19px;
+align-items: center;
+text-align: center;
+color: #FFFFFF;
+border: none;
+margin: 50px 0px 20px 10px;
+&:hover{
+  background-color: #dfd1f8;
+  transition: background-color 0.6s ease;
+}
+`;
+export const BtnBox = styled.div`
+display: flex;
+margin: 50px 0px 20px 78%;
 `;
 

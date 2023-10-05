@@ -37,5 +37,5 @@ export const tacticBoardDelete = async (postId:postId) => {
   console.log('게시글 삭제', postId)
   const res = await privateApi.delete(`/tactic-board/${postId}`);
   console.log(res);
-  return res.data;
+  return res;
 };

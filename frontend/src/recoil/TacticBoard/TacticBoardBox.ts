@@ -8,7 +8,7 @@ export const tacticBoardList = atom({
 export const tacticdata = atom({
   key: 'tacticdata',
   default: {
-    tacticId : 0,
+    tacticId : -1,
     imgPath: null
   }
 })
