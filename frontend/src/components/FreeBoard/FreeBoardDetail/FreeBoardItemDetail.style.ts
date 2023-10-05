@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  width: 85%;
-  padding: 0px 100px;
+  width: 88%;
+  padding: 0px 5%;
   min-height: 1000px;
   background: #ffffff;
   box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
@@ -21,6 +21,7 @@ export const PostTitle = styled.div`
 export const Header = styled.div`
   display: flex;
   margin: 20px 0px 0px 6px;
+  width: 100%;
 `;
 export const UserImg = styled.img`
   height: 23px;
@@ -37,8 +38,13 @@ export const Date = styled.div`
 `;
 export const Box = styled.div`
   font-size: 13px;
-  margin: 0px 0px 0px 500px;
+  width: 100%;
+  /* margin: 0px 0px 0px 35%; */
   display: flex;
+  justify-content: flex-end;
+  margin-right: 2%;
+  /* position: relative;
+  right: -130px; */
 `;
 export const Hit = styled.div`
   color: #b8b6b6;
@@ -156,6 +162,7 @@ export const DownloadBox = styled.div`
   left: 3% ;
   top: 50px;
   margin-right: 60px;
+  cursor: pointer;
   /* border: 5px solid black; */
   /* display: flex; */
 `;
