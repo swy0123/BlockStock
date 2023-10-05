@@ -63,7 +63,7 @@ display: flex;
 export const UseImg = styled.img`
 width: 30px;
 height: 30px;
-margin: 5px 10px 0px 30px;
+margin: 5px 10px 0px 10px;
 `;
 export const UseNickName = styled.div`
 font-size: 16px;
@@ -74,7 +74,7 @@ color: #595959;
 export const Schedule = styled.div`
 color: #A3A3A3;
 font-size: 14px;
-margin: 15px 0px 0px 130px;
+margin: 15px 0px 0px 20%;
 `;
 export const ContentBox = styled.div`
 max-width: 750px;
@@ -83,6 +83,20 @@ padding: 30px 50px;
 `;
 export const Content = styled.div`
 `;
+export const KeepBox = styled.div`
+  position: relative;
+  top: 340px;
+  left: 85%;
+  max-width: 250px;
+  display: flex;
+  @media (max-width: 1600px) {
+    left: 65%;
+  }
+  @media (max-width: 1200px) {
+    left: 65%;
+  }
+`;
+
 
 
 

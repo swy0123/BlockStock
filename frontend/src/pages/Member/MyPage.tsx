@@ -81,7 +81,7 @@ function MyPage() {
   const [isFollowType, setIsFollowType] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef<HTMLInputElement>(null); // 파일 업로드 input 엘리먼트의 Ref
-
+  console.log(currentUser.userid, 'gojer;mklgdf.oj;')
   const handleImageClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click(); // 파일 업로드 다이얼로그 열기
