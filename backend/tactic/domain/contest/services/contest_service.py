@@ -334,9 +334,12 @@ async def get_contest_outline(member_id: int):
         join_people = (session.query(Participate).outerjoin(Contest, Contest.id == Participate.contest_id).
                        where(Contest.id == contest.id).count())
 
+        option_name = option_service.get_option_name(contest.option_code)
+
         nextContestList.append(ContestResponse(contest=contest,
                                                is_registed=is_registed,
-                                               join_people=join_people))
+                                               join_people=join_people,
+                                               option_name=option_name))
 
     last_contest = (session.query(Contest).filter(Contest.end_time < datetime.now()).
                     order_by(Contest.end_time.desc()).first())
