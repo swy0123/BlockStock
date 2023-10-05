@@ -5,8 +5,11 @@ import { getRecodeList } from "../../api/MyPage/Mypage";
 const Container = styled.div`
   display: flex;
   width: 100%;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 10px;
+  /* flex-wrap: wrap;
+  justify-content: space-between; */
 `;
 const HistoryCard = styled.div`
   width: 240px;
@@ -19,6 +22,7 @@ const HistoryCard = styled.div`
   text-align: center;
   box-shadow: 2px 4px 4px 2px rgba(0, 0, 0, 0.08);
   margin-bottom: 25px;
+  margin-right: 15px;
 `;
 const TitleBox = styled.div`
   width: 100%;
