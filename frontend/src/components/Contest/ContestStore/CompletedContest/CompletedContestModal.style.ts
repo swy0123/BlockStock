@@ -69,8 +69,11 @@ display: flex;
   align-items: center;
 `;
 export const RankUser = styled.div`
-width: 55%;
+width: 50%;
 height: 300px;
+position: relative;
+top:-20px;
+left: 20px;
 `;
 export const RankImage = styled.img`
  width: 60px;
