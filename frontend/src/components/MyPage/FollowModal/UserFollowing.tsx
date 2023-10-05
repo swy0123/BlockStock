@@ -12,8 +12,9 @@ import {
   Box,
 } from "./Follow.style";
 
-function UserFollowing() {
-  const { data, isLoading, isError } = useQuery("getUserFollowing", getUserFollowing);
+function UserFollowing(props) {
+    const { memberId } = props
+  const { data, isLoading, isError } = useQuery("getUserFollowing", ()=> getUserFollowing(memberId));
   const queryClient = useQueryClient();
 
   const refetchData = async () => {
@@ -45,7 +46,7 @@ function UserFollowing() {
         (info: { id: number; nickname: string; following: boolean }) => (
           <UserBox key={info.id}>
             <Box>
-              <Img src="/icon/user_purple.png"></Img>
+              <Img src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${info.id}`}></Img>
               <Name>{info.nickname}</Name>
               <Box>
                 <FollowBtn

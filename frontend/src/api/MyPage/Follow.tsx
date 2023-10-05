@@ -6,7 +6,7 @@ export const goFollow = async(id: number) => {
         const response = await privateApi.post("/member/follow", {
             targetId: id
         });
-        // console.log('팔로우 성공?', response);
+        console.log('팔로우 성공?', response);
     }catch(error){
         console.log(error)
     }

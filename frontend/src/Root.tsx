@@ -16,7 +16,7 @@ const Container = styled.div`
 `
 const Wrapper = styled.div`
   display: flex;
-  margin-top: 80px;
+  margin-top: 100px;
 `
 const OutletBox =styled.div`
   width: 100%;
