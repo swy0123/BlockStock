@@ -116,6 +116,7 @@ function MakeTactic() {
                         returnTacticJsonCode={(ret) => { returnTacticJsonCode(ret) }}
                         returnTacticImg={(ret) => { returnTacticImg(ret) }}
                         returnStartAsset={(ret) => { returnStartAsset(ret) }}
+                        tacticJsonCode={tacticJsonCode}
                     ></BlockCoding>
                     :
                     <TacticResult
