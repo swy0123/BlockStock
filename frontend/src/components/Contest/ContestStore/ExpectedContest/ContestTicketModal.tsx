@@ -48,13 +48,23 @@ function ContestTicketModal({tacticid ,selectedContest, onClose, onClosetactic})
     console.log('참가 완료 모달', res)
     onClose()
     onClosetactic()
-    Swal.fire({
-      title: '참가 완료되었습니다.',
-      icon:'success',
-      timer: 1000, // 2초 후에 자동으로 사라집니다 (밀리초 단위)
-      showConfirmButton: false, // 확인 버튼을 표시하지 않음
-      showCancelButton: false, // 취소 버튼을 표시하지 않음
-    })
+    if(res.status===200){
+      Swal.fire({
+        title: '참가 완료되었습니다.',
+        icon:'success',
+        timer: 1000, // 2초 후에 자동으로 사라집니다 (밀리초 단위)
+        showConfirmButton: false, // 확인 버튼을 표시하지 않음
+        showCancelButton: false, // 취소 버튼을 표시하지 않음
+      })
+    } else if (res.response.status===403){
+      Swal.fire({
+        title: '티켓이 부족합니다',
+        icon:'error',
+        timer: 1000, // 2초 후에 자동으로 사라집니다 (밀리초 단위)
+        showConfirmButton: false, // 확인 버튼을 표시하지 않음
+        showCancelButton: false, // 취소 버튼을 표시하지 않음
+      })
+    }
   }
   // 대회 참가 api ==========================================================
 

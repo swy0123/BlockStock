@@ -5,10 +5,10 @@ min-width: 250px;
 `;
 
 export const CurrentContestBtn = styled.button`
-width: 70px;
-height: 30px;
-font-weight: 400;
-font-size: 14px;
+width: 75px;
+height: 35px;
+font-weight: 500;
+font-size: 16px;
 align-items: center;
 text-align: center;
 color: #7A7A7A;
@@ -27,10 +27,10 @@ border-radius: 10px;
 `;
 
 export const ExpectedContestBtn = styled.button`
-width: 70px;
-height: 30px;
-font-weight: 400;
-font-size: 14px;
+width: 75px;
+height: 35px;
+font-weight: 500;
+font-size: 16px;
 align-items: center;
 text-align: center;
 color: #7A7A7A;
@@ -49,10 +49,10 @@ border-radius: 10px;
 `;
 
 export const PastContestBtn = styled.button`
-width: 70px;
-height: 30px;
-font-weight: 400;
-font-size: 14px;
+width: 75px;
+height: 35px;
+font-weight: 500;
+font-size: 16px;
 align-items: center;
 text-align: center;
 color: #7A7A7A;

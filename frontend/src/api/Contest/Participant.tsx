@@ -15,6 +15,7 @@ export const contestParticipant = async (info:info) => {
   }
   catch(err){
     console.log('대회 참가 api', err)
+    return err
   }
 };
 

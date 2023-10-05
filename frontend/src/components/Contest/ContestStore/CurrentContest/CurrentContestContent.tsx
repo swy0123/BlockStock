@@ -1,10 +1,9 @@
 import React, {useState, useEffect} from "react";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import KeyboardControlKeyIcon from '@mui/icons-material/KeyboardControlKey';
-
+import Pagination from "@mui/material/Pagination";
 import { useRecoilValue } from 'recoil';
 import { searchKeywordState } from '../../../../recoil/Contest/CurrentContest';
-
 import {
   Container,
   Wrapper,
@@ -20,13 +19,10 @@ import {
   Notexist,
   Box,
   NotRegisted,
-  Registed
+  Registed,
+  Icon
 } from './CurrentContestContent.style'
-
 import { useNavigate } from "react-router-dom";
-
-import Pagination from "@mui/material/Pagination";
- // 날짜 변환
  import dayjs from "dayjs";
 // api 통신
 import {currentContestList} from '../../../../api/Contest/ContestStore'
@@ -35,7 +31,7 @@ import {currentContestList} from '../../../../api/Contest/ContestStore'
 function CurrentContestContent(){
 
   const navigate = useNavigate();
-  // 리코일에서 불러온 검색어
+  // 검색어
   const searchKeyword  = useRecoilValue(searchKeywordState);
   
   const [page, setPage] = React.useState(1);
@@ -152,15 +148,17 @@ function CurrentContestContent(){
                         {dayjs(contest.startTime).format('YYYY/MM/DD HH:mm')} 부터 ~ {dayjs(contest.endTime).format('YYYY/MM/DD HH:mm')} 까지
                         </Schedule>
                     </div>
-                      {showContent[index] ? (
-                        <KeyboardControlKeyIcon style={{ fontSize: '50px',margin: '10px 80% 0px 0px' }} />
-                      ) : (
-                        <ExpandMoreIcon style={{ fontSize: '50px' }} />
-                      )}
+                    <Icon>
+                        {showContent[index] ? (
+                          <KeyboardControlKeyIcon style={{ fontSize: '50px',margin: '10px 80% 0px 0px' }} />
+                        ) : (
+                          <ExpandMoreIcon style={{ fontSize: '50px',color:'#D4D4D4' }} />
+                        )}
+                    </Icon>
                   </ContestBox>
                 </Box>
 
-                <hr style={{ color: '#ebebeb', margin: '0px' , border:'1px solid #ebebeb'}} />
+                {/* <hr style={{ color: '#ebebeb', margin: '0px' , border:'1px solid #ebebeb'}} /> */}
                 
                 <ContentBox 
                   style={{
@@ -169,17 +167,17 @@ function CurrentContestContent(){
                     maxHeight: showContent[index] ? '1200px' : '0', // 최대 높이 설정
                   }}
                 >
-                  <Stock>종목 {contest.optionCode}</Stock>
-                  <StartAsset>티켓 수 {contest.ticket}개</StartAsset>
-                  <StartAsset>종목 : {contest.optionName}</StartAsset>
-                  <Term>전략 실행 주기  {contest.term} 초</Term>
+                  <Stock>인원 : {contest.joinPeople}/{contest.maxCapacity} 명</Stock>
+                  <StartAsset>티켓 수 : {contest.ticket}개</StartAsset>
+                  <StartAsset>종목 : {contest.optionName} ({contest.optionCode})</StartAsset>
+                  <Term>전략 실행 주기 : {contest.term} 초</Term>
                    {/* 줄바꿈 적용 넘어갈 경우 다음 줄로 */}
                    <Content style={{ whiteSpace: 'pre-line',wordWrap: 'break-word' }}>
                      {contest.content}
                    </Content>
                   <Button onClick={()=>navigate('/contestprogress',{ state: { selectedContest } })}>진행 현황</Button>  
                 </ContentBox>
-                <hr style={{margin:'0px 0px 0px 0px', border:'1px solid #D3D3D3'}}/>
+                <hr style={{margin:'0px 0px 0px 0px', border:'1px solid #ebebeb'}}/>
 
               </div>
           ))}
