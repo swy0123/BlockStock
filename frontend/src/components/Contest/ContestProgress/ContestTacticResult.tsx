@@ -39,6 +39,8 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { contesttype } from "../../../recoil/Contest/ContestList";
+import CompletedContestModal from "../ContestStore/CompletedContest/CompletedContestModal";
+import { contestResult } from "../../../api/Contest/ContestStore";
 
 const TacticResult = (props: { contestId: number }) => {
   const [componentRef, size] = useComponentSize();
@@ -60,6 +62,9 @@ const TacticResult = (props: { contestId: number }) => {
   const [isPlayer, setIsPlayer] = useState(false);
   const [isRunning, setIsRunning] = useState(true);
 
+  //modal
+  const [ userRank, setUserRank] = useState([])
+
   const pricesDisplayFormat = format(",.0f");
   const floatDisplayFormat = format(",.3f");
 
@@ -67,9 +72,10 @@ const TacticResult = (props: { contestId: number }) => {
   const [type, setType] = useRecoilState(contesttype);
   const handleNav = () => {
     setType("finish");
-    navigate("contestlist");
+    navigate("/contestlist");
   };
   useEffect(() => {
+    console.log(isRunning)
     if (isRunning) {
       const cnt = setInterval(() => {
         // 타이머 숫자가 하나씩 줄어들도록
@@ -87,17 +93,19 @@ const TacticResult = (props: { contestId: number }) => {
 
   const axiosGetData = async () => {
     //테스트 데이터 id는 7
-    const propsTmp = props.contestId;
+    const contestId = props.contestId;
     // const propsTmp = 66;
 
-    const chartres = await contestChart(propsTmp);
-    const traderes = await contestTrade(propsTmp);
+    const chartres = await contestChart(contestId);
+    const traderes = await contestTrade(contestId);
 
     console.log("결과~~~~~~~~~~~~~");
     console.log(chartres);
     setChartInfos(chartres);
     console.log(traderes);
-    if (dayjs().format("YYYYMMDDHHmm") > traderes.endDate + traderes.endTime) {
+    const curTime = dayjs().format("YYYYMMDDHHmm")
+    console.log(curTime)
+    if (curTime > traderes.endDate + traderes.endTime) {
       //15초 반복 방지
       setIsRunning(false);
       Swal.fire({
@@ -111,12 +119,13 @@ const TacticResult = (props: { contestId: number }) => {
         cancelButtonText: "나가기",
       }).then((result) => {
         if (result.isConfirmed) {
-
+          // 결과 모달
+          OpenModal(contestId);
         } else {
           handleNav();
         }
       });
-    } else if (dayjs().format("YYYYMMDDHHmm") === traderes.endDate + traderes.endTime) {
+    } else if (curTime === traderes.endDate + traderes.endTime) {
       //15초 반복 방지
       setIsRunning(false);
       Swal.fire({
@@ -130,7 +139,8 @@ const TacticResult = (props: { contestId: number }) => {
         cancelButtonText: "나가기",
       }).then((result) => {
         if (result.isConfirmed) {
-          // 결과 모달 띄울까 말까
+          // 결과 모달
+          OpenModal(contestId);
         } else {
           handleNav();
         }
@@ -159,6 +169,37 @@ const TacticResult = (props: { contestId: number }) => {
     console.log("!!!!!!");
     // console.log(typeof props.tacticImg);
   }, []);
+
+
+
+  // 선택한 대회 상세보기(모달) ======================================================
+  const [selectedContest, setSelectedContest] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const OpenModal = (id) => {
+    console.log(id)
+    setIsModalOpen(!isModalOpen);
+    resultApi(id)
+  };
+
+  const CloseModal = () => {
+    setIsModalOpen(false);
+  };
+  // 선택한 대회 상세보기(모달) ======================================================
+
+  // 상세 조회api ================================================================
+  const resultApi = async (id)=>{
+    const res =  await contestResult(id)
+    console.log(res, 'res')
+    if (res === undefined){
+      setUserRank([])
+    }else{
+      setUserRank(res)
+    }
+  }
+  // api ================================================================
+  
+
 
   return (
     <TradingHistoryContainer>
@@ -303,6 +344,7 @@ const TacticResult = (props: { contestId: number }) => {
           </ContestRankinig>
         </RightDiv>
       </TradingHistoryContents>
+      {isModalOpen ? <CompletedContestModal selectedContest={selectedContest} onClose={CloseModal} rank={userRank}/> : null}
     </TradingHistoryContainer>
   );
 };

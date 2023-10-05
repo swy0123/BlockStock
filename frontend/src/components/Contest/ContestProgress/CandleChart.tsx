@@ -202,15 +202,14 @@ const CandleChart = (props) => {
   };
 
   const contentProps = (data: any) => {
-    // console.log(data)
-    let timeToStr = "";
-    if (data.currentItem.date != null) {
-      let timeToStr = dayjs(data.currentItem.date + data.currentItem.time, "YYYYMMDDHHmmss").format(
+    console.log(data);
+    let timeToStr = "--";
+    if (data != null && data.currentItem.date != null) {
+      console.log(data.currentItem.date + data.currentItem.time)
+      timeToStr = dayjs(data.currentItem.date + data.currentItem.time, "YYYYMMDDHHmmss").format(
         "YY.MM.DD HH:mm:ss"
       );
     }
-
-    // .toString()
     return {
       x: timeToStr,
       y: [
@@ -232,6 +231,7 @@ const CandleChart = (props) => {
         },
       ],
     };
+    // .toString()
   };
 
   return (

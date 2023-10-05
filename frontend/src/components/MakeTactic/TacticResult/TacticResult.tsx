@@ -143,9 +143,9 @@ const TacticResult = (props) => {
   useEffect(() => {
     axiosGetData();
     console.log("res useEffect");
-    console.log(chartInfos);
+    // console.log(chartInfos);
     console.log("!!!!!!");
-    console.log(typeof props.tacticImg);
+    // console.log(typeof props.tacticImg);
   }, []);
 
   // post tactic api
