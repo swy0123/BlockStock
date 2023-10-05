@@ -74,7 +74,7 @@ export const TradingHistoryTitle = styled.div`
   padding: 10px;
   display: flex;
   align-items: center;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: bold;
 `;
 
@@ -109,7 +109,7 @@ export const ItemList = styled.div`
 export const OptionHistoryItemTitle = styled.div`
   width: 100%;
   height: 7%;
-  font-size: 10px;
+  font-size: 9px;
   margin-bottom: 1%;
   position: relative;
   display: flex;
@@ -122,7 +122,7 @@ export const OptionHistoryItemTitle = styled.div`
 export const OptionHistoryItemPosLeft = styled.div`
   position: absolute;
   left: 3%;
-  font-size: 15px;
+  font-size: 14px;
   text-align: start;
 `;
 export const OptionHistoryItemPosCenter = styled.div`
@@ -130,21 +130,21 @@ export const OptionHistoryItemPosCenter = styled.div`
   display: flex;
   flex-direction: column;
   left: 40%;
-  font-size: 15px;
+  font-size: 14px;
   transform: translate(-50%, 0%);
 `;
 export const OptionHistoryItemPosRight = styled.div`
   position: absolute;
-  font-size: 15px;
+  font-size: 14px;
   right: 10%;
 `;
 export const OptionHistoryItemPosUp = styled.div`
-  font-size: 15px;
+  font-size: 14px;
   right: 10%;
 `;
 export const OptionHistoryItemPosDown = styled.div`
   display: flex;
-  font-size: 13px;
+  font-size: 12px;
   right: 10%;
   justify-content: end;
   color: #525252;
@@ -232,7 +232,7 @@ export const HistorySummaryContentsItemLeft = styled.span`
   position: absolute;
   left: 12.5%;
   color: #929292;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -243,7 +243,7 @@ export const HistorySummaryContentsItemRight = styled.span`
   right: 12.5%;
   color: #000;
   text-align: right;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;

@@ -51,9 +51,10 @@ const TacticResult = (props: { contestId: number }) => {
   const [updateTime, setUpdateTime] = useState(dayjs().format("YYYY.MM.DD HH:mm:ss"));
   const [count, setCount] = useState(15); // 남은 시간 (단위: 초)
 
+  const [isPlayer, setIsPlayer] = useState(false);
+
   const pricesDisplayFormat = format(",.0f");
   const floatDisplayFormat = format(",.3f");
-
 
   useEffect(() => {
     const cnt = setInterval(() => {
@@ -70,7 +71,6 @@ const TacticResult = (props: { contestId: number }) => {
   }, [count]);
 
   const axiosGetData = async () => {
-
     //테스트 데이터 id는 7
     const propsTmp = props.contestId;
     // const propsTmp = 66;
@@ -82,16 +82,22 @@ const TacticResult = (props: { contestId: number }) => {
     console.log(chartres);
     setChartInfos(chartres);
     console.log(traderes);
-    setOptionHistory(traderes.contestTradeHistory);
 
-    setTitle(traderes.title);
-    setStartAsset(traderes.startAsset);
-    setEndAssets(traderes.endAsset);
-    setReturnPercent(traderes.returnPercent);
-    setOptionName(traderes.optionName);
-    setOptionCode(traderes.optionCode);
-    setStartDate(traderes.startDate);
-    setStartTime(traderes.startTime);
+    if (traderes.isPlayer) {
+      setIsPlayer(traderes.isPlayer);
+      setOptionHistory(traderes.contestTradeHistory);
+
+      setTitle(traderes.title);
+      setStartAsset(traderes.startAsset);
+      setEndAssets(traderes.endAsset);
+      setReturnPercent(traderes.returnPercent);
+      setOptionName(traderes.optionName);
+      setOptionCode(traderes.optionCode);
+      setStartDate(traderes.startDate);
+      setStartTime(traderes.startTime);
+    } else {
+      setIsPlayer(traderes.isPlayer);
+    }
   };
 
   useEffect(() => {
@@ -127,11 +133,15 @@ const TacticResult = (props: { contestId: number }) => {
                   <OptionHistoryItemPosDown>실현손익</OptionHistoryItemPosDown>
                 </OptionHistoryItemPosRight>
               </OptionHistoryItemTitle>
-              <ItemList>
-                {optionHistory.map((item, index) => (
-                  <OptionHistoryItem item={item} key={index}></OptionHistoryItem>
-                ))}
-              </ItemList>
+              {isPlayer ? (
+                <ItemList>
+                  {optionHistory.map((item, index) => (
+                    <OptionHistoryItem item={item} key={index}></OptionHistoryItem>
+                  ))}
+                </ItemList>
+              ) : (
+                <>참가자가 아닙니다</>
+              )}
             </OptionHistoryItemList>
           </TradingHistoryDiv>
         </LeftDiv>
@@ -140,8 +150,10 @@ const TacticResult = (props: { contestId: number }) => {
             <TradingHistoryTitle>
               {/* {optionName}<span style={{ fontSize: "10px" }}> ({optionCode})</span> */}
               매매내역 상세
-
-              <div style={{ fontSize: "10px", position:"absolute", right:"5%" }}> 마지막 업데이트 시간 : {updateTime}</div>
+              <div style={{ fontSize: "10px", position: "absolute", right: "5%" }}>
+                {" "}
+                마지막 업데이트 시간 : {updateTime}
+              </div>
             </TradingHistoryTitle>
             {/* <div >
                         <p>가로너비: {size.width}px</p>
@@ -149,9 +161,9 @@ const TacticResult = (props: { contestId: number }) => {
                     </div> */}
             {/* 차트 */}
             {size.width > 0 &&
-              size.height > 0 &&
-              chartInfos !== undefined &&
-              chartInfos.length > 0 ? (
+            size.height > 0 &&
+            chartInfos !== undefined &&
+            chartInfos.length > 0 ? (
               <CandleChart
                 curwidth={size.width - 10}
                 curheight={size.height - 10}
@@ -168,51 +180,63 @@ const TacticResult = (props: { contestId: number }) => {
             <HistorySummaryContents>
               <TradingHistoryTitle>요약</TradingHistoryTitle>
               <HistorySummaryContentsResult>
-                <div style={{ fontSize: "14px" }}>초기자산</div>
-                <div style={{ fontSize: "13px" }}>{pricesDisplayFormat(startAsset)}원</div>
-                <div>↓</div>
-                <div style={{ fontSize: "14px" }}>최종자산</div>
-                <div style={{ fontSize: "16px", color: "#F24822" }}>
-                  {pricesDisplayFormat(startAsset * returnPercent)}원
-                </div>
+                {isPlayer ? (
+                  <>
+                    <div style={{ fontSize: "14px" }}>초기자산</div>
+                    <div style={{ fontSize: "13px" }}>{pricesDisplayFormat(startAsset)}원</div>
+                    <div>↓</div>
+                    <div style={{ fontSize: "14px" }}>최종자산</div>
+                    <div style={{ fontSize: "16px", color: "#F24822" }}>
+                      {pricesDisplayFormat(startAsset * returnPercent)}원
+                    </div>
+                  </>
+                ) : (
+                  <>참가자가 아닙니다</>
+                )}
               </HistorySummaryContentsResult>
               <HistorySummaryContentsItemList>
-                <HistorySummaryContentsItem>
-                  <HistorySummaryContentsItemLeft>종목:</HistorySummaryContentsItemLeft>
-                  <HistorySummaryContentsItemRight>
-                    {optionName}({optionCode})
-                  </HistorySummaryContentsItemRight>
-                </HistorySummaryContentsItem>
-                <HistorySummaryContentsItem>
-                  <HistorySummaryContentsItemLeft>시작 일자</HistorySummaryContentsItemLeft>
-                  <HistorySummaryContentsItemRight>{startDate}</HistorySummaryContentsItemRight>
-                </HistorySummaryContentsItem>
-                <HistorySummaryContentsItem>
-                  <HistorySummaryContentsItemLeft>시작 시간</HistorySummaryContentsItemLeft>
-                  <HistorySummaryContentsItemRight>{startTime}</HistorySummaryContentsItemRight>
-                </HistorySummaryContentsItem>
-                <HistorySummaryContentsItem>
-                  <HistorySummaryContentsItemLeft>수익률</HistorySummaryContentsItemLeft>
-                  <HistorySummaryContentsItemRight style={{ color: "#F24822" }}>
-                    {floatDisplayFormat(returnPercent)}%
-                  </HistorySummaryContentsItemRight>
-                </HistorySummaryContentsItem>
-                <HistorySummaryContentsItem>
-                  <HistorySummaryContentsItemLeft>수익금</HistorySummaryContentsItemLeft>
-                  <HistorySummaryContentsItemRight>
-                    {pricesDisplayFormat(startAsset * returnPercent - startAsset)}
-                  </HistorySummaryContentsItemRight>
-                </HistorySummaryContentsItem>
-                <HistorySummaryContentsItem>
-                  <HistorySummaryContentsItemLeft>수수료</HistorySummaryContentsItemLeft>
-                  <HistorySummaryContentsItemRight>0</HistorySummaryContentsItemRight>
-                </HistorySummaryContentsItem>
-                <HistorySummaryContentsItem>
-                  <HistorySummaryContentsItemLeft>총 거래 횟수</HistorySummaryContentsItemLeft>
-                  <HistorySummaryContentsItemRight>
-                    {pricesDisplayFormat(optionHistory.length)}
-                  </HistorySummaryContentsItemRight>
-                </HistorySummaryContentsItem>
+                {isPlayer ? (
+                  <>
+                    <HistorySummaryContentsItem>
+                      <HistorySummaryContentsItemLeft>종목:</HistorySummaryContentsItemLeft>
+                      <HistorySummaryContentsItemRight>
+                        {optionName}({optionCode})
+                      </HistorySummaryContentsItemRight>
+                    </HistorySummaryContentsItem>
+                    <HistorySummaryContentsItem>
+                      <HistorySummaryContentsItemLeft>시작 일자</HistorySummaryContentsItemLeft>
+                      <HistorySummaryContentsItemRight>{startDate}</HistorySummaryContentsItemRight>
+                    </HistorySummaryContentsItem>
+                    <HistorySummaryContentsItem>
+                      <HistorySummaryContentsItemLeft>시작 시간</HistorySummaryContentsItemLeft>
+                      <HistorySummaryContentsItemRight>{startTime}</HistorySummaryContentsItemRight>
+                    </HistorySummaryContentsItem>
+                    <HistorySummaryContentsItem>
+                      <HistorySummaryContentsItemLeft>수익률</HistorySummaryContentsItemLeft>
+                      <HistorySummaryContentsItemRight style={{ color: "#F24822" }}>
+                        {floatDisplayFormat(returnPercent)}%
+                      </HistorySummaryContentsItemRight>
+                    </HistorySummaryContentsItem>
+                    <HistorySummaryContentsItem>
+                      <HistorySummaryContentsItemLeft>수익금</HistorySummaryContentsItemLeft>
+                      <HistorySummaryContentsItemRight>
+                        {pricesDisplayFormat(startAsset * returnPercent - startAsset)}
+                      </HistorySummaryContentsItemRight>
+                    </HistorySummaryContentsItem>
+                    <HistorySummaryContentsItem>
+                      <HistorySummaryContentsItemLeft>수수료</HistorySummaryContentsItemLeft>
+                      <HistorySummaryContentsItemRight>0</HistorySummaryContentsItemRight>
+                    </HistorySummaryContentsItem>
+                    <HistorySummaryContentsItem>
+                      <HistorySummaryContentsItemLeft>총 거래 횟수</HistorySummaryContentsItemLeft>
+                      <HistorySummaryContentsItemRight>
+                        {pricesDisplayFormat(optionHistory.length)}
+                      </HistorySummaryContentsItemRight>
+                    </HistorySummaryContentsItem>
+                  </>
+                ) : (
+                  <></>
+                )}
               </HistorySummaryContentsItemList>
               <span style={{ fontSize: "10px" }}>마지막 업데이트 시간 : {updateTime}</span>
             </HistorySummaryContents>
