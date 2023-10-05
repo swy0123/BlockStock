@@ -3,6 +3,7 @@ import { BtnWrapper, MenuBtn } from "../../../pages/Member/Mypage.style";
 import { useState } from "react";
 import UserFollowing from "./UserFollowing";
 import UserFollower from "./UserFollow";
+
 import { 
     ModalWrapper,
     ModalContent,
@@ -23,17 +24,19 @@ function UserFollowListModal(props: FollowModalProps){
     const { isOpen, onClose, memberId } = props; // memberId 추가
     const [selectBtn, setSelectBtn] = useState("follower");
     console.log("멤멤" ,memberId)
+
     const Component = () => {
         if (selectBtn) {
-        switch (selectBtn) {            
+          switch (selectBtn) {
             case "follower":
-                return <UserFollower memberId={memberId} />; // memberId 전달
+              return <UserFollower memberId={memberId} />; // memberId를 UserFollower 컴포넌트로 전달
             case "following":
-                return <UserFollowing memberId={memberId} />; // memberId 전달
+              return <UserFollowing memberId={memberId}/>; // memberId를 UserFollowing 컴포넌트로 전달
             default:
-                return null;
+              return null;
+          }
         }
-    }};
+      };
     return(
         <ModalWrapper isOpen={isOpen}>
             <ModalContent>
@@ -49,7 +52,7 @@ function UserFollowListModal(props: FollowModalProps){
                     >팔로잉</MenuBtn>
                 </BtnWrapper>
                 <Hr/>
-                {/* <Content>{Component()}</Content> */}
+                <Content>{Component()}</Content>
             </ModalContent>
         </ModalWrapper>
     );

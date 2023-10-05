@@ -41,8 +41,9 @@ export const CloseIcon = styled.img`
   }
 `
 export const Content = styled.div`
-    height: 200px;
+    height: 250px;
     width: 78%;
+    overflow-y: scroll;
     /* border: solid 2px;
     border-color: #f4f6f8;
     border-radius: 6px; */
@@ -61,6 +62,7 @@ export const UserBox = styled.div`
 export const Img = styled.img`
     width: 35px;
     height: 35px;
+    border-radius: 50%;
 `
 export const Name = styled.p`
     font-size: 15px;
