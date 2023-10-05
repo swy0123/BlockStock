@@ -23,14 +23,13 @@ from domain.option.services import option_service
 
 from domain.option.models.option import Option
 
+engine = engineconn()
 
 def get_contests(member_id: int,
                  status: str,
                  key_word: str,
                  page: int,
                  size: int):
-
-    engine = engineconn()
     session = engine.sessionmaker()
 
     offset = page * size
@@ -75,7 +74,6 @@ def get_contests(member_id: int,
 
 
 async def get_contest_result(contest_id: int):
-    engine = engineconn()
     session = engine.sessionmaker()
     result = []
 
@@ -101,7 +99,6 @@ async def get_contest_result(contest_id: int):
 
 
 def create_contest(contest_create: ContestRequest):
-    engine = engineconn()
     session = engine.sessionmaker()
     if contest_create.start_time < datetime.now():
         raise HTTPException(status_code=StatusCode.CONTEST_ENROLL_BOFORE_TODAY_ERROR_CODE,
@@ -119,7 +116,6 @@ def create_contest(contest_create: ContestRequest):
 
 
 def delete_contest(contest_id: int):
-    engine = engineconn()
     session = engine.sessionmaker()
     session.query(Participate).filter(Participate.contest_id == contest_id).delete()
 
@@ -137,7 +133,6 @@ async def participate_contest(member_id: int, info_create: InfoRequest):
 
     member = await get_member_data(member_id)
 
-    engine = engineconn()
     session = engine.sessionmaker()
     contest_ticket = session.get(Contest, info_create.contest_id).ticket
 
@@ -169,7 +164,6 @@ async def participate_contest(member_id: int, info_create: InfoRequest):
 
 
 def get_contest_history(user_id: int):
-    engine = engineconn()
     session = engine.sessionmaker()
     result = []
 
@@ -213,7 +207,6 @@ def get_contest_history(user_id: int):
 
 
 def cancel_participate_contest(user_id: int, contest_id: int):
-    engine = engineconn()
     session = engine.sessionmaker()
 
     if not session.get(Contest, contest_id):
@@ -228,7 +221,6 @@ def cancel_participate_contest(user_id: int, contest_id: int):
 
 
 def get_contest_chart(contest_id: int):
-    engine = engineconn()
     session = engine.sessionmaker()
     if not session.get(Contest, contest_id):
         raise HTTPException(status_code=StatusCode.CONTEST_NOT_EXIST_ERROR_CODE)
@@ -255,7 +247,6 @@ def get_contest_chart(contest_id: int):
 
 
 def get_real_contest_result(contest_id: int):
-    engine = engineconn()
     session = engine.sessionmaker()
     participate_results = (session.query(Participate).filter(Participate.contest_id == contest_id).
                            order_by(desc(Participate.result_money)))
@@ -276,7 +267,6 @@ def get_real_contest_result(contest_id: int):
 
 
 def get_trade_contest(contest_id: int, member_id: int):
-    engine = engineconn()
     session = engine.sessionmaker()
 
     contest = session.query(Contest).filter(Contest.id == contest_id).first()
@@ -300,7 +290,6 @@ def get_trade_contest(contest_id: int, member_id: int):
 
 
 async def get_contest_outline(member_id: int):
-    engine = engineconn()
     session = engine.sessionmaker()
     contests = (session.query(Contest).filter(Contest.start_time <= datetime.now(), datetime.now() < Contest.end_time).
                 order_by(Contest.start_time.asc()).all())
