@@ -157,7 +157,9 @@ function CommentList(props) {
                 <div style={{ display: 'flex', width: '500px' }}>
                   <UserImg src="/icon/user_purple.png" />
                   <NickName>{item.nickname}</NickName>|
-                  <Day> {dayjs(item.createdAt).format('YYYY.MM.DD HH:mm')}</Day>
+                  <Day>
+                    {dayjs(item.createdAt).format('YYYY.MM.DD HH:mm')} 
+                  </Day>
                 </div>
                 {type === 'free' ? (
                   <>

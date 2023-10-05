@@ -86,7 +86,7 @@ function CommentCreate(props){
   useEffect(()=>{
     console.log('좋아요 boardList.isLike', boardList.isLike)
     setLike(boardList.isLike)
-  },[boardList.isLike,like])
+  },[boardList.isLike])
 
   useEffect(()=>{
     console.log('좋아요 freeboardList.isLike', freeboardList.like)
@@ -221,9 +221,6 @@ function CommentCreate(props){
         <LikeBtnBox>
             <LikeBtn onClick={handleLike}>
               {like ? (
-                // <FavoriteIcon 
-                // style={{color:'red', margin:'0px 6px 0px 0px', width:'22px'}}
-                // />
                 <img src="/icon/하트.png" style={{position:'relative', left:'-3px', margin:'0px 5px 0px 3px'}}/>
                 ) : (
                 <FavoriteBorderIcon style={{margin:'0px 6px 0px 0px', width:'22px'}}/>

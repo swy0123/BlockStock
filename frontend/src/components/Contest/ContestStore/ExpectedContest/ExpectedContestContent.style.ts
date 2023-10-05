@@ -168,8 +168,9 @@ color: #FFFFFF;
 
 export const Icon = styled.div`
 position: relative;
+top:12px;
 left: 9%;
-top:12px
+height: 30px;
 `;
 
 

@@ -58,6 +58,7 @@ export const ContestBox = styled.div`
 display: flex;
 `;
 export const Box = styled.div`
+width: 100%;
 & :hover{
   background-color: #f5f5f5;
 }
@@ -171,7 +172,8 @@ color: #FFFFFF;
 
 export const Icon = styled.div`
 position: relative;
+top:12px;
 left: 9%;
-top:12px
+height: 30px;
 `;
 

@@ -139,7 +139,7 @@ function CurrentContest({contestItem}){
                                       수익률 :
                                     </div>
                                     <ContestReturn style={{ color: contest.ranking[0].returns[0] === '-' ? 'blue' : 'red' }}>
-                                      {Math.round(contest.ranking[0].returns * 10) / 10}%
+                                      {Math.round(contest.ranking[0].returns * 100) / 100}%
                                     </ContestReturn>
                                   </div>
                               </>
@@ -163,7 +163,7 @@ function CurrentContest({contestItem}){
                                       수익률 :
                                     </div>
                                     <ContestReturn style={{ color: contest.ranking[1].returns[0] === '-' ? 'blue' : 'red' }}>
-                                      {Math.round(contest.ranking[1].returns * 10) / 10}%
+                                      {Math.round(contest.ranking[1].returns * 100) / 100}%
                                     </ContestReturn>
                                   </div>
                               </>
@@ -188,7 +188,7 @@ function CurrentContest({contestItem}){
                                   수익률 :
                                 </div>
                                 <ContestReturn style={{ color: contest.ranking[2].returns[0] === '-' ? 'blue' : 'red' }}>
-                                  {Math.round(contest.ranking[2].returns * 10) / 10}%
+                                  {Math.round(contest.ranking[2].returns * 100) / 100}%
                                 </ContestReturn>
                               </div>
                             </>
@@ -221,7 +221,7 @@ function CurrentContest({contestItem}){
                               수익률
                             </div>
                             <div style={{ color: participant.returns[0] === '-' ? 'blue' : 'red'}}>
-                              {Math.round(participant.returns * 10) / 10}%
+                              {Math.round(participant.returns * 100) / 100}%
                             </div>
                           </div>
                         </div>

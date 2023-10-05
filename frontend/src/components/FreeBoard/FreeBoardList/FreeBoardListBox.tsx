@@ -132,7 +132,7 @@ function FreeBoardListBox() {
         <Header>
           <DivBox>
           <Search placeholder="  검색" onChange={handleChangeSearch} />
-          <Box sx={{ maxWidth: "130px" }}>
+          <Box sx={{ maxWidth: "130px",margin:'0px 0px 0px 30px' }}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label"></InputLabel>
               <Select
@@ -140,10 +140,14 @@ function FreeBoardListBox() {
                 id="demo-simple-select"
                 value={menu}
                 onChange={handleChange}
+                sx={{
+                  fontSize:'12px',
+                  height:'30px',
+              }}
               >
-                <MenuItem value="createdAt">최신순</MenuItem>
-                <MenuItem value="likes">좋아요</MenuItem>
-                <MenuItem value="hit">조회수</MenuItem>
+                <MenuItem sx={{fontSize:'12px'}} value="createdAt">최신순</MenuItem>
+                <MenuItem sx={{fontSize:'12px'}} value="likes">좋아요</MenuItem>
+                <MenuItem sx={{fontSize:'12px'}} value="hit">조회수</MenuItem>
               </Select>
             </FormControl>
           </Box>
