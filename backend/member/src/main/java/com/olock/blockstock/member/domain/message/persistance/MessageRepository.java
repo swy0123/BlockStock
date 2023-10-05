@@ -26,9 +26,8 @@ public interface MessageRepository extends MongoRepository<Message, String> {
     @Query("{'receiverId': ?0, 'isReceiverDeleted': false}")
     List<Message> findByReceiverIdAndIsReceiverDeletedFalse(Long memberId);
 
-    @Query("{'$or':[ {'receiverId': ?0, 'isReceiverMarked': true}, {'senderId': ?0, 'isSenderMarked': true}]}")
+    @Query("{'$or':[ {'receiverId': ?0, 'isReceiverMarked': true, 'isReceiverDeleted': false}, {'senderId': ?0, 'isSenderMarked': true, 'isSenderDeleted': false}]}")
     List<Message> findMessagesByIsMarked(Long memberId);
-
     @Query("{'_id': {$in : ?1}, 'senderId': ?0}")
     @Update("{'$set': {'isSenderDeleted': true}}")
     void deleteByMessageIdAndSenderId(Long memberId, List<String> messageIds);
