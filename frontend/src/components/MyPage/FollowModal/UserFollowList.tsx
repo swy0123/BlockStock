@@ -18,10 +18,11 @@ interface FollowModalProps {
     memberId : number;
   }
 
+
 function UserFollowListModal(props: FollowModalProps){
     const { isOpen, onClose, memberId } = props; // memberId 추가
     const [selectBtn, setSelectBtn] = useState("follower");
-
+    console.log("멤멤" ,memberId)
     const Component = () => {
         if (selectBtn) {
         switch (selectBtn) {            
@@ -48,7 +49,7 @@ function UserFollowListModal(props: FollowModalProps){
                     >팔로잉</MenuBtn>
                 </BtnWrapper>
                 <Hr/>
-                <Content>{Component()}</Content>
+                {/* <Content>{Component()}</Content> */}
             </ModalContent>
         </ModalWrapper>
     );

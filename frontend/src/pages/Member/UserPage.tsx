@@ -90,7 +90,7 @@ function UserPage() {
     <Container>
       <Wrapper>
         <ColorBox>
-          {/* <FollowBox>
+          <FollowBox>
             <Follow onClick={openFollowerModal}>
               <Text1>{data.followerCnt}</Text1>
               <Text1>팔로워</Text1>
@@ -99,14 +99,14 @@ function UserPage() {
               <Text1>{data.followingCnt}</Text1>
               <Text1>팔로잉</Text1>
             </Follow>
-          </FollowBox> */}
+          </FollowBox>
         </ColorBox>
-        {/* <UserFollowList
+        <UserFollowList
           isOpen={isFollowModalOpen}
           onClose={closeFollowModal}
           text={isFollowType}
           memberId = {memberId}
-        /> */}
+        />
         <InfoBox>
           <Box>
             <Img
