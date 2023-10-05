@@ -115,7 +115,7 @@ export const DeleteBtn = styled.div`
   justify-content: center; /* 수평 가운데 정렬 */
   align-items: center;
   color: #ffffff;
-  margin: 30px 0px 0px 30px;
+  margin: 30px 0px 0px 90%;
   &:hover {
     background-color: #b61e35;
   }
