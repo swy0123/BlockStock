@@ -1,6 +1,7 @@
 import { getmyfreeBoard } from "../../api/MyPage/Mypage";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
+import LikeTacticBoard from "../TacticBoard/LikeTacticBoard";
 import {
   Container,
   Line,
@@ -70,6 +71,7 @@ function MyBoard() {
           </Div>
         ))}
       </FreeBoardBox>
+      <LikeTacticBoard name={'my'}/>
     </Container>
   );
 }
