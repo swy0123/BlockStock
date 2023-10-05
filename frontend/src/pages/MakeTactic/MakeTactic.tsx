@@ -39,25 +39,27 @@ function MakeTactic() {
     let location = useLocation();
     //차트에서 사이드바로 전략테스트로 이동
     const [currentPath, setCurrentPath] = useState("");
-    useEffect(() => {
-        if (currentPath === location.pathname) {
-            setFlag(true);
-        }
-        console.log(location.pathname)
-        setCurrentPath(location.pathname);
-    }, [location]);
+    // useEffect(() => {
+    //     if (currentPath === location.pathname) {
+    //         setFlag(true);
+    //     }
+    //     console.log(location.pathname)
+    //     setCurrentPath(location.pathname);
+    // }, [location]);
 
     //마이페이지에서 전략 조회를 통해 이동 & 전략게시판에서 가져오기(id==-1)
     useEffect(() => {
+        console.log(location)
         if (currentPath === location.pathname) {
             setFlag(true);
         }
         if (location.state != null && location.state.selectedTacticId != null) {
-            console.log(location.state)
-            setTacticId(location.state.selectedTacticId)
+            console.log("maketactic-location", location.state)
             if(location.state.selectedTacticId < 0){
+                console.log("maketactic-location-jsoncode", location.state.selectedTactiJsonCode)
                 setTacticJsonCode(location.state.selectedTactiJsonCode);
             }
+            setTacticId(location.state.selectedTacticId)
         }
         console.log(location.pathname)
         setCurrentPath(location.pathname);
@@ -114,6 +116,7 @@ function MakeTactic() {
                         returnTacticJsonCode={(ret) => { returnTacticJsonCode(ret) }}
                         returnTacticImg={(ret) => { returnTacticImg(ret) }}
                         returnStartAsset={(ret) => { returnStartAsset(ret) }}
+                        tacticJsonCode={tacticJsonCode}
                     ></BlockCoding>
                     :
                     <TacticResult

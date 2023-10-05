@@ -127,9 +127,7 @@ function CurrentContest({contestItem}){
                           <div className="carousel-item" style={{width:'170px', height:'210px'}}>
                             {contest.ranking[0] ? (
                               <>
-                              <RankImage src={
-                                  // contest.ranking[0].profileImage ||
-                                  '/icon/user_purple.png'} />
+                              <RankImage src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${contest.ranking[0].memberId}`} />
                                   <h2 style={{textAlign: 'center', margin: '8px 0px 0px 0px', fontSize:'20px'}}>1등</h2>
                                   <RankUserNickName>
                                       {contest.ranking[0].nickName}
@@ -139,7 +137,7 @@ function CurrentContest({contestItem}){
                                       수익률 :
                                     </div>
                                     <ContestReturn style={{ color: contest.ranking[0].returns[0] === '-' ? 'blue' : 'red' }}>
-                                      {Math.round(contest.ranking[0].returns * 10) / 10}%
+                                      {Math.round(contest.ranking[0].returns * 100) / 100}%
                                     </ContestReturn>
                                   </div>
                               </>
@@ -150,9 +148,7 @@ function CurrentContest({contestItem}){
                           <div className="carousel-item" style={{width:'170px', height:'210px'}}>
                             {contest.ranking[1] ? (
                               <>
-                              <RankImage src={
-                                  // contest.ranking[1].profileImage ||
-                                  '/icon/user_purple.png'} />
+                              <RankImage src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${contest.ranking[1].memberId}`} />
                                   <h2 style={{textAlign: 'center', margin: '8px 0px 0px 0px', fontSize:'20px'}}>2등</h2>
                                   <RankUserNickName>
                                       {contest.ranking[1].nickName}
@@ -163,7 +159,7 @@ function CurrentContest({contestItem}){
                                       수익률 :
                                     </div>
                                     <ContestReturn style={{ color: contest.ranking[1].returns[0] === '-' ? 'blue' : 'red' }}>
-                                      {Math.round(contest.ranking[1].returns * 10) / 10}%
+                                      {Math.round(contest.ranking[1].returns * 100) / 100}%
                                     </ContestReturn>
                                   </div>
                               </>
@@ -176,9 +172,7 @@ function CurrentContest({contestItem}){
                           <div className="carousel-item" style={{width:'170px', height:'210px'}}>
                           {contest.ranking[2] ? (
                             <>
-                              <RankImage src={
-                                // contest.ranking[2].profileImage || 
-                                '/icon/user_purple.png'} />
+                              <RankImage src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${contest.ranking[2].memberId}`} />
                               <h2 style={{ textAlign: 'center', margin: '8px 0px 0px 0px', fontSize: '20px' }}>3등</h2>
                               <RankUserNickName>
                                 {contest.ranking[2].nickName}
@@ -188,7 +182,7 @@ function CurrentContest({contestItem}){
                                   수익률 :
                                 </div>
                                 <ContestReturn style={{ color: contest.ranking[2].returns[0] === '-' ? 'blue' : 'red' }}>
-                                  {Math.round(contest.ranking[2].returns * 10) / 10}%
+                                  {Math.round(contest.ranking[2].returns * 100) / 100}%
                                 </ContestReturn>
                               </div>
                             </>
@@ -210,9 +204,7 @@ function CurrentContest({contestItem}){
                           <div style={{width:'30px', margin:'10px 0px 5px 10px', color:'#8A8A8A', fontSize:'16px'}}>
                             {participantIndex+4}등
                           </div>
-                          <NoRankImage src={
-                            // participant.profileImage ||
-                            '/icon/user_purple.png'} />
+                          <NoRankImage src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${participant.memberId}`} />
                           <div style={{margin:'10px 20px 0px 0px', fontSize:'14px', fontWeight:'bold'}}>
                             {participant.nickName}
                           </div>
@@ -221,7 +213,7 @@ function CurrentContest({contestItem}){
                               수익률
                             </div>
                             <div style={{ color: participant.returns[0] === '-' ? 'blue' : 'red'}}>
-                              {Math.round(participant.returns * 10) / 10}%
+                              {Math.round(participant.returns * 100) / 100}%
                             </div>
                           </div>
                         </div>

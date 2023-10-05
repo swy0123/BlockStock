@@ -94,7 +94,7 @@ function ContestRankBox(){
                   <UserImg src='/icon/user_purple.png'/>
                 <UserNickName>{item.nickName}</UserNickName>
                 <UserReturnBox>
-                  <UserReturnIcon>0.33%</UserReturnIcon>
+                  {/* <UserReturnIcon>0.33%</UserReturnIcon> */}
                   <UserReturn>{item.return}</UserReturn>
                 </UserReturnBox>
               </RankBox>

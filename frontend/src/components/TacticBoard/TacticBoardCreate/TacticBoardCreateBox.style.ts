@@ -6,7 +6,7 @@ min-height: 602px;
 background: #FFFFFF;
 box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
 border-radius: 8px;
-margin: 0px 0px 0px 5px;
+margin: 50px 0px 0px 5px;
 `;
 
 export const TitleInput = styled.textarea`
@@ -88,8 +88,8 @@ export const FileBtn = styled.label`
 export const ButtonBox = styled.div`
 display: flex;
 position: absolute;
-top:720px;
-right: 50px;
+top:770px;
+right: 58px;
   @media (max-width: 1000px) {
     position: static;
     margin: 20px 0px 0px 0px;

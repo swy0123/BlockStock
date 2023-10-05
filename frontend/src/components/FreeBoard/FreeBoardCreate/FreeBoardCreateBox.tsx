@@ -60,32 +60,40 @@ function FreeBoardCreateBox(){
   console.log('현재 파일 목록은?', fileList)
 
   const handleSubmit = async () => {
-    const formData = new FormData();
-    if (fileList.length > 0) {
-      console.log('파일 있음')
-      for (let i = 0; i < fileList.length; i++) {
-        formData.append("files", fileList[i]); // "files"는 서버 측에서 받는 키 이름
-      }
-      const jsonBlob = new Blob([JSON.stringify(contentInfo)], {
-        type: "application/json",
-      });
-      formData.append("postRequest", jsonBlob);
+    if(contentInfo.title===''){
+      swal("", "제목을 입력해주세요!", "warning");
+    } else if(contentInfo.content===''){
+      swal("", "내용을 입력해주세요!", "warning");
+    }else if (fileList.length===0){
+      swal("", "파일을 넣어주세요!", "warning");
     }else{
-      console.log('파일 빔')
-      // formData.append("files", fileList);
-      const jsonBlob = new Blob([JSON.stringify(contentInfo)], {
-        type: "application/json",
-      });
-      formData.append("postRequest", jsonBlob);
-    }
-  
-    // fileList의 길이에 따라 서버로 요청을 보냄
-    if (formData) {
-      console.log('폼데이터 유유유')
-      const response = await freeBoardCreate(formData);
-      if (response?.status == 200) {
-        swal("", "게시글 작성 완료", "success");
-        navigate("/freeboard");
+      const formData = new FormData();
+      if (fileList.length > 0) {
+        console.log('파일 있음')
+        for (let i = 0; i < fileList.length; i++) {
+          formData.append("files", fileList[i]); // "files"는 서버 측에서 받는 키 이름
+        }
+        const jsonBlob = new Blob([JSON.stringify(contentInfo)], {
+          type: "application/json",
+        });
+        formData.append("postRequest", jsonBlob);
+      }else{
+        console.log('파일 빔')
+        // formData.append("files", fileList);
+        const jsonBlob = new Blob([JSON.stringify(contentInfo)], {
+          type: "application/json",
+        });
+        formData.append("postRequest", jsonBlob);
+      }
+    
+      // fileList의 길이에 따라 서버로 요청을 보냄
+      if (formData) {
+        console.log('폼데이터 유유유')
+        const response = await freeBoardCreate(formData);
+        if (response?.status == 200) {
+          swal("", "게시글 작성 완료", "success");
+          navigate("/freeboard");
+        }
       }
     }
   };
