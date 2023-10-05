@@ -36,8 +36,11 @@ public class FreeboardController {
 
         List<String> filePathList = new ArrayList<>();
         for(MultipartFile file : multipartFileList){
-            String filePath = awsS3Uploader.upload(file, "freeboard");
-            filePathList.add(filePath);
+            if(!file.isEmpty()){
+                String filePath = awsS3Uploader.upload(file, "freeboard");
+                filePathList.add(filePath);
+            }
+
         }
 
         freeboardService.postFreeBoardFile(multipartFileList, filePathList, freePostId);

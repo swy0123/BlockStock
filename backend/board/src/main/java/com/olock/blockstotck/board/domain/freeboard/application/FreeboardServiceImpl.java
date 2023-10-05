@@ -56,7 +56,8 @@ public class FreeboardServiceImpl implements FreeboardService{
 
     @Override
     public void postFreeBoardFile(List<MultipartFile> multipartFileList, List<String> filePathList, long freePostId) {
-        for(int i=0; i<multipartFileList.size(); i++){
+
+        for(int i=0; i<filePathList.size(); i++){
 
             FreePost freePost = freePostRepository.findById(freePostId);
 
