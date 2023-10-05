@@ -85,3 +85,11 @@ export const P = styled.p`
 	color: gray;
 	margin: -20px auto 20px auto;
 `;
+
+export const Img = styled.img`
+	width: 600px;
+	position: fixed;
+	top: 25%;
+	left: 10%;
+
+`
