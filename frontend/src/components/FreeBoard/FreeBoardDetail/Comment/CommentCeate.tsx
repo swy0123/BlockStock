@@ -54,12 +54,14 @@ function CommentCreate(props){
   // 댓글 작성 ==========================================
   const handleCreate = () => {
     console.log(id, isLike, type,'id, isLike, type')
-    if (type === 'free') {
-      freecomment()
-    } else if (type === 'tactic') {
-      tacticcreateapi()
+    if(content){
+      if (type === 'free') {
+        freecomment()
+      } else if (type === 'tactic') {
+        tacticcreateapi()
+      }
+      setContent('')
     }
-    setContent('')
   }
   // ====================================================
 
