@@ -40,11 +40,12 @@ import {
 } from "../../../api/Tactic/TacticTest";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import Spinner from "../../Util/Spinner";
 
 const TacticResult = (props) => {
   const [componentRef, size] = useComponentSize();
   const [optionHistory, setOptionHistory] = useState<any>([]);
-  const [chartInfos, setChartInfos] = useState<any[]>([]);
+  const [chartInfos, setChartInfos] = useState<any[]>(undefined);
   const [startAsset, setStartAsset] = useState(0);
   const [endAsset, setEndAssets] = useState(0);
   const [returnPercent, setReturnPercent] = useState(0);
@@ -157,8 +158,9 @@ const TacticResult = (props) => {
     // ----------------아래가 실제 코드 ------------------
 
     let data = new FormData();
-    const file = new Blob([props.tacticImg], { type: 'image/svg+xml' })
-    data.append("file", file);
+    // const file = new Blob([props.tacticImg], { type: 'image/svg+xml' })
+    console.log(props.tacticImg)
+    data.append("file", props.tacticImg);
     // data.append("file", props.tacticImg);
     const response = await tacticImg(data);
     // const imgPath =
@@ -282,7 +284,7 @@ const TacticResult = (props) => {
                 // 주기 데이터 추가하고 차트 x값 수정
               ></CandleChart>
             ) : (
-              <></>
+              <Spinner></Spinner>
             )}
           </HistoryChartDiv>
         </CenterDiv>

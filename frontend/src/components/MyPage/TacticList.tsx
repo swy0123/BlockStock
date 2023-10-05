@@ -188,7 +188,7 @@ function TacticList() {
                   <Medal src="/icon/medal2.png" />
                   <Title>{item.title}</Title>
                 </Box>
-                <TacticImg src={data.imagePath} />
+                <TacticImg src={item.imgPath} />
                 {/* <TacticImg src="https://firebasestorage.googleapis.com/v0/b/pocket-sch.appspot.com/o/tmp_block.png?alt=media&token=01a14d47-374b-4c7f-93af-1b902bad2031&_gl=1*1w4ri8m*_ga*MjIwNzM4OS4xNjc2OTA3ODQ2*_ga_CW55HF8NVT*MTY5NjMxNjM2Ni41LjEuMTY5NjMxNjU1NS4zNi4wLjA." /> */}
                 <Box1>
                   <Text1>종목명</Text1>
