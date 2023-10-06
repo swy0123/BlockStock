@@ -12,7 +12,7 @@ const PersonImg = styled.img`
   width: 300px;
   height: 450px;
   left: 990px;
-  top: 150px;
+  top: 220px;
 `;
 const MenuBtn = styled.div`
   position: relative;
@@ -20,9 +20,10 @@ const MenuBtn = styled.div`
   align-items: center;
   justify-content: center;
   /* padding: 0px 10px; */
-  width: 190px;
+  width: 195px;
   height: 54px;
   flex-shrink: 0;
+  /* font-size: 15px; */
   border: 0px;
   padding: 0px 10px;
   border-radius: 23px;
