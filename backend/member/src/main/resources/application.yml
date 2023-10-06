@@ -1,0 +1,77 @@
+server:
+  port: 64412
+  ssl:
+    enabled: true
+    key-store-type: pkcs12
+    key-store: keystore.p12
+    key-store-password: 1234
+jwt:
+  password:
+    encoder:
+      secret: FZK2DZ82odqS13e8aENggaMbb_fAkl-nJL4AEVBX43g
+      iteration: 64
+      keyLength: 256
+  secret: b5f59337a612a2a7dc07328f3e7d1a04722967c7f06df20a499a7d3f91ff2a7e
+  expiration: 36000
+
+spring:
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER}
+    consumer:
+      group-id: member-consumer
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  application:
+    name: member-service
+  neo4j:
+    authentication:
+      username: ${NEO4J_USERNAME}
+      password: ${NEO4J_PASSWORD}
+    uri: ${NEO4J_URI}
+  cache:
+    type: redis
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+    password: ${REDIS_PASSWORD}
+    database: 3
+  mail:
+    host: smtp.naver.com
+    port: 465
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.ssl.enable: true
+      mail.smtp.ssl.trust: smtp.naver.com
+  data:
+    mongodb:
+      uri: ${MONGO_URL}
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: https://j9b210.p.ssafy.io:8761/eureka
+
+kakao:
+  key: ${KAKAO_KEY}
+
+cloud:
+  aws:
+    s3:
+      url: ${S3_URL}
+      bucket: ${S3_BUCKET}
+    credentials:
+      access-key: ${S3_ACCESS_KEY}
+      secret-key: ${S3_SECRET_KEY}
+    region:
+      static: ${S3_REGION}
+      auto: false
+    stack:
+      auto: false
