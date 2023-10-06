@@ -7,14 +7,14 @@ export const Container = styled.div`
   /* width: 70%; */
   /* margin-left: 50px; */
   margin-right: 250px;
-  margin-top: 120px;
+  margin-top: 125px;
 `;
 export const InputBox = styled.div`
   display: flex;
   text-align: center;
   align-items: center;
   margin-top: 5px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 `;
 export const Title = styled.p`
   margin-top: 0px;
