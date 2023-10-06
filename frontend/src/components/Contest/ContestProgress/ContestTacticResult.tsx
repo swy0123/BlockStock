@@ -59,7 +59,7 @@ const TacticResult = (props: { contestId: number, type?:string }) => {
   const [endDate, setEndDate] = useState("");
   const [endTime, setEndTime] = useState("");
   const [updateTime, setUpdateTime] = useState(dayjs().format("YYYY.MM.DD HH:mm:ss"));
-  const [count, setCount] = useState(1); // 남은 시간 (단위: 초)
+  const [count, setCount] = useState(0); // 남은 시간 (단위: 초)
 
   const [isPlayer, setIsPlayer] = useState(false);
   const [isRunning, setIsRunning] = useState(true);
@@ -108,7 +108,7 @@ const TacticResult = (props: { contestId: number, type?:string }) => {
     console.log(traderes);
     const curTime = dayjs().format("YYYYMMDDHHmm");
     
-    if (curTime > traderes.endDate + traderes.endTime && type==null) {
+    if (curTime > traderes.endDate + traderes.endTime && props.type==null) {
       //15초 반복 방지
       console.log("종료된 대회입니다", curTime);
       setIsRunning(false);
@@ -129,7 +129,7 @@ const TacticResult = (props: { contestId: number, type?:string }) => {
           handleNav();
         }
       });
-    } else if (curTime === traderes.endDate + traderes.endTime && type==null) {
+    } else if (curTime === traderes.endDate + traderes.endTime && props.type==null) {
       //15초 반복 방지
       console.log("대회 종료", curTime);
       setIsRunning(false);
@@ -165,7 +165,7 @@ const TacticResult = (props: { contestId: number, type?:string }) => {
     } else {
       setIsPlayer(traderes.isPlayer);
     }
-    if(type!=null) setIsRunning(false);
+    if(props.type!=null) setIsRunning(false);
   };
 
   useEffect(() => {
@@ -173,6 +173,8 @@ const TacticResult = (props: { contestId: number, type?:string }) => {
     // console.log("res useEffect");
     // console.log(chartInfos);
     // console.log("!!!!!!");
+    setCount(1);
+    console.log(props.type)
     setModalProps();
     // console.log(typeof props.tacticImg);
   }, []);
@@ -221,7 +223,7 @@ const TacticResult = (props: { contestId: number, type?:string }) => {
       {/* 전략 이름 */}
       <TradingHistoryTitle style={{ fontSize: "22px" }}>
         {
-          type==null ? <>"{title}" 대회 진행 현황</> : <>"{title}" 대회 결과</>
+          props.type==null ? <>"{title}" 대회 진행 현황</> : <>"{title}" 대회 결과</>
         }
       </TradingHistoryTitle>
       {/* {props.tacticImg ? <img src={props.tacticImg}/>:<></>} */}
