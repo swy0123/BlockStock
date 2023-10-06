@@ -4,7 +4,7 @@ import { motion, useAnimation } from "framer-motion";
 const Container = styled.div`
   /* width: 100%; */
   align-items: center;
-  margin-top: 50px;
+  margin-top: 90px;
   margin-left: -70px;
 `;
 const PersonImg = styled.img`
