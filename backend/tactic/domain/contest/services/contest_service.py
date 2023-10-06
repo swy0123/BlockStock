@@ -364,7 +364,7 @@ async def get_contest_outline(member_id: int):
         if last_contest is not None:
             members = (session.query(Participate.member_id, Participate.result_money).
                        outerjoin(Contest, Contest.id == Participate.contest_id).
-                       filter(Contest.id == last_contest.id).
+                       filter(Contest.id == last_contest.id).order_by(Participate.result_money.desc()).
                        limit(3).all())
 
             for member in members:
