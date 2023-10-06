@@ -15,22 +15,23 @@ import {
 function Following() {
   const { data, isLoading, isError } = useQuery("myfollowing", getFollowing);
   const queryClient = useQueryClient();
-
+    console.log(data)
   const refetchData = async () => {
     await queryClient.refetchQueries("myfollowing");
   };
 
   //팔로우
   const handleFollow = async (following: boolean, id: number) => {
-    console.log("여부", following, "id", id);
-    if (following == false) {
+    if (following) {
+    console.log("팔로잉에선")
       const response = await goFollow(id);
       console.log(response);
+      refetchData();
     } else {
       const response = await unFollow(id);
       console.log(response);
+      refetchData();
     }
-    refetchData();
   };
 
   if (isLoading) {
@@ -45,19 +46,20 @@ function Following() {
         (info: { id: number; nickname: string; following: boolean }) => (
           <UserBox key={info.id}>
             <Box>
-              <Img src="/icon/user_purple.png"></Img>
+              <Img src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${info.id}`}></Img>
               <Name>{info.nickname}</Name>
               <Box>
-                <FollowBtn
-                  onClick={() => handleFollow(info.following, info.id)}
-                >
-                  {data.following ? "팔로잉" : "팔로우"}
-                </FollowBtn>
-                {/* {info.following ? (
-                                <FollowingBtn onClick={() => handleFollow(info.following, info.id)}>팔로잉</FollowingBtn>
+                {info.following ? (
+                                <FollowBtn
+                                onClick={() => handleFollow(info.following, info.id)}
+                                >팔로우</FollowBtn>
+                                // <FollowingBtn>팔로잉</FollowingBtn>
                                 ) : (
-                                <FollowBtn onClick={() => handleFollow(info.following, info.id)}>팔로우</FollowBtn>
-                            )} */}
+                                // <FollowBtn>팔로우</FollowBtn>
+                                <FollowingBtn
+                                onClick={() => handleFollow(info.following, info.id)}
+                                >팔로잉</FollowingBtn>
+                            )}
                 <Info> …</Info>
               </Box>
             </Box>

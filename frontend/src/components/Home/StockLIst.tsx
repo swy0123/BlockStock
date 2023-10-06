@@ -73,7 +73,7 @@ function StockList(){
 
     if (isError) {
         return <div>Error loading data.</div>; // 데이터 로드 중 오류가 발생한 경우 처리
-    }
+    };
 
     return(
       <Container>
