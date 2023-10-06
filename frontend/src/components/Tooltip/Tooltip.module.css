@@ -1,0 +1,94 @@
+.container {
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+  display: inline-block;
+}
+
+.container:hover > .tooltip,
+.container:active > .tooltip {
+  display: block;
+}
+
+/* .content {
+  display: flex;
+  position: absolute;
+  z-index: 200;
+} */
+
+.container .tooltip {
+  white-space: pre-line;
+  display: none;
+  position: absolute;
+  bottom: -5px;
+  left: -20px;
+  background-color: rgb(241, 233, 248);
+  /* border: #9155FD solid 1px; */
+  border: 0;
+  border-radius: 5px;
+  color: #2b2a2d;
+  font-size: 12px;
+  font-weight: 500;
+  height: auto;
+  letter-spacing: -0.25px;
+  margin-top: 7px;
+  padding: 5px 11px;
+  width: max-content;
+  z-index: 100;
+  transform: translate(74%, 100%);
+  transition: 0.5s;
+}
+
+.tooltip::after {
+  border-color: rgb(233, 221, 245) transparent;
+  border-style: solid;
+  border-width: 0 6px 8px 6.5px;
+  content: "";
+  display: block;
+  left: 25%;
+  transform: translateX(-50%);
+  position: absolute;
+  top: -7px;
+  width: 0;
+  z-index: 1;
+  transition: 0.5s;
+}
+
+.tooltip::before {
+  border-color: rgb(233, 221, 245) transparent;
+  border-style: solid;
+  border-width: 0 6px 8px 6.5px;
+  content: "";
+  display: block;
+  left: 25%;
+  transform: translateX(-50%);
+  position: absolute;
+  top: -8px;
+  width: 0;
+  z-index: 0;
+  position: absolute;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(100%); 
+  }
+  to {
+    transform: translateY(0); 
+  }
+}
+
+.slide-in {
+  animation: slideIn 5s ease; 
+}
+
+.messageLayer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999; 
+  background-color: rgba(0, 0, 0, 0);
+  transition: background-color 0.5s ease;
+}
