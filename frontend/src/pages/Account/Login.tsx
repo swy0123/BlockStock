@@ -24,6 +24,7 @@ import {
   P,
   Box1,
   BackGround,
+  Img
 } from "./Login.style";
 
 interface LoginProps {
@@ -79,6 +80,7 @@ function Login() {
 
   return (
     <Container>
+      <Img src="/icon/mainn.png"/>
       <Wrapper>
         <Box1>
           <form onSubmit={handleSubmit}>
@@ -112,7 +114,7 @@ function Login() {
         <svg
           xmlns="http://www.w3.org/2000/svg"
           z-index="1"
-          width="100%"
+          width="110%"
           height="180"
           viewBox="0 0 1440 150"
           fill="none"

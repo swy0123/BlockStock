@@ -5,7 +5,7 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   text-align: center;
-  min-height: 410px;
+  min-height: 710px;
   background: #ffffff;
   box-shadow: 0.2px 2px 2px 0px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
@@ -102,7 +102,7 @@ export const FreeBoardBox = styled.div`
   width: 100%;
   min-height: 450px;
   border-radius: 8px;
-  margin-bottom: 5px;
+  margin-bottom: 35px;
 `;
 
 const list = `

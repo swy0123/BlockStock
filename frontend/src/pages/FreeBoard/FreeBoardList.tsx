@@ -4,7 +4,7 @@ import FreeBoardListBox from "../../components/FreeBoard/FreeBoardList/FreeBoard
 import styled from "styled-components";
 const Container = styled.div`
   width: 100%;
-  height: 600px;
+  height: 900px;
   margin-bottom: 15%;
 `;
 

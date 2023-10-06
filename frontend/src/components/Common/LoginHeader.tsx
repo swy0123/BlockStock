@@ -50,7 +50,7 @@ function LoginHeader() {
         <Logo src="/icon/logo.png" onClick={() => navigate("/")}></Logo>
         <Wrapper>
           <InputBox>
-            <Input type="text" placeholder="검색어를 입력하세요 🔎" />
+            <Input type="text" placeholder="게시판 검색어를 입력하세요 🔎" />
           </InputBox>
           <InputBox>
             <DropBoxWrapper onClick={enterDropBox}>

@@ -28,7 +28,7 @@ export const common = `
 //   box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
 `;
 export const AwardsWrapper = styled.div`
-  width: 450px;
+  width: 40%;
   ${common}
 `;
 export const Wrapper0 = styled.div`

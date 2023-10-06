@@ -11,7 +11,9 @@ import {
   Box,
 } from "./Follow.style";
 
-function UserFollower(memberId:number) {
+function UserFollower(props) {
+    const { memberId } = props;
+    console.log("유저 팔로우 넘버",props.memberId)
     const { data, isLoading, isError } = useQuery("getUserFollower", () => getUserFollower(memberId));
     const queryClient = useQueryClient();
 
@@ -20,12 +22,12 @@ function UserFollower(memberId:number) {
   };
 
   //팔로우
-  const handleFollow = async (following: boolean, id: number) => {
+  const handleFollow = async (following: boolean, memberId: number) => {
     if (following == false) {
-      const response = await goFollow(id);
+      const response = await goFollow(memberId);
       console.log(response);
     } else {
-      const response = await unFollow(id);
+      const response = await unFollow(memberId);
       console.log(response);
     }
     refetchData();
@@ -40,10 +42,10 @@ function UserFollower(memberId:number) {
   return (
     <Container>
       {data.map(
-        (info: { id: number; nickname: string; following: boolean }) => (
-          <UserBox key={info.id}>
+        (info: { memberId: number; nickname: string; following: boolean }) => (
+          <UserBox key={info.memberId}>
             <Box>
-              <Img src="/icon/user_purple.png"></Img>
+              <Img src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${info.id}`}></Img>
               <Name>{info.nickname}</Name>
               <Box>
                 {info.following ? (
