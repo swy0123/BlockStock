@@ -1,23 +1,76 @@
-from fastapi import APIRouter
-from domain.contest.services.contest_schedule import contest_update
+from fastapi import APIRouter, Query, Request
+from domain.contest.schemas.contest_request import ContestRequest
+from domain.contest.schemas.info_request import InfoRequest
+from domain.contest.services import contest_service
 
 router = APIRouter(
-    prefix="api/contest"
+    prefix="/api/contest"
 )
 
-@router.get("/real-time/{option_code}")
-async def real_time_stock(option_code: str):
-    # 1. 웹소켓을 사용하는 방법
-    # ws = websocket.WebSocketApp("ws://ops.koreainvestment.com:31000",
-    #                             on_open=on_open, on_message=on_message, on_error=on_error)
-    # ws.run_forever()
 
-    # 2. 실시간 데이터를 특정 초마다 crontab을 이용하던지 하는게 나을듯
-    # 대회를 시작할 때, 이전 데이터들을 가지고 옴
-    # 1초 마다 해당 주식의 시세, ... 데이터 가지고 옴 (DB에 저장)
-    # 주기마다 대회 참여하는 사람들의 알고리즘 실행하면서 자산 변동해주기
+@router.get("")
+def get_contest(request: Request,
+                status: str = Query(default=None),
+                key_word: str = Query(default=""),
+                page: int = Query(default=None),
+                size: int = Query(default=None)):
+    member_id = request.headers.get("Member-id")
+    return contest_service.get_contests(member_id, status, key_word, page, size)
 
-    # 대회를 참가하는 사람들의 로직을 실행
-    contest_update()
 
-    return {"message": option_code}
+@router.get("/outline")
+async def get_contest_outline(request: Request):
+    member_id = request.headers.get("Member-id")
+    return await contest_service.get_contest_outline(member_id)
+
+
+@router.get("/result/{contest_id}")
+async def get_contest_result(contest_id: int):
+    return await contest_service.get_contest_result(contest_id)
+
+
+@router.post("")
+def enroll_contest(contest_create: ContestRequest):
+    # 관리자인지 확인하는 과정 추가해야됨
+    # header에 Id가 들어가는데 Admin이면 할 수 있는 걸로
+    contest_service.create_contest(contest_create=contest_create)
+
+
+@router.post("/participate")
+async def participate_contest(request: Request, info_create: InfoRequest):
+    member_id = request.headers.get("Member-id")
+    await contest_service.participate_contest(member_id, info_create)
+
+
+@router.delete("/participate/{contest_id}")
+def cancel_participate_contest(request: Request, contest_id: int):
+    member_id = request.headers.get("Member-id")
+    contest_service.cancel_participate_contest(member_id, contest_id)
+
+
+@router.delete("/{contest_id}")
+def delete_contest(contest_id: int):
+    # 관리자인지 확인하는 과정 추가
+    contest_service.delete_contest(contest_id)
+
+
+@router.get("/history")
+def get_contest_history(request: Request):
+    member_id = request.headers.get("Member-id")
+    return contest_service.get_contest_history(member_id)
+
+
+@router.get("/chart/{contest_id}")
+def get_contest_chart(contest_id: int):
+    return contest_service.get_contest_chart(contest_id)
+
+
+@router.get("/result/{contest_id}")
+def get_real_contest_result(contest_id: int):
+    return contest_service.get_real_contest_result(contest_id)
+
+
+@router.get("/trade/{contest_id}")
+def get_trade_contest(request: Request, contest_id: int):
+    member_id = request.headers.get("Member-id")
+    return contest_service.get_trade_contest(contest_id, member_id)
