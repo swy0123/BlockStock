@@ -144,7 +144,8 @@ def contest_thread(participate: Participate):
         return math.ceil(tmp_asset / real_data.iloc[0]['5'])
 
     def reserve(percent):
-        now_stock_cnt = cal_now_stock_cnt()
+        sell_cnt, buy_cnt = cal_now_stock_cnt()
+        now_stock_cnt = buy_cnt - sell_cnt
         return math.ceil(now_stock_cnt / percent)
 
     def stay():
