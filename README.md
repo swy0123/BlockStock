@@ -1,6 +1,6 @@
 <div align="center">
   <br />
-  <img src="./blockstock_logo.png" width="80%"/>
+  <img src="img/blockstock_logo.png" width="80%"/>
   <br />
 </div>
 
@@ -19,23 +19,25 @@
 
 
 # 멤버
-
+<div align="middle">
 <table>
     <tr>
         <td height="140px" align="center"> <a href="https://github.com/alsrbs">
             <img src="https://avatars.githubusercontent.com/alsrbs" width="140px" /> <br><br> 👑 김민균 <br>(Front-End) </a> <br></td>
         <td height="140px" align="center"> <a href="https://github.com/wldbs8241">
             <img src="https://avatars.githubusercontent.com/wldbs8241" width="140px" /> <br><br> 🎀 송지윤 <br>(Front-End) </a> <br></td>
-        <td height="140px" align="center"> <a href="https://github.com/Juahjoah">
-            <img src="https://avatars.githubusercontent.com/Juahjoah" width="140px" /> <br><br> 🐲 이시영 <br>(Front-End) </a> <br></td>
+        <td height="140px" align="center"> <a href="https://github.com/swy0123">
+            <img src="https://avatars.githubusercontent.com/swy0123" width="140px" /> <br><br> 🐲 이시영 <br>(Front-End) </a> <br></td>
         <td height="140px" align="center"> <a href="https://github.com/KodaHye">
             <img src="https://avatars.githubusercontent.com/KodaHye" width="140px" /> <br><br> 🐟 고다혜 <br>(Back-End) </a> <br></td>
         <td height="140px" align="center"> <a href="https://github.com/hajin618">
             <img src="https://avatars.githubusercontent.com/hajin618" width="140px" /> <br><br> 🐰 김하진 <br>(Back-End) </a> <br></td>
         <td height="140px" align="center"> <a href="https://github.com/210-reverof">
-            <img src="https://avatars.githubusercontent.com/210-reverof" width="140px" /> <br><br> 🐣 이원영 <br>(Back-End) </a> <br></td>
+            <img src="https://avatars.githubusercontent.com/210-reverof" width="140px" /> <br><br> 💎 이원영 <br>(Back-End) </a> <br></td>
     </tr>
 </table>
+</div>
+
 
 
 
@@ -116,35 +118,44 @@
 # 기능 소개
 
 ### 메인화면
+<img src = "img/login.gif">
 
-<img src = "./login.gif">
+* 메인 화면에서는 랜덤 5개의 주식 현재가와 전일 대비율을 조회할 수 있습니다.
+* 로그인을 한 뒤, BLOCK STOCK 서비스를 이용할 수 있습니다.
 
-
+<br>
 
 ### 전략 테스트장
+<img src = "img/tactic_test.gif">
 
-<img src = "./tactic_test.gif">
+* 블록코딩을 통해 자신만의 주식 매매/매도 전략을 작성할 수 있습니다.
+* 만들어진 전략은 종목/기간을 선택하여 선택한 종목의 과거 데이터를 기반으로 테스트를 할 수 있습니다.
 
-
+<br>
 
 ### 전략 대회
+* 대회 종목에 해당되는 자신의 전략이 있으면, 대회에 참여할 수 있습니다.
 
-
-
-
+<br>
 
 ### 전략 게시판
 
-<img src = "./tactic_board.gif">
+<img src = "img/tactic_board.gif">
+
+* 자신이 만든 전략을 전략게시판을 통해 공유할 수 있습니다.
+* 전략게시글의 내보내기 버튼을 누르면 다른 사람이 만든 전략을 직접 테스트하고 저장할 수 있습니다.
 
 
+<br>
 
 ### 자유 게시판
 
-<img src = "./free_board.gif">
-
+<img src = "img/free_board.gif">
+* 자유로운 주제로 사용들 간 소통을 할 수 있습니다.
 
 
 ### 마이페이지
 
-<img src = "./my_page.gif">
+<img src = "img/my_page.gif">
+
+* 마이페이지에서 자산 관리, (작성, 좋아요한) 게시글 관리, 팔로우ꞏ팔로워 관리를 할 수 있습니다.
