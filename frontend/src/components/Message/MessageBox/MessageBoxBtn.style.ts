@@ -90,7 +90,8 @@ margin: 5.5px 0px 0px 12px;
 export const BackBtn = styled.div`
   padding: 10px 10px;
   border-radius: 50%;
-  width: 30px;
+  max-width: 30px;
+  max-height: 30px;
   font-size: 13px;
   background: #9155FD;
   font-family: 'Noto Sans';
@@ -98,7 +99,13 @@ export const BackBtn = styled.div`
   font-weight: 400;
   text-align: center;
   color: #FFFFFF;
-  margin: 360px 0px 0px 20px;
+  margin: 0px 0px 0px 20px;
+  position: relative;
+  top:400px;
+  transition: transform 0.3s;
+  &:hover {
+    transform: scale(1.1); 
+  }
 `;
 
 

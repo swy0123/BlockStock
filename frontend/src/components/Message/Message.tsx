@@ -82,7 +82,7 @@ function Message({state,onClose }){
         <Wrapper>
           <UserBox>
             <div style={{color:'#9E9E9E'}}>To</div>
-            <UserImg src="/icon/user_purple.png"/>
+            <UserImg src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${state.id}`}/>
             <NickName>{state.nickname}</NickName>
           </UserBox>
           <Line/>

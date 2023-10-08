@@ -26,6 +26,7 @@ import {
 } from './ExpectedContestContent.style'
 
 import Pagination from "@mui/material/Pagination";
+import Swal from 'sweetalert2';
 
  // 날짜 변환
  import dayjs from "dayjs";
@@ -140,8 +141,19 @@ function ExpectedContestContent(){
 
 
   // 모달 열고 닫는 이벤트 ====================================================
-  const OpenModal = () => {
-    setIsModalOpen(!isModalOpen);
+  const OpenModal = (e) => {
+    console.log(e, '대회 참여 인원')
+    if(e.j === e.m){
+      Swal.fire({
+        title: '인원이 가득 찼습니다',
+        icon:'warning',
+        timer: 1000, // 2초 후에 자동으로 사라집니다 (밀리초 단위)
+        showConfirmButton: false, // 확인 버튼을 표시하지 않음
+        showCancelButton: false, // 취소 버튼을 표시하지 않음
+      })
+    } else {
+      setIsModalOpen(!isModalOpen);
+    }
   };
   
   const CloseModal = () => {
@@ -219,7 +231,12 @@ function ExpectedContestContent(){
                 {contest.isRegisted ? (
                   <Button onClick={OpenCandelModal}>신청취소</Button>
                 ) : (
-                  <Button onClick={OpenModal}>참가하기</Button>
+                  <Button 
+                  onClick={()=>OpenModal( 
+                    {j : contest.joinPeople, m : contest.maxCapacity})
+                    }>
+                  참가하기
+                  </Button>
                   )} 
                 {/* <Button onClick={OpenModal}>참가하기</Button> */}
               </ContentBox>

@@ -83,8 +83,8 @@
   transform-style: preserve-3d;
   -webkit-transform: translateZ(-182px) rotateY(0);
   transform: translateZ(-182px) rotateY(0);
-  -webkit-animation: carousel 10s infinite cubic-bezier(1, 0.015, 0.295, 1.225) forwards;
-  animation: carousel 10s infinite cubic-bezier(1, 0.015, 0.295, 1.225) forwards;
+  -webkit-animation: carousel 20s infinite cubic-bezier(1, 0.015, 0.295, 1.225) forwards;
+  animation: carousel 20s infinite cubic-bezier(1, 0.015, 0.295, 1.225) forwards;
 }
 
 .carousel-item {
