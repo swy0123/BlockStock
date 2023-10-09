@@ -70,6 +70,7 @@ const ContestRankBox = (props: {
               <UserImg src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${item.memberId}`} />
               <UserNickName>{item.nickName}</UserNickName>
               <UserReturnBox>
+                {/* <UserReturnIcon>{item.returns}</UserReturnIcon> */}
                 <UserReturn $isPositive={item.returns > 0 ? true : false}>
                   {Math.round(item.returns * 100) / 100}%
                 </UserReturn>
