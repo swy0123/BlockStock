@@ -3,7 +3,6 @@ import asyncio
 import json
 import math
 import os
-import time
 import pandas as pd
 import requests
 import schedule
@@ -23,9 +22,13 @@ engine = engineconn()
 
 def contest_thread(participate: Participate, current_data):
     print("=============contest_thread===============", participate.member_id)
-    print("============= current data ===============", current_data)
+    print("============= current data ===============", )
+    print(current_data['2']," ", current_data['3'], " ", current_data['4'], " ", current_data['5'], " ", current_data['6'])
 
     session_thread = engine.sessionmaker()
+
+    now_repeat_cnt = session_thread.query(Contest.now_repeat_cnt).filter(Contest.id == participate.contest_id).one()[0]
+    print("==========================now_repeat_cnt: ", now_repeat_cnt, "==========================")
     def cur_data(data_type):
         return current_data[f'{data_type}']
 
@@ -38,9 +41,12 @@ def contest_thread(participate: Participate, current_data):
                      filter(ContestRealTime.contest_id == participate.contest_id).
                      order_by(desc(ContestRealTime.created_at)))
         real_data = pd.DataFrame(real_data.all(), columns=['2', '3', '4', '5', '6'])
-
+        real_data.insert(0, '0', '')
+        real_data.insert(1, '1', '')
         return real_data
 
+    past_data = get_real_data()
+    past_data = past_data.values
     def cal_now_stock_cnt():
         # 이제까지 매매한 내용 보면서 buy일 때는 trade_cnt 더해주기
         sell_cnt = (session_thread.query(func.sum(Trade.trade_cnt))
@@ -127,7 +133,12 @@ def contest_thread(participate: Participate, current_data):
         if now_stock_cnt != 0 and param <= now_stock_cnt:
             now_asset += param * current_data['5']
             sell_sum, buy_sum = cal_now_stock_cost()
-            buy_avg = buy_sum / buy_cnt
+
+            if buy_cnt != 0:
+                buy_avg = buy_sum / buy_cnt
+            else:
+                buy_avg = 0
+
             sell_avg = 0
 
             if sell_cnt != 0:
@@ -201,8 +212,8 @@ sched.start()
 
 
 async def start_contest(session,
-                  contest_info: Contest,
-                  participates: Participate):
+                        contest_info: Contest,
+                        participates: Participate):
     headers = {"content-type": "application/json"}
     body = {"grant_type": "client_credentials",
             "appkey": os.environ["HT_APP_KEY"],
@@ -266,6 +277,12 @@ async def start_contest(session,
         schedule.run_pending()
         await asyncio.sleep(15)  # 부하가 안생길 만큼의 초
 
+
+        print("============================= now_repeat_cnt 증가!! =========================")
+        session.query(Contest).filter(Contest.id == contest_info.id).update({Contest.now_repeat_cnt: Contest.now_repeat_cnt + 1})
+
+        # 변경사항을 커밋한다.
+        session.commit()
     # 대회 참가자들 정보는 participates에 있음!
     print("대회 끝!!!!")
 
@@ -282,9 +299,11 @@ async def start_contest(session,
     member_ids = []
     results = []
 
-    for participant in sorted_participants:
-        member_ids.append(participant.member_id)
-        results.append(participant.result_money)
+    for participate_person in sorted_participants:
+        member_ids.append(participate_person.member_id)
+        results.append(participate_person.result_money)
+
+        session.query(Tactic).filter()
     await produce_contest_end(contest_info.id, contest_info.title, member_ids, results)
 
 
