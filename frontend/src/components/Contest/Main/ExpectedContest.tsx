@@ -43,13 +43,22 @@ function ExpectedContest({contest}){
 
     
     const [showContent, setShowContent] = useState(Array(expectedContestItem.length).fill(false));
-
     const toggleContent = (index) => {
       const updatedShowContent = [...showContent];
-      console.log(updatedShowContent)
-      updatedShowContent[index] = !updatedShowContent[index];
-      setShowContent(updatedShowContent);
+      console.log(updatedShowContent, 'updatedShowContent');
+    
+      // 이미 열려있는 항목이면 닫기
+      if (updatedShowContent[index]) {
+        updatedShowContent[index] = false;
+        setShowContent(updatedShowContent);
+      } else {
+        // 새로운 항목 열기
+        updatedShowContent.fill(false);
+        updatedShowContent[index] = true;
+        setShowContent(updatedShowContent)
+      }
     };
+    
 
   const handleSwitch = ()=>{
     setType('expected')

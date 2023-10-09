@@ -37,14 +37,12 @@ import ContestTicketModal from "./ContestTicketModal";
 import { ContestId } from '../../../../recoil/Contest/ExpectedContest'
 // api 전략 불러오기
 import { tacticList } from '../../../../api/Contest/ContestStore'
-
 function ContestTaticModal(props){
   // 전달 받은 데이터
-  const { selectedContest, tacticListItem, type, onClose, onClosetactic } = props;
+  const { selectedContest, contestTacticItem, tacticListItem, type, onClose, onClosetactic } = props;
   
   // 리코일 대회 id 전략 id
   const [contestId, setContestId] = useRecoilState(ContestId);
-  
   const [tacticListItems, setTacticListItems] = useState([])
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tacticCheck, setTacticCheck] = useState(false)
@@ -63,8 +61,7 @@ function ContestTaticModal(props){
   })
 
   useEffect(()=>{
-    // 전략 불러오기
-    tacticApi()
+    setTacticListItems(contestTacticItem)
   },[])
 
 
@@ -76,30 +73,6 @@ function ContestTaticModal(props){
     console.log('selectedContest',selectedContest);
     // setTacticListItems(tacticListItem)
   }, [tactic]);
-
-
-  // api 전략불러오기 ============================================================
-
-  const tacticApi = async()=>{
-    let data = {}
-    if(type==='tactic'){
-      data = {
-        optionCode:''
-      }
-    } else if (type==='contest'){
-      data = {
-        optionCode:selectedContest.optionCode
-      }
-    }
-
-    console.log('data', data)
-    console.log('type', type)
-    console.log('전략불러오기')
-    const res = await tacticList(data)
-    console.log(res, '전략 불러옴')
-    setTacticListItems(res)
-  }
-  // api 전략불러오기 ============================================================
 
 
   const handleCardClick = (e) => {

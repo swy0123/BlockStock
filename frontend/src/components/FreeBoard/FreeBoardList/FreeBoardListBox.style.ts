@@ -17,8 +17,6 @@ export const Wrapper = styled.div`
   margin-top: 2%;
   margin-bottom: 2%;
   background-color: white;
-  /* box-shadow: 0.2px 2px 2px 0px rgba(0, 0, 0, 0.08); */
-  /* border: solid 1px lightgray; */
   border-radius: 8px;
 `;
 
@@ -26,7 +24,6 @@ export const Header = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 10px 5px 25px 0px;
-  /* padding: 10px; */
 `;
 export const Search = styled.input`
   font-size: 12px;

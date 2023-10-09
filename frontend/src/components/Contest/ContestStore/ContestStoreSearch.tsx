@@ -36,13 +36,13 @@ function ContestStoreSearch() {
 
   return (
     <div>
-      {/* <StoreSearch
+       <Box
+      /* <StoreSearch
         type="text"
         placeholder="  검색"
         value={searchKeyword}
         onChange={handleInputChange}
-       /> */}
-      <Box
+       /> */
         component="form"
         sx={{
           "& > :not(style)": { m: "0px 0px 15px 0px", width: "30ch" },
