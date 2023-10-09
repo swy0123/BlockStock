@@ -13,6 +13,7 @@ export const CurrentContestBox = styled.div`
   background-color: white;
   margin-left: 5px;
 `;
+
 export const NotCurrentContest = styled.div`
 display: flex;
 position: relative;
@@ -104,7 +105,7 @@ export const NoRankImage = styled.img`
 `;
 
 export const RankUser = styled.div`
-width: 53%;
+width: 50%;
 height: 100%;
 /* margin: 0px 50px 0px 0px; */
 `;
@@ -117,7 +118,7 @@ export const RankUserNickName = styled.div`
 
 export const Participant = styled.div`
   width: 440px;
-  max-height: 330px;
+  max-height: 300px;
   overflow-y: auto;
   /* 스크롤바 트랙 (배경) 스타일링 */
   &::-webkit-scrollbar {
@@ -137,9 +138,9 @@ export const Participant = styled.div`
 `;
 
 export const Line = styled.div`
-height: 330px;
+height: 300px;
 border: 1px solid #D3D3D3;
-margin: 0px 5% 0px 30px;
+margin: 0px 3% 0px 50px;
 `;
 
 export const Prev = styled.div`
@@ -152,15 +153,15 @@ color: #E1E1E1;
 export const Next = styled.div`
 position: absolute;
 min-width: 30px;
-top:220px;
-right: -50px;
+top:210px;
+right: 30px;
 color: #E1E1E1;
 `;
 
 export const NotUser = styled.div`
 position: relative;
-top: 100px;
-left: 43%;
+top: 120px;
+left: 40%;
 font-size: 25px;
 color: #ABABAB;
 `;

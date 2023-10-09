@@ -27,7 +27,7 @@ import {
 
 import Pagination from "@mui/material/Pagination";
 import Swal from 'sweetalert2';
-
+import Spinner from "../../../Util/Spinner";
  // 날짜 변환
  import dayjs from "dayjs";
 // 리코일로 userid
@@ -38,7 +38,8 @@ import { ContestId } from '../../../../recoil/Contest/ExpectedContest'
 import {currentContestListState} from '../../../../recoil/Contest/CurrentContest'
 // 예정대회 api
 import {expectedContestList} from '../../../../api/Contest/ContestStore'
-
+// api 전략 불러오기
+import { tacticList } from '../../../../api/Contest/ContestStore'
 function ExpectedContestContent(){
 
   // 리코일로 유저 아이디
@@ -49,9 +50,28 @@ function ExpectedContestContent(){
   const [ page, setPage ] = React.useState(1);
   const [ rowsPerPage, setRowsPerPage ] = React.useState(7);
   const [ count, setCount] = useState(0)
-
+  const [ spinner, setSpinner] = useState(false)
   // 리코일 대회 id 전략 id
   const [contestId, setContestId] = useRecoilState(ContestId);
+
+  // 전략 불러오기
+  const [contestTacticItem, setContestTacticItem] = useState([])
+
+  // api 전략불러오기 ============================================================
+
+  const tacticApi = async(optionCode)=>{
+    const  data = {
+        optionCode:optionCode
+      }
+
+    console.log('data', data)
+    console.log('전략불러오기')
+    const res = await tacticList(data)
+    console.log(res, '전략 불러옴')
+    setContestTacticItem(res)
+  }
+  // api 전략불러오기 ============================================================
+
 
   // 리코일로 검색어를 불러온다 ======================================================
   const searchKeyword  = useRecoilValue(searchKeywordState);
@@ -70,6 +90,7 @@ function ExpectedContestContent(){
   // api 통신 =============================================================
   
   useEffect(()=>{
+    setSpinner(true)
     expectedcontest()
   },[page,rowsPerPage,searchKeyword])
 
@@ -82,6 +103,7 @@ function ExpectedContestContent(){
     };
     const contest = await expectedContestList(params)
     console.log(contest)
+    setSpinner(false)
     setExpectedContestItem(contest.contestList)
     if(Math.floor(contest.totalCnt % 7)){
       setCount(Math.floor(contest.totalCnt / 7)+1);
@@ -98,19 +120,25 @@ function ExpectedContestContent(){
   const [showContent, setShowContent] = useState(Array(expectedContestItem.length).fill(false));
   const toggleContent = (index) => {
     const updatedShowContent = [...showContent];
-    updatedShowContent[index] = !updatedShowContent[index];
-    setShowContent(updatedShowContent);
-    
+    console.log(updatedShowContent, 'updatedShowContent');
+  
+    // 이미 열려있는 항목이면 닫기
     if (updatedShowContent[index]) {
-      console.log(expectedContestItem[index],'expectedContestItem[index]')
-      setSelectedContest(expectedContestItem[index]);
-      const newContestId = { ...contestId, contestId: expectedContestItem[index].id };
-      // Recoil 상태 업데이트
-      setContestId(newContestId);
-    } else {
+      updatedShowContent[index] = false;
+      setShowContent(updatedShowContent);
       setSelectedContest(null);
+    } else {
+      // 새로운 항목 열기
+      updatedShowContent.fill(false);
+      updatedShowContent[index] = true;
+      setShowContent(updatedShowContent);
+  
+      console.log(expectedContestItem[index], '-----------------');
+      setSelectedContest(expectedContestItem[index]);
+      tacticApi(expectedContestItem[index].optionCode)
     }
-  };
+    console.log(selectedContest);
+  }
   // 해당 대회만 내용을 보여준다 ==========================================================
 
 
@@ -181,7 +209,7 @@ function ExpectedContestContent(){
           justifyContent: expectedContestItem.length === 0 ? 'center' : undefined,
       }}>
         {expectedContestItem.length === 0 ? (
-          <Notexist>아직 대회가 없습니다</Notexist>
+          <Notexist>예정중인  대회가 없습니다</Notexist>
         ) : (
           <>
           {expectedContestItem.map((contest, index) => (
@@ -252,7 +280,7 @@ function ExpectedContestContent(){
           </>
         )}
 
-         {isModalOpen ? <ContestTaticModal selectedContest={selectedContest} type={'contest'} onClose={CloseModal} onClosetactic={CloseModal}/> : null}
+         {isModalOpen ? <ContestTaticModal selectedContest={selectedContest} type={'contest'}  contestTacticItem={contestTacticItem} onClose={CloseModal} onClosetactic={CloseModal}/> : null}
          {isCancelModalOpen ? <ContestCancelModal selectedContest={selectedContest} onClose={CloseCandelModal} /> : null}
       </Wrapper>
       {expectedContestItem.length > 0 && (
@@ -266,7 +294,7 @@ function ExpectedContestContent(){
           />
           </>
       )}
-
+    {spinner && <Spinner/>}
     </Container>
   )
 }

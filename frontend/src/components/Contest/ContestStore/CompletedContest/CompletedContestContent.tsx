@@ -30,7 +30,7 @@ import dayjs from "dayjs";
 import Pagination from "@mui/material/Pagination";
 // api 통신
 import { completedContestList, contestResult  } from '../../../../api/Contest/ContestStore'
-
+import Spinner from "../../../Util/Spinner";
 
 function CompletedContestContent() {
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ function CompletedContestContent() {
   const searchKeyword = useRecoilValue(searchKeywordState);
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(7);
-
+  const [spinner, setSpinner] = useState(false)
   const [completedContestItem, setCompletedContestItem] = useState([])
   const [ count, setCount] = useState(0)
   const [ userRank, setUserRank] = useState([])
@@ -56,12 +56,14 @@ function CompletedContestContent() {
     keyWord: searchKeyword
   };
   useEffect(()=>{
+    setSpinner(true)
     completedcontest()    
   },[page,rowsPerPage,searchKeyword])
 
   const completedcontest = async () => {
       const contest = await completedContestList(params)
       console.log(contest)
+      setSpinner(false)
       setCompletedContestItem(contest.contestList)
       if(Math.floor(contest.totalCnt % 7)){
         setCount(Math.floor(contest.totalCnt / 7)+1);
@@ -83,20 +85,28 @@ function CompletedContestContent() {
 
   const toggleContent = (index) => {
     const updatedShowContent = [...showContent];
-    console.log(updatedShowContent)
-    updatedShowContent[index] = !updatedShowContent[index];
-    setShowContent(updatedShowContent);
-
+    console.log(updatedShowContent, 'updatedShowContent');
+  
+    // 이미 열려있는 항목이면 닫기
     if (updatedShowContent[index]) {
-      console.log(completedContestItem[index],'-----------------')
-      setSelectedContests(completedContestItem[index]);
-      setSelectedContest(completedContestItem[index]);
-    } else {
+      updatedShowContent[index] = false;
+      setShowContent(updatedShowContent);
       setSelectedContests(null);
       setSelectedContest(null);
+    } else {
+      // 새로운 항목 열기
+      updatedShowContent.fill(false);
+      updatedShowContent[index] = true;
+      setShowContent(updatedShowContent);
+  
+      console.log(completedContestItem[index], '-----------------');
+      setSelectedContests(completedContestItem[index]);
+      setSelectedContest(completedContestItem[index]);
+      resultApi(completedContestItem[index].id);
     }
-    console.log(selectedContest)
+    console.log(selectedContest);
   };
+  
   // 클릭한 대회 내용 ==========================================================
 
 
@@ -109,7 +119,7 @@ function CompletedContestContent() {
   const OpenModal = (id) => {
     console.log(id)
     setIsModalOpen(!isModalOpen);
-    resultApi(id)
+    // resultApi(id)
   };
 
   const CloseModal = () => {
@@ -171,7 +181,7 @@ function CompletedContestContent() {
           justifyContent: completedContestItem.length === 0 ? 'center' : undefined,
         }}>
           {completedContestItem.length === 0 ? (
-            <Notexist>아직 대회가 없습니다.</Notexist>
+            <Notexist>완료된 대회가 없습니다.</Notexist>
           ) : (
             <>
               {completedContestItem.map((contest, index) => (
@@ -254,7 +264,7 @@ function CompletedContestContent() {
         )}
       </Container>
 
-
+    {spinner && <Spinner/>}
     </>
   );
 }

@@ -24,7 +24,8 @@ import ContestTaticModal from "../../Contest/ContestStore/ExpectedContest/Contes
 
 // 글 작성 api
 import {tacticBoardCreate} from '../../../api/TacticBoard/TacticBoard'
-
+// 전략 불러오기 api
+import {tacticList} from '../../../api/Contest/ContestStore'
 
 function TacticBoardCreateBox(){
 
@@ -37,28 +38,25 @@ function TacticBoardCreateBox(){
   const [content, setContent] = useState(''); 
   // const [file, setFile] = useState(tacticImg)
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [tacticBoardTacticList, setTacticBoardTacticList] = useState([])
 
-
-  // // 이미지 읽기
-  // useEffect(() => {
-  //   if (tacticImg) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       setFile(reader.result);
-  //     };
-  //     // 직접 File 객체를 전달합니다.
-  //     reader.readAsDataURL(tacticImg);
-  //   }
-  // }, [tacticImg]);
 
   useEffect(()=>{
     console.log('id', tacticId)
     console.log('imgPath', imgPath)
     const upData = {...tacticImg,tacticId:-1,imgPath:null}
     setTacticImg(upData)
+    tacticApi()
   },[])
   
-
+  // 전략 불러오기
+  const tacticApi = async ()=>{
+    const data = {
+      optionCode : ''
+    }
+    const res = await tacticList(data)
+    setTacticBoardTacticList(res)
+  }
   // 글 등록
   const handleSubmit = () => {
     if(tacticId===-1){
@@ -143,7 +141,7 @@ function TacticBoardCreateBox(){
       <Button2 onClick={handleSubmit}>등록</Button2>
     </ButtonBox>
 
-    {isModalOpen ? <ContestTaticModal type={'tactic'} onClose={CloseModal} /> : null}
+    {isModalOpen ? <ContestTaticModal type={'tactic'} onClose={CloseModal} contestTacticItem = {tacticBoardTacticList} /> : null}
 
     </>
   )

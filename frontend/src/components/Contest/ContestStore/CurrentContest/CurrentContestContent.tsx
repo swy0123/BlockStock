@@ -26,14 +26,14 @@ import { useNavigate } from "react-router-dom";
  import dayjs from "dayjs";
 // api 통신
 import {currentContestList} from '../../../../api/Contest/ContestStore'
-
+import Spinner from "../../../Util/Spinner";
 
 function CurrentContestContent(){
 
   const navigate = useNavigate();
   // 검색어
   const searchKeyword  = useRecoilValue(searchKeywordState);
-  
+  const [spinner, setSpinner] = useState(false)
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(7);
   const [ currentContestListItem, setCurrentContestListItem] = useState([])
@@ -54,20 +54,22 @@ function CurrentContestContent(){
   useEffect(()=>{
     currentcontest()    
   },[page,rowsPerPage,searchKeyword])
-
+  
   const currentcontest = async () => {
-      const contest = await currentContestList(params)
-      console.log('진행중 대회 페이지', contest)
-      if (contest === undefined){
-        setCurrentContestListItem([])
-      } else {
-        setCurrentContestListItem(contest.contestList)
-        if(Math.floor(contest.totalCnt % 7)){
-          setCount(Math.floor(contest.totalCnt / 7)+1);
-        }else{
-          setCount(Math.floor(contest.totalCnt / 7));
-        }
+    setSpinner(true)
+    const contest = await currentContestList(params)
+    console.log('진행중 대회 페이지', contest)
+    setSpinner(false)
+    if (contest === undefined){
+      setCurrentContestListItem([])
+    } else {
+      setCurrentContestListItem(contest.contestList)
+      if(Math.floor(contest.totalCnt % 7)){
+        setCount(Math.floor(contest.totalCnt / 7)+1);
+      }else{
+        setCount(Math.floor(contest.totalCnt / 7));
       }
+    }
     }
   // api 통신 =============================================================
 
@@ -78,18 +80,24 @@ function CurrentContestContent(){
   const [showContent, setShowContent] = useState(Array(currentContestListItem.length).fill(false));
   const toggleContent = (index) => {
     const updatedShowContent = [...showContent];
-    console.log(updatedShowContent)
-    updatedShowContent[index] = !updatedShowContent[index];
-    setShowContent(updatedShowContent);
-
+    console.log(updatedShowContent, 'updatedShowContent');
+  
+    // 이미 열려있는 항목이면 닫기
     if (updatedShowContent[index]) {
-      console.log(currentContestListItem[index],'-----------------')
-      setSelectedContest(currentContestListItem[index]);
-    } else {
+      updatedShowContent[index] = false;
+      setShowContent(updatedShowContent);
       setSelectedContest(null);
+    } else {
+      // 새로운 항목 열기
+      updatedShowContent.fill(false);
+      updatedShowContent[index] = true;
+      setShowContent(updatedShowContent);
+  
+      console.log(currentContestListItem[index], '-----------------');
+      setSelectedContest(currentContestListItem[index]);
     }
-    console.log(selectedContest)
-  };
+    console.log(selectedContest);
+  }
   // 해당 페이지 내용 열기 ==============================================================
 
 
@@ -128,7 +136,7 @@ function CurrentContestContent(){
           justifyContent: currentContestListItem.length === 0 ? 'center' : undefined,
         }}>
         {currentContestListItem.length === 0 ? (
-          <Notexist>아직 대회가 없습니다.</Notexist>
+          <Notexist>진행중인 대회가 없습니다.</Notexist>
         ) : (
           <>
           {currentContestListItem.map((contest, index) => (
@@ -195,7 +203,7 @@ function CurrentContestContent(){
           />
           </>
         )}
-
+    {spinner && <Spinner/>}
     </Container>
   )
 }
