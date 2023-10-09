@@ -180,15 +180,20 @@ export const contestChart = async (id: number) => {
   // return chartInfos;
 };
 
+export interface ContestTradeProps {
+  contestId: number;
+  memberId: number;
+}
 // 대회 내역 불러오기
-export const contestTrade = async (id: number) => {
-  console.log(id);
+export const contestTrade = async (data: ContestTradeProps) => {
+  console.log(data);
+  console.log("contestTrade");
   try {
-    const res = await privateApi.get(`/contest/trade/` + id);
+    const res = await privateApi.get(`/contest/trade/` + data.contestId + `/` + data.memberId);
     console.log(res.data);
     return res.data;
   } catch (error) {
-    console.log('err', error);
+    console.log("err", error);
   }
 
   // const res = {
@@ -247,20 +252,20 @@ export const contestTrade = async (id: number) => {
 };
 
 export interface rankingBoxItem {
+  memberId: number;
   nickName: string;
-  profileImage: string;
-  returns: string;
+  returns: number;
 }
 
 //대회 순위
 export const contestRanking = async (id: number) => {
   console.log(id);
   try {
-    const res = await privateApi.get(`/contest/result/`+id);
+    const res = await privateApi.get(`/contest/result/` + id);
     console.log(res.data);
     return res.data;
   } catch (error) {
-    console.log('err', error);
+    console.log("err", error);
   }
 
   // const res:rankingBoxItem[] = [

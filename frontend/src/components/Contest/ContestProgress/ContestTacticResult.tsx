@@ -30,19 +30,20 @@ import {
 } from "./ContestTacticResult.style";
 import OptionHistoryItem from "./OptionHistoryItem";
 import { format } from "d3-format";
-import { contestChart, contestTrade } from "../../../api/Contest/ContestProgress";
+import { ContestTradeProps, contestChart, contestTrade } from "../../../api/Contest/ContestProgress";
 import dayjs from "dayjs";
 import ContestRankBox from "./ContestRankBox";
 import Spinner from "../../Util/Spinner";
 import Swal from "sweetalert2";
 
 import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { contesttype } from "../../../recoil/Contest/ContestList";
 import CompletedContestModal from "../ContestStore/CompletedContest/CompletedContestModal";
 import { contestResult } from "../../../api/Contest/ContestStore";
+import { CurrentUserAtom } from "../../../recoil/Auth";
 
-const TacticResult = (props: { contestId: number, type?:string }) => {
+const TacticResult = (props: { contestId: number; type?: string }) => {
   const [componentRef, size] = useComponentSize();
   const [optionHistory, setOptionHistory] = useState<any>([]);
   const [chartInfos, setChartInfos] = useState<any[]>([]);
@@ -61,8 +62,13 @@ const TacticResult = (props: { contestId: number, type?:string }) => {
   const [updateTime, setUpdateTime] = useState(dayjs().format("YYYY.MM.DD HH:mm:ss"));
   const [count, setCount] = useState(0); // 남은 시간 (단위: 초)
 
+  const CurrentUser = useRecoilValue(CurrentUserAtom);
+  const [curPlayerId, setCurPlayerId] = useState(0); // 남은 시간 (단위: 초)
+
   const [isPlayer, setIsPlayer] = useState(false);
   const [isRunning, setIsRunning] = useState(true);
+
+  const [ spinner, setSpinner] = useState(false);
 
   //modal
   const [userRank, setUserRank] = useState([]);
@@ -92,14 +98,29 @@ const TacticResult = (props: { contestId: number, type?:string }) => {
       return () => clearInterval(cnt);
     }
   }, [count, isRunning]);
+  useEffect(() => {
+    console.log("curPlayerId");
+    setCount(15);
+    axiosGetData();
+  }, [curPlayerId]);
+
+  const handleCurPlayerId = (id:number) =>{
+    setCurPlayerId(id);
+  }
 
   const axiosGetData = async () => {
     //테스트 데이터 id는 7
     const contestId = props.contestId;
-    // const propsTmp = 66;
 
+    const tradeDate: ContestTradeProps = {
+      contestId: props.contestId,
+      memberId: curPlayerId,
+    };
+    // const propsTmp = 66;
+    setSpinner(true)
     const chartres = await contestChart(contestId);
-    const traderes = await contestTrade(contestId);
+    const traderes = await contestTrade(tradeDate);
+    setSpinner(false)
     setEndDate(traderes.endDate);
     setEndTime(traderes.endTime);
     console.log("결과~~~~~~~~~~~~~");
@@ -107,8 +128,8 @@ const TacticResult = (props: { contestId: number, type?:string }) => {
     setChartInfos(chartres);
     console.log(traderes);
     const curTime = dayjs().format("YYYYMMDDHHmm");
-    
-    if (curTime > traderes.endDate + traderes.endTime && props.type==null) {
+
+    if (curTime > traderes.endDate + traderes.endTime && props.type == null) {
       //15초 반복 방지
       console.log("종료된 대회입니다", curTime);
       setIsRunning(false);
@@ -129,7 +150,7 @@ const TacticResult = (props: { contestId: number, type?:string }) => {
           handleNav();
         }
       });
-    } else if (curTime === traderes.endDate + traderes.endTime && props.type==null) {
+    } else if (curTime === traderes.endDate + traderes.endTime && props.type == null) {
       //15초 반복 방지
       console.log("대회 종료", curTime);
       setIsRunning(false);
@@ -165,16 +186,17 @@ const TacticResult = (props: { contestId: number, type?:string }) => {
     } else {
       setIsPlayer(traderes.isPlayer);
     }
-    if(props.type!=null) setIsRunning(false);
+    if (props.type != null) setIsRunning(false);
   };
 
   useEffect(() => {
+    setCurPlayerId(CurrentUser.userid);
     // axiosGetData();
     // console.log("res useEffect");
     // console.log(chartInfos);
     // console.log("!!!!!!");
     setCount(1);
-    console.log(props.type)
+    console.log(props.type);
     setModalProps();
     // console.log(typeof props.tacticImg);
   }, []);
@@ -208,7 +230,9 @@ const TacticResult = (props: { contestId: number, type?:string }) => {
 
   // 상세 조회api ================================================================
   const resultApi = async (id) => {
+    setSpinner(true)
     const res = await contestResult(id);
+    setSpinner(false)
     console.log(res, "res");
     if (res === undefined) {
       setUserRank([]);
@@ -222,9 +246,7 @@ const TacticResult = (props: { contestId: number, type?:string }) => {
     <TradingHistoryContainer>
       {/* 전략 이름 */}
       <TradingHistoryTitle style={{ fontSize: "22px" }}>
-        {
-          props.type==null ? <>"{title}" 대회 진행 현황</> : <>"{title}" 대회 결과</>
-        }
+        {props.type == null ? <>"{title}" 대회 진행 현황</> : <>"{title}" 대회 결과</>}
       </TradingHistoryTitle>
       {/* {props.tacticImg ? <img src={props.tacticImg}/>:<></>} */}
 
@@ -358,11 +380,13 @@ const TacticResult = (props: { contestId: number, type?:string }) => {
               {/* 
               랭킹창
               */}
-              <ContestRankBox contestId={props.contestId} isRunning={isRunning}></ContestRankBox>
+              <ContestRankBox contestId={props.contestId} isRunning={isRunning} handleCurPlayerId={(id)=>handleCurPlayerId(id)}></ContestRankBox>
             </ContestRankinigItem>
           </ContestRankinig>
         </RightDiv>
       </TradingHistoryContents>
+      
+      {spinner && <Spinner/>}
       {isModalOpen ? (
         <CompletedContestModal
           selectedContest={selectedContest}
