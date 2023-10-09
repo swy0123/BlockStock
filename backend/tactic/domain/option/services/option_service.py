@@ -151,6 +151,8 @@ def get_option_name(option_code: str):
     try:
         option_name = session.query(Option.option_name).filter(Option.option_code == option_code).first()[0]
 
+        if option_name is None:
+            option_name = "종목이름 없음"
     finally:
         session.close()
     return option_name
