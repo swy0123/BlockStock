@@ -2,9 +2,15 @@ import { privateApi } from "../index";
 
 // 주식 검색
 export const tacticSearchOption = async (keyword: string, isSearch: boolean) => {
-  console.log(keyword + " " + isSearch);
   try {
-    const res = await privateApi.get(`/option`, { params: { like: !isSearch, keyword: keyword } });
+    let res;
+    if (keyword == "") {
+      console.log("keyword:'', isSearch:" + isSearch);
+      res = await privateApi.get(`/option`, { params: { like: !isSearch } });
+    } else {
+      console.log("keyword:" + keyword + ", isSearch:" + isSearch);
+      res = await privateApi.get(`/option`, { params: { like: !isSearch, keyword: keyword } });
+    }
     return res.data;
   } catch (err) {
     console.log(err);
@@ -28,6 +34,7 @@ export const addLikedOption = async (code: any) => {
   try {
     const res = await privateApi.post(`/option/like`, code);
     console.log(res);
+    console.log("추가 성공 !! addLikedOption");
     return res;
   } catch (err) {
     console.error(err);
@@ -40,6 +47,7 @@ export const deleteLikedOption = async (code: string) => {
   try {
     const res = await privateApi.delete(`/option/like/` + code);
     console.log(res);
+    console.log("삭제 성공 !! addLikedOption");
     return res;
   } catch (err) {
     console.error(err);
@@ -111,7 +119,7 @@ export const tacticImg = async (formData: FormData) => {
 export const tacticImport = async (param: number) => {
   console.log(param);
   try {
-    const res = await privateApi.get(`/tactic/`+param);
+    const res = await privateApi.get(`/tactic/` + param);
     // const res = await privateApi.get(`/tactic`, { params: { id: param } });
     return res.data;
   } catch (err) {

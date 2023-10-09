@@ -15,22 +15,29 @@ import EmpthyStarImgSrc from "../../../assets/img/MakeTactic/emptystar.png";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import { addLikedOption, deleteLikedOption } from "../../../api/Tactic/TacticTest";
 
-//     {item.cost}
+// 왜 일부 종목만 관심 목록에서 안지워지지
 const OptionLikeListItem = (props) => {
   const [isLike, setIsLike] = useState<boolean>();
+  const [isLikeChange, setIsLikeChange] = useState<boolean>();
   useEffect(()=>{
     setIsLike(props.item.like)
-  }, [props.item.like])
+  }, [isLikeChange])
+  useEffect(()=>{
+    setIsLikeChange(props.item.like);
+  }, [props])
+  // useEffect(()=>{
+  //   setIsLike(props.item.like)
+  // }, [props.item.like])
 
   const handleLikeAdd = () => {
     setLikeTrue();
     setIsLike(true);
-    props.item.returnSetSwitchLike
+    // props.item.returnSetSwitchLike
   };
   const handleLikeDelete = () => {
     setLikeFalse();
     setIsLike(false);
-    props.item.returnSetSwitchLike
+    // props.item.returnSetSwitchLike
   };
 
   const clickViewDetail = () => {
