@@ -96,12 +96,12 @@ const BlockCoding = (props) => {
   useEffect(() => {
     const timeoutExecute = setTimeout(() => searchOption(), 300);
     return () => clearTimeout(timeoutExecute);
-  }, [keyword]);
+  }, [keyword, isSearch]);
 
-  useEffect(() => {
-    if (switchLike) searchOption();
-    setSwitchLike(false);
-  }, [switchLike, isSearch]);
+  // useEffect(() => {
+  //   if (switchLike) searchOption();
+  //   setSwitchLike(false);
+  // }, [switchLike]);
 
   const returnSetSwitchLike = () => {
     setSwitchLike(true);
@@ -143,8 +143,9 @@ const BlockCoding = (props) => {
   // 검색
   const searchOption = async () => {
     // if (keyword !== "") {
-    console.log("optionLikeLi--------------------");
-    console.log(keyword + " " + isSearch);
+    console.log("optionLikeLi----------------");
+    console.log(keyword + "--" + isSearch);
+    console.log("optionLikeLi----------------");
     const res = await tacticSearchOption(keyword, isSearch);
     console.log(res);
     setOptionLikeList(res);
