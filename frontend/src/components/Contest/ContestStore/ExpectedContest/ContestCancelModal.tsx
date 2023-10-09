@@ -74,7 +74,9 @@ function ContestCancelModal( {selectedContest, onClose}){
 
         </Wrapper>
         <Box>
-            <Button1 onClick={handleCancel}>참가취소</Button1>
+            <Button1 
+            style={{cursor:'pointer'}}
+            onClick={handleCancel}>참가취소</Button1>
           </Box>
       </Modal>
     </Container>

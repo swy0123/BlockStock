@@ -69,7 +69,7 @@ function RecentContestResults({contest}) {
                 </RankContent>
                   <RankReturn>
                     수익률 : {' '}
-                    <div style={{ color: item.returns[0] === '-' ? 'blue' : 'red', margin:'0px 0px 0px 6px' }}>
+                    <div style={{ color: item.returns < 0 ? '#718CEA' : '#F25E5E', margin:'0px 0px 0px 6px' }}>
                       {(Math.round(item.returns * 100) / 100)}%
                     </div>
                   </RankReturn>
