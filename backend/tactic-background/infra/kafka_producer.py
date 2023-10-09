@@ -1,8 +1,7 @@
 import json
 
-from aiokafka import AIOKafkaConsumer, AIOKafkaProducer
+from aiokafka import AIOKafkaProducer
 import asyncio
-from fastapi import APIRouter
 import os.path
 
 from domain.contest.schemas.contest_end_message import ContestEndMessage
