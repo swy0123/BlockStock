@@ -45,7 +45,6 @@ export const TitleSpan = styled.span`
   font-size: 12px;
   text-align: center;
   align-items: center;
-  cursor: pointer;
 `;
 export const TitleInput = styled.input`
   width: 100%;
@@ -56,7 +55,6 @@ export const TitleInput = styled.input`
   border-style: solid;
   border-width: 0 0 2px;
   background-color: transparent;
-  cursor: pointer;
 `;
 export const Wrapper = styled.div`
   display: flex;
@@ -135,7 +133,6 @@ export const SearchInput = styled.input`
   border-style: solid;
   border-width: 0;
   font-size: 15px;
-  cursor: pointer;
 `;
 export const SearchItemList = styled.div`
   display: flex;
@@ -178,7 +175,6 @@ export const OptionDetailItem = styled.div`
   align-items: center;
   border: 1px solid #ececec;
   border-radius: 10px;
-  cursor: pointer;
 `;
 
 //-----------------------------------------------
@@ -232,7 +228,6 @@ export const InputDetailDiv = styled.div`
   border: 1px solid #ececec;
   border-radius: 10px;
   padding: 10px;
-  cursor: pointer;
 `;
 
 export const InputDetailValue = styled.div`
@@ -242,7 +237,6 @@ export const InputDetailValue = styled.div`
   align-items: center;
   text-align: center;
   justify-content: center;
-  cursor: pointer;
 `;
 export const InputOptionDiv = styled.div`
   display: flex;
@@ -264,7 +258,6 @@ export const Input = styled.input`
   border: 1px solid transparent; /* 보더를 투명하게 만듭니다. */
   background-color: transparent;
   outline: none;
-  cursor: pointer;
 `;
 
 export const StyledDatePicker = styled(ReactDatePicker)`
@@ -318,7 +311,6 @@ export const ScheduleBox = styled.div`
   background: #ffffff;
   border: 1px solid #d9d9da;
   border-radius: 6px;
-  cursor: pointer;
 `;
 
 export const PeriodBox = styled.div`
@@ -327,7 +319,6 @@ export const PeriodBox = styled.div`
   padding: 0 0.5%;
   justify-content: center;
   background: #ffffff;
-  cursor: pointer;
   /* border: 1px solid #d9d9da;
   border-radius: 6px; */
 `;
@@ -342,7 +333,6 @@ export const StocksInput = styled.input`
   border: 1px solid transparent; /* 보더를 투명하게 만듭니다. */
   background-color: transparent;
   outline: none;
-  cursor: pointer;
 `;
 
 export const ChoiceTitleBox = styled.div`

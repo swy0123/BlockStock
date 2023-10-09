@@ -3,11 +3,13 @@ import styled from "styled-components";
 // 가져가서 너비, 높이 바꿔서 자유롭게 사용 색은 4개중에서 골라서 사용 권장
 
 // 색
-"#9155FD"
+"#b155fd"
+"#e8e8e8"
 "#dfd1f8"
 "#f1f1f2"
 "#e6e5e7"
-
+"#f1e2ff"
+"#af65fe"
 
 // 보라색 버튼 디자인
 export const Btn0 = styled.button`

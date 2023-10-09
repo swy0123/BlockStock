@@ -32,7 +32,7 @@ function ContestStoreBtn(props){
         <CurrentContestBtn
           onClick={() => handleButtonClick("proceed")}
           style={{
-            backgroundColor: type === "proceed" ? "#E2CCED" : "initial", 
+            backgroundColor: type === "proceed" ? "#b155fd" : "initial", 
             color: type === "proceed" ? "white" : "initial", 
           }}
         >
@@ -41,7 +41,7 @@ function ContestStoreBtn(props){
         <ExpectedContestBtn
           onClick={() => handleButtonClick("expected")}
           style={{
-            backgroundColor: type === "expected" ? "#E2CCED" : "initial",
+            backgroundColor: type === "expected" ? "#b155fd" : "initial",
             color: type === "expected" ? "white" : "initial",
           }}
         >
@@ -50,7 +50,7 @@ function ContestStoreBtn(props){
         <PastContestBtn
           onClick={() => handleButtonClick("finish")}
           style={{
-            backgroundColor: type === "finish" ? "#E2CCED" : "initial",
+            backgroundColor: type === "finish" ? "#b155fd" : "initial",
             color: type === "finish" ? "white" : "initial",
           }}
         >

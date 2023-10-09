@@ -151,7 +151,7 @@ function RecodeList() {
               <ResultBox>
                 <Name>수익률</Name>
                 <Text style={{ color: item.revenue >= 0 ? "red" : "blue" }}>
-                  {item.revenue.toFixed(2)}
+                  {item.revenue.toFixed(2)}%
                 </Text>
               </ResultBox>
             </Box>

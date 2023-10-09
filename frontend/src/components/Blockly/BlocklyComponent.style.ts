@@ -9,6 +9,7 @@ export const BlocklyDiv = styled.div`
   /* width: 96%;
   height: 96%; */
   position: absolute;
+  /* background-color: rgb(190, 92, 255); */
   /* top:50%;
   left: 50%;
   transform: translate(-50%, -50%); */
