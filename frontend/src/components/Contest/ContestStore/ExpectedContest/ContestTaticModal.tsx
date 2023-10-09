@@ -8,6 +8,7 @@ import 'swiper/css/pagination';
 import "swiper/css/navigation";
 import { Pagination, Navigation } from "swiper/modules";
 import './Tactic.css';
+import Swal from 'sweetalert2';
 
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
@@ -46,6 +47,7 @@ function ContestTaticModal(props){
   
   const [tacticListItems, setTacticListItems] = useState([])
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [tacticCheck, setTacticCheck] = useState(false)
 
 
   
@@ -108,6 +110,7 @@ function ContestTaticModal(props){
       // Recoil 상태 업데이트
     setContestId(newContestId);
     console.log(newContestId)
+    console.log(tacticCheck, 'tacticCheck')
 
     setTactic({
       ...tactic,
@@ -115,6 +118,7 @@ function ContestTaticModal(props){
       imgPath: e.img
     });
     setTacticId(e.t)
+    setTacticCheck(!tacticCheck)
     const newIsStarred = [...isStarred];
     newIsStarred[e.i] = !newIsStarred[e.i];
     setIsStarred(newIsStarred);
@@ -131,7 +135,15 @@ function ContestTaticModal(props){
       console.log(tactic);
       setState(tactic);
       onClose()
-    } else {
+    } else if(!tacticCheck) {
+      Swal.fire({
+        title: '전략을 선택해주세요.',
+        icon:'warning',
+        timer: 1000, // 2초 후에 자동으로 사라집니다 (밀리초 단위)
+        showConfirmButton: false, // 확인 버튼을 표시하지 않음
+        showCancelButton: false, // 취소 버튼을 표시하지 않음
+      })
+    }else if(tactic.tacticId > -1 && tacticCheck) {
       console.log(tacticList);
       setIsModalOpen(!isModalOpen);
     }
@@ -181,6 +193,7 @@ function ContestTaticModal(props){
                             handleCardClick({ i: index, t: contest.id, img: contest.imgPath })
                           }
                           style={{
+                            cursor:'pointer',
                             border:
                               selectedTacticIndex === index ? "3.5px solid #a782ec" : "",
                             boxShadow:
@@ -216,10 +229,6 @@ function ContestTaticModal(props){
                           </TaticTime>
                           <hr style={{ width: "170px" }} />
                           <TaticImg src={contest.imgPath} />
-                          {/* {contest.imgPath ? (
-                            <TaticImg src="/icon/전략블록.png" />
-                          ) : (
-                          )} */}
                         </Card>
                       </div>
                     </SwiperSlide>
@@ -243,7 +252,7 @@ function ContestTaticModal(props){
             </div>
           )}
 
-          <Button onClick={OpenModal}>
+          <Button style={{cursor:'pointer'}} onClick={OpenModal}>
             선택하기
           </Button>
           

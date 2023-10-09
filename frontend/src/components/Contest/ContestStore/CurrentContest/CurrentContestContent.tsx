@@ -150,9 +150,9 @@ function CurrentContestContent(){
                     </div>
                     <Icon>
                         {showContent[index] ? (
-                          <KeyboardControlKeyIcon style={{ fontSize: '50px',margin: '10px 80% 0px 0px' }} />
+                          <KeyboardControlKeyIcon style={{ cursor:'pointer',fontSize: '50px',margin: '10px 80% 0px 0px' }} />
                         ) : (
-                          <ExpandMoreIcon style={{ fontSize: '50px',color:'#D4D4D4' }} />
+                          <ExpandMoreIcon style={{ cursor:'pointer', fontSize: '50px',color:'#D4D4D4' }} />
                         )}
                     </Icon>
                   </ContestBox>
@@ -175,7 +175,7 @@ function CurrentContestContent(){
                    <Content style={{ whiteSpace: 'pre-line',wordWrap: 'break-word' }}>
                      {contest.content}
                    </Content>
-                  <Button onClick={()=>navigate('/contestprogress',{ state: { selectedContest } })}>진행 현황</Button>  
+                  <Button style={{cursor:'pointer'}} onClick={()=>navigate('/contestprogress',{ state: { selectedContest } })}>진행 현황</Button>  
                 </ContentBox>
                 <hr style={{margin:'0px 0px 0px 0px', border:'1px solid #ebebeb'}}/>
 

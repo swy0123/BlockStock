@@ -177,7 +177,10 @@ function TacticBoardBox() {
                     <div>
                     테스트 수익률
                     </div>
-                    <div style={{margin: '0px 0px 0px 60px'}}>
+                    <div style={{
+                      margin: '0px 0px 0px 60px',
+                      color: item.testReturns < 0 ? '#718CEA' : '#F25E5E'
+                      }}>
                       {(Math.round(item.testReturns * 100) / 100)}%
                     </div>
                     </Testreturn>
@@ -185,11 +188,17 @@ function TacticBoardBox() {
                     <div>
                     대 회 수익률
                     </div>
-                    <div style={{margin: '0px 0px 0px 72px'}}>
+                    <div style={{
+                      margin: '0px 0px 0px 72px',
+                      }}>
                       {item.contestReturnStatus ? (
-                        <>
+                        <div 
+                        style={{
+                          color: item.testReturns < 0 ? '#718CEA' : '#F25E5E'
+                        }}
+                        >
                         {(Math.round(item.contestReturns * 100) / 100)}%
-                        </>
+                        </div>
                       ) : (
                         <>
                         {'-'}
@@ -207,14 +216,14 @@ function TacticBoardBox() {
                       ) : (
                       <FavoriteBorderIcon style={{width:'18px', margin:'0px 0px 0px 0px'}}/>
                     )}
-                    <div style={{margin:'3px 0px 0px 3px'}}>
+                    <div style={{margin:'5px 0px 0px 3px'}}>
                     {item.likeCnt}
                     </div>
                   </Like>
 
                   <Hit>
                     <VisibilityIcon style={{width:'18px', margin:'0px 0px 0px 0px', color:'black'}}/>
-                    <div style={{margin:'3px 0px 0px 3px'}}>
+                    <div style={{margin:'5px 0px 0px 3px'}}>
                     {item.hit}
                     </div>
                   </Hit>

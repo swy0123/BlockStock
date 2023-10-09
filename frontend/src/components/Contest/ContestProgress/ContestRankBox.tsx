@@ -65,7 +65,7 @@ function ContestRankBox(props:{contestId:number, isRunning:boolean}) {
               <UserNickName>{item.nickName}</UserNickName>
               <UserReturnBox>
                 {/* <UserReturnIcon>{item.returns}</UserReturnIcon> */}
-                <UserReturn $isPositive={item.returns[0]=="+"?true:false}>
+                <UserReturn $isPositive={item.returns < 0 ? false:true}>
                   {Math.round(item.returns * 100) / 100}%
                   </UserReturn>
               </UserReturnBox>

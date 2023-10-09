@@ -44,7 +44,7 @@ function Contest() {
       <ContestBox>
         <CurrentContest contestItem={currentContest}/>
         <ContestContent>
-          <div style={{width:'50%', margin:'0px 15% 0px 0px' }}>
+          <div style={{width:'55%', margin:'0px 10% 0px 0px' }}>
           <ExpectedContest contest={expectedContest}/>
           </div>
           <div style={{width:'34%'}}>

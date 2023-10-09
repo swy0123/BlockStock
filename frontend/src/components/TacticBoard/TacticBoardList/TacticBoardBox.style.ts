@@ -116,9 +116,9 @@ object-fit: contain
 export const ReturnBox = styled.div`
 max-width: 100%;
 height: 40px;
-padding: 15px 20px 0px 20px;
+padding: 15px 20px 0px 25px;
 font-size: 12px;
-font-weight: 600;
+font-weight: 500;
 `;
 
 export const Testreturn = styled.div`
@@ -130,7 +130,7 @@ display: flex;
 `;
 
 export const LikeBox = styled.div`
-padding: 3px 20px 0px 20px;
+padding: 3px 20px 0px 25px;
 width: 100%;
 height: 40px;
 display: flex;

@@ -91,10 +91,12 @@ function ContestTicketModal({tacticid ,selectedContest, onClose, onClosetactic})
           <Explanation1>해당 대회는 {selectedContest.ticket}개의 티켓이 사용됩니다.</Explanation1>
           <Explanation2>정말로 참여하시겠습니까? </Explanation2>
           <Box>
-            <Button1 onClick={() => {
+            <Button1 
+            style={{cursor:'pointer'}}
+            onClick={() => {
               onClose(); 
             }}>취소</Button1>
-            <Button2 onClick={handleClick}>확인</Button2>
+            <Button2 style={{cursor:'pointer'}} onClick={handleClick}>확인</Button2>
           </Box>
       </Modal>
     </Container>
