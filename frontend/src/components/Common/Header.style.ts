@@ -6,12 +6,14 @@ export const Container = styled.div`
   width: 100%;
   background-color: #f4f5fa;
   z-index: 100;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-use-select: none;
+  user-select: none;
 `;
 export const HeaderWrapper = styled.div`
   display: flex;
   height: 60px;
-  /* height: 5vh; */
-  /* background-color: #dcc1f0; */
   justify-content: space-between;
 `;
 export const Wrapper = styled.div`
@@ -129,7 +131,6 @@ export const Icon = styled.img`
 export const Box = styled.div`
   display: flex;
   align-items: center;
-  /* justify-content: space-around; */
   margin: 0px 10px 0px 10px;
   text-align: start;
   padding-left: 10px;

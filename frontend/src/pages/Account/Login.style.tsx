@@ -74,6 +74,9 @@ export const LoginBtn = styled.button`
 	margin-top: 15px;
 	margin-bottom: 25px;
 	cursor: pointer;
+	&:hover{
+		background:#9b64ff;
+	}
 `;
 export const Hr = styled.hr`
 	width: 80%;
