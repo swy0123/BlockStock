@@ -220,7 +220,8 @@ def get_contest_history(user_id: int):
                                                  result_money=history.result_money,
                                                  tactic_id=history.tactic_id,
                                                  rank=rank[0],
-                                                 ticket=history.ticket))
+                                                 ticket=history.ticket,
+                                                 contest_id=history.contest_id))
     finally:
         session.close()
     return result
