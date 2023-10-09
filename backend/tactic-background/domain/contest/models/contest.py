@@ -26,7 +26,7 @@ class Participate(Base):
     contest_id = Column(Integer, ForeignKey("contest.id"), nullable=False)
     tactic_id = Column(Integer, ForeignKey("tactic.id"), nullable=False)
     member_id = Column(Integer, nullable=False)
-    result_money = Column(Float, nullable=False)
+    result_money = Column(Integer, nullable=False)
 
 
 class ContestRealTime(Base):
