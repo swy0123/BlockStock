@@ -70,7 +70,6 @@ def get_real_contest_result(contest_id: int):
     return contest_service.get_real_contest_result(contest_id)
 
 
-@router.get("/trade/{contest_id}")
-def get_trade_contest(request: Request, contest_id: int):
-    member_id = request.headers.get("Member-id")
+@router.get("/trade/{contest_id}/{member_id}")
+def get_trade_contest(request: Request, contest_id: int, member_id: int):
     return contest_service.get_trade_contest(contest_id, member_id)

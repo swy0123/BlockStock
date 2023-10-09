@@ -12,7 +12,7 @@ DB_URL = f'mysql+pymysql://{os.environ["MARIA_USER"]}:{os.environ["MARIA_PASSWOR
 class engineconn:
 
     def __init__(self):
-        self.engine = create_engine(DB_URL, pool_recycle=1800, echo=False)
+        self.engine = create_engine(DB_URL, pool_recycle=1800, echo=True)
 
     def sessionmaker(self):
         Session = sessionmaker(bind=self.engine)
