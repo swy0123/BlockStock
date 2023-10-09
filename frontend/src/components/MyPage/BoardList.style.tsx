@@ -17,7 +17,7 @@ export const Container = styled.div`
 
 export const FreeBoardBox = styled.div`
   width: 80%;
-  height: 500px;
+  height: 350px;
   overflow-y: scroll;
   min-height: 200px;
   border: 0;
@@ -53,12 +53,17 @@ export const ItemNumber = styled.div`
   ${list}
 `;
 export const ItemTitle = styled.div`
-  width: 330px;
+  width: 350px;
   ${list}
 `;
 export const ItemWriter = styled.div`
   width: 180px;
-  ${list}
+  display: flex;
+  /* justify-content:  */
+  align-items: center;
+  margin: 0px 0px 0px 20px;
+  height: 50px;
+  font-size: 13px;
 `;
 export const ItemTime = styled.div`
   width: 230px;
@@ -87,5 +92,18 @@ export const Title = styled.span`
   margin-bottom: 20px;
 `;
 export const Div = styled.div`
-    cursor: pointer;
-`
+  cursor: pointer;
+`;
+
+export const Box2 = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+`;
+
+export const ProfileImg = styled.img`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  /* margin: 0; */
+`;

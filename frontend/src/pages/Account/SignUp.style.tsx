@@ -6,7 +6,13 @@ export const Container = styled.div`
   height: 85vh;
   /* position: fixed; */
 `;
+export const Img = styled.img`
+	width: 600px;
+	position: fixed;
+	top: 25%;
+	left: 10%;
 
+`
 export const BackGround = styled.div`
   margin-top: -150px;
 `;
@@ -62,12 +68,17 @@ export const MailBtn = styled.button`
   margin-top: 20px;
   margin-left: 5px;
   width: 55px;
-  height: 25px;
+  height: 40px;
   border: 0;
-  border-radius: 5px;
-  background: #9e9ea1;
-  color: white;
+  border-radius: 8px;
+  background: #e6e6e9;
+  transition: 0.5s;
+  color: #8b8888;
   cursor: pointer;
+  &:hover{
+    background: #dadadd;
+    color: gray;
+  }
 `;
 export const MailInput = styled.input`
   margin-top: 20px;
@@ -80,9 +91,13 @@ export const MailInput = styled.input`
   padding-left: 20px;
 `;
 export const Text = styled.p`
-  color: #9155fd;
+  color: #686868;
   font-size: 15px;
+  transition: 0.5s;
   cursor: pointer;
+  &:hover{
+    color: #9155fd;
+  }
 `;
 export const Box = styled.div`
   display: flex;
@@ -99,7 +114,11 @@ export const SignupBtn = styled.button`
   border-radius: 10px;
   background: #9155fd;
   margin-top: 20px;
+  transition: 0.5s;
   cursor: pointer;
+  &:hover{
+    background: #9c6bf8;
+  }
 `;
 export const ErrorMessage = styled.span`
   font-size: 10px;

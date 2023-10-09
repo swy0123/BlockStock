@@ -16,6 +16,8 @@ import {
      ItemtHit,
      Div,
      Box1,
+     Box2,
+     ProfileImg,
      } from "./BoardList.style";
 function LikeList() {
   const navigate = useNavigate();
@@ -59,7 +61,10 @@ function LikeList() {
             <Box1 key={`boardItem_${index}`}>
               <ItemNumber>{index}</ItemNumber>
               <ItemTitle>{item.title}</ItemTitle>
+              <Box2>
+                <ProfileImg src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${item.memberId}`}/>
               <ItemWriter>{item.nickname}</ItemWriter>
+              </Box2>
               <ItemTime>{formatDate(item.updatedAt)}</ItemTime>
               <ItemtHit>{item.hit}</ItemtHit>
             </Box1>
@@ -67,7 +72,7 @@ function LikeList() {
           </Div>
         ))}
       </FreeBoardBox>
-      <LikeTacticBoard/>
+      <LikeTacticBoard style={{height: "300"}}/>
     </Container>
   );
 }

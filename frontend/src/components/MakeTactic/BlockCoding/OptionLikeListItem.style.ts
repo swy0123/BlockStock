@@ -50,7 +50,7 @@ export const Choice = styled.div`
   background: #ffffff;
   border-radius: 6px;
   font-weight: 300;
-  font-size: 10px;
+  font-size: 11px;
   display: flex;
   align-items: center;
   text-align: center;
@@ -59,13 +59,15 @@ export const Choice = styled.div`
   padding: 2px 10px;
   height: 20px;
   cursor: pointer;
-  transition: transform 0.2s ease; /* 변환 효과 추가 */
+  transition:  0.5s ;
   &:active {
     background: #9256fd;
     color: white;
   }
   &:hover {
-    transform: scale(1.1);
+    background-color: #9256fd;
+    color: white;
+
   }
 `;
 

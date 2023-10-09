@@ -36,6 +36,7 @@ export const ReceiveStyleBox = styled.div`
 export const ReceiveTitle = styled.div`
 font-size: 13px;
 margin: 3.5px 0px 0px 10px;
+cursor: pointer;
 /* font-weight: bold; */
 `;
 
@@ -43,12 +44,14 @@ export const SendBox = styled.div`
 width: 5px;
 height: 30px;
 margin: 0px 50px 0px 0px;
+cursor: pointer;
 `;
 
 export const SendStyleBox = styled.div`
 width: 100%;
 height: 40px;
 display: flex;
+cursor: pointer;
 &:hover {
     color: #9747FF;
     ${SendBox} {
@@ -60,6 +63,7 @@ display: flex;
 export const SendTitle = styled.div`
 font-size: 13px;
 margin: 4px 0px 0px 13px;
+cursor: pointer;
 /* font-weight: bold; */
 `;
 
@@ -84,6 +88,7 @@ display: flex;
 export const KeepTitle = styled.div`
 font-size: 13px;
 margin: 5.5px 0px 0px 12px;
+cursor: pointer;
 /* font-weight: bold; */
 `;
 
@@ -102,6 +107,7 @@ export const BackBtn = styled.div`
   margin: 0px 0px 0px 20px;
   position: relative;
   top:400px;
+  cursor: pointer;
   transition: transform 0.3s;
   &:hover {
     transform: scale(1.1); 

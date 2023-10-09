@@ -27,6 +27,7 @@ const ClickBox1 = styled.div`
 	border-radius: 0px 50px 50px 0px;
 	background-color: rgba(235, 236, 242, 0.81);
   transition: all 0.5s;
+  cursor: pointer;
 	&:hover {
 		background: linear-gradient(270deg, #AC85F4 0%, #9256FD 0.01%, #D3BBFF 100%);
 		background-blend-mode: multiply;
@@ -41,6 +42,7 @@ const ClickBox = styled.div`
   align-items: center;
 	border-radius: 0px 50px 50px 0px;
 	transition: all 0.5s;
+  cursor: pointer;
 	&:hover {
 		background: linear-gradient(270deg, #AC85F4 0%, #9256FD 0.01%, #D3BBFF 100%);
 		background-blend-mode: multiply;
