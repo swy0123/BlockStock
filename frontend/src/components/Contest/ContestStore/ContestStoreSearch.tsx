@@ -7,21 +7,6 @@ import { searchKeywordState } from '../../../recoil/Contest/CurrentContest';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
-const StoreSearch = styled.input`
-    width: 150px;
-    height: 28px;
-    background: #FFFFFF;
-    border: 1px solid #D9D9D9;
-    border-radius: 3px;
-    font-family: 'Noto Sans Arabic';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 10px;
-    line-height: 34px;
-    display: flex;
-    align-items: center;
-  `;
-
 function ContestStoreSearch(){
 
   const [searchKeyword, setSearchKeyword] = useRecoilState(searchKeywordState);
@@ -33,12 +18,6 @@ function ContestStoreSearch(){
 
   return(
     <div>
-      {/* <StoreSearch
-        type="text"
-        placeholder="  검색"
-        value={searchKeyword}
-        onChange={handleInputChange}
-       /> */}
        <Box
         component="form"
         sx={{
@@ -50,7 +29,7 @@ function ContestStoreSearch(){
         <TextField 
           type="text"
           id="standard-basic" 
-          label="대회을 입력하세요" 
+          label="대회를 입력하세요" 
           variant="standard" 
           value={searchKeyword}
           onChange={handleInputChange}

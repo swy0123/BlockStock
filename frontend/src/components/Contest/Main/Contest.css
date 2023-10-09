@@ -52,11 +52,14 @@
  margin: 0px;
 }
 .swiper {
-  width: 90%;
+  width: 80%;
   height: 100%;
 }
 .mySwiper{
   width: 95%;
+    display: flex;
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
 }
 
 
@@ -64,9 +67,9 @@
 .carousel {
   position: absolute;
   top: 50%;
-  left:27.5%;
-  width: 130px;
-  height: 190px;
+  left:25.5%;
+  width: 170px;
+  height: 210px;
   margin: 0;
   -webkit-perspective: 800px;
   perspective: 2000px;

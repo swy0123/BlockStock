@@ -65,7 +65,7 @@ outline: none;
 
 export const ItemBox = styled.div`
 background-color: #F4F6F8;
-height: 600px;
+min-height: 600px;
 min-width: 88%;
 padding: 5px 20px 30px 60px ;
 /* & > * {
