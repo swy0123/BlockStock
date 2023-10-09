@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import { format } from "d3-format";
 import {
   Container,
@@ -11,25 +11,28 @@ import {
   UserNickName,
   UserReturnBox,
   UserReturn,
-  UserReturnIcon
-} from './ContestRankBox.style'
-import { contestRanking, rankingBoxItem } from '../../../api/Contest/ContestProgress';
-import dayjs from 'dayjs';
+  UserReturnIcon,
+} from "./ContestRankBox.style";
+import { contestRanking, rankingBoxItem } from "../../../api/Contest/ContestProgress";
+import dayjs from "dayjs";
 
-function ContestRankBox(props:{contestId:number, isRunning:boolean}) {
+const ContestRankBox = (props: {
+  contestId: number;
+  isRunning: boolean;
+  handleCurPlayerId: (value: number) => void;
+}) => {
   const [curRank, setCurRank] = useState<rankingBoxItem[]>([]);
   const [count, setCount] = useState(0); // 남은 시간 (단위: 초)
   const [updateTime, setUpdateTime] = useState(dayjs().format("YYYY.MM.DD HH:mm:ss"));
   const pricesDisplayFormat = format(",");
 
-
   useEffect(() => {
-    if(props.isRunning){
+    if (props.isRunning) {
       const cnt = setInterval(() => {
         // 타이머 숫자가 하나씩 줄어들도록
         setCount((count) => count - 1);
       }, 1000);
-  
+
       if (count <= 0) {
         setCount(14);
         getCurRank();
@@ -37,7 +40,6 @@ function ContestRankBox(props:{contestId:number, isRunning:boolean}) {
       }
       return () => clearInterval(cnt);
     }
-    
   }, [count]);
 
   // useEffect(()=>{
@@ -47,8 +49,12 @@ function ContestRankBox(props:{contestId:number, isRunning:boolean}) {
   const getCurRank = async () => {
     const res = await contestRanking(props.contestId);
     setCurRank(res);
-  }
+  };
 
+  const setCurPlayerId = (id: any) => {
+    console.log(id);
+    props.handleCurPlayerId(id);
+  };
 
   return (
     <>
@@ -59,22 +65,22 @@ function ContestRankBox(props:{contestId:number, isRunning:boolean}) {
         <Wrapper>
           {/* {rank.map((item, index) => ( */}
           {curRank.map((item, index) => (
-            <RankBox key={index}>
-              <RankNumber>{index+1}위</RankNumber>
+            <RankBox key={index} onClick={() => setCurPlayerId(item.memberId)}>
+              <RankNumber>{index + 1}위</RankNumber>
               <UserImg src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${item.memberId}`} />
               <UserNickName>{item.nickName}</UserNickName>
               <UserReturnBox>
                 {/* <UserReturnIcon>{item.returns}</UserReturnIcon> */}
-                <UserReturn $isPositive={item.returns[0]=="+"?true:false}>
+                <UserReturn $isPositive={item.returns > 0 ? true : false}>
                   {Math.round(item.returns * 100) / 100}%
-                  </UserReturn>
+                </UserReturn>
               </UserReturnBox>
             </RankBox>
           ))}
         </Wrapper>
-        <span style={{fontSize:"10px"}}>마지막 업데이트 시간 : {updateTime}</span>
+        <span style={{ fontSize: "10px" }}>마지막 업데이트 시간 : {updateTime}</span>
       </Container>
     </>
-  )
-}
-export default ContestRankBox
+  );
+};
+export default ContestRankBox;
