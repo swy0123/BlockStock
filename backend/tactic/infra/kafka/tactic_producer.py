@@ -11,14 +11,14 @@ from domain.contest.schemas.contest_participate_message import ContestParticipat
 loop = asyncio.get_event_loop()
 
 
-async def produce_contest_participate(member_id: int, contest_id: int, ticker_cnt: int):
+async def produce_contest_participate(member_id: int, contest_id: int, ticket_cnt: int):
     producer = AIOKafkaProducer(loop=loop, bootstrap_servers=os.environ["KAFKA_SERVER"])
     await producer.start()
     participate_message = ContestParticipateMessage()
     participate_message.message = "CONTEST_PARTICIPATE"
     participate_message.contestId = member_id
     participate_message.contestId = contest_id
-    participate_message.ticketCnt = ticker_cnt
+    participate_message.ticketCnt = ticket_cnt
     await producer.send("tactic-topic", json.dumps(participate_message.to_dict()).encode("UTF-8"))
 
 

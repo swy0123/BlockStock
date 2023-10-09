@@ -22,6 +22,7 @@ from datetime import datetime
 from domain.option.services import option_service
 
 from domain.option.models.option import Option
+from infra.kafka.tactic_producer import produce_contest_participate
 
 engine = engineconn()
 
@@ -169,6 +170,10 @@ async def participate_contest(member_id: int, info_create: InfoRequest):
             raise HTTPException(status_code=StatusCode.CONTEST_NOT_EXIST_ERROR_CODE,
                                 detail=Message.CONTEST_NOT_EXIST_ERROR_MSG)
 
+        await produce_contest_participate(member_id=member_id,
+                                          contest_id=info_create.contest_id,
+                                          ticket_cnt=member.ticket_count-contest_ticket)
+
         session.add(db_participate)
         session.commit()
 
@@ -221,14 +226,22 @@ def get_contest_history(user_id: int):
     return result
 
 
-def cancel_participate_contest(user_id: int, contest_id: int):
+async def cancel_participate_contest(member_id: int, contest_id: int):
+    member = await get_member_data(member_id)
+
     session = engine.sessionmaker()
     try:
         if not session.get(Contest, contest_id):
             raise HTTPException(status_code=StatusCode.CONTEST_NOT_EXIST_ERROR_CODE)
 
-        participate = (session.query(Participate).where(Participate.member_id == user_id).
+        contest_ticket = session.get(Contest, contest_id).ticket
+
+        participate = (session.query(Participate).where(Participate.member_id == member_id).
                        where(Participate.contest_id == contest_id)).one()
+
+        await produce_contest_participate(member_id=member_id,
+                                          contest_id=contest_id,
+                                          ticket_cnt=member.ticket_count+contest_ticket)
 
         session.delete(participate)
         session.commit()
