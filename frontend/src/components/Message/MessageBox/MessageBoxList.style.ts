@@ -62,6 +62,7 @@ margin: 0px 0px 0px 10px;
 export const MessageItemTitle = styled.div`
 margin: 3px 0px 0px 30px;
 font-size: 13px;
+cursor: pointer;
 /* width: 300px;
 border: 1px solid black; */
 `;
@@ -71,14 +72,17 @@ color: #A5A5A5;
 margin: 5px 0px 0px 30px;
 `;
 export const MessageItemImg = styled.img`
-width: 23px;
-height: 23px;
+width: 25px;
+height: 25px;
+border-radius: 50%;
+cursor: pointer;
 margin: 0px 0px 0px 0px;
 `;
 export const MessageItemNickName = styled.div`
 font-size: 12px;
 color: #A5A5A5;
 margin: 4px 0px 0px 10px;
+cursor: pointer;
 `;
 
 export const ItemContentBox = styled.div`

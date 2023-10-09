@@ -19,6 +19,7 @@ import {
   Box,
   SignupBtn,
   ErrorMessage,
+  Img,
 } from "./SignUp.style";
 
 function SignUp() {
@@ -96,6 +97,7 @@ function SignUp() {
 
   return (
     <Container>
+      <Img src="/icon/mainn.png"/>
       <Wrapper>
         <LoginBox>
           <form onSubmit={handleSubmit(onSubmit)}>
