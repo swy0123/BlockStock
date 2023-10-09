@@ -64,7 +64,7 @@ function CompletedContestModal({onClose, selectedContest, rank}){
                                     <div style={{color:'#8A8A8A', margin:'8px 5px 0px 50px', fontSize:'12px'}}>
                                       수익률 :
                                     </div>
-                                    <ContestReturn style={{ color: userRank[0].returns === '-' ? 'blue' : 'red' }}>
+                                    <ContestReturn style={{ color: userRank[0].returns < 0 ? '#718CEA' : '#F25E5E' }}>
                                       {Math.round(userRank[0].returns * 10) / 10}%
                                     </ContestReturn>
                                   </div>
@@ -90,7 +90,7 @@ function CompletedContestModal({onClose, selectedContest, rank}){
                                       <div style={{color:'#8A8A8A', margin:'8px 5px 0px 50px', fontSize:'12px'}}>
                                           수익률 :
                                       </div>
-                                      <ContestReturn style={{ color: userRank[1].returns === '-' ? 'blue' : 'red' }}>
+                                      <ContestReturn style={{ color: userRank[1].returns < 0 ? '#718CEA' : '#F25E5E' }}>
                                       {Math.round(userRank[1].returns * 10) / 10}%                                      </ContestReturn>
                                     </div>
                                 </>
@@ -115,7 +115,7 @@ function CompletedContestModal({onClose, selectedContest, rank}){
                                     <div style={{color:'#8A8A8A', margin:'8px 5px 0px 50px', fontSize:'12px'}}>
                                         수익률 :
                                     </div>
-                                    <ContestReturn style={{ color: userRank[2].returns === '-' ? 'blue' : 'red' }}>
+                                    <ContestReturn style={{ color: userRank[2].returns < 0 ? '#718CEA' : '#F25E5E' }}>
                                       {Math.round(userRank[2].returns * 10) / 10}%                                    </ContestReturn>
                                   </div>
                                 </>
@@ -153,7 +153,7 @@ function CompletedContestModal({onClose, selectedContest, rank}){
                               <div style={{color:'#8A8A8A', marginRight:'10px'}}>
                                 수익률 : 
                               </div>
-                              <div style={{ color: participant.returns === '-' ? 'blue' : 'red', fontWeight:'bold', fontSize: '12px' }}>
+                              <div style={{ color: participant.returns < 0 ? '#718CEA' : '#F25E5E', fontWeight:'bold', fontSize: '12px' }}>
                                 {Math.round(participant.returns * 100) / 100}%
                               </div>
                             </div>

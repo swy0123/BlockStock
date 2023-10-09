@@ -136,7 +136,7 @@ function CurrentContest({contestItem}){
                                     <div style={{color:'#8A8A8A', margin:'8px 5px 0px 30%'}}>
                                       수익률 :
                                     </div>
-                                    <ContestReturn style={{ color: contest.ranking[0].returns[0] === '-' ? 'blue' : 'red' }}>
+                                    <ContestReturn style={{ color: contest.ranking[0].returns < 0 ? '#718CEA' : '#F25E5E' }}>
                                       {Math.round(contest.ranking[0].returns * 100) / 100}%
                                     </ContestReturn>
                                   </div>
@@ -158,7 +158,7 @@ function CurrentContest({contestItem}){
                                     <div style={{color:'#8A8A8A', margin:'8px 5px 0px 30%'}}>
                                       수익률 :
                                     </div>
-                                    <ContestReturn style={{ color: contest.ranking[1].returns[0] === '-' ? 'blue' : 'red' }}>
+                                    <ContestReturn style={{ color: contest.ranking[1].returns < 0 ? '#718CEA' : '#F25E5E' }}>
                                       {Math.round(contest.ranking[1].returns * 100) / 100}%
                                     </ContestReturn>
                                   </div>
@@ -181,7 +181,7 @@ function CurrentContest({contestItem}){
                                 <div style={{ color: '#8A8A8A', margin: '8px 5px 0px 30%', }}>
                                   수익률 :
                                 </div>
-                                <ContestReturn style={{ color: contest.ranking[2].returns[0] === '-' ? 'blue' : 'red' }}>
+                                <ContestReturn style={{ color: contest.ranking[2].returns < 0 ? '#718CEA' : '#F25E5E' }}>
                                   {Math.round(contest.ranking[2].returns * 100) / 100}%
                                 </ContestReturn>
                               </div>
@@ -201,7 +201,7 @@ function CurrentContest({contestItem}){
                     {contest.ranking.slice(3).map((participant, participantIndex) => (
                       <div key={participantIndex}>
                         <div style={{margin:'15px 0px 5px 15%', display:'flex'}}>
-                          <div style={{width:'30px', margin:'10px 0px 5px 10px', color:'#8A8A8A', fontSize:'16px'}}>
+                          <div style={{minWidth:'30px', margin:'10px 0px 5px 10px', color:'#8A8A8A', fontSize:'16px'}}>
                             {participantIndex+4}등
                           </div>
                           <NoRankImage src={`https://j9b210.p.ssafy.io:8443/api/member/profile/${participant.memberId}`} />
@@ -212,7 +212,7 @@ function CurrentContest({contestItem}){
                             <div style={{color:'#8A8A8A', marginRight:'10px'}}>
                               수익률
                             </div>
-                            <div style={{ color: participant.returns[0] === '-' ? 'blue' : 'red'}}>
+                            <div style={{ color: participant.returns < 0 ? '#718CEA' : '#F25E5E'}}>
                               {Math.round(participant.returns * 100) / 100}%
                             </div>
                           </div>

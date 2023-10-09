@@ -203,9 +203,9 @@ function ExpectedContestContent(){
                   </div>
                   <Icon>
                     {showContent[index] ? (
-                      <KeyboardControlKeyIcon style={{ fontSize: '50px', margin: '10px 80% 0px 0px' }} />
+                      <KeyboardControlKeyIcon style={{ fontSize: '50px', margin: '10px 80% 0px 0px', cursor:'pointer' }} />
                     ) : (
-                      <ExpandMoreIcon style={{ fontSize: '50px', color:'#D4D4D4' }} />
+                      <ExpandMoreIcon style={{ fontSize: '50px', color:'#D4D4D4', cursor:'pointer' }} />
                     )}
                   </Icon>
                 </ContestBox>
@@ -229,12 +229,16 @@ function ExpectedContestContent(){
                   {contest.content}
                 </Content>
                 {contest.isRegisted ? (
-                  <Button onClick={OpenCandelModal}>신청취소</Button>
+                  <Button
+                  style={{cursor:'pointer'}}
+                  onClick={OpenCandelModal}>신청취소</Button>
                 ) : (
                   <Button 
                   onClick={()=>OpenModal( 
                     {j : contest.joinPeople, m : contest.maxCapacity})
-                    }>
+                    } 
+                  style={{cursor:'pointer'}}
+                  >
                   참가하기
                   </Button>
                   )} 

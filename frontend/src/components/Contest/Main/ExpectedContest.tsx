@@ -94,13 +94,15 @@ function ExpectedContest({contest}){
                       {showContent[index] ? (
                           <KeyboardControlKeyIcon style={{ 
                             fontSize: '50px',
-                            margin: '10px 0px 0px 35%', 
+                            margin: '10px 0px 0px 42%', 
+                            cursor:'pointer'
                           }} />
                         ) : (
                           <ExpandMoreIcon style={{ 
                           fontSize: '50px',
-                          margin: '0px 0px 0px 35%',
-                          color:'#D4D4D4'
+                          margin: '0px 0px 0px 42%',
+                          color:'#D4D4D4',
+                          cursor:'pointer'
                          }} />
                         )}
                     </ContestHeader>

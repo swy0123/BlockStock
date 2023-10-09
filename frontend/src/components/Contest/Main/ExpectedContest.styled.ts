@@ -23,7 +23,7 @@ color: #A0A0A0;
 cursor: pointer;
 `;
 export const Wrappe = styled.div`
-width: 40%;
+width: 46%;
 height: 250px;
 overflow: auto;
 box-sizing: border-box;
