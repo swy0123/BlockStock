@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MoneyModal from "../Store/MoneyModal";
 import TicketModal from "../Store/TicketModal";
 import { useQuery, useQueryClient } from "react-query";
@@ -27,14 +27,22 @@ import {
   Noneimg,
   Box1,
 } from "./Profile.style";
-
+import { useRecoilState } from "recoil";
+import { kakaopay } from "../../recoil/KakaoPay";
 function Profile() {
+  const [kakaoPay, setKakaoPay] = useRecoilState(kakaopay)
+
   // const { data } = props;
   const navigate = useNavigate();
   const { data, isLoading, isError } = useQuery("mypage", getmypage);
   const [isMoneyModalOpen, setIsMoneyModalOpen] = useState(false);
   const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
   const queryClient = useQueryClient();
+
+  useEffect(()=>{
+    console.log(kakaoPay,'kakaoPay')
+    setKakaoPay(false)
+  },[kakaoPay])
 
   const refetchMyPageData = async () => {
     await queryClient.refetchQueries("mypage");

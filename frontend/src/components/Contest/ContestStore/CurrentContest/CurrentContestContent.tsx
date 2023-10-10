@@ -26,14 +26,12 @@ import { useNavigate } from "react-router-dom";
  import dayjs from "dayjs";
 // api 통신
 import {currentContestList} from '../../../../api/Contest/ContestStore'
-import Spinner from "../../../Util/Spinner";
 
 function CurrentContestContent(){
 
   const navigate = useNavigate();
   // 검색어
   const searchKeyword  = useRecoilValue(searchKeywordState);
-  const [spinner, setSpinner] = useState(false)
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(7);
   const [ currentContestListItem, setCurrentContestListItem] = useState([])
@@ -56,10 +54,8 @@ function CurrentContestContent(){
   },[page,rowsPerPage,searchKeyword])
   
   const currentcontest = async () => {
-    setSpinner(true)
     const contest = await currentContestList(params)
     console.log('진행중 대회 페이지', contest)
-    setSpinner(false)
     if (contest === undefined){
       setCurrentContestListItem([])
     } else {
@@ -203,7 +199,6 @@ function CurrentContestContent(){
           />
           </>
         )}
-    {spinner && <Spinner/>}
     </Container>
   )
 }

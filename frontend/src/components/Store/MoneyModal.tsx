@@ -14,7 +14,8 @@ import {
   SubmitBtn,
   Message
  } from "./MoneyModal.style";
-
+ import { useRecoilState } from "recoil";
+ import { kakaopay } from "../../recoil/KakaoPay";
 interface MoneyModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -22,9 +23,9 @@ interface MoneyModalProps {
 
 function MoneyModal(props: MoneyModalProps) {
   const navigate = useNavigate();
+  const [kakaoPay, setKakaoPay] = useRecoilState(kakaopay)
   const { isOpen, onClose } = props;
   const [inputValue, setInputValue] = useState(""); // 입력된 값의 상태를 관리
-  // const [isChargeComplete, setIsChargeComplete] = useState(false); 
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // 입력값이 숫자인지 확인
@@ -48,7 +49,10 @@ function MoneyModal(props: MoneyModalProps) {
           console.log("충전 금액:", amount);
           const moneyData = {
             money: amount*10000
-          }; // 카카오페이 연결할 때 밑에 코드는 주석처리하고 안써도 되는 부분!
+          }; 
+          
+          setKakaoPay(!kakaoPay)
+          // 카카오페이 연결할 때 밑에 코드는 주석처리하고 안써도 되는 부분!
           const response = await putMoney(moneyData);
           if (response?.status == 200){
             swal("충전 완료",`${moneyData.money}원이 충전되었습니다.`, "success")
@@ -57,6 +61,7 @@ function MoneyModal(props: MoneyModalProps) {
           } else{
             swal("충전 실패")
           }
+
         } else {
           swal(" ","충전 금액은 2000 point로 제한됩니다.","error");
         }
