@@ -172,7 +172,7 @@ async def participate_contest(member_id: int, info_create: InfoRequest):
 
         await produce_contest_participate(member_id=member_id,
                                           contest_id=info_create.contest_id,
-                                          ticket_cnt=member.ticket_count-contest_ticket)
+                                          ticket_cnt=contest_ticket)
 
         session.add(db_participate)
         session.commit()
@@ -242,7 +242,7 @@ async def cancel_participate_contest(member_id: int, contest_id: int):
 
         await produce_contest_participate(member_id=member_id,
                                           contest_id=contest_id,
-                                          ticket_cnt=member.ticket_count+contest_ticket)
+                                          ticket_cnt=-contest_ticket)
 
         session.delete(participate)
         session.commit()
