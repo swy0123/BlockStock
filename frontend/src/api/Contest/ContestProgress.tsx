@@ -2,10 +2,10 @@ import { privateApi } from "..";
 
 // 대회 차트 불러오기
 export const contestChart = async (id: number) => {
-  console.log(id);
+  console.log("대회 차트 불러오기 ", id);
   try {
     const res = await privateApi.get(`/contest/chart/` + id);
-    console.log(res.data);
+    // console.log(res.data);
     return res.data;
   } catch (error) {
     console.log("err", error);
@@ -186,7 +186,7 @@ export interface ContestTradeProps {
 }
 // 대회 내역 불러오기
 export const contestTrade = async (data: ContestTradeProps) => {
-  console.log(data);
+  console.log("대회 차트 불러오기 ", data);
   console.log("contestTrade");
   try {
     const res = await privateApi.get(`/contest/trade/` + data.contestId + `/` + data.memberId);
