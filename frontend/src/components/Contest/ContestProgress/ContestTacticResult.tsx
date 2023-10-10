@@ -63,12 +63,12 @@ const TacticResult = (props: { contestId: number; type?: string }) => {
   const [count, setCount] = useState(0); // 남은 시간 (단위: 초)
 
   const CurrentUser = useRecoilValue(CurrentUserAtom);
-  const [curPlayerId, setCurPlayerId] = useState(0); // 남은 시간 (단위: 초)
+  const [curPlayerId, setCurPlayerId] = useState(0);
 
   const [isPlayer, setIsPlayer] = useState(false);
   const [isRunning, setIsRunning] = useState(true);
 
-  const [ spinner, setSpinner] = useState(false);
+  const [spinner, setSpinner] = useState(false);
 
   //modal
   const [userRank, setUserRank] = useState([]);
@@ -85,26 +85,33 @@ const TacticResult = (props: { contestId: number; type?: string }) => {
   useEffect(() => {
     console.log(isRunning);
     if (isRunning) {
-      const cnt = setInterval(() => {
-        // 타이머 숫자가 하나씩 줄어들도록
-        setCount((count) => count - 1);
-      }, 1000);
-
       if (count == 1) {
         setCount(15);
         axiosGetData();
         setUpdateTime(dayjs().format("YYYY.MM.DD HH:mm:ss"));
       }
+      const cnt = setInterval(() => {
+        // 타이머 숫자가 하나씩 줄어들도록
+        setCount((count) => count - 1);
+      }, 1000);
       return () => clearInterval(cnt);
     }
-  }, [count, isRunning]);
+  }, [count]);
+
   useEffect(() => {
-    console.log("curPlayerId");
-    setCount(15);
-    axiosGetData();
+    console.log(curPlayerId);
+    if (chartInfos !== undefined) setSpinner(true)
+    setCount(2);
   }, [curPlayerId]);
 
-  const handleCurPlayerId = (id:number) =>{
+  useEffect(() => {
+    console.log("isRunning");
+    if (chartInfos !== undefined) setSpinner(true)
+    setCount(2);
+  }, [isRunning]);
+
+  const handleCurPlayerId = (id: number) => {
+    console.log("handleCurPlayerId " + id);
     setCurPlayerId(id);
   }
 
@@ -116,8 +123,9 @@ const TacticResult = (props: { contestId: number; type?: string }) => {
       contestId: props.contestId,
       memberId: curPlayerId,
     };
+    console.log("::: " + curPlayerId);
+    console.log("::: ", tradeDate);
     // const propsTmp = 66;
-    setSpinner(true)
     const chartres = await contestChart(contestId);
     const traderes = await contestTrade(tradeDate);
     setSpinner(false)
@@ -191,12 +199,9 @@ const TacticResult = (props: { contestId: number; type?: string }) => {
 
   useEffect(() => {
     setCurPlayerId(CurrentUser.userid);
-    // axiosGetData();
-    // console.log("res useEffect");
-    // console.log(chartInfos);
-    // console.log("!!!!!!");
     setCount(1);
     console.log(props.type);
+    console.log(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;props.type");
     setModalProps();
     // console.log(typeof props.tacticImg);
   }, []);
@@ -230,9 +235,7 @@ const TacticResult = (props: { contestId: number; type?: string }) => {
 
   // 상세 조회api ================================================================
   const resultApi = async (id) => {
-    setSpinner(true)
     const res = await contestResult(id);
-    setSpinner(false)
     console.log(res, "res");
     if (res === undefined) {
       setUserRank([]);
@@ -295,9 +298,9 @@ const TacticResult = (props: { contestId: number; type?: string }) => {
                     </div> */}
             {/* 차트 */}
             {size.width > 0 &&
-            size.height > 0 &&
-            chartInfos !== undefined &&
-            chartInfos.length > 0 ? (
+              size.height > 0 &&
+              chartInfos !== undefined &&
+              chartInfos.length > 0 ? (
               <CandleChart
                 curwidth={size.width - 10}
                 curheight={size.height - 10}
@@ -380,13 +383,13 @@ const TacticResult = (props: { contestId: number; type?: string }) => {
               {/* 
               랭킹창
               */}
-              <ContestRankBox contestId={props.contestId} isRunning={isRunning} handleCurPlayerId={(id)=>handleCurPlayerId(id)}></ContestRankBox>
+              <ContestRankBox contestId={props.contestId} isRunning={isRunning} handleCurPlayerId={(id) => handleCurPlayerId(id)}></ContestRankBox>
             </ContestRankinigItem>
           </ContestRankinig>
         </RightDiv>
       </TradingHistoryContents>
-      
-      {spinner && <Spinner/>}
+
+      {spinner && <Spinner />}
       {isModalOpen ? (
         <CompletedContestModal
           selectedContest={selectedContest}
