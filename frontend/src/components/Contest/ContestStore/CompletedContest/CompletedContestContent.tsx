@@ -30,7 +30,6 @@ import dayjs from "dayjs";
 import Pagination from "@mui/material/Pagination";
 // api 통신
 import { completedContestList, contestResult  } from '../../../../api/Contest/ContestStore'
-import Spinner from "../../../Util/Spinner";
 
 function CompletedContestContent() {
   const navigate = useNavigate();
@@ -39,7 +38,6 @@ function CompletedContestContent() {
   const searchKeyword = useRecoilValue(searchKeywordState);
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(7);
-  const [spinner, setSpinner] = useState(false)
   const [completedContestItem, setCompletedContestItem] = useState([])
   const [ count, setCount] = useState(0)
   const [ userRank, setUserRank] = useState([])
@@ -56,14 +54,12 @@ function CompletedContestContent() {
     keyWord: searchKeyword
   };
   useEffect(()=>{
-    setSpinner(true)
     completedcontest()    
   },[page,rowsPerPage,searchKeyword])
 
   const completedcontest = async () => {
       const contest = await completedContestList(params)
       console.log(contest)
-      setSpinner(false)
       setCompletedContestItem(contest.contestList)
       if(Math.floor(contest.totalCnt % 7)){
         setCount(Math.floor(contest.totalCnt / 7)+1);
@@ -264,7 +260,6 @@ function CompletedContestContent() {
         )}
       </Container>
 
-    {spinner && <Spinner/>}
     </>
   );
 }

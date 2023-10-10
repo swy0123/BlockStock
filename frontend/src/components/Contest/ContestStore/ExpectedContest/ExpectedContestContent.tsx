@@ -27,7 +27,6 @@ import {
 
 import Pagination from "@mui/material/Pagination";
 import Swal from 'sweetalert2';
-import Spinner from "../../../Util/Spinner";
  // 날짜 변환
  import dayjs from "dayjs";
 // 리코일로 userid
@@ -50,7 +49,6 @@ function ExpectedContestContent(){
   const [ page, setPage ] = React.useState(1);
   const [ rowsPerPage, setRowsPerPage ] = React.useState(7);
   const [ count, setCount] = useState(0)
-  const [ spinner, setSpinner] = useState(false)
   // 리코일 대회 id 전략 id
   const [contestId, setContestId] = useRecoilState(ContestId);
 
@@ -90,7 +88,6 @@ function ExpectedContestContent(){
   // api 통신 =============================================================
   
   useEffect(()=>{
-    setSpinner(true)
     expectedcontest()
   },[page,rowsPerPage,searchKeyword])
 
@@ -103,7 +100,6 @@ function ExpectedContestContent(){
     };
     const contest = await expectedContestList(params)
     console.log(contest)
-    setSpinner(false)
     setExpectedContestItem(contest.contestList)
     if(Math.floor(contest.totalCnt % 7)){
       setCount(Math.floor(contest.totalCnt / 7)+1);
@@ -135,6 +131,8 @@ function ExpectedContestContent(){
   
       console.log(expectedContestItem[index], '-----------------');
       setSelectedContest(expectedContestItem[index]);
+      const updataContestId = {tacticId:contestId.tacticId, contestId:expectedContestItem[index].id}
+      setContestId(updataContestId)
       tacticApi(expectedContestItem[index].optionCode)
     }
     console.log(selectedContest);
@@ -294,7 +292,6 @@ function ExpectedContestContent(){
           />
           </>
       )}
-    {spinner && <Spinner/>}
     </Container>
   )
 }
