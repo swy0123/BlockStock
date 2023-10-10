@@ -25,7 +25,7 @@ public class TacticConsumer {
 
             else if (msgType.contains("CONTEST_PARTICIPATE")) {
                 ContestParticipateMessage contestParticipateMessage = objectMapper.readValue(message, ContestParticipateMessage.class);
-                tacticService.participateContest(contestParticipateMessage.getMemberId(), contestParticipateMessage.getTickerCnt());
+                tacticService.participateContest(contestParticipateMessage.getMemberId(), contestParticipateMessage.getTicketCnt());
             }
 
         } catch (Exception e) {

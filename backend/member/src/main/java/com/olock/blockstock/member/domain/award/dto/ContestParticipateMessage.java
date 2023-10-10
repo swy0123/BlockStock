@@ -9,5 +9,5 @@ public class ContestParticipateMessage {
     private String message;
     private Long memberId;
     private Long contestId;
-    private Integer tickerCnt;
+    private Integer ticketCnt;
 }
