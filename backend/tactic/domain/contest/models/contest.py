@@ -23,6 +23,7 @@ class Contest(Base):
     ticket = Column(Integer, nullable=False)
     option_code = Column(String(10), nullable=False)
     created_at = Column(DateTime, nullable=False)
+    now_repeat_cnt = Column(Integer, nullable=False, default=0)
 
     participate = relationship("Participate", back_populates="contest", uselist=False)
     def __init__(self, contest_request: ContestRequest):

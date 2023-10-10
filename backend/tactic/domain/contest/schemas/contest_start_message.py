@@ -12,5 +12,5 @@ class ContestStartMessage:
             "message": self.message,
             "memberId": self.memberId,
             "contestId": self.contestId,
-            "ticketCnt": self.tickerCnt
+            "ticketCnt": self.ticketCnt
         }

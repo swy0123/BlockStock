@@ -43,9 +43,9 @@ async def participate_contest(request: Request, info_create: InfoRequest):
 
 
 @router.delete("/participate/{contest_id}")
-def cancel_participate_contest(request: Request, contest_id: int):
+async def cancel_participate_contest(request: Request, contest_id: int):
     member_id = request.headers.get("Member-id")
-    contest_service.cancel_participate_contest(member_id, contest_id)
+    await contest_service.cancel_participate_contest(member_id, contest_id)
 
 
 @router.delete("/{contest_id}")
