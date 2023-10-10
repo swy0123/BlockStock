@@ -10,7 +10,7 @@ class ContestParticipateMessage:
     def to_dict(self):
         return {
             "message": self.message,
-            "memberId": self.contestId,
+            "memberId": self.memberId,
             "contestId": self.contestId,
             "ticketCnt": self.ticketCnt
         }

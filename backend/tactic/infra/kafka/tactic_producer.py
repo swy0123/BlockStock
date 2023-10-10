@@ -16,7 +16,7 @@ async def produce_contest_participate(member_id: int, contest_id: int, ticket_cn
     await producer.start()
     participate_message = ContestParticipateMessage()
     participate_message.message = "CONTEST_PARTICIPATE"
-    participate_message.contestId = member_id
+    participate_message.memberId = member_id
     participate_message.contestId = contest_id
     participate_message.ticketCnt = ticket_cnt
     await producer.send("tactic-topic", json.dumps(participate_message.to_dict()).encode("UTF-8"))
