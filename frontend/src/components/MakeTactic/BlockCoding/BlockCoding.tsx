@@ -646,8 +646,8 @@ const BlockCoding = (props) => {
                       <ToggleButton value={70} key="seventy">
                         70번
                       </ToggleButton>
-                      <ToggleButton value={100} key="hundred">
-                        100번
+                      <ToggleButton value={400} key="hundred">
+                        400번
                       </ToggleButton>
                     </ToggleButtonGroup>
                   </PeriodBox>
