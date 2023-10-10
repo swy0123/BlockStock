@@ -29,13 +29,14 @@ import {messageKeep, messageDelete} from '../../../api/Message/Message'
 
 function MessageDetail({onButtonClick, name, data}){
 
-  const [check, setCheck] = useState(data.marked)
+  const [check, setCheck] = useState(false)
   
   useEffect(()=>{
     console.log('쪽지 디테일')
     console.log(data)
     console.log(name)
     console.log('쪽지 디테일')
+    setCheck(data.marked)
   },[data])
     // 쪽지 보관 api
     const messageKeepApi = async()=>{
