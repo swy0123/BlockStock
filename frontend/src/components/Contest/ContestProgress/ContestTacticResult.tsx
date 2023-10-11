@@ -84,12 +84,12 @@ const TacticResult = (props: { contestId: number; type?: string }) => {
   };
   useEffect(() => {
     console.log(isRunning);
+    if (count == 1) {
+      setCount(15);
+      axiosGetData();
+      setUpdateTime(dayjs().format("YYYY.MM.DD HH:mm:ss"));
+    }
     if (isRunning) {
-      if (count == 1) {
-        setCount(15);
-        axiosGetData();
-        setUpdateTime(dayjs().format("YYYY.MM.DD HH:mm:ss"));
-      }
       const cnt = setInterval(() => {
         // 타이머 숫자가 하나씩 줄어들도록
         setCount((count) => count - 1);
@@ -101,13 +101,13 @@ const TacticResult = (props: { contestId: number; type?: string }) => {
   useEffect(() => {
     console.log(curPlayerId);
     if (chartInfos !== undefined) setSpinner(true)
-    setCount(2);
+    setCount(1);
   }, [curPlayerId]);
 
   useEffect(() => {
     console.log("isRunning");
     if (chartInfos !== undefined) setSpinner(true)
-    setCount(2);
+    setCount(1);
   }, [isRunning]);
 
   const handleCurPlayerId = (id: number) => {
