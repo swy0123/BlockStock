@@ -146,6 +146,7 @@
 
 
 
+<br>
 
 <img src = "img/contest.gif">
 
@@ -164,8 +165,7 @@
 * 자신이 만든 전략을 전략게시판을 통해 공유할 수 있습니다.
 
 
-
-
+<br>
 
 <img src = "img/import_tactic.gif">
 
@@ -192,7 +192,7 @@
 
 * 자신의 마이페이지에서 자산, 작성 게시글, 좋아요한 게시글, 대회 참여 기록을 조회할 수 있습니다.
 
-
+<br>
 
 <img src = "img/buy_ticket.gif">
 
@@ -200,22 +200,21 @@
 * 교환한 티켓은 대회 참가 신청 시 사용됩니다.
 
 
-
-
+<br>
 
 <img src = "img/edit_member_info.gif">
 
 * 사용자는 프로필 이미지, 닉네임, 비밀번호 변경을 할 수 있습니다.
 
 
-
-
+<br>
 
 <img src = "img/following_follower.gif">
 
 * 사용자 간 팔로우를 할 수 있습니다.
 
 
+<br>
 
 <img src = "img/message.gif">
 
