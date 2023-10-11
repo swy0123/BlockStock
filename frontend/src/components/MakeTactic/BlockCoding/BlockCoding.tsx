@@ -192,9 +192,9 @@ const BlockCoding = (props) => {
   };
 
   const writeTacticPythonCode = (str) => {
+    console.log(str);
     setTacticPythonCode(str);
     console.log("writeTacticPythonCode");
-    console.log(str);
   };
   const writeTacticJsonCode = (str) => {
     setTacticJsonCode(str);
@@ -406,12 +406,13 @@ const BlockCoding = (props) => {
   // 테스트 버튼 누르면 상위 컴포넌트로 값 전달 후 컴포넌트 교체
   useEffect(() => {
     if (
-      tacticPythonCode !== "undefined" &&
+      tacticPythonCode !== undefined &&
       tacticPythonCode !== "" &&
       tacticJsonCode !== undefined &&
       writeTacticImg !== undefined
     ) {
       console.log("테스트 버튼 누름 -----------------");
+      console.log(tacticPythonCode);
       if (title === "") props.returnTitle("제목 없는 전략");
       else props.returnTitle(title);
       // console.log(optionCode)
