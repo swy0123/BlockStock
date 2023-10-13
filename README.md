@@ -3,15 +3,15 @@
   <img src="img/blockstock_logo.png" width="80%"/>
   <br />
 </div>
-
 <div align="center">
  <h3><b>BLOCK STOCK</b></h3>
-  <br>
-  삼성 청년 SW 아카데미 - <b>특화 프로젝트</b><br><br>
-  2023.08.21 ~ 2022.10.16
+  블록 코딩을 활용해 자동 매매 프로그램의 로직을 생성하고, <br>모의 주식에 프로그램을 이용하여 주식 시스템을 체험하는 플랫폼<br>
+  삼성 청년 SW 아카데미 - <b>우수 프로젝트 🏆</b><br><br>
+  2023.07.04 ~ 2022.08.18
   <br><br>
     [Notion](https://www.notion.so/OLOCK-BLOCK-STOCK-ec546d1a856f46d098edd1c68037600e)
 </div>
+
 
 
 
